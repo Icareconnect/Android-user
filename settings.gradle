@@ -1,0 +1,2 @@
+//include ':royo_pharmacy'
+include ':app'

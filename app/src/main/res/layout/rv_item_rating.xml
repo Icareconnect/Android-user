@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/startGuideLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="@dimen/dp_16" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/endGuideLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="@dimen/dp_16" />
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/ivPic"
+            android:layout_width="@dimen/dp_36"
+            android:layout_height="@dimen/dp_36"
+            android:layout_marginTop="@dimen/dp_16"
+            android:layout_marginBottom="@dimen/dp_16"
+            android:scaleType="centerCrop"
+            android:src="@drawable/image_placeholder"
+            app:layout_constraintStart_toStartOf="@id/startGuideLine"
+            app:layout_constraintTop_toTopOf="parent"
+            app:riv_corner_radius="@dimen/dp_8" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_16"
+            android:layout_marginTop="@dimen/dp_4"
+            android:ellipsize="end"
+            android:fontFamily="@font/circular_medium"
+            android:maxLines="2"
+            android:text="@string/app_name"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/sp_14"
+            app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+            app:layout_constraintStart_toEndOf="@+id/ivPic"
+            app:layout_constraintTop_toTopOf="@+id/ivPic" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvRating"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_16"
+            android:layout_marginTop="@dimen/dp_8"
+            android:drawableStart="@drawable/ic_star"
+            android:drawablePadding="@dimen/dp_4"
+            android:ellipsize="end"
+            android:fontFamily="@font/circular_book"
+            android:maxLines="2"
+            android:text="4.8"
+            android:alpha="0.7"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/sp_12"
+            app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+            app:layout_constraintStart_toEndOf="@+id/ivPic"
+            app:layout_constraintTop_toBottomOf="@+id/tvName" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvComment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_16"
+            android:layout_marginTop="@dimen/dp_8"
+            android:ellipsize="end"
+            android:fontFamily="@font/circular_book"
+            android:maxLines="2"
+            android:text="Very nice and effective. Caring and efficient in handling children. Highly recommended."
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/sp_12"
+            android:alpha="0.7"
+            app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+            app:layout_constraintStart_toEndOf="@+id/ivPic"
+            app:layout_constraintTop_toBottomOf="@+id/tvRating" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

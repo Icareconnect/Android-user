@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.consultantapp.ui.dashboard.home.HomeMainFragment"
+        android:label="@string/home"
+        tools:layout="@layout/fragment_home_main" />
+
+    <fragment
+        android:id="@+id/navigation_appointment"
+        android:name="com.consultantapp.ui.dashboard.appointment.AppointmentFragment"
+        android:label="@string/appointments"
+        tools:layout="@layout/activity_listing_toolbar" />
+
+    <fragment
+        android:id="@+id/navigation_chat"
+        android:name="com.consultantapp.ui.dashboard.chat.ChatFragment"
+        android:label="@string/chat"
+        tools:layout="@layout/fragment_chat" />
+
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="com.consultantapp.ui.dashboard.settings.SettingsFragment"
+        android:label="@string/profile"
+        tools:layout="@layout/fragment_settings" />
+</navigation>

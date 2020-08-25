@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3CB2DA</color>
+    <color name="colorPrimaryDark">#3CB2DA</color>
+    <color name="colorAccent">#3CB2DA</color>
+
+    <color name="textColor">#484848</color>
+    <color name="textTitleColor">#4A566C</color>
+    <color name="lineColor">#1C4A566C</color>
+    <color name="textColorGreen">#53D66A</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="primary_20">#330491FF</color>
+    <color name="bgChat">#8477DF</color>
+    <color name="bgCall">#FF7860</color>
+    <color name="bgRating">#1A484848</color>
+    <color name="textAge">#5C6472</color>
+    <color name="textColor_50">#80484848</color>
+    <color name="colorNoShow">#FF5353</color>
+    <color name="colorBanner">#282525</color>
+    <color name="colorBannerBg">#F0F9FF</color>
+    <color name="colorBlack">#000000</color>
+    <color name="colorServiceInactive">#EDEDED</color>
+    <color name="colorServiceText">#9A9A9A</color>
+    <color name="coloruserActive">#00F500</color>
+    <color name="colorDate">#282525</color>
+    <color name="colorDateInactive">#80282525</color>
+    <color name="colorStroke">#A1A1A1</color>
+    <color name="colorTerms">#A5A5A5</color>
+    <color name="colorCouponFill">#FFF5F7</color>
+    <color name="colorCouponStroke">#E7E7E7</color>
+    <color name="colorLoginTag">#EDEDED</color>
+    <color name="colorBgTransaction">#EFEFEF</color>
+    <color name="colorCancel">#FF4646</color>
+    <color name="colorLink">#0000A0</color>
+
+</resources>

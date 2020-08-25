@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="104dp"
+        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_16"
+        android:layout_marginEnd="@dimen/dp_16"
+        app:cardCornerRadius="@dimen/dp_8"
+        app:cardPreventCornerOverlap="true">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvName"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingStart="@dimen/dp_24"
+            android:paddingEnd="@dimen/dp_24"
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:drawableEnd="@drawable/ic_next"
+            android:focusable="true"
+            android:fontFamily="@font/campton_medium"
+            android:gravity="center_vertical"
+            android:text="@string/consult_a_doctor"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/sp_20" />
+
+    </androidx.cardview.widget.CardView>
+</layout>

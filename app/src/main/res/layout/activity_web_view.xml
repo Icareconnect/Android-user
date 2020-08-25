@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:background="@color/colorWhite"
+            android:elevation="4dp"
+            android:visibility="visible"
+            app:navigationIcon="@drawable/ic_back_white"
+            app:title="@string/app_name"
+            app:titleTextColor="@color/colorBlack" />
+
+        <WebView
+            android:id="@+id/webView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/toolbar" />
+
+        <include
+            android:id="@+id/clLoader"
+            layout="@layout/dialog_progress" />
+    </RelativeLayout>
+</layout>

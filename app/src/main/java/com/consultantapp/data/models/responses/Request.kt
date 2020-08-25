@@ -1,0 +1,19 @@
+package com.consultantapp.data.models.responses
+
+class Request {
+
+    var id: String? = null
+    var booking_date: String? = null
+    var from_user: UserData? = null
+    var to_user: UserData? = null
+    var time: String? = null
+    var service_type: String? = null
+    var schedule_type:String?=null
+    var service_id: String? = null
+    var price: String? = null
+    var status: String? = null
+    var created_at: String? = null
+    var bookingDateUTC: String? = null
+    var canReschedule = false
+    var canCancel = false
+}

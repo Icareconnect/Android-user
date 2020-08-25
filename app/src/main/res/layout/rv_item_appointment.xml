@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_8"
+        android:layout_marginEnd="@dimen/dp_16"
+        android:layout_marginBottom="@dimen/dp_8"
+        app:cardElevation="@dimen/dp_4">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clCall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/dp_16">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/startGuideLine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="@dimen/dp_16" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/endGuideLine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="@dimen/dp_16" />
+
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/ivPic"
+                android:layout_width="@dimen/dp_42"
+                android:layout_height="@dimen/dp_42"
+                android:layout_marginTop="@dimen/dp_24"
+                android:scaleType="centerCrop"
+                android:src="@drawable/image_placeholder"
+                app:layout_constraintStart_toStartOf="@id/startGuideLine"
+                app:layout_constraintTop_toTopOf="parent"
+                app:riv_border_color="@color/lineColor"
+                app:riv_border_width="2dp"
+                app:riv_corner_radius="80dp" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_16"
+                android:ellipsize="end"
+                android:fontFamily="@font/campton_semibold"
+                android:maxLines="1"
+                android:text="@string/app_name"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/sp_16"
+                app:layout_constraintEnd_toStartOf="@+id/tvPrice"
+                app:layout_constraintStart_toEndOf="@+id/ivPic"
+                app:layout_constraintTop_toTopOf="@+id/ivPic" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvDateTime"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_16"
+                android:layout_marginTop="@dimen/dp_2"
+                android:alpha="0.7"
+                android:ellipsize="end"
+                android:fontFamily="@font/circular_book"
+                android:maxLines="2"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/sp_12"
+                app:layout_constraintEnd_toStartOf="@+id/tvRequestType"
+                app:layout_constraintStart_toEndOf="@+id/ivPic"
+                app:layout_constraintTop_toBottomOf="@+id/tvName"
+                tools:text="@string/app_name" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/campton_semibold"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/sp_16"
+                app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+                app:layout_constraintTop_toTopOf="@id/tvName" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvRequestType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_16"
+                android:layout_marginTop="@dimen/dp_2"
+                android:alpha="0.7"
+                android:fontFamily="@font/campton_medium"
+                android:text="@string/chat_request"
+                android:textAllCaps="true"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/sp_12"
+                app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+                app:layout_constraintTop_toBottomOf="@+id/tvPrice" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvStatus"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_8"
+                android:layout_marginTop="@dimen/dp_12"
+                android:fontFamily="@font/campton_semibold"
+                android:text="@string/neww"
+                android:textAllCaps="true"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/sp_12"
+                app:layout_constraintStart_toStartOf="@id/startGuideLine"
+                app:layout_constraintTop_toBottomOf="@+id/ivPic" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvRate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_8"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:visibility="gone"
+                android:fontFamily="@font/campton_semibold"
+                android:padding="@dimen/dp_2"
+                android:text="@string/rate"
+                android:textAllCaps="true"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/sp_12"
+                app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+                app:layout_constraintTop_toTopOf="@+id/tvStatus" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvCancel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_8"
+                android:layout_marginTop="@dimen/dp_16"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:fontFamily="@font/campton_semibold"
+                android:paddingTop="@dimen/dp_4"
+                android:paddingBottom="@dimen/dp_4"
+                android:text="@string/cancel_appointment"
+                android:textColor="@color/colorCancel"
+                android:textSize="@dimen/sp_12"
+                app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+                app:layout_constraintTop_toBottomOf="@+id/tvStatus" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvReSchedule"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_8"
+                android:layout_marginTop="@dimen/dp_16"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:fontFamily="@font/campton_semibold"
+                android:paddingTop="@dimen/dp_4"
+                android:paddingBottom="@dimen/dp_4"
+                android:text="@string/re_schedule"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/sp_12"
+                app:layout_constraintStart_toStartOf="@id/startGuideLine"
+                app:layout_constraintTop_toBottomOf="@+id/tvStatus" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

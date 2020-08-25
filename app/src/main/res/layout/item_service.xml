@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clService"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_36"
+        android:background="@drawable/drawable_service_inactive"
+        android:layout_marginEnd="@dimen/dp_8"
+        android:checked="true">
+
+        <CheckBox
+            android:id="@+id/cbName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_4"
+            android:layout_marginEnd="@dimen/dp_4"
+            android:button="@null"
+            android:clickable="false"
+            android:minWidth="@dimen/dp_56"
+            android:ellipsize="end"
+            android:padding="@dimen/dp_8"
+            android:focusable="false"
+            android:fontFamily="@font/circular_medium"
+            android:gravity="center"
+            android:text="@string/app_name"
+            android:background="@android:color/transparent"
+            android:maxLines="1"
+            android:textColor="@color/selector_text_service"
+            android:textSize="@dimen/sp_14"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
