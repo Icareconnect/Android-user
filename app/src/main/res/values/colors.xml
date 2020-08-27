@@ -4,9 +4,10 @@
     <color name="colorPrimaryDark">#3CB2DA</color>
     <color name="colorAccent">#3CB2DA</color>
 
-    <color name="textColor">#484848</color>
+    <color name="textColor">#323232</color>
     <color name="textTitleColor">#4A566C</color>
     <color name="lineColor">#1C4A566C</color>
+    <color name="colorCategoryLine">#979797</color>
     <color name="textColorGreen">#53D66A</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="primary_20">#330491FF</color>

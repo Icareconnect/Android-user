@@ -69,17 +69,7 @@ class CategoriesAdapter(private val fragment: Fragment, private val items: Array
         }
 
         fun bind(item: Categories) = with(binding) {
-            slideRecyclerItem(binding.root, binding.root.context)
-
-            if (item.color_code.isNullOrEmpty())
-                clCategory.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.colorPrimary))
-            else
-                clCategory.setBackgroundColor(Color.parseColor(item.color_code))
-
             tvName.text = item.name
-
-            loadImage(binding.ivCategory, item.image, 0)
-
         }
     }
 

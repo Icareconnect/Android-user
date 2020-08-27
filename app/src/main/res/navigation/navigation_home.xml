@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.consultantapp.ui.dashboard.home.HomeMainFragment"
+        android:name="com.consultantapp.ui.dashboard.home.HomeFragment"
         android:label="@string/home"
-        tools:layout="@layout/fragment_home_main" />
+        tools:layout="@layout/fragment_home" />
 </navigation>

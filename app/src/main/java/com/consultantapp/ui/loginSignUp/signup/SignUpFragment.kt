@@ -171,9 +171,9 @@ class SignUpFragment : DaggerFragment(), OnDateSelected {
             binding.etName.text.toString().trim().isEmpty() -> {
                 binding.etName.showSnackBar(getString(R.string.enter_name))
             }
-            binding.etDob.text.toString().isEmpty() -> {
+            /*binding.etDob.text.toString().isEmpty() -> {
                 binding.etDob.showSnackBar(getString(R.string.select_dob))
-            }
+            }*/
             (!isUpdate && binding.etEmail.text.toString().trim().isEmpty()) -> {
                 binding.etEmail.showSnackBar(getString(R.string.enter_email))
             }
@@ -192,13 +192,13 @@ class SignUpFragment : DaggerFragment(), OnDateSelected {
 
                 val hashMap = HashMap<String, RequestBody>()
                 hashMap["name"] = getRequestBody(binding.etName.text.toString().trim())
-                hashMap["dob"] = getRequestBody(
+               /* hashMap["dob"] = getRequestBody(
                     DateUtils.dateFormatChange(
                         DateFormat.DATE_FORMAT_SLASH,
                         DateFormat.DATE_FORMAT, binding.etDob.text.toString()
                     )
                 )
-
+*/
                 if (fileToUpload != null && fileToUpload?.exists() == true) {
                     hashMap["type"] = getRequestBody("img")
 
@@ -245,10 +245,8 @@ class SignUpFragment : DaggerFragment(), OnDateSelected {
                     bundle.putBoolean(UPDATE_NUMBER, true)
                     fragment.arguments = bundle
 
-                    replaceFragment(
-                        requireActivity().supportFragmentManager,
-                        fragment, R.id.container
-                    )
+                    replaceFragment(requireActivity().supportFragmentManager,
+                        fragment, R.id.container)
 
                 }
                 Status.ERROR -> {

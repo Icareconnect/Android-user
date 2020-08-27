@@ -165,6 +165,7 @@ class SplashActivity : DaggerAppCompatActivity() {
 
 
     private fun checkDeepLink() {
+
         /*Check if Deep Link*/
         FirebaseDynamicLinks.getInstance()
                 .getDynamicLink((intent ?: Intent()))

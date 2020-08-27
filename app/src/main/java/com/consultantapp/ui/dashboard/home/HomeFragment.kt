@@ -51,8 +51,6 @@ class HomeFragment : DaggerFragment() {
 
     private lateinit var viewModel: ClassesViewModel
 
-    private lateinit var viewModelBanner: BannerViewModel
-
     private var items = ArrayList<Categories>()
 
     private lateinit var adapter: CategoriesAdapter
@@ -83,21 +81,9 @@ class HomeFragment : DaggerFragment() {
     }
 
     private fun initialise() {
-
         viewModel = ViewModelProvider(this, viewModelFactory)[ClassesViewModel::class.java]
-        viewModelBanner = ViewModelProvider(this, viewModelFactory)[BannerViewModel::class.java]
         binding.clLoader.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorWhite))
 
-        if (arguments?.getBoolean(CLASSES_PAGE) == true)
-            binding.tvPopular.text = getString(R.string.classes)
-        else
-            binding.tvPopular.text = getString(R.string.meet)
-
-        /*Set banner height*/
-        val widthScreen = resources.displayMetrics.widthPixels - pxFromDp(requireContext(), 32f)
-        val heightOfImage = (widthScreen * 0.6).toInt()
-
-        binding.viewPagerBanner.layoutParams.height = heightOfImage
     }
 
     private fun setAdapter() {
@@ -141,9 +127,6 @@ class HomeFragment : DaggerFragment() {
             hashMap[PER_PAGE] = PER_PAGE_LOAD.toString()
 
             viewModel.categories(hashMap)
-
-            /*Banner api*/
-            viewModelBanner.banners()
         }
     }
 
@@ -186,36 +169,6 @@ class HomeFragment : DaggerFragment() {
                 Status.LOADING -> {
                     if (!binding.swipeRefresh.isRefreshing)
                         binding.clLoader.visible()
-                }
-            }
-        })
-
-        viewModelBanner.banners.observe(this, Observer {
-            it ?: return@Observer
-            when (it.status) {
-                Status.SUCCESS -> {
-
-                    val itemsBanner = ArrayList<Banner>()
-                    itemsBanner.addAll(it.data?.banners ?: emptyList())
-
-                    val adapter = CommonFragmentPagerAdapter(childFragmentManager)
-                    itemsBanner.forEach {
-                        adapter.addTab("", BannerFragment(this, it))
-                    }
-                    binding.viewPagerBanner.adapter = adapter
-                    binding.pageIndicatorView.setViewPager(binding.viewPagerBanner)
-
-                    if (itemsBanner.isNotEmpty())
-                        slideItem(binding.viewPagerBanner, requireContext())
-
-                    binding.viewPagerBanner.hideShowView(itemsBanner.isNotEmpty())
-                    binding.pageIndicatorView.hideShowView(itemsBanner.size > 1)
-
-                }
-                Status.ERROR -> {
-                    ApisRespHandler.handleError(it.error, requireActivity(), prefsManager)
-                }
-                Status.LOADING -> {
                 }
             }
         })

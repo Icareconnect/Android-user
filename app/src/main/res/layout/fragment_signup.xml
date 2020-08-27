@@ -62,14 +62,13 @@
 
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/ivPic"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="106dp"
+                    android:layout_height="106dp"
                     android:layout_marginTop="@dimen/dp_24"
                     android:layout_marginEnd="@dimen/dp_24"
                     android:scaleType="centerCrop"
                     android:src="@drawable/image_placeholder"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/startGuideLine"
                     app:layout_constraintTop_toTopOf="parent"
                     app:riv_corner_radius="80dp" />
 
@@ -88,7 +87,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/sans_regular"
-                        android:hint="@string/name"
+                        android:hint="@string/full_name"
+                        android:textAllCaps="true"
                         android:imeOptions="actionNext"
                         android:inputType="textCapWords"
                         android:maxLength="100"
@@ -101,6 +101,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_16"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="@id/endGuideLine"
                     app:layout_constraintStart_toStartOf="@id/startGuideLine"
                     app:layout_constraintTop_toBottomOf="@+id/ilName">
@@ -135,6 +136,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/sans_regular"
                         android:hint="@string/email"
+                        android:textAllCaps="true"
                         android:imeOptions="actionNext"
                         android:inputType="textEmailAddress"
                         android:maxLength="100"
@@ -158,6 +160,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/sans_regular"
                         android:hint="@string/password"
+                        android:textAllCaps="true"
                         android:imeOptions="actionNext"
                         android:inputType="textPassword"
                         android:maxLength="100"

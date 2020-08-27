@@ -71,7 +71,6 @@ class CategoriesFragment : DaggerFragment() {
     }
 
     private fun initialise() {
-        binding.tvPopular.text = getString(R.string.classes)
         viewModel = ViewModelProvider(this, viewModelFactory)[ClassesViewModel::class.java]
     }
 
