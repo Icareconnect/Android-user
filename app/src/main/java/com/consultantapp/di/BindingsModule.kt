@@ -21,6 +21,8 @@ import com.consultantapp.ui.dashboard.doctor.schedule.ScheduleFragment
 import com.consultantapp.ui.dashboard.home.HomeFragment
 import com.consultantapp.ui.dashboard.home.HomeMainFragment
 import com.consultantapp.ui.dashboard.home.banner.BannerFragment
+import com.consultantapp.ui.dashboard.home.registerservice.RegisterServiceFragment
+import com.consultantapp.ui.dashboard.home.verification.UserVerificationFragment
 import com.consultantapp.ui.dashboard.location.LocationFragment
 import com.consultantapp.ui.dashboard.settings.SettingsFragment
 import com.consultantapp.ui.dashboard.subcategory.SubCategoryFragment
@@ -175,5 +177,11 @@ abstract class BindingsModule {
 
     @ContributesAndroidInjector
     abstract fun subscriptionDetailFragment(): SubscriptionDetailFragment
+
+    @ContributesAndroidInjector
+    abstract fun registerServiceFragment(): RegisterServiceFragment
+
+    @ContributesAndroidInjector
+    abstract fun userVerificationFragment(): UserVerificationFragment
 
 }

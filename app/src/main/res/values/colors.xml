@@ -7,7 +7,7 @@
     <color name="textColor">#323232</color>
     <color name="textTitleColor">#4A566C</color>
     <color name="lineColor">#1C4A566C</color>
-    <color name="colorCategoryLine">#979797</color>
+    <color name="colorCategoryLine">#1C979797</color>
     <color name="textColorGreen">#53D66A</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="primary_20">#330491FF</color>
@@ -33,5 +33,6 @@
     <color name="colorBgTransaction">#EFEFEF</color>
     <color name="colorCancel">#FF4646</color>
     <color name="colorLink">#0000A0</color>
+    <color name="colorUserVerification">#4D3CB2DA</color>
 
 </resources>

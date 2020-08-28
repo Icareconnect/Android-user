@@ -10,6 +10,8 @@ import com.consultantapp.ui.classes.ClassesFragment
 import com.consultantapp.ui.dashboard.appointment.AppointmentFragment
 import com.consultantapp.ui.dashboard.appointment.rating.AddRatingFragment
 import com.consultantapp.ui.dashboard.chat.ChatFragment
+import com.consultantapp.ui.dashboard.home.registerservice.RegisterServiceFragment
+import com.consultantapp.ui.dashboard.home.verification.UserVerificationFragment
 import com.consultantapp.ui.dashboard.location.LocationFragment
 import com.consultantapp.ui.dashboard.subcategory.SubCategoryFragment
 import com.consultantapp.ui.dashboard.subcategory.SubCategoryFragment.Companion.CATEGORY_PARENT_ID
@@ -99,6 +101,12 @@ class DrawerActivity : DaggerAppCompatActivity() {
                 addFragment(supportFragmentManager,
                         fragment, R.id.container)
             }
+            REGISTER_SERVICE ->
+                addFragment(supportFragmentManager,
+                        RegisterServiceFragment(), R.id.container)
+            USER_VERIFICATION ->
+                addFragment(supportFragmentManager,
+                        UserVerificationFragment(), R.id.container)
         }
     }
 
@@ -116,6 +124,16 @@ class DrawerActivity : DaggerAppCompatActivity() {
         const val LOCATION = "LOCATION"
         const val SUB_CATEGORY = "SUB_CATEGORY"
         const val ADD_CARD = "ADD_CARD"
+        const val REGISTER_SERVICE = "REGISTER_SERVICE"
+        const val USER_VERIFICATION = "USER_VERIFICATION"
+    }
+
+    override fun onBackPressed() {
+        val fragment = supportFragmentManager.fragments[supportFragmentManager.backStackEntryCount]
+        if (fragment is UserVerificationFragment || fragment is LocationFragment) {
+            /*Nothing to Do*/
+        } else
+            super.onBackPressed()
     }
 
 }

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -24,6 +25,7 @@ import com.consultantapp.databinding.FragmentHomeBinding
 import com.consultantapp.ui.adapter.CommonFragmentPagerAdapter
 import com.consultantapp.ui.classes.ClassesViewModel
 import com.consultantapp.ui.dashboard.CategoriesAdapter
+import com.consultantapp.ui.dashboard.MainActivity
 import com.consultantapp.ui.dashboard.doctor.listing.DoctorListActivity
 import com.consultantapp.ui.dashboard.home.banner.BannerFragment
 import com.consultantapp.ui.dashboard.subcategory.SubCategoryFragment.Companion.CATEGORY_PARENT_ID
@@ -63,15 +65,16 @@ class HomeFragment : DaggerFragment() {
 
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         if (rootView == null) {
             binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
             rootView = binding.root
 
             initialise()
+            handleUserData()
             setAdapter()
             listeners()
             bindObservers()
@@ -82,13 +85,31 @@ class HomeFragment : DaggerFragment() {
 
     private fun initialise() {
         viewModel = ViewModelProvider(this, viewModelFactory)[ClassesViewModel::class.java]
-        binding.clLoader.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorWhite))
+        binding.clLoader.setBackgroundColor(
+                ContextCompat.getColor(requireContext(), R.color.colorWhite)
+        )
 
     }
 
     private fun setAdapter() {
         adapter = CategoriesAdapter(this, items)
         binding.rvCategory.adapter = adapter
+    }
+
+    private fun handleUserData() {
+        if (userRepository.isUserLoggedIn()) {
+            val userData = userRepository.getUser()
+
+            binding.tvName.text = "${getString(R.string.hi)} ${userData?.name}"
+            loadImage(binding.ivPic, userData?.profile_image, R.drawable.ic_profile_placeholder)
+        } else {
+            binding.tvName.text = "${getString(R.string.hi)} ${getString(R.string.guest)}"
+        }
+
+    }
+
+    fun setLocation(locationName: String) {
+        binding.tvAddress.text = locationName
     }
 
     private fun listeners() {
@@ -156,6 +177,7 @@ class HomeFragment : DaggerFragment() {
                     isLastPage = tempList.size < PER_PAGE_LOAD
                     adapter.setAllItemsLoaded(isLastPage)
 
+                    binding.cvCategory.hideShowView(items.isNotEmpty())
                     binding.tvNoData.hideShowView(items.isEmpty())
                 }
                 Status.ERROR -> {
@@ -178,26 +200,15 @@ class HomeFragment : DaggerFragment() {
     fun clickItem(item: Categories?) {
         if (item?.is_subcategory == true) {
             startActivity(
-                Intent(requireContext(), DrawerActivity::class.java)
-                    .putExtra(PAGE_TO_OPEN, DrawerActivity.SUB_CATEGORY)
-                    .putExtra(CLASSES_PAGE, arguments?.getBoolean(CLASSES_PAGE))
-                    .putExtra(CATEGORY_PARENT_ID, item)
+                    Intent(requireContext(), DrawerActivity::class.java)
+                            .putExtra(PAGE_TO_OPEN, DrawerActivity.SUB_CATEGORY)
+                            .putExtra(CLASSES_PAGE, arguments?.getBoolean(CLASSES_PAGE))
+                            .putExtra(CATEGORY_PARENT_ID, item)
             )
-        } else if (arguments?.getBoolean(CLASSES_PAGE) == true) {
-            if (userRepository.isUserLoggedIn()) {
-                startActivity(
-                        Intent(requireContext(), DrawerActivity::class.java)
-                                .putExtra(PAGE_TO_OPEN, DrawerActivity.CLASSES)
-                                .putExtra(CATEGORY_PARENT_ID, item)
-                )
-            } else {
-                val fragment = WelcomeFragment()
-                fragment.show(requireActivity().supportFragmentManager, fragment.tag)
-            }
         } else {
             startActivity(
-                Intent(requireContext(), DoctorListActivity::class.java)
-                    .putExtra(CATEGORY_PARENT_ID, item)
+                    Intent(requireContext(), DrawerActivity::class.java)
+                            .putExtra(PAGE_TO_OPEN, DrawerActivity.REGISTER_SERVICE)
             )
         }
     }

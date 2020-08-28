@@ -7,101 +7,169 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/swipeRefresh"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/startGuideLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="@dimen/dp_24" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/endGuideLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="@dimen/dp_24" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clTitle"
+            android:layout_width="0dp"
+            android:layout_height="110dp"
+            android:background="@color/colorPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/ivPic"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:layout_marginStart="@dimen/dp_24"
+                android:layout_marginTop="@dimen/dp_20"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_profile_placeholder"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:riv_border_color="@color/colorWhite"
+                app:riv_border_width="@dimen/dp_2"
+                app:riv_corner_radius="46dp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_16"
+                android:layout_marginTop="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_24"
+                android:ellipsize="end"
+                android:fontFamily="@font/sans_bold"
+                android:maxLines="1"
+                android:text="@string/app_name"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/sp_14"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/ivPic"
+                app:layout_constraintTop_toTopOf="@id/ivPic" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvAddress"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_16"
+                android:layout_marginTop="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_24"
+                android:ellipsize="end"
+                android:fontFamily="@font/sans_regular"
+                android:hint="@string/location"
+                android:textColorHint="@color/colorWhite"
+                android:maxLines="1"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/sp_14"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/ivPic"
+                app:layout_constraintTop_toBottomOf="@+id/tvName" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <View
+            android:id="@+id/viewRound"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_32"
+            android:layout_marginTop="86dp"
+            android:background="@drawable/drawable_rounded_top"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/clTitle" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/etSearch"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_42"
+            android:layout_marginTop="@dimen/dp_4"
+            android:background="@null"
+            android:fontFamily="@font/sans_regular"
+            android:hint="@string/search_for_service"
+            android:imeOptions="actionSearch"
+            android:inputType="textCapSentences"
+            android:maxLength="50"
+            android:paddingStart="@dimen/dp_8"
+            android:paddingTop="@dimen/dp_8"
+            android:paddingEnd="72dp"
+            android:paddingBottom="@dimen/dp_8"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/sp_14"
+            app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+            app:layout_constraintStart_toStartOf="@id/startGuideLine"
+            app:layout_constraintTop_toBottomOf="@+id/viewRound" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivSearch"
+            android:layout_width="66dp"
+            android:layout_height="0dp"
+            android:background="@drawable/drawable_bg_theme_rounded"
+            android:padding="@dimen/dp_12"
+            android:src="@drawable/ic_search_home"
+            app:layout_constraintBottom_toBottomOf="@id/etSearch"
+            app:layout_constraintEnd_toEndOf="@id/etSearch"
+            app:layout_constraintTop_toTopOf="@id/etSearch" />
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvCategory"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/dp_32"
+            android:layout_marginBottom="@dimen/dp_16"
+            android:visibility="gone"
+            app:cardCornerRadius="@dimen/dp_4"
+            app:cardElevation="@dimen/dp_4"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+            app:layout_constraintStart_toStartOf="@id/startGuideLine"
+            app:layout_constraintTop_toBottomOf="@+id/etSearch">
+
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/swipeRefresh"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/startGuideLine"
-                    android:layout_width="wrap_content"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvCategory"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_begin="@dimen/dp_24" />
+                    android:overScrollMode="never"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/rv_item_category" />
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        </androidx.cardview.widget.CardView>
 
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/endGuideLine"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_end="@dimen/dp_24" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvNoData"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:text="@string/no_data_found"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/sp_14"
+            android:visibility="gone"
+            app:fontFamily="@font/circular_medium"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etSearch" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/clTitle"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/dp_64"
-                    android:background="@color/colorPrimary"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-                <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/etSearch"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/dp_42"
-                    android:layout_marginTop="@dimen/dp_16"
-                    android:background="@drawable/drawable_bg_button"
-                    android:drawableEnd="@drawable/ic_search_app"
-                    android:drawablePadding="@dimen/dp_8"
-                    android:fontFamily="@font/sans_regular"
-                    android:hint="@string/search_for_service"
-                    android:imeOptions="actionSearch"
-                    android:inputType="textCapSentences"
-                    android:maxLength="50"
-                    android:padding="@dimen/dp_8"
-                    android:textColor="@color/textColor"
-                    android:textSize="@dimen/sp_14"
-                    app:layout_constraintEnd_toEndOf="@id/endGuideLine"
-                    app:layout_constraintStart_toStartOf="@id/startGuideLine"
-                    app:layout_constraintTop_toBottomOf="@+id/clTitle" />
-
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cvCategory"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_32"
-                    app:cardElevation="@dimen/dp_4"
-                    app:cardCornerRadius="@dimen/dp_4"
-                    app:layout_constraintEnd_toEndOf="@id/endGuideLine"
-                    app:layout_constraintStart_toStartOf="@id/startGuideLine"
-                    app:layout_constraintTop_toBottomOf="@+id/etSearch">
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rvCategory"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        tools:listitem="@layout/rv_item_category" />
-                </androidx.cardview.widget.CardView>
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvNoData"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="24dp"
-                    android:gravity="center"
-                    android:text="@string/no_data_found"
-                    android:textColor="@color/textColor"
-                    android:textSize="@dimen/sp_14"
-                    android:visibility="gone"
-                    app:fontFamily="@font/circular_medium"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/etSearch" />
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <include
             android:id="@+id/clLoader"
@@ -112,8 +180,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
+            app:layout_constraintTop_toBottomOf="@+id/etSearch" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

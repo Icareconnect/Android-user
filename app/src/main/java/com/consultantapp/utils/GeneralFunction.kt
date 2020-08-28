@@ -74,8 +74,8 @@ fun View.invisible() {
     visibility = View.INVISIBLE
 }
 
-fun View.hideShowView(listIsEmpty: Boolean) {
-    visibility = if (listIsEmpty) View.VISIBLE
+fun View.hideShowView(show: Boolean) {
+    visibility = if (show) View.VISIBLE
     else View.GONE
 }
 

@@ -23,11 +23,9 @@ import com.consultantapp.R
 import com.consultantapp.data.repos.UserRepository
 import com.consultantapp.databinding.ActivityMainBinding
 import com.consultantapp.ui.LoginViewModel
-import com.consultantapp.ui.adapter.CommonFragmentPagerAdapter
-import com.consultantapp.ui.dashboard.appointment.AppointmentFragment
-import com.consultantapp.ui.dashboard.chat.ChatFragment
 import com.consultantapp.ui.drawermenu.DrawerActivity
 import com.consultantapp.utils.*
+import com.consultantapp.utils.AppRequestCode.LOCATION_PERMISSION_ID
 import com.consultantapp.utils.dialogs.ProgressDialog
 import com.google.android.gms.location.*
 import com.google.android.libraries.places.widget.Autocomplete
@@ -58,15 +56,12 @@ class MainActivity : DaggerAppCompatActivity() {
 
     private lateinit var viewModelDoctor: DoctorViewModel
 
-    private lateinit var adapter: CommonFragmentPagerAdapter
-
-    val PERMISSION_ID = 42
-
     lateinit var mFusedLocationClient: FusedLocationProviderClient
 
     private lateinit var geoCoder: Geocoder
 
     private var currentNavController: LiveData<NavController>? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,23 +70,29 @@ class MainActivity : DaggerAppCompatActivity() {
         initialise()
         setNavigation()
         listeners()
+
+        if (userRepository.getUser()?.isApproved == false) {
+            startActivity(Intent(this, DrawerActivity::class.java)
+                    .putExtra(PAGE_TO_OPEN, DrawerActivity.USER_VERIFICATION))
+        }
+        askForLocation()
     }
 
     private fun setNavigation() {
         val navGraphIds = listOf(
-            R.navigation.navigation_home,
-            R.navigation.navigation_appointment,
-            R.navigation.navigation_chat,
-            R.navigation.navigation_profile)
+                R.navigation.navigation_home,
+                R.navigation.navigation_appointment,
+                R.navigation.navigation_chat,
+                R.navigation.navigation_profile)
 
         // Setup the bottom navigation view with a list of navigation graphs
         val controller = binding.bottomNav.setupWithNavController(
-            navGraphIds = navGraphIds,
-            fragmentManager = supportFragmentManager,
-            containerId = R.id.nav_host_fragment,
-            intent = intent,
-            activity = this,
-            userRepository = userRepository
+                navGraphIds = navGraphIds,
+                fragmentManager = supportFragmentManager,
+                containerId = R.id.nav_host_fragment,
+                intent = intent,
+                activity = this,
+                userRepository = userRepository
         )
 
         currentNavController = controller
@@ -108,18 +109,21 @@ class MainActivity : DaggerAppCompatActivity() {
     }
 
     private fun initialise() {
+
         appSocket.init()
         viewModel = ViewModelProvider(this, viewModelFactory)[LoginViewModel::class.java]
         viewModelDoctor = ViewModelProvider(this, viewModelFactory)[DoctorViewModel::class.java]
         progressDialog = ProgressDialog(this)
 
+        /*Update Token*/
+        userRepository.pushTokenUpdate()
+    }
+
+    private fun askForLocation() {
         /*Ask for location*/
         geoCoder = Geocoder(this, Locale.getDefault())
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        //getLastLocation()
-
-        /*Update Token*/
-        userRepository.pushTokenUpdate()
+        getLastLocation()
     }
 
     private fun listeners() {
@@ -138,8 +142,6 @@ class MainActivity : DaggerAppCompatActivity() {
                         requestNewLocationData()
                     } else {
                         getLocationName(location.latitude, location.longitude)
-                         /*findViewById<TextView>(R.id.latTextView).text = location.latitude.toString()
-                         findViewById<TextView>(R.id.lonTextView).text = location.longitude.toString()*/
                     }
                 }
             } else {
@@ -162,8 +164,8 @@ class MainActivity : DaggerAppCompatActivity() {
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         mFusedLocationClient.requestLocationUpdates(
-            mLocationRequest, mLocationCallback,
-            Looper.myLooper()
+                mLocationRequest, mLocationCallback,
+                Looper.myLooper()
         )
     }
 
@@ -171,28 +173,26 @@ class MainActivity : DaggerAppCompatActivity() {
         override fun onLocationResult(locationResult: LocationResult) {
             var mLastLocation: Location = locationResult.lastLocation
             getLocationName(mLastLocation.latitude, mLastLocation.longitude)
-            /*findViewById<TextView>(R.id.latTextView).text = mLastLocation.latitude.toString()
-            findViewById<TextView>(R.id.lonTextView).text = mLastLocation.longitude.toString()*/
         }
     }
 
     private fun isLocationEnabled(): Boolean {
         var locationManager: LocationManager =
-            getSystemService(Context.LOCATION_SERVICE) as LocationManager
+                getSystemService(Context.LOCATION_SERVICE) as LocationManager
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
-            LocationManager.NETWORK_PROVIDER
+                LocationManager.NETWORK_PROVIDER
         )
     }
 
     private fun checkPermissions(): Boolean {
         if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED &&
-            ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
+                        this,
+                        Manifest.permission.ACCESS_COARSE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED
         ) {
             return true
         }
@@ -200,20 +200,13 @@ class MainActivity : DaggerAppCompatActivity() {
     }
 
     private fun requestPermissions() {
-        startActivityForResult(
-            Intent(this, DrawerActivity::class.java)
-                .putExtra(PAGE_TO_OPEN, DrawerActivity.LOCATION), AppRequestCode.LOCATION
-        )
-
+        startActivityForResult(Intent(this, DrawerActivity::class.java)
+                .putExtra(PAGE_TO_OPEN, DrawerActivity.LOCATION), AppRequestCode.ASK_FOR_LOCATION)
     }
 
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        if (requestCode == PERMISSION_ID) {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        if (requestCode == LOCATION_PERMISSION_ID) {
             if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                 getLastLocation()
             }
@@ -223,26 +216,25 @@ class MainActivity : DaggerAppCompatActivity() {
     private fun getLocationName(lat: Double, lng: Double) {
         runOnUiThread {
             try {
-                var name = ""
+                var locationName = ""
 
                 val addresses = geoCoder.getFromLocation(
-                    lat, lng, 1
+                        lat, lng, 1
                 ) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
 
                 if (addresses.isNotEmpty()) {
-                    name = when {
+                    locationName = when {
                         addresses[0].getAddressLine(1) != null -> addresses[0].getAddressLine(
-                            1
-                        )
+                                1)
                         addresses[0].featureName == null -> addresses[0].adminArea
                         else -> String.format(
-                            "%s, %s",
-                            addresses[0].featureName,
-                            addresses[0].locality
-                        )
+                                "%s, %s",
+                                addresses[0].featureName,
+                                addresses[0].locality)
                     }
                 }
-                // binding.itemMain.tvLocation.text = name
+
+                //( as HomeFragment.setLocation(locationName)
             } catch (e: Exception) {
             }
         }
@@ -272,11 +264,11 @@ class MainActivity : DaggerAppCompatActivity() {
                             //performAddressSelectAction(false, address)
                         }
                     }
-                    AppRequestCode.LOCATION -> {
+                    AppRequestCode.ASK_FOR_LOCATION -> {
                         ActivityCompat.requestPermissions(
-                            this,
-                            arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION),
-                            PERMISSION_ID)
+                                this,
+                                arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION),
+                                LOCATION_PERMISSION_ID)
                     }
                 }
             }
@@ -285,17 +277,4 @@ class MainActivity : DaggerAppCompatActivity() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        refreshAllPages()
-    }
-
-    private fun refreshAllPages() {
-        try {
-            /*Refresh pages*/
-            (adapter.fragments[1] as AppointmentFragment).hitApiRefresh()
-            (adapter.fragments[2] as ChatFragment).hitApiRefresh()
-        } catch (e: Exception) {
-        }
-    }
 }

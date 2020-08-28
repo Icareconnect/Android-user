@@ -291,5 +291,27 @@
     <string name="login_with">Login with</string>
     <string name="full_name">Full name</string>
     <string name="search_for_service">Search for service</string>
+    <string name="hi">Hi,</string>
+    <string name="guest">Guest</string>
+    <string name="register">Register</string>
+    <string name="become_a_member">Become a member of Intelligent Care Connect.</string>
+    <string name="requesting_service_for">Requesting service for ?</string>
+    <string name="self">Self</string>
+    <string name="father">Father</string>
+    <string name="mother">Mother</string>
+    <string name="child">Child</string>
+    <string name="other">Other</string>
+    <string name="if_service_is_not_self">If service is not self...</string>
+    <string name="home_care_requirement">Home care requirement</string>
+    <string name="select_home_care_requirement">Select Home care requirement</string>
+    <string name="palliative_end_of_life_care">Palliative (end of life care)</string>
+    <string name="woundcare">Woundcare</string>
+    <string name="dual_diagnostic">Dual Diagnostic (Cognitive decline patients)</string>
+    <string name="medically_compromised">Medically compromised &amp; complex continu-ing care></string>
+    <string name="service_address">Service Address</string>
+    <string name="service_date">Service Date</string>
+    <string name="continuee">Continue</string>
+    <string name="verification_may_take_some_time">Verification may take some time.</string>
+    <string name="thank_you_for_your_interest">Thank you for your interest in intelligent care connect, one of our care coordinators will connect with you shortly.</string>
 
 </resources>
