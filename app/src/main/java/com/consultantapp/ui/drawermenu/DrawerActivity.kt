@@ -10,7 +10,8 @@ import com.consultantapp.ui.classes.ClassesFragment
 import com.consultantapp.ui.dashboard.appointment.AppointmentFragment
 import com.consultantapp.ui.dashboard.appointment.rating.AddRatingFragment
 import com.consultantapp.ui.dashboard.chat.ChatFragment
-import com.consultantapp.ui.dashboard.home.registerservice.RegisterServiceFragment
+import com.consultantapp.ui.dashboard.home.bookservice.registerservice.RegisterServiceFragment
+import com.consultantapp.ui.dashboard.home.bookservice.waiting.WaitingAllocationFragment
 import com.consultantapp.ui.dashboard.home.verification.UserVerificationFragment
 import com.consultantapp.ui.dashboard.location.LocationFragment
 import com.consultantapp.ui.dashboard.subcategory.SubCategoryFragment
@@ -129,8 +130,11 @@ class DrawerActivity : DaggerAppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        val fragment = supportFragmentManager.fragments[supportFragmentManager.backStackEntryCount]
-        if (fragment is UserVerificationFragment || fragment is LocationFragment) {
+        val index = if (supportFragmentManager.backStackEntryCount > 1)
+            supportFragmentManager.backStackEntryCount - 1
+        else 0
+        val fragment = supportFragmentManager.fragments[index]
+        if (fragment is UserVerificationFragment || fragment is LocationFragment || fragment is WaitingAllocationFragment) {
             /*Nothing to Do*/
         } else
             super.onBackPressed()

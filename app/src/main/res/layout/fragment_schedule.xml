@@ -15,7 +15,7 @@
             android:elevation="4dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:navigationIcon="@drawable/ic_back_white"
+            app:navigationIcon="@drawable/ic_back"
             app:title="@string/choose_date_amp_time"
             app:titleTextAppearance="@style/Toolbar.TitleText" />
 

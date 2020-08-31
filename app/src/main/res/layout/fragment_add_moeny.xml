@@ -13,7 +13,7 @@
             android:background="@color/colorWhite"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:navigationIcon="@drawable/ic_back_white"
+            app:navigationIcon="@drawable/ic_back"
             app:title="@string/add_money"
             app:titleTextAppearance="@style/Toolbar.TitleText" />
 

@@ -105,7 +105,6 @@ class HomeFragment : DaggerFragment() {
         } else {
             binding.tvName.text = "${getString(R.string.hi)} ${getString(R.string.guest)}"
         }
-
     }
 
     fun setLocation(locationName: String) {
@@ -115,6 +114,14 @@ class HomeFragment : DaggerFragment() {
     private fun listeners() {
         binding.swipeRefresh.setOnRefreshListener {
             hitApi(true)
+        }
+
+        binding.ivPic.setOnClickListener {
+            goToProfile()
+        }
+
+        binding.tvName.setOnClickListener {
+            goToProfile()
         }
 
         binding.rvCategory.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -131,6 +138,16 @@ class HomeFragment : DaggerFragment() {
                 }
             }
         })
+    }
+
+    private fun goToProfile() {
+        if (userRepository.isUserLoggedIn()) {
+            startActivity(Intent(requireContext(), DrawerActivity::class.java)
+                    .putExtra(PAGE_TO_OPEN, DrawerActivity.PROFILE))
+        } else {
+            val fragment = WelcomeFragment()
+            fragment.show(requireActivity().supportFragmentManager, fragment.tag)
+        }
     }
 
     private fun hitApi(firstHit: Boolean) {
@@ -198,18 +215,23 @@ class HomeFragment : DaggerFragment() {
 
 
     fun clickItem(item: Categories?) {
-        if (item?.is_subcategory == true) {
-            startActivity(
-                    Intent(requireContext(), DrawerActivity::class.java)
-                            .putExtra(PAGE_TO_OPEN, DrawerActivity.SUB_CATEGORY)
-                            .putExtra(CLASSES_PAGE, arguments?.getBoolean(CLASSES_PAGE))
-                            .putExtra(CATEGORY_PARENT_ID, item)
-            )
+        if (!userRepository.isUserLoggedIn()) {
+            val fragment = WelcomeFragment()
+            fragment.show(requireActivity().supportFragmentManager, fragment.tag)
+        } else if (item?.is_subcategory == true) {
+            startActivity(Intent(requireContext(), DrawerActivity::class.java)
+                    .putExtra(PAGE_TO_OPEN, DrawerActivity.SUB_CATEGORY)
+                    .putExtra(CLASSES_PAGE, arguments?.getBoolean(CLASSES_PAGE))
+                    .putExtra(CATEGORY_PARENT_ID, item))
         } else {
-            startActivity(
-                    Intent(requireContext(), DrawerActivity::class.java)
-                            .putExtra(PAGE_TO_OPEN, DrawerActivity.REGISTER_SERVICE)
-            )
+            startActivity(Intent(requireContext(), DrawerActivity::class.java)
+                    .putExtra(PAGE_TO_OPEN, DrawerActivity.REGISTER_SERVICE))
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        handleUserData()
     }
 }

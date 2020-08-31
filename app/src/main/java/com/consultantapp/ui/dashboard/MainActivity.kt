@@ -71,7 +71,7 @@ class MainActivity : DaggerAppCompatActivity() {
         setNavigation()
         listeners()
 
-        if (userRepository.getUser()?.isApproved == false) {
+        if (userRepository.getUser()?.isApproved == true) {
             startActivity(Intent(this, DrawerActivity::class.java)
                     .putExtra(PAGE_TO_OPEN, DrawerActivity.USER_VERIFICATION))
         }

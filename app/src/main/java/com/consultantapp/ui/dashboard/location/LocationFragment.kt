@@ -13,10 +13,13 @@ import androidx.lifecycle.ViewModelProvider
 import com.consultantapp.R
 import com.consultantapp.databinding.FragmentLocationBinding
 import com.consultantapp.utils.AppRequestCode.LOCATION_PERMISSION_ID
+import com.consultantapp.utils.PermissionUtils
 import com.consultantapp.utils.PrefsManager
 import dagger.android.support.DaggerFragment
+import permissions.dispatcher.*
 import javax.inject.Inject
 
+@RuntimePermissions
 class LocationFragment : DaggerFragment() {
 
     @Inject
@@ -53,7 +56,7 @@ class LocationFragment : DaggerFragment() {
         }
 
         binding.tvUseLocation.setOnClickListener {
-            checkPermissions()
+            getLocationWithPermissionCheck()
         }
 
     }
@@ -68,15 +71,35 @@ class LocationFragment : DaggerFragment() {
             requireActivity().finish()
 
         } else {
-            requestPermissions(arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION),
-                    LOCATION_PERMISSION_ID)
+            getLocationWithPermissionCheck()
         }
     }
 
+
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == LOCATION_PERMISSION_ID) {
-            checkPermissions()
-        }
+        onRequestPermissionsResult(requestCode, grantResults)
+    }
+
+    @NeedsPermission(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
+    fun getLocation() {
+        checkPermissions()
+    }
+
+    @OnShowRationale(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
+    fun showLocationRationale(request: PermissionRequest) {
+        PermissionUtils.showRationalDialog(requireContext(), R.string.we_will_need_your_location, request)
+    }
+
+    @OnNeverAskAgain(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
+    fun onNeverAskAgainRationale() {
+        PermissionUtils.showAppSettingsDialog(
+                requireContext(), R.string.we_will_need_your_location)
+    }
+
+    @OnPermissionDenied(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
+    fun showDeniedForStorage() {
+        PermissionUtils.showAppSettingsDialog(
+                requireContext(), R.string.we_will_need_your_location)
     }
 }

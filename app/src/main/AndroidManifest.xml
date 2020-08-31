@@ -164,6 +164,18 @@
             android:name=".ui.drawermenu.addmoney.AddMoneyActivity"
             android:screenOrientation="portrait" /> <!-- Add your API key here -->
 
+        <activity
+            android:name=".ui.dashboard.home.bookservice.location.AddAddressActivity"
+            android:screenOrientation="portrait" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_places_api_key" />
+
     </application>
 
 </manifest>

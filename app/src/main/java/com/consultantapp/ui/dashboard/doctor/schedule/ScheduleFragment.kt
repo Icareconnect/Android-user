@@ -17,6 +17,7 @@ import com.consultantapp.data.network.responseUtil.Status
 import com.consultantapp.data.repos.UserRepository
 import com.consultantapp.databinding.FragmentScheduleBinding
 import com.consultantapp.ui.dashboard.doctor.confirm.ConfirmBookingFragment
+import com.consultantapp.ui.dashboard.home.bookservice.datetime.DatesAdapter
 import com.consultantapp.utils.*
 import com.consultantapp.utils.DateUtils.dateFormatFromMillis
 import dagger.android.support.DaggerFragment

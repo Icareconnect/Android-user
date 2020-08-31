@@ -2,7 +2,10 @@ package com.consultantapp.utils
 
 import android.app.Activity
 import android.app.DatePickerDialog
+import android.app.TimePickerDialog
+import android.content.Context
 import android.text.format.DateUtils
+import com.consultantapp.ui.dashboard.home.bookservice.datetime.OnTimeSelected
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -36,6 +39,67 @@ object DateUtils {
         dpd.show()
     }
 
+
+    fun getTime(context: Context, startTime: String, endTime: String?,
+                isStart: Boolean, listener: OnTimeSelected) {
+        var compareDate = true
+        if (endTime == null)
+            compareDate = false
+        else if (isStart && endTime.isEmpty()) {
+            compareDate = false
+        } else if (startTime.isEmpty()) {
+            compareDate = false
+        }
+
+        val sdf = SimpleDateFormat(DateFormat.TIME_FORMAT, Locale.ENGLISH)
+
+        val endTime = if (endTime != null && endTime.isNotEmpty())
+            sdf.parse(endTime)
+        else Date()
+
+        val startTime = if (startTime.isNotEmpty())
+            sdf.parse(startTime)
+        else Date()
+
+        val cal = Calendar.getInstance()
+        var selectedTime = ""
+        var isError = false
+
+        val timeSetListener = TimePickerDialog.OnTimeSetListener { timePicker, hour, minute ->
+            cal.set(Calendar.HOUR_OF_DAY, hour)
+            cal.set(Calendar.MINUTE, minute)
+
+            val newTime = sdf.parse(sdf.format(cal.time))
+            val time = sdf.format(cal.time)
+
+            /* val different = if (isStart) newTime.time - endTime.time
+             else
+                 newTime.time - startTime.time*/
+
+            if (isStart) {
+                if (!compareDate || newTime.before(endTime)) {
+                    selectedTime = time
+                } else {
+                    isError = true
+                }
+
+            } else {
+                if (!compareDate || startTime.before(newTime)) {
+                    selectedTime = sdf.format(cal.time)
+                } else {
+                    isError = true
+                }
+            }
+
+            listener.onTimeSelected(Triple(selectedTime, isStart, isError))
+        }
+
+        CustomTimePickerDialog(
+                context, timeSetListener,
+                cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE),
+                false
+        ).show()
+    }
 
     fun dateFormatFromMillis(format: String, timeInMillis: Long?): String {
         val fmt = SimpleDateFormat(format, Locale.ENGLISH)
@@ -136,6 +200,8 @@ object DateFormat {
     const val MON_DATE_YEAR = "MMM dd, yy"
     const val DATE_MON_YEAR = "dd MMM, yy"
     const val MON_DATE = "MMM dd"
+    const val DATE_ONLY = "dd"
+    const val MONTH_YEAR = "MMMM yyyy"
     const val DATE_FORMAT_SLASH = "MM/dd/yy"
     const val DATE_FORMAT_SLASH_YEAR = "dd/MM/yyyy"
     const val UTC_FORMAT_NORMAL = "yyyy-MM-dd hh:mm:ss"

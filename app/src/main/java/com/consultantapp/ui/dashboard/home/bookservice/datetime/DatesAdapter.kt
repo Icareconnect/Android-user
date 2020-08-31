@@ -1,19 +1,23 @@
-package com.consultantapp.ui.dashboard.doctor.schedule
+package com.consultantapp.ui.dashboard.home.bookservice.datetime
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.consultantapp.R
 import com.consultantapp.data.models.requests.DatesAvailability
 import com.consultantapp.databinding.ItemDatesBinding
+import com.consultantapp.ui.dashboard.doctor.schedule.ScheduleFragment
 import com.consultantapp.utils.DateFormat.DATE_MON_YEAR
+import com.consultantapp.utils.DateFormat.DATE_ONLY
 import com.consultantapp.utils.DateUtils.dateFormatFromMillis
-import com.consultantapp.utils.gone
+import com.consultantapp.utils.hideShowView
+import com.consultantapp.utils.invisible
 import com.consultantapp.utils.visible
 import java.util.*
 
-class DatesAdapter(private val fragment: ScheduleFragment, private val items: ArrayList<DatesAvailability>) :
+class DatesAdapter(private val fragment: Fragment, private val items: ArrayList<DatesAvailability>) :
         RecyclerView.Adapter<DatesAdapter.ViewHolder>() {
 
 
@@ -34,21 +38,17 @@ class DatesAdapter(private val fragment: ScheduleFragment, private val items: Ar
 
         fun bind(item: DatesAvailability) = with(binding) {
 
-            cbName.text = when (adapterPosition) {
-                0 -> fragment.getString(R.string.today)
-                1 -> fragment.getString(R.string.tomorrow)
-                else -> item.displayName
-            }
+            cbName.text = item.displayName?.substring(0, 1)
 
-            cbDate.text = dateFormatFromMillis(DATE_MON_YEAR, item.date ?: 0)
+            cbDate.text = dateFormatFromMillis(DATE_ONLY, item.date ?: 0)
 
             cbName.isChecked = item.isSelected
             cbDate.isChecked = item.isSelected
 
             if (item.isSelected) {
-                view.visible()
+                viewSelect.visible()
             } else {
-                view.gone()
+                viewSelect.invisible()
             }
 
 
@@ -58,7 +58,7 @@ class DatesAdapter(private val fragment: ScheduleFragment, private val items: Ar
                         items[count].isSelected = count == adapterPosition
                         notifyItemChanged(count)
                     }
-                    fragment.onDateSelected(item)
+                    (fragment as DateTimeFragment).onDateSelected(item)
                 }
             }
         }

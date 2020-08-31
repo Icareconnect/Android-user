@@ -5,31 +5,45 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clDate"
         android:layout_width="wrap_content"
-        android:layout_height="72dp"
-        android:layout_marginEnd="@dimen/dp_16"
-        android:checked="true">
+        android:layout_height="76dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:checked="true"
+        android:clickable="true"
+        android:focusable="true">
 
         <CheckBox
             android:id="@+id/cbName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_4"
+            android:layout_marginTop="@dimen/dp_8"
             android:layout_marginEnd="@dimen/dp_4"
-            android:layout_marginTop="@dimen/dp_16"
             android:background="@android:color/transparent"
             android:button="@null"
             android:clickable="false"
             android:ellipsize="end"
             android:focusable="false"
-            android:fontFamily="@font/circular_medium"
-            android:gravity="center"
+            android:fontFamily="@font/gilroy_bold"
+            android:gravity="center_horizontal"
             android:maxLines="1"
-            android:textColor="@color/selector_date_text_color"
+            android:textColor="@color/colorDateInactive"
             android:textSize="@dimen/sp_14"
             app:layout_constraintBottom_toTopOf="@+id/cbDate"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed" />
+
+        <View
+            android:id="@+id/viewSelect"
+            android:layout_width="@dimen/dp_32"
+            android:layout_height="@dimen/dp_32"
+            android:background="@drawable/drawable_stroke_date"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@id/cbDate"
+            app:layout_constraintEnd_toEndOf="@id/cbDate"
+            app:layout_constraintStart_toStartOf="@id/cbDate"
+            app:layout_constraintTop_toTopOf="@+id/cbDate" />
 
 
         <CheckBox
@@ -37,29 +51,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_4"
+            android:layout_marginTop="@dimen/dp_16"
             android:layout_marginEnd="@dimen/dp_4"
             android:background="@android:color/transparent"
             android:button="@null"
             android:clickable="false"
             android:ellipsize="end"
             android:focusable="false"
-            android:fontFamily="@font/campton_semibold"
+            android:fontFamily="@font/sans_regular"
             android:gravity="center"
             android:maxLines="1"
+            android:paddingStart="@dimen/dp_16"
+            android:paddingEnd="@dimen/dp_16"
             android:textColor="@color/selector_date_text_color"
-            android:textSize="@dimen/sp_18"
+            android:textSize="@dimen/sp_16"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cbName" />
-
-        <View
-            android:id="@+id/view"
-            android:layout_width="0dp"
-            android:layout_height="2dp"
-            android:background="@color/colorPrimary"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

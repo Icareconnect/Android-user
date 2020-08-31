@@ -15,7 +15,7 @@
             android:elevation="2dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:navigationIcon="@drawable/ic_back_white"
+            app:navigationIcon="@drawable/ic_back"
             app:titleTextAppearance="@style/Toolbar.TitleText" />
 
 

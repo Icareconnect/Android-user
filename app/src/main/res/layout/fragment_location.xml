@@ -82,6 +82,7 @@
             android:text="@string/skip_for_now"
             android:textColor="@color/colorPrimary"
             android:textSize="@dimen/sp_16"
+            android:visibility="invisible"
             app:drawableTint="@color/colorPrimary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

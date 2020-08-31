@@ -4,7 +4,7 @@
     <!--Facebook keys-->
     <string name="facebook_app_id">614826522700049</string>
     <string name="fb_login_protocol_scheme">fb614826522700049</string>
-    <string name="google_places_api_key" translatable="false">AIzaSyCZ6vYaavuJ1AqqVZqacmSZWwYp8SrNDnE</string>
+    <string name="google_places_api_key" translatable="false">AIzaSyA6HPRyKHLgPK4WpkqP3L6N_AYc5BtI_uU</string>
 
     <!--Google-->
     <string name="server_client_id">952614479078-892v5fage0p4pguerkht8krnpoo55dq3.apps.googleusercontent.com</string>
@@ -13,6 +13,9 @@
     <string name="deny">Deny</string>
     <string name="settings">Settings</string>
     <string name="media_permission">This feature needs permission to use camera and external storage.</string>
+
+    <string name="gps_not_enabled">GPS Not Enabled</string>
+    <string name="want_to_enable_gps">Rooh need GPS enabled to access your location.</string>
 
     <string name="internet">Internet</string>
     <string name="check_internet">Please check your internet connection</string>
@@ -313,5 +316,18 @@
     <string name="continuee">Continue</string>
     <string name="verification_may_take_some_time">Verification may take some time.</string>
     <string name="thank_you_for_your_interest">Thank you for your interest in intelligent care connect, one of our care coordinators will connect with you shortly.</string>
+    <string name="add_address">Add address</string>
+    <string name="house_no">ADDRESS(HOUSE NO, BUILDING, STREET AREA)</string>
+    <string name="select_delivery_address">Select Delivery Address</string>
+    <string name="change">Change</string>
+    <string name="current_location">Current location</string>
+    <string name="registered_nurse">Registered Nurse</string>
+    <string name="book_appointment">Book appointment</string>
+    <string name="start_time">Start time</string>
+    <string name="end_time">End time</string>
+    <string name="to">To</string>
+    <string name="from">From</string>
+    <string name="greater_time">End time must be greater than start time</string>
+    <string name="your_request_is_under_process">Your request is under process , please wait until a nurse is being assigned.</string>
 
 </resources>

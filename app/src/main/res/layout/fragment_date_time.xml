@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clTitle"
+            android:layout_width="0dp"
+            android:layout_height="110dp"
+            android:background="@color/colorPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:navigationIcon="@drawable/ic_back_white"
+                app:title="@string/registered_nurse"
+                app:titleTextAppearance="@style/Toolbar.TitleText"
+                app:titleTextColor="@color/colorWhite" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <View
+            android:id="@+id/viewRound"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_32"
+            android:layout_marginTop="86dp"
+            android:background="@drawable/drawable_rounded_top"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/clTitle" />
+
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="86dp"
+            android:clipToPadding="false"
+            android:paddingTop="@dimen/dp_24"
+            android:paddingBottom="@dimen/dp_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/startGuideLine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_begin="@dimen/dp_24" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/endGuideLine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_end="@dimen/dp_24" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvAppointments"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_8"
+                    android:fontFamily="@font/campton_semibold"
+                    android:text="@string/appointments"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintStart_toStartOf="@id/startGuideLine"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/view"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/dp_16"
+                    android:background="@color/lineColor"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvAppointments" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvMonth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_16"
+                    android:fontFamily="@font/campton_semibold"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+                    app:layout_constraintStart_toStartOf="@id/startGuideLine"
+                    app:layout_constraintTop_toBottomOf="@+id/view" />
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvWeek"
+                    android:layout_width="0dp"
+                    android:layout_height="76dp"
+                    android:layout_marginTop="@dimen/dp_24"
+                    android:clipToPadding="false"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/dp_8"
+                    android:paddingEnd="@dimen/dp_8"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvMonth"
+                    tools:listitem="@layout/item_dates" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvStartTime"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_32"
+                    android:layout_marginEnd="@dimen/dp_4"
+                    android:alpha="0.5"
+                    android:fontFamily="@font/gilroy_bold"
+                    android:text="@string/start_time"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/sp_12"
+                    app:layout_constraintEnd_toStartOf="@+id/tvEndTime"
+                    app:layout_constraintStart_toStartOf="@id/startGuideLine"
+                    app:layout_constraintTop_toBottomOf="@+id/rvWeek" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvEndTime"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_4"
+                    android:alpha="0.5"
+                    android:fontFamily="@font/gilroy_bold"
+                    android:text="@string/end_time"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/sp_12"
+                    app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+                    app:layout_constraintStart_toEndOf="@+id/tvStartTime"
+                    app:layout_constraintTop_toTopOf="@+id/tvStartTime" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvStartTimeV"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_12"
+                    android:layout_marginEnd="@dimen/dp_8"
+                    android:drawableEnd="@drawable/ic_clock"
+                    android:fontFamily="@font/sans_regular"
+                    android:hint="@string/from"
+                    android:padding="@dimen/dp_8"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/sp_14"
+                    app:layout_constraintEnd_toStartOf="@+id/tvEndTime"
+                    app:layout_constraintStart_toStartOf="@id/startGuideLine"
+                    app:layout_constraintTop_toBottomOf="@+id/tvStartTime" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvEndTimeV"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_8"
+                    android:drawableEnd="@drawable/ic_clock"
+                    android:fontFamily="@font/sans_regular"
+                    android:hint="@string/to"
+                    android:padding="@dimen/dp_8"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/sp_14"
+                    app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+                    app:layout_constraintStart_toEndOf="@+id/tvStartTime"
+                    app:layout_constraintTop_toTopOf="@+id/tvStartTimeV" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvBookAppointment"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_32"
+                    android:background="@drawable/drawable_bg_theme"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:padding="@dimen/dp_8"
+                    android:text="@string/book_appointment"
+                    android:textAllCaps="true"
+                    android:textAppearance="@style/Toolbar.LoginButton"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/sp_14"
+                    app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+                    app:layout_constraintStart_toStartOf="@id/startGuideLine"
+                    app:layout_constraintTop_toBottomOf="@+id/tvStartTimeV" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
