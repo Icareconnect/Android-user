@@ -58,6 +58,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
+                android:paddingBottom="@dimen/dp_24"
                 android:layout_height="wrap_content">
 
                 <androidx.constraintlayout.widget.Guideline
@@ -190,6 +191,30 @@
                     app:layout_constraintTop_toTopOf="@+id/tvStartTimeV" />
 
 
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/ilReason"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_16"
+                    app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+                    app:layout_constraintStart_toStartOf="@id/startGuideLine"
+                    app:layout_constraintTop_toBottomOf="@+id/tvStartTimeV">
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/etReason"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/sans_regular"
+                        android:gravity="start"
+                        android:hint="@string/reason_of_service"
+                        android:imeOptions="actionDone"
+                        android:inputType="textCapSentences|textMultiLine"
+                        android:maxLines="4"
+                        android:maxLength="1000"
+                        android:textColor="@color/textColor"
+                        android:textSize="@dimen/sp_16" />
+                </com.google.android.material.textfield.TextInputLayout>
+
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvBookAppointment"
                     android:layout_width="0dp"
@@ -201,14 +226,14 @@
                     android:foreground="?android:attr/selectableItemBackground"
                     android:gravity="center"
                     android:padding="@dimen/dp_8"
-                    android:text="@string/book_appointment"
+                    android:text="@string/done"
                     android:textAllCaps="true"
                     android:textAppearance="@style/Toolbar.LoginButton"
                     android:textColor="@color/colorWhite"
                     android:textSize="@dimen/sp_14"
                     app:layout_constraintEnd_toEndOf="@id/endGuideLine"
                     app:layout_constraintStart_toStartOf="@id/startGuideLine"
-                    app:layout_constraintTop_toBottomOf="@+id/tvStartTimeV" />
+                    app:layout_constraintTop_toBottomOf="@+id/ilReason" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,7 @@
 package com.consultantapp.ui.dashboard.home.bookservice.datetime
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,21 +11,19 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.consultantapp.R
+import com.consultantapp.data.models.requests.BookService
 import com.consultantapp.data.models.requests.DatesAvailability
 import com.consultantapp.data.repos.UserRepository
 import com.consultantapp.databinding.FragmentDateTimeBinding
 import com.consultantapp.databinding.FragmentRegisterServiceBinding
 import com.consultantapp.ui.dashboard.home.bookservice.datetime.DatesAdapter
-import com.consultantapp.utils.DateFormat
-import com.consultantapp.utils.DateUtils
-import com.consultantapp.utils.PrefsManager
-import com.consultantapp.utils.showSnackBar
+import com.consultantapp.utils.*
 import dagger.android.support.DaggerFragment
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
-class DateTimeFragment : DaggerFragment(), OnTimeSelected  {
+class DateTimeFragment : DaggerFragment(), OnTimeSelected {
 
     @Inject
     lateinit var userRepository: UserRepository
@@ -41,6 +41,8 @@ class DateTimeFragment : DaggerFragment(), OnTimeSelected  {
     private var itemDays = ArrayList<DatesAvailability>()
 
     private lateinit var datesAdapter: DatesAdapter
+
+    private var dateSelected: Long? = null
 
 
     override fun onCreateView(
@@ -60,9 +62,7 @@ class DateTimeFragment : DaggerFragment(), OnTimeSelected  {
     }
 
     private fun initialise() {
-        binding.toolbar.setNavigationOnClickListener {
-            requireActivity().supportFragmentManager.popBackStack()
-        }
+        editTextScroll(binding.etReason)
     }
 
     private fun setDatesAdapter() {
@@ -74,12 +74,14 @@ class DateTimeFragment : DaggerFragment(), OnTimeSelected  {
             calendar.add(Calendar.DAY_OF_MONTH, i)
 
             date = DatesAvailability()
-            if (i == 1) {
-                date.isSelected = true
-            }
             date.displayName =
                     calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault())
             date.date = calendar.timeInMillis
+
+            if (i == 1) {
+                date.isSelected = true
+                dateSelected = date.date
+            }
             itemDays.add(date)
         }
 
@@ -92,7 +94,7 @@ class DateTimeFragment : DaggerFragment(), OnTimeSelected  {
                 super.onScrolled(recyclerView, dx, dy)
 
                 val layoutManager = binding.rvWeek.layoutManager as LinearLayoutManager
-                val midItemPosition = layoutManager.findLastVisibleItemPosition() - layoutManager.findFirstVisibleItemPosition()
+                val midItemPosition = layoutManager.findLastVisibleItemPosition() - 4
 
                 binding.tvMonth.text = DateUtils.dateFormatFromMillis(DateFormat.MONTH_YEAR, itemDays[midItemPosition].date)
             }
@@ -100,6 +102,13 @@ class DateTimeFragment : DaggerFragment(), OnTimeSelected  {
     }
 
     private fun listeners() {
+        binding.toolbar.setNavigationOnClickListener {
+            if (requireActivity().supportFragmentManager.backStackEntryCount > 0)
+                requireActivity().supportFragmentManager.popBackStack()
+            else
+                requireActivity().finish()
+        }
+
         binding.tvStartTimeV.setOnClickListener {
             DateUtils.getTime(requireContext(), binding.tvStartTimeV.text.toString(),
                     binding.tvEndTimeV.text.toString(), isStart = true, listener = this)
@@ -107,6 +116,41 @@ class DateTimeFragment : DaggerFragment(), OnTimeSelected  {
         binding.tvEndTimeV.setOnClickListener {
             DateUtils.getTime(requireContext(), binding.tvStartTimeV.text.toString(),
                     binding.tvEndTimeV.text.toString(), isStart = false, listener = this)
+        }
+
+        binding.tvBookAppointment.setOnClickListener {
+            when {
+                dateSelected == null -> {
+                    binding.tvAppointments.showSnackBar(getString(R.string.select_date))
+                }
+                binding.tvStartTimeV.text.toString().trim().isEmpty() -> {
+                    binding.tvStartTimeV.showSnackBar(getString(R.string.start_time))
+                }
+                binding.tvEndTimeV.text.toString().trim().isEmpty() -> {
+                    binding.tvEndTimeV.showSnackBar(getString(R.string.end_time))
+                }
+                binding.etReason.text.toString().trim().isEmpty() -> {
+                    binding.etReason.showSnackBar(getString(R.string.reason_of_service))
+                }
+                else -> {
+                    val bookService = BookService()
+                    bookService.date = dateSelected
+                    bookService.startTime = binding.tvStartTimeV.text.toString()
+                    bookService.endTime = binding.tvEndTimeV.text.toString()
+                    bookService.reason = binding.etReason.text.toString()
+
+                    val intent = Intent()
+                    intent.putExtra(EXTRA_REQUEST_ID, bookService)
+                    requireActivity().setResult(Activity.RESULT_OK, intent)
+                    requireActivity().finish()
+
+                    /* val intent = Intent()
+                     intent.putExtra(EXTRA_REQUEST_ID, bookService)
+                     resultFragmentIntent(this, targetFragment ?: this,
+                             AppRequestCode.ADD_DATE, intent)*/
+                }
+            }
+
         }
     }
 
@@ -131,7 +175,7 @@ class DateTimeFragment : DaggerFragment(), OnTimeSelected  {
     fun onDateSelected(item: DatesAvailability) {
         binding.rvWeek.smoothScrollToPosition(itemDays.indexOf(item))
         binding.tvMonth.text = DateUtils.dateFormatFromMillis(DateFormat.MONTH_YEAR, item.date)
-        //dateSelected = item
+        dateSelected = item.date
     }
 
 }

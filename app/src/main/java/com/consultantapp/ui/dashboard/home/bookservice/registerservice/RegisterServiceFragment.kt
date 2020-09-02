@@ -12,12 +12,14 @@ import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.consultantapp.R
+import com.consultantapp.data.models.requests.BookService
 import com.consultantapp.data.models.requests.SaveAddress
 import com.consultantapp.data.repos.UserRepository
 import com.consultantapp.databinding.FragmentRegisterServiceBinding
 import com.consultantapp.ui.dashboard.home.bookservice.datetime.DateTimeFragment
 import com.consultantapp.ui.dashboard.home.bookservice.location.AddAddressActivity
 import com.consultantapp.ui.dashboard.home.bookservice.waiting.WaitingAllocationFragment
+import com.consultantapp.ui.drawermenu.DrawerActivity
 import com.consultantapp.utils.*
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
@@ -37,7 +39,7 @@ class RegisterServiceFragment : DaggerFragment() {
 
     private var rootView: View? = null
 
-    private var address: SaveAddress? = null
+    private var bookService = BookService()
 
 
     override fun onCreateView(
@@ -62,6 +64,9 @@ class RegisterServiceFragment : DaggerFragment() {
 
         binding.cbTerms.movementMethod = LinkMovementMethod.getInstance()
         binding.cbTerms.setText(setAcceptTerms(requireActivity(), getString(R.string.you_agree_to_our_terms)), TextView.BufferType.SPANNABLE)
+
+        binding.etName.setText(userRepository.getUser()?.name ?: "")
+
     }
 
 
@@ -79,19 +84,45 @@ class RegisterServiceFragment : DaggerFragment() {
 
         binding.etAddress.setOnClickListener {
             val intent = Intent(requireContext(), AddAddressActivity::class.java)
-            if (address != null)
-                intent.putExtra(AddAddressActivity.EXTRA_ADDRESS, address)
+            if (bookService.address != null)
+                intent.putExtra(AddAddressActivity.EXTRA_ADDRESS, bookService.address)
             startActivityForResult(intent, AppRequestCode.ASK_FOR_LOCATION)
         }
 
-        binding.etServiceDate.setOnClickListener {
-            replaceFragment(requireActivity().supportFragmentManager,
-                    DateTimeFragment(), R.id.container)
+        binding.etDate.setOnClickListener {
+            startActivityForResult(Intent(requireContext(), DrawerActivity::class.java)
+                    .putExtra(PAGE_TO_OPEN, DrawerActivity.DATE_TIME), AppRequestCode.ADD_DATE)
+            //replaceResultFragment(this, DateTimeFragment(), R.id.container, AppRequestCode.ADD_DATE)
         }
 
         binding.tvContinue.setOnClickListener {
-            replaceFragment(requireActivity().supportFragmentManager,
-                    WaitingAllocationFragment(), R.id.container)
+            when {
+                binding.etName.text.toString().trim().isEmpty() -> {
+                    binding.etName.showSnackBar(getString(R.string.enter_name))
+                }
+                binding.rgRequestService.checkedRadioButtonId == -1 -> {
+                    binding.rgRequestService.showSnackBar(getString(R.string.requesting_service_for))
+                }
+                binding.rgRequestService.checkedRadioButtonId != R.id.rbSelf
+                        && binding.etNameOther.text.toString().trim().isEmpty() -> {
+                    binding.etName.showSnackBar(getString(R.string.enter_name_other))
+                }
+                !binding.cbDualDiagnostic.isChecked && !binding.cbMedicallyCompromised.isChecked
+                        && !binding.cbOther.isChecked && !binding.cbPalliative.isChecked
+                        && !binding.cbWoundcare.isChecked -> {
+                    binding.tvHomeCare.showSnackBar(getString(R.string.select_home_care_requirement))
+                }
+                binding.etAddress.text.toString().trim().isEmpty() -> {
+                    binding.etAddress.showSnackBar(getString(R.string.select_delivery_address))
+                }
+                binding.etDate.text.toString().trim().isEmpty() -> {
+                    binding.etDate.showSnackBar(getString(R.string.select_date))
+                }
+                else -> {
+                    replaceFragment(requireActivity().supportFragmentManager,
+                            WaitingAllocationFragment(), R.id.container)
+                }
+            }
         }
     }
 
@@ -103,8 +134,17 @@ class RegisterServiceFragment : DaggerFragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == AppRequestCode.ASK_FOR_LOCATION) {
-                address = data?.getSerializableExtra(AddAddressActivity.EXTRA_ADDRESS) as SaveAddress
-                binding.etAddress.setText("${address?.locationName} (${address?.houseNumber})")
+                bookService.address = SaveAddress()
+                bookService.address = data?.getSerializableExtra(AddAddressActivity.EXTRA_ADDRESS) as SaveAddress
+                binding.etAddress.setText("${bookService?.address?.locationName} (${bookService?.address?.houseNumber})")
+            } else if (requestCode == AppRequestCode.ADD_DATE) {
+                val book = data?.getSerializableExtra(EXTRA_REQUEST_ID) as BookService
+                bookService.date = book.date
+                bookService.startTime = book.startTime
+                bookService.endTime = book.endTime
+                bookService.reason = book.reason
+
+                binding.etDate.setText(DateUtils.dateFormatFromMillis(DateFormat.DATE_FORMAT_SLASH_YEAR, bookService.date))
             }
         }
     }

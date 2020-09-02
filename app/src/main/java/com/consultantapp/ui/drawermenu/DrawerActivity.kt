@@ -10,6 +10,7 @@ import com.consultantapp.ui.classes.ClassesFragment
 import com.consultantapp.ui.dashboard.appointment.AppointmentFragment
 import com.consultantapp.ui.dashboard.appointment.rating.AddRatingFragment
 import com.consultantapp.ui.dashboard.chat.ChatFragment
+import com.consultantapp.ui.dashboard.home.bookservice.datetime.DateTimeFragment
 import com.consultantapp.ui.dashboard.home.bookservice.registerservice.RegisterServiceFragment
 import com.consultantapp.ui.dashboard.home.bookservice.waiting.WaitingAllocationFragment
 import com.consultantapp.ui.dashboard.home.verification.UserVerificationFragment
@@ -105,6 +106,9 @@ class DrawerActivity : DaggerAppCompatActivity() {
             REGISTER_SERVICE ->
                 addFragment(supportFragmentManager,
                         RegisterServiceFragment(), R.id.container)
+            DATE_TIME ->
+                addFragment(supportFragmentManager,
+                        DateTimeFragment(), R.id.container)
             USER_VERIFICATION ->
                 addFragment(supportFragmentManager,
                         UserVerificationFragment(), R.id.container)
@@ -127,6 +131,7 @@ class DrawerActivity : DaggerAppCompatActivity() {
         const val ADD_CARD = "ADD_CARD"
         const val REGISTER_SERVICE = "REGISTER_SERVICE"
         const val USER_VERIFICATION = "USER_VERIFICATION"
+        const val DATE_TIME="DATE_TIME"
     }
 
     override fun onBackPressed() {
