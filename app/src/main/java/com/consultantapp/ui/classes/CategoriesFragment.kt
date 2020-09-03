@@ -75,7 +75,7 @@ class CategoriesFragment : DaggerFragment() {
     }
 
     private fun setAdapter() {
-        adapter = CategoriesAdapter(this, items)
+        //adapter = CategoriesAdapter(this, items)
         binding.rvCategory.adapter = adapter
     }
 

@@ -90,7 +90,7 @@ class SubCategoryFragment : DaggerFragment() {
     }
 
     private fun setAdapter() {
-        adapter = CategoriesAdapter(this, items)
+        //adapter = CategoriesAdapter(this, items)
         binding.rvListing.adapter = adapter
         binding.rvListing.itemAnimator = null
     }

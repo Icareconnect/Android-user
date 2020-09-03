@@ -63,7 +63,9 @@ class NotificationFragment : DaggerFragment() {
     }
 
     private fun initialise() {
-        binding.tvTitle.text = getString(R.string.notification)
+        binding.tvTitle.gone()
+        binding.toolbar.navigationIcon = null
+        binding.toolbar.title=getString(R.string.notification)
 
         viewModel = ViewModelProvider(this, viewModelFactory)[AppointmentViewModel::class.java]
 

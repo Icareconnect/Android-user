@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.consultantapp.R
 import com.consultantapp.data.models.responses.Banner
 import com.consultantapp.data.models.responses.Categories
+import com.consultantapp.data.models.responses.FilterOption
 import com.consultantapp.data.network.ApiKeys.AFTER
 import com.consultantapp.data.network.ApiKeys.PER_PAGE
 import com.consultantapp.data.network.ApisRespHandler
@@ -53,15 +54,9 @@ class HomeFragment : DaggerFragment() {
 
     private lateinit var viewModel: ClassesViewModel
 
-    private var items = ArrayList<Categories>()
+    private var items = ArrayList<FilterOption>()
 
     private lateinit var adapter: CategoriesAdapter
-
-    private var isLastPage = false
-
-    private var isFirstPage = true
-
-    private var isLoadingMoreItems = false
 
 
     override fun onCreateView(
@@ -78,7 +73,7 @@ class HomeFragment : DaggerFragment() {
             setAdapter()
             listeners()
             bindObservers()
-            hitApi(true)
+            hitApi()
         }
         return rootView
     }
@@ -113,7 +108,7 @@ class HomeFragment : DaggerFragment() {
 
     private fun listeners() {
         binding.swipeRefresh.setOnRefreshListener {
-            hitApi(true)
+            hitApi()
         }
 
         binding.ivPic.setOnClickListener {
@@ -123,21 +118,6 @@ class HomeFragment : DaggerFragment() {
         binding.tvName.setOnClickListener {
             goToProfile()
         }
-
-        binding.rvCategory.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-
-                val layoutManager = binding.rvCategory.layoutManager as LinearLayoutManager
-                val totalItemCount = layoutManager.itemCount - 1
-                val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
-
-                if (!isLoadingMoreItems && !isLastPage && lastVisibleItemPosition >= totalItemCount) {
-                    isLoadingMoreItems = true
-                    hitApi(false)
-                }
-            }
-        })
     }
 
     private fun goToProfile() {
@@ -150,55 +130,32 @@ class HomeFragment : DaggerFragment() {
         }
     }
 
-    private fun hitApi(firstHit: Boolean) {
-        if (firstHit) {
-            isFirstPage = true
-            isLastPage = false
-        }
-
-        val hashMap = HashMap<String, String>()
+    private fun hitApi() {
         if (isConnectedToInternet(requireContext(), true)) {
-
-            if (!isFirstPage && items.isNotEmpty())
-                hashMap[AFTER] = items[items.size - 1].id ?: ""
-
-            hashMap[PER_PAGE] = PER_PAGE_LOAD.toString()
-
-            viewModel.categories(hashMap)
+            val hashMap = HashMap<String, String>()
+            hashMap["category_id"] = "1"
+            viewModel.getFilters(hashMap)
         }
     }
 
     private fun bindObservers() {
-        viewModel.categories.observe(this, Observer {
+        viewModel.getFilters.observe(this, Observer {
             it ?: return@Observer
             when (it.status) {
                 Status.SUCCESS -> {
                     binding.clLoader.gone()
-                    isLoadingMoreItems = false
                     binding.swipeRefresh.isRefreshing = false
 
-                    val tempList = it.data?.classes_category ?: emptyList()
-                    if (isFirstPage) {
-                        isFirstPage = false
-                        items.clear()
-                        items.addAll(tempList)
+                    val tempList = it.data?.filters ?: emptyList()
 
-                        adapter.notifyDataSetChanged()
-                    } else {
-                        val oldSize = items.size
-                        items.addAll(tempList)
-
-                        adapter.notifyItemRangeInserted(oldSize, items.size)
-                    }
-
-                    isLastPage = tempList.size < PER_PAGE_LOAD
-                    adapter.setAllItemsLoaded(isLastPage)
+                    items.clear()
+                    if (tempList.isNotEmpty())
+                        items.addAll(tempList[0].options ?: emptyList())
 
                     binding.cvCategory.hideShowView(items.isNotEmpty())
                     binding.tvNoData.hideShowView(items.isEmpty())
                 }
                 Status.ERROR -> {
-                    isLoadingMoreItems = false
                     adapter.setAllItemsLoaded(true)
                     binding.clLoader.gone()
                     binding.swipeRefresh.isRefreshing = false
@@ -214,18 +171,14 @@ class HomeFragment : DaggerFragment() {
     }
 
 
-    fun clickItem(item: Categories?) {
+    fun clickItem(item: FilterOption?) {
         if (!userRepository.isUserLoggedIn()) {
             val fragment = WelcomeFragment()
             fragment.show(requireActivity().supportFragmentManager, fragment.tag)
-        } else if (item?.is_subcategory == true) {
-            startActivity(Intent(requireContext(), DrawerActivity::class.java)
-                    .putExtra(PAGE_TO_OPEN, DrawerActivity.SUB_CATEGORY)
-                    .putExtra(CLASSES_PAGE, arguments?.getBoolean(CLASSES_PAGE))
-                    .putExtra(CATEGORY_PARENT_ID, item))
         } else {
             startActivity(Intent(requireContext(), DrawerActivity::class.java)
-                    .putExtra(PAGE_TO_OPEN, DrawerActivity.REGISTER_SERVICE))
+                    .putExtra(PAGE_TO_OPEN, DrawerActivity.REGISTER_SERVICE)
+                    .putExtra(CATEGORY_PARENT_ID, item?.id))
         }
     }
 

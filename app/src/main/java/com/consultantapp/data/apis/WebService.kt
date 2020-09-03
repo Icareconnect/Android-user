@@ -64,6 +64,8 @@ interface WebService {
         private const val PACK_SUB = "/api/pack-sub"
         private const val PURCHASE_PACK = "/api/sub-pack"
         private const val PACK_DETAIL = "/api/pack-detail"
+        private const val CONFIRM_AUTO_ALLOCATE = "/api/confirm-auto-allocate"
+        private const val AUTO_ALLOCATE = "/api/auto-allocate"
 
         private const val WORKING_HOURS = "/api/workingHours"
         private const val SPEAKOUT_LIST = "/common/listSpeakouts"
@@ -181,6 +183,13 @@ interface WebService {
     @POST(PURCHASE_PACK)
     fun purchasePack(@FieldMap hashMap: HashMap<String, String>): Call<ApiResponse<CommonDataModel>>
 
+    @FormUrlEncoded
+    @POST(CONFIRM_AUTO_ALLOCATE)
+    fun confirmAutoAllocate(@FieldMap hashMap: HashMap<String, String>): Call<ApiResponse<CommonDataModel>>
+
+    @FormUrlEncoded
+    @POST(AUTO_ALLOCATE)
+    fun autoAllocate(@FieldMap hashMap: HashMap<String, String>): Call<ApiResponse<CommonDataModel>>
 
 
     /*GET*/

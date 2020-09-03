@@ -7,8 +7,8 @@
 
     <fragment
         android:id="@+id/navigation_chat"
-        android:name="com.consultantapp.ui.dashboard.chat.ChatFragment"
+        android:name="com.consultantapp.ui.drawermenu.notification.NotificationFragment"
         android:label="@string/chat"
-        tools:layout="@layout/fragment_chat" />
+        tools:layout="@layout/activity_listing_toolbar" />
 
 </navigation>

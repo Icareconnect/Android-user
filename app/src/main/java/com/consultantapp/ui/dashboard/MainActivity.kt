@@ -81,8 +81,8 @@ class MainActivity : DaggerAppCompatActivity() {
     private fun setNavigation() {
         val navGraphIds = listOf(
                 R.navigation.navigation_home,
-                R.navigation.navigation_appointment,
                 R.navigation.navigation_chat,
+                R.navigation.navigation_appointment,
                 R.navigation.navigation_profile)
 
         // Setup the bottom navigation view with a list of navigation graphs

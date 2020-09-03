@@ -15,7 +15,7 @@
             android:layout_marginEnd="0dp"
             android:background="@color/colorWhite"
             app:itemBackground="@color/colorWhite"
-            app:labelVisibilityMode="labeled"
+            app:labelVisibilityMode="unlabeled"
             app:itemTextColor="@color/selector_text_nav"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"

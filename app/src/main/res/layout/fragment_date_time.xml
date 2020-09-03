@@ -226,7 +226,7 @@
                     android:foreground="?android:attr/selectableItemBackground"
                     android:gravity="center"
                     android:padding="@dimen/dp_8"
-                    android:text="@string/done"
+                    android:text="@string/continuee"
                     android:textAllCaps="true"
                     android:textAppearance="@style/Toolbar.LoginButton"
                     android:textColor="@color/colorWhite"

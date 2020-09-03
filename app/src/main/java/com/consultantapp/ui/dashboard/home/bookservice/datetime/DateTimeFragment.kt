@@ -1,27 +1,28 @@
 package com.consultantapp.ui.dashboard.home.bookservice.datetime
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.consultantapp.R
 import com.consultantapp.data.models.requests.BookService
 import com.consultantapp.data.models.requests.DatesAvailability
+import com.consultantapp.data.network.ApisRespHandler
+import com.consultantapp.data.network.responseUtil.Status
 import com.consultantapp.data.repos.UserRepository
 import com.consultantapp.databinding.FragmentDateTimeBinding
-import com.consultantapp.databinding.FragmentRegisterServiceBinding
-import com.consultantapp.ui.dashboard.home.bookservice.datetime.DatesAdapter
+import com.consultantapp.ui.dashboard.home.bookservice.AllocateDoctorViewModel
+import com.consultantapp.ui.dashboard.home.bookservice.waiting.WaitingAllocationFragment
 import com.consultantapp.utils.*
+import androidx.lifecycle.Observer
+import com.consultantapp.utils.dialogs.ProgressDialog
 import dagger.android.support.DaggerFragment
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
+import kotlin.collections.HashMap
 
 class DateTimeFragment : DaggerFragment(), OnTimeSelected {
 
@@ -38,11 +39,17 @@ class DateTimeFragment : DaggerFragment(), OnTimeSelected {
 
     private var rootView: View? = null
 
+    private lateinit var progressDialog: ProgressDialog
+
+    private lateinit var viewModel: AllocateDoctorViewModel
+
     private var itemDays = ArrayList<DatesAvailability>()
 
     private lateinit var datesAdapter: DatesAdapter
 
     private var dateSelected: Long? = null
+
+    private var bookService = BookService()
 
 
     override fun onCreateView(
@@ -62,14 +69,20 @@ class DateTimeFragment : DaggerFragment(), OnTimeSelected {
     }
 
     private fun initialise() {
+        viewModel = ViewModelProvider(this, viewModelFactory)[AllocateDoctorViewModel::class.java]
+        progressDialog = ProgressDialog(requireActivity())
+
         editTextScroll(binding.etReason)
+
+        bookService = arguments?.getSerializable(EXTRA_REQUEST_ID) as BookService
+
     }
 
     private fun setDatesAdapter() {
         itemDays.clear()
         var calendar: Calendar
         var date: DatesAvailability
-        for (i in 0..60) {
+        for (i in 0..30) {
             calendar = Calendar.getInstance()
             calendar.add(Calendar.DAY_OF_MONTH, i)
 
@@ -81,24 +94,25 @@ class DateTimeFragment : DaggerFragment(), OnTimeSelected {
             if (i == 1) {
                 date.isSelected = true
                 dateSelected = date.date
+
+                binding.tvMonth.text = DateUtils.dateFormatFromMillis(DateFormat.MONTH_YEAR, date.date)
             }
             itemDays.add(date)
+
+            datesAdapter = DatesAdapter(this, itemDays)
+            binding.rvWeek.adapter = datesAdapter
         }
 
-        datesAdapter = DatesAdapter(this, itemDays)
-        binding.rvWeek.adapter = datesAdapter
+        /* binding.rvWeek.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                 super.onScrolled(recyclerView, dx, dy)
 
+                 val layoutManager = binding.rvWeek.layoutManager as LinearLayoutManager
+                 val midItemPosition = layoutManager.findLastVisibleItemPosition() - 4
 
-        binding.rvWeek.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-
-                val layoutManager = binding.rvWeek.layoutManager as LinearLayoutManager
-                val midItemPosition = layoutManager.findLastVisibleItemPosition() - 4
-
-                binding.tvMonth.text = DateUtils.dateFormatFromMillis(DateFormat.MONTH_YEAR, itemDays[midItemPosition].date)
-            }
-        })
+                 binding.tvMonth.text = DateUtils.dateFormatFromMillis(DateFormat.MONTH_YEAR, itemDays[midItemPosition].date)
+             }
+         })*/
     }
 
     private fun listeners() {
@@ -133,21 +147,47 @@ class DateTimeFragment : DaggerFragment(), OnTimeSelected {
                     binding.etReason.showSnackBar(getString(R.string.reason_of_service))
                 }
                 else -> {
-                    val bookService = BookService()
                     bookService.date = dateSelected
                     bookService.startTime = binding.tvStartTimeV.text.toString()
                     bookService.endTime = binding.tvEndTimeV.text.toString()
                     bookService.reason = binding.etReason.text.toString()
 
-                    val intent = Intent()
-                    intent.putExtra(EXTRA_REQUEST_ID, bookService)
-                    requireActivity().setResult(Activity.RESULT_OK, intent)
-                    requireActivity().finish()
 
-                    /* val intent = Intent()
-                     intent.putExtra(EXTRA_REQUEST_ID, bookService)
-                     resultFragmentIntent(this, targetFragment ?: this,
-                             AppRequestCode.ADD_DATE, intent)*/
+                    if (isConnectedToInternet(requireContext(), true)) {
+                        requireActivity().supportFragmentManager.popBackStack()
+                        requireActivity().supportFragmentManager.popBackStack()
+
+                        val fragment = WaitingAllocationFragment()
+                        val bundle = Bundle()
+                        bundle.putSerializable(EXTRA_REQUEST_ID, bookService)
+                        fragment.arguments = bundle
+                        replaceFragment(requireActivity().supportFragmentManager, fragment, R.id.container)
+
+                        /*val hashMap = HashMap<String, String>()
+                        hashMap["category_id"] = "1"
+                        hashMap["filter_id"] = bookService.filter_id ?: ""
+                        hashMap["date"] = DateUtils.dateFormatFromMillis(DateFormat.DATE_FORMAT, bookService.date)
+                        hashMap["end_date"] = DateUtils.dateFormatFromMillis(DateFormat.DATE_FORMAT, bookService.date)
+                        hashMap["time"] = DateUtils.dateFormatChange(DateFormat.TIME_FORMAT,
+                                DateFormat.TIME_FORMAT_24, bookService.startTime ?: "")
+                        hashMap["end_time"] = DateUtils.dateFormatChange(DateFormat.TIME_FORMAT,
+                                DateFormat.TIME_FORMAT_24, bookService.endTime ?: "")
+                        hashMap["reason_for_service"] = bookService.reason ?: ""
+
+                        hashMap["schedule_type"] = RequestType.SCHEDULE
+
+                        hashMap["lat"] = bookService.address?.location?.get(1).toString()
+                        hashMap["long"] = bookService.address?.location?.get(0).toString()
+                        hashMap["service_address"] = bookService.address?.locationName ?: ""
+
+                        hashMap["first_name"] = bookService.personName
+                        hashMap["last_name"] = bookService.personName
+                        hashMap["service_for"] = bookService.service_for ?: ""
+                        hashMap["home_care_req"] = bookService.home_care_req ?: ""
+
+                        viewModel.confirmAutoAllocate(hashMap)*/
+                    }
+
                 }
             }
 
@@ -155,7 +195,31 @@ class DateTimeFragment : DaggerFragment(), OnTimeSelected {
     }
 
     private fun bindObservers() {
+        viewModel.confirmAutoAllocate.observe(this, Observer {
+            it ?: return@Observer
+            when (it.status) {
+                Status.SUCCESS -> {
+                    progressDialog.setLoading(false)
 
+                    requireActivity().supportFragmentManager.popBackStack()
+                    requireActivity().supportFragmentManager.popBackStack()
+
+                    val fragment = WaitingAllocationFragment()
+                    val bundle = Bundle()
+                    bundle.putSerializable(EXTRA_REQUEST_ID, bookService)
+                    fragment.arguments = bundle
+                    replaceFragment(requireActivity().supportFragmentManager, fragment, R.id.container)
+
+                }
+                Status.ERROR -> {
+                    progressDialog.setLoading(false)
+                    ApisRespHandler.handleError(it.error, requireActivity(), prefsManager)
+                }
+                Status.LOADING -> {
+                    progressDialog.setLoading(true)
+                }
+            }
+        })
     }
 
     override fun onTimeSelected(time: Triple<String, Boolean, Boolean>) {

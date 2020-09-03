@@ -94,7 +94,6 @@ object AppRequestCode {
     const val ADD_FILTER: Int = 108
     const val NEW_APPOINTMENT: Int = 109
     const val ADD_CARD: Int = 110
-    const val ADD_DATE: Int = 111
 }
 
 object ChatType {

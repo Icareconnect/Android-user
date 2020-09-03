@@ -1,20 +1,21 @@
-package com.consultantapp.ui.dashboard
+package com.consultantapp.ui.dashboard.home.bookservice.registerservice
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.consultantapp.R
 import com.consultantapp.data.models.responses.FilterOption
 import com.consultantapp.data.network.LoadingStatus.ITEM
 import com.consultantapp.data.network.LoadingStatus.LOADING
 import com.consultantapp.databinding.ItemPagingLoaderBinding
-import com.consultantapp.databinding.RvItemCategoryBinding
-import com.consultantapp.ui.dashboard.home.HomeFragment
+import com.consultantapp.databinding.RvItemCheckBinding
+import com.consultantapp.utils.gone
+import com.consultantapp.utils.visible
 
 
-class CategoriesAdapter(private val fragment: Fragment, private val items: ArrayList<FilterOption>) :
+class CheckItemAdapter(private val fragment: RegisterServiceFragment,private val serviceFor: Boolean,
+                       private val multiSelect: Boolean, private val items: ArrayList<FilterOption>) :
         RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var allItemsLoaded = true
@@ -30,7 +31,7 @@ class CategoriesAdapter(private val fragment: Fragment, private val items: Array
             ViewHolder(
                     DataBindingUtil.inflate(
                             LayoutInflater.from(parent.context),
-                            R.layout.rv_item_category, parent, false
+                            R.layout.rv_item_check, parent, false
                     )
             )
         } else {
@@ -47,18 +48,37 @@ class CategoriesAdapter(private val fragment: Fragment, private val items: Array
 
     override fun getItemViewType(position: Int) = if (position >= items.size) LOADING else ITEM
 
-    inner class ViewHolder(val binding: RvItemCategoryBinding) :
+    inner class ViewHolder(val binding: RvItemCheckBinding) :
             RecyclerView.ViewHolder(binding.root) {
 
-        init {
-            binding.root.setOnClickListener {
-                if (fragment is HomeFragment)
-                    fragment.clickItem(items[adapterPosition])
-            }
-        }
-
         fun bind(item: FilterOption) = with(binding) {
-            tvName.text = item.option_name
+            if (multiSelect) {
+                cbName.visible()
+                rbName.gone()
+            } else {
+                cbName.gone()
+                rbName.visible()
+            }
+
+            cbName.text = item.option_name
+            rbName.text = item.option_name
+
+            rbName.isChecked = item.isSelected
+            cbName.isChecked = item.isSelected
+
+            clMain.setOnClickListener {
+                val pos=adapterPosition
+                if (multiSelect) {
+                    items[pos].isSelected = !items[pos].isSelected
+                    notifyDataSetChanged()
+                } else {
+                    items.forEachIndexed { index, filterOption ->
+                        items[index].isSelected = pos == index
+                    }
+                    notifyDataSetChanged()
+                }
+                fragment.onItemClick(serviceFor,pos)
+            }
         }
     }
 
@@ -69,3 +89,4 @@ class CategoriesAdapter(private val fragment: Fragment, private val items: Array
         allItemsLoaded = allLoaded
     }
 }
+

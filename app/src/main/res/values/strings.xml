@@ -71,7 +71,7 @@
     <string name="forgot_password">Forgot Password</string>
     <string name="wallet">Wallet</string>
     <string name="enter_name">Please enter name</string>
-    <string name="enter_name_other">Please enter name for which service</string>
+    <string name="enter_name_other">Please enter name for which service needed</string>
     <string name="select_dob">Please select DOB</string>
     <string name="enter_email">Please enter email</string>
     <string name="enter_correct_email">Please enter correct email</string>
@@ -299,19 +299,6 @@
     <string name="guest">Guest</string>
     <string name="register">Register</string>
     <string name="become_a_member">Become a member of Intelligent Care Connect.</string>
-    <string name="requesting_service_for">Requesting service for ?</string>
-    <string name="self">Self</string>
-    <string name="father">Father</string>
-    <string name="mother">Mother</string>
-    <string name="child">Child</string>
-    <string name="other">Other</string>
-    <string name="if_service_is_not_self">If service is not self...</string>
-    <string name="home_care_requirement">Home care requirement</string>
-    <string name="select_home_care_requirement">Select Home care requirement</string>
-    <string name="palliative_end_of_life_care">Palliative (end of life care)</string>
-    <string name="woundcare">Woundcare</string>
-    <string name="dual_diagnostic">Dual Diagnostic (Cognitive decline patients)</string>
-    <string name="medically_compromised">Medically compromised &amp; complex continu-ing care></string>
     <string name="service_address">Service Address</string>
     <string name="service_date">Service Date</string>
     <string name="continuee">Continue</string>
@@ -331,5 +318,41 @@
     <string name="greater_time">End time must be greater than start time</string>
     <string name="your_request_is_under_process">Your request is under process , please wait until a nurse is being assigned.</string>
     <string name="reason_of_service">Reason of service...</string>
+
+
+    <!--Service for-->
+    <string name="requesting_service_for">Requesting service for ?</string>
+    <string name="if_service_is_not_self">If service is not self...</string>
+    <string name="self">Self</string>
+    <string name="father">Father</string>
+    <string name="mother">Mother</string>
+    <string name="child">Child</string>
+    <string name="other">Other</string>
+
+    <array name="service_for">
+        <item>@string/self</item>
+        <item>@string/father</item>
+        <item>@string/mother</item>
+        <item>@string/child</item>
+        <item>@string/other</item>
+
+    </array>
+
+    <!--Home care-->
+    <string name="home_care_requirement">Home care requirement</string>
+    <string name="select_home_care_requirement">Select Home care requirement</string>
+    <string name="palliative_end_of_life_care">Palliative (end of life care)</string>
+    <string name="woundcare">Woundcare</string>
+    <string name="dual_diagnostic">Dual Diagnostic (Cognitive decline patients)</string>
+    <string name="medically_compromised">Medically compromised &amp; complex continu-ing care></string>
+    <string name="selected">Selected</string>
+
+    <array name="home_care">
+    <item>@string/palliative_end_of_life_care</item>
+    <item>@string/woundcare</item>
+    <item>@string/dual_diagnostic</item>
+    <item>@string/medically_compromised</item>
+    <item>@string/other</item>
+    </array>
 
 </resources>

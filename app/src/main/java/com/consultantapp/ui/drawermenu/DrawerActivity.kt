@@ -139,7 +139,7 @@ class DrawerActivity : DaggerAppCompatActivity() {
             supportFragmentManager.backStackEntryCount - 1
         else 0
         val fragment = supportFragmentManager.fragments[index]
-        if (fragment is UserVerificationFragment || fragment is LocationFragment || fragment is WaitingAllocationFragment) {
+        if (fragment is UserVerificationFragment || fragment is LocationFragment) {
             /*Nothing to Do*/
         } else
             super.onBackPressed()

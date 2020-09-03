@@ -135,80 +135,19 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/ilName" />
 
-                <RadioGroup
-                    android:id="@+id/rgRequestService"
-                    android:layout_width="0dp"
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvServiceFor"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_16"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvRequestService">
-
-                    <RadioButton
-                        android:id="@+id/rbSelf"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_16"
-                        android:drawablePadding="@dimen/dp_12"
-                        android:fontFamily="@font/sans_regular"
-                        android:gravity="center_vertical"
-                        android:paddingTop="@dimen/dp_8"
-                        android:text="@string/self"
-                        android:textColor="@color/colorBlack"
-                        android:textSize="@dimen/sp_14" />
-
-                    <RadioButton
-                        android:id="@+id/rbFather"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_16"
-                        android:drawablePadding="@dimen/dp_12"
-                        android:fontFamily="@font/sans_regular"
-                        android:gravity="center_vertical"
-                        android:paddingTop="@dimen/dp_8"
-                        android:text="@string/father"
-                        android:textColor="@color/colorBlack"
-                        android:textSize="@dimen/sp_14" />
-
-                    <RadioButton
-                        android:id="@+id/rbMother"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_16"
-                        android:drawablePadding="@dimen/dp_12"
-                        android:fontFamily="@font/sans_regular"
-                        android:gravity="center_vertical"
-                        android:paddingTop="@dimen/dp_8"
-                        android:text="@string/mother"
-                        android:textColor="@color/colorBlack"
-                        android:textSize="@dimen/sp_14" />
-
-                    <RadioButton
-                        android:id="@+id/rbChild"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_16"
-                        android:drawablePadding="@dimen/dp_12"
-                        android:fontFamily="@font/sans_regular"
-                        android:gravity="center_vertical"
-                        android:paddingTop="@dimen/dp_8"
-                        android:text="@string/child"
-                        android:textColor="@color/colorBlack"
-                        android:textSize="@dimen/sp_14" />
-
-                    <RadioButton
-                        android:id="@+id/rbOther"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_16"
-                        android:drawablePadding="@dimen/dp_12"
-                        android:fontFamily="@font/sans_regular"
-                        android:gravity="center_vertical"
-                        android:paddingTop="@dimen/dp_8"
-                        android:text="@string/other"
-                        android:textColor="@color/colorBlack"
-                        android:textSize="@dimen/sp_14" />
-
-                </RadioGroup>
+                    app:layout_constraintTop_toBottomOf="@+id/tvRequestService"
+                    app:spanCount="2"
+                    tools:itemCount="4"
+                    tools:listitem="@layout/rv_item_check" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/ilNotSelf"
@@ -218,7 +157,7 @@
                     android:background="@drawable/drawable_stroke_grey"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/rgRequestService">
+                    app:layout_constraintTop_toBottomOf="@+id/rvServiceFor">
 
                     <androidx.appcompat.widget.AppCompatEditText
                         android:id="@+id/etNotSelf"
@@ -287,7 +226,7 @@
                     android:gravity="center_vertical"
                     android:paddingStart="@dimen/dp_16"
                     android:paddingEnd="@dimen/dp_16"
-                    android:text="@string/select_home_care_requirement"
+                    android:hint="@string/select_home_care_requirement"
                     android:textColor="@color/colorBlack"
                     android:textSize="@dimen/sp_14"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -302,88 +241,18 @@
                     android:layout_marginStart="@dimen/dp_4"
                     android:layout_marginTop="@dimen/dp_8"
                     android:layout_marginEnd="@dimen/dp_4"
-                    android:visibility="gone"
                     app:cardElevation="@dimen/dp_4"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvSelectHomeCare">
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvHomeCare"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingBottom="@dimen/dp_12">
-
-                        <CheckBox
-                            android:id="@+id/cbPalliative"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/dp_12"
-                            android:fontFamily="@font/sans_regular"
-                            android:padding="@dimen/dp_8"
-                            android:text="@string/palliative_end_of_life_care"
-                            android:textColor="@color/colorBlack"
-                            android:textSize="@dimen/sp_14"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <CheckBox
-                            android:id="@+id/cbWoundcare"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/dp_12"
-                            android:fontFamily="@font/sans_regular"
-                            android:padding="@dimen/dp_8"
-                            android:text="@string/woundcare"
-                            android:textColor="@color/colorBlack"
-                            android:textSize="@dimen/sp_14"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/cbPalliative" />
-
-                        <CheckBox
-                            android:id="@+id/cbDualDiagnostic"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/dp_12"
-                            android:fontFamily="@font/sans_regular"
-                            android:padding="@dimen/dp_8"
-                            android:text="@string/dual_diagnostic"
-                            android:textColor="@color/colorBlack"
-                            android:textSize="@dimen/sp_14"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/cbWoundcare" />
-
-                        <CheckBox
-                            android:id="@+id/cbMedicallyCompromised"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/dp_12"
-                            android:fontFamily="@font/sans_regular"
-                            android:padding="@dimen/dp_8"
-                            android:text="@string/medically_compromised"
-                            android:textColor="@color/colorBlack"
-                            android:textSize="@dimen/sp_14"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/cbDualDiagnostic" />
-
-                        <CheckBox
-                            android:id="@+id/cbOther"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/dp_12"
-                            android:fontFamily="@font/sans_regular"
-                            android:padding="@dimen/dp_8"
-                            android:text="@string/other"
-                            android:textColor="@color/colorBlack"
-                            android:textSize="@dimen/sp_14"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/cbMedicallyCompromised" />
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:itemCount="2"
+                        tools:listitem="@layout/rv_item_check" />
                 </androidx.cardview.widget.CardView>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -412,33 +281,6 @@
                         android:textSize="@dimen/sp_16" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/ilDate"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_32"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ilAddress">
-
-                    <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/etDate"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/sans_regular"
-                        android:hint="@string/service_date"
-                        android:imeOptions="actionNext"
-                        android:inputType="textCapWords|textImeMultiLine"
-                        android:maxLength="100"
-                        android:clickable="false"
-                        android:maxLines="5"
-                        android:focusable="false"
-                        android:textAllCaps="true"
-                        android:textColor="@color/colorBlack"
-                        android:textSize="@dimen/sp_16" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-
 
                 <CheckBox
                     android:id="@+id/cbTerms"
@@ -452,7 +294,7 @@
                     android:textSize="@dimen/sp_14"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ilDate" />
+                    app:layout_constraintTop_toBottomOf="@+id/ilAddress" />
 
 
                 <androidx.appcompat.widget.AppCompatTextView

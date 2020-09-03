@@ -7,14 +7,14 @@
         android:title="@string/home" />
 
     <item
-        android:id="@+id/navigation_appointment"
-        android:icon="@drawable/selector_appointments"
-        android:title="@string/appointments" />
-
-    <item
         android:id="@+id/navigation_chat"
         android:icon="@drawable/selector_chat"
         android:title="@string/chat" />
+
+    <item
+        android:id="@+id/navigation_appointment"
+        android:icon="@drawable/selector_appointments"
+        android:title="@string/appointments" />
 
     <item
         android:id="@+id/navigation_profile"
