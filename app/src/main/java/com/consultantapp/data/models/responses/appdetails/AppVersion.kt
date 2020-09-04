@@ -31,4 +31,6 @@ class AppVersion {
     var client_features: ArrayList<ClientFeatures>? = null
     var clientFeaturesKeys = ClientFeaturesKeys()
 
+    var isApproved: Boolean? = null
+
 }

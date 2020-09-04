@@ -149,6 +149,17 @@ class MessagingService : FirebaseMessagingService() {
 
                 LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
             }
+            PushType.PROFILE_APPROVED->{
+                val userData = userRepository.getUser()
+                if (userData?.isApproved == false) {
+                    userData.isApproved = true
+                    prefsManager.save(USER_DATA, userData)
+                }
+
+                val intent = Intent()
+                intent.action = pushData.pushType
+                LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
+            }
             PushType.REQUEST_ACCEPTED, PushType.REQUEST_COMPLETED,
             PushType.CANCELED_REQUEST, PushType.RESCHEDULED_REQUEST -> {
                 homeIntent.putExtra(EXTRA_TAB, "1")

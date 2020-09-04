@@ -24,6 +24,7 @@ import com.consultantapp.ui.dashboard.home.banner.BannerFragment
 import com.consultantapp.ui.dashboard.home.bookservice.datetime.DateTimeFragment
 import com.consultantapp.ui.dashboard.home.bookservice.location.AddAddressActivity
 import com.consultantapp.ui.dashboard.home.bookservice.registerservice.RegisterServiceFragment
+import com.consultantapp.ui.dashboard.home.bookservice.waiting.DialogAllocatedNurseFragment
 import com.consultantapp.ui.dashboard.home.bookservice.waiting.WaitingAllocationFragment
 import com.consultantapp.ui.dashboard.home.verification.UserVerificationFragment
 import com.consultantapp.ui.dashboard.location.LocationFragment
@@ -195,5 +196,8 @@ abstract class BindingsModule {
 
     @ContributesAndroidInjector
     abstract fun waitingAllocationFragment(): WaitingAllocationFragment
+
+    @ContributesAndroidInjector
+    abstract fun dialogAllocatedNurseFragment(): DialogAllocatedNurseFragment
 
 }

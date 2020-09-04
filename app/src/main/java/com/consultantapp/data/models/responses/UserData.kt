@@ -38,5 +38,5 @@ class UserData : Serializable {
     var insurances: ArrayList<Insurance>? = null
     var custom_fields: ArrayList<Insurance>? = null
 
-    var isApproved = false
+    var isApproved: Boolean? = null
 }

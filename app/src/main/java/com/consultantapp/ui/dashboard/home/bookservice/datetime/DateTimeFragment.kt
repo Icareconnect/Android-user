@@ -154,8 +154,6 @@ class DateTimeFragment : DaggerFragment(), OnTimeSelected {
 
 
                     if (isConnectedToInternet(requireContext(), true)) {
-                        requireActivity().supportFragmentManager.popBackStack()
-                        requireActivity().supportFragmentManager.popBackStack()
 
                         val fragment = WaitingAllocationFragment()
                         val bundle = Bundle()

@@ -346,6 +346,8 @@
     <string name="dual_diagnostic">Dual Diagnostic (Cognitive decline patients)</string>
     <string name="medically_compromised">Medically compromised &amp; complex continu-ing care></string>
     <string name="selected">Selected</string>
+    <string name="allocated_nurse">Allocated Nurse</string>
+    <string name="no_nurse_found">No Nurse found for you according to yur requirements</string>
 
     <array name="home_care">
     <item>@string/palliative_end_of_life_care</item>

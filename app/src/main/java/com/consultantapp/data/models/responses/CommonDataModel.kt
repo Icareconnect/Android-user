@@ -33,6 +33,7 @@ class CommonDataModel {
 
     /*Create Request*/
     var amountNotSufficient: Boolean? = null
+    val doctor_data: UserData? = null
 
     /*Twili*/
     var twilioToken: String? = null

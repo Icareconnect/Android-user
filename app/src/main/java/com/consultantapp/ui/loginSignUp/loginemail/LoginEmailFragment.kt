@@ -1,6 +1,7 @@
 package com.consultantapp.ui.loginSignUp.loginemail
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
 import android.view.LayoutInflater
@@ -17,6 +18,7 @@ import com.consultantapp.data.network.responseUtil.Status
 import com.consultantapp.data.repos.UserRepository
 import com.consultantapp.databinding.FragmentLoginEmailBinding
 import com.consultantapp.ui.LoginViewModel
+import com.consultantapp.ui.dashboard.MainActivity
 import com.consultantapp.ui.loginSignUp.forgotpassword.ForgotPasswordFragment
 import com.consultantapp.ui.loginSignUp.login.LoginFragment
 import com.consultantapp.utils.*
@@ -125,11 +127,14 @@ class LoginEmailFragment : DaggerFragment() {
 
                     prefsManager.save(USER_DATA, it.data)
                     if (userRepository.isUserLoggedIn()) {
-                        /*Connect socket and update token*/
+                        /*Connect socket and update token*//*
                         appSocket.init()
                         userRepository.pushTokenUpdate()
 
                         requireActivity().setResult(Activity.RESULT_OK)
+                        requireActivity().finish()*/
+
+                        startActivity(Intent(requireContext(), MainActivity::class.java))
                         requireActivity().finish()
                     }
 

@@ -22,6 +22,7 @@ import com.consultantapp.data.network.responseUtil.Status
 import com.consultantapp.data.repos.UserRepository
 import com.consultantapp.databinding.FragmentSignupBinding
 import com.consultantapp.ui.LoginViewModel
+import com.consultantapp.ui.dashboard.MainActivity
 import com.consultantapp.ui.loginSignUp.insurance.InsuranceFragment
 import com.consultantapp.ui.loginSignUp.login.LoginFragment
 import com.consultantapp.utils.*
@@ -65,9 +66,9 @@ class SignUpFragment : DaggerFragment(), OnDateSelected {
 
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         if (rootView == null) {
             binding = DataBindingUtil.inflate(inflater, R.layout.fragment_signup, container, false)
@@ -88,10 +89,10 @@ class SignUpFragment : DaggerFragment(), OnDateSelected {
 
         binding.tvTerms.movementMethod = LinkMovementMethod.getInstance()
         binding.tvTerms.setText(
-            setAcceptTerms(
-                requireActivity(),
-                getString(R.string.you_agree_to_our_terms)
-            ), TextView.BufferType.SPANNABLE
+                setAcceptTerms(
+                        requireActivity(),
+                        getString(R.string.you_agree_to_our_terms)
+                ), TextView.BufferType.SPANNABLE
         )
     }
 
@@ -108,10 +109,10 @@ class SignUpFragment : DaggerFragment(), OnDateSelected {
 
             if (!userData?.profile?.dob.isNullOrEmpty())
                 binding.etDob.setText(
-                    DateUtils.dateFormatChange(
-                        DateFormat.DATE_FORMAT,
-                        DateFormat.DATE_FORMAT_SLASH, userData?.profile?.dob ?: ""
-                    )
+                        DateUtils.dateFormatChange(
+                                DateFormat.DATE_FORMAT,
+                                DateFormat.DATE_FORMAT_SLASH, userData?.profile?.dob ?: ""
+                        )
                 )
 
             loadImage(binding.ivPic, userData?.profile_image, R.drawable.ic_profile_placeholder)
@@ -151,8 +152,8 @@ class SignUpFragment : DaggerFragment(), OnDateSelected {
         binding.tvLogin.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
             replaceFragment(
-                requireActivity().supportFragmentManager,
-                LoginFragment(), R.id.container
+                    requireActivity().supportFragmentManager,
+                    LoginFragment(), R.id.container
             )
 
         }
@@ -178,10 +179,10 @@ class SignUpFragment : DaggerFragment(), OnDateSelected {
                 binding.etEmail.showSnackBar(getString(R.string.enter_email))
             }
             (binding.etEmail.text.toString().trim()
-                .isNotEmpty() && !Patterns.EMAIL_ADDRESS.matcher(
-                binding.etEmail.text.toString().trim()
+                    .isNotEmpty() && !Patterns.EMAIL_ADDRESS.matcher(
+                    binding.etEmail.text.toString().trim()
             )
-                .matches()) -> {
+                    .matches()) -> {
                 binding.etEmail.showSnackBar(getString(R.string.enter_correct_email))
             }
             (!isUpdate && binding.etPassword.text.toString().trim().length < 8) -> {
@@ -192,18 +193,18 @@ class SignUpFragment : DaggerFragment(), OnDateSelected {
 
                 val hashMap = HashMap<String, RequestBody>()
                 hashMap["name"] = getRequestBody(binding.etName.text.toString().trim())
-               /* hashMap["dob"] = getRequestBody(
-                    DateUtils.dateFormatChange(
-                        DateFormat.DATE_FORMAT_SLASH,
-                        DateFormat.DATE_FORMAT, binding.etDob.text.toString()
-                    )
-                )
-*/
+                /* hashMap["dob"] = getRequestBody(
+                     DateUtils.dateFormatChange(
+                         DateFormat.DATE_FORMAT_SLASH,
+                         DateFormat.DATE_FORMAT, binding.etDob.text.toString()
+                     )
+                 )
+ */
                 if (fileToUpload != null && fileToUpload?.exists() == true) {
                     hashMap["type"] = getRequestBody("img")
 
                     val body: RequestBody =
-                        RequestBody.create(MediaType.parse("image/jpeg"), fileToUpload)
+                            RequestBody.create(MediaType.parse("image/jpeg"), fileToUpload)
                     hashMap["profile_image\"; fileName=\"" + fileToUpload?.name] = body
                 }
 
@@ -221,7 +222,7 @@ class SignUpFragment : DaggerFragment(), OnDateSelected {
                     else -> {
                         hashMap["email"] = getRequestBody(binding.etEmail.text.toString().trim())
                         hashMap["password"] =
-                            getRequestBody(binding.etPassword.text.toString().trim())
+                                getRequestBody(binding.etPassword.text.toString().trim())
                         hashMap["user_type"] = getRequestBody(APP_TYPE)
                         viewModel.register(hashMap)
                     }
@@ -240,13 +241,8 @@ class SignUpFragment : DaggerFragment(), OnDateSelected {
 
                     prefsManager.save(USER_DATA, it.data)
 
-                    val fragment = LoginFragment()
-                    val bundle = Bundle()
-                    bundle.putBoolean(UPDATE_NUMBER, true)
-                    fragment.arguments = bundle
-
-                    replaceFragment(requireActivity().supportFragmentManager,
-                        fragment, R.id.container)
+                    startActivity(Intent(requireContext(), MainActivity::class.java))
+                    requireActivity().finish()
 
                 }
                 Status.ERROR -> {
@@ -267,21 +263,8 @@ class SignUpFragment : DaggerFragment(), OnDateSelected {
 
                     prefsManager.save(USER_DATA, it.data)
 
-                    requireActivity().setResult(Activity.RESULT_OK)
-
-                    val appSetting = userRepository.getAppSetting()
-                    /*Handle feature keys*/
-                    if (appSetting?.insurance == true || appSetting?.clientFeaturesKeys?.isAddress == true) {
-                        replaceFragment(
-                            requireActivity().supportFragmentManager,
-                            InsuranceFragment(), R.id.container
-                        )
-                    } else {
-                        /*Connect socket and update token*/
-                        appSocket.init()
-                        userRepository.pushTokenUpdate()
-                        requireActivity().finish()
-                    }
+                    startActivity(Intent(requireContext(), MainActivity::class.java))
+                    requireActivity().finish()
                 }
                 Status.ERROR -> {
                     progressDialog.setLoading(false)
@@ -300,18 +283,18 @@ class SignUpFragment : DaggerFragment(), OnDateSelected {
 
     private fun selectImages() {
         FilePickerBuilder.instance
-            .setMaxCount(1)
-            .setActivityTheme(R.style.AppTheme)
-            .setActivityTitle(getString(R.string.select_image))
-            .enableVideoPicker(false)
-            .enableCameraSupport(true)
-            .showGifs(false)
-            .showFolderView(true)
-            .enableSelectAll(false)
-            .enableImagePicker(true)
-            .setCameraPlaceholder(R.drawable.ic_camera)
-            .withOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
-            .pickPhoto(this, AppRequestCode.IMAGE_PICKER)
+                .setMaxCount(1)
+                .setActivityTheme(R.style.AppTheme)
+                .setActivityTitle(getString(R.string.select_image))
+                .enableVideoPicker(false)
+                .enableCameraSupport(true)
+                .showGifs(false)
+                .showFolderView(true)
+                .enableSelectAll(false)
+                .enableImagePicker(true)
+                .setCameraPlaceholder(R.drawable.ic_camera)
+                .withOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+                .pickPhoto(this, AppRequestCode.IMAGE_PICKER)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -321,8 +304,8 @@ class SignUpFragment : DaggerFragment(), OnDateSelected {
             if (requestCode == AppRequestCode.IMAGE_PICKER) {
                 val docPaths = ArrayList<Uri>()
                 docPaths.addAll(
-                    data?.getParcelableArrayListExtra(FilePickerConst.KEY_SELECTED_MEDIA)
-                        ?: emptyList()
+                        data?.getParcelableArrayListExtra(FilePickerConst.KEY_SELECTED_MEDIA)
+                                ?: emptyList()
                 )
 
                 fileToUpload = File(getPathUri(requireContext(), docPaths[0]))
@@ -333,9 +316,9 @@ class SignUpFragment : DaggerFragment(), OnDateSelected {
     }
 
     override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
+            requestCode: Int,
+            permissions: Array<out String>,
+            grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         onRequestPermissionsResult(requestCode, grantResults)
@@ -354,14 +337,14 @@ class SignUpFragment : DaggerFragment(), OnDateSelected {
     @OnNeverAskAgain(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
     fun onNeverAskAgainRationale() {
         PermissionUtils.showAppSettingsDialog(
-            requireContext(), R.string.media_permission
+                requireContext(), R.string.media_permission
         )
     }
 
     @OnPermissionDenied(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
     fun showDeniedForStorage() {
         PermissionUtils.showAppSettingsDialog(
-            requireContext(), R.string.media_permission
+                requireContext(), R.string.media_permission
         )
     }
 }

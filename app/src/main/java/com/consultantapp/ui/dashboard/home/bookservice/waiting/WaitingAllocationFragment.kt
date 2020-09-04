@@ -90,7 +90,7 @@ class WaitingAllocationFragment : DaggerFragment() {
             hashMap["service_for"] = bookService.service_for ?: ""
             hashMap["home_care_req"] = bookService.home_care_req ?: ""
 
-            viewModel.confirmAutoAllocate(hashMap)
+            viewModel.autoAllocate(hashMap)
         }
 
     }
@@ -120,7 +120,8 @@ class WaitingAllocationFragment : DaggerFragment() {
                 Status.SUCCESS -> {
                     progressDialog.setLoading(false)
 
-                    requireActivity().finish()
+                    val fragment = DialogAllocatedNurseFragment(this, it.data?.doctor_data)
+                    fragment.show(requireActivity().supportFragmentManager, fragment.tag)
 
                 }
                 Status.ERROR -> {

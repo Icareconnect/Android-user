@@ -1,6 +1,7 @@
 package com.consultantapp.ui.loginSignUp.verifyotp
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +17,7 @@ import com.consultantapp.data.network.responseUtil.Status
 import com.consultantapp.data.repos.UserRepository
 import com.consultantapp.databinding.FragmentVerifyOtpBinding
 import com.consultantapp.ui.LoginViewModel
+import com.consultantapp.ui.dashboard.MainActivity
 import com.consultantapp.ui.loginSignUp.insurance.InsuranceFragment
 import com.consultantapp.ui.loginSignUp.signup.SignUpFragment
 import com.consultantapp.utils.*
@@ -125,11 +127,14 @@ class VerifyOTPFragment : DaggerFragment() {
 
                     prefsManager.save(USER_DATA, it.data)
                     if (userRepository.isUserLoggedIn()) {
-                        /*Connect socket and update token*/
+                        /*Connect socket and update token*//*
                         appSocket.init()
                         userRepository.pushTokenUpdate()
 
                         requireActivity().setResult(Activity.RESULT_OK)
+                        requireActivity().finish()*/
+
+                        startActivity(Intent(requireContext(), MainActivity::class.java))
                         requireActivity().finish()
                     } else {
                         val fragment = SignUpFragment()
