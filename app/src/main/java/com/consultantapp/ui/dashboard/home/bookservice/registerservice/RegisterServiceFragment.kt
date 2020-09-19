@@ -65,6 +65,7 @@ class RegisterServiceFragment : DaggerFragment() {
     }
 
     private fun initialise() {
+
         binding.cvHomeCare.gone()
         binding.ilNotSelf.gone()
         binding.ilNameOther.gone()
@@ -128,7 +129,7 @@ class RegisterServiceFragment : DaggerFragment() {
             var homeCare = ""
             itemsHomeCare.forEachIndexed { index, filterOption ->
                 if (filterOption.isSelected) {
-                    homeCare += "${filterOption.option_name}, "
+                    homeCare += "${filterOption.option_name},"
                 }
             }
 

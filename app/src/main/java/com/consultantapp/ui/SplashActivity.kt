@@ -4,7 +4,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
-import androidx.core.app.TaskStackBuilder
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.consultantapp.ConsultantUserApplication
@@ -13,9 +12,8 @@ import com.consultantapp.data.network.ApisRespHandler
 import com.consultantapp.data.network.responseUtil.Status
 import com.consultantapp.data.repos.UserRepository
 import com.consultantapp.ui.dashboard.MainActivity
-import com.consultantapp.ui.dashboard.doctor.detail.DoctorDetailActivity
+import com.consultantapp.ui.loginSignUp.SignUpActivity
 import com.consultantapp.utils.*
-import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import dagger.android.support.DaggerAppCompatActivity
 import java.util.*
 import javax.inject.Inject
@@ -41,7 +39,6 @@ class SplashActivity : DaggerAppCompatActivity() {
         setContentView(R.layout.activity_splash)
 
         initialise()
-        listeners()
         bindObservers()
     }
 
@@ -56,10 +53,6 @@ class SplashActivity : DaggerAppCompatActivity() {
         }
     }
 
-
-    private fun listeners() {
-
-    }
 
     private fun bindObservers() {
         viewModel.clientDetails.observe(this, Observer {
@@ -111,7 +104,7 @@ class SplashActivity : DaggerAppCompatActivity() {
                     when (it.data?.update_type) {
                         AppUpdateType.HARD_UPDATE -> hardUpdate()
                         AppUpdateType.SOFT_UPDATE -> softUpdate()
-                        else -> checkDeepLink()
+                        else -> goNormalSteps()
                     }
                 }
                 Status.ERROR -> {
@@ -156,67 +149,22 @@ class SplashActivity : DaggerAppCompatActivity() {
                     }
 
                     override fun onCancelButtonClicked() {
-                        checkDeepLink()
+                        goNormalSteps()
                     }
                 }).show()
     }
 
     private fun goNormalSteps() {
-        startActivity(Intent(this, MainActivity::class.java))
+        if (userRepository.isUserLoggedIn()) {
+            startActivity(Intent(this, MainActivity::class.java))
+        } else {
+            startActivity(Intent(this, SignUpActivity::class.java))
+        }
         finish()
     }
 
     object AppUpdateType {
         const val HARD_UPDATE = 1
         const val SOFT_UPDATE = 2
-    }
-
-
-    private fun checkDeepLink() {
-
-        /*Check if Deep Link*/
-        FirebaseDynamicLinks.getInstance()
-                .getDynamicLink((intent ?: Intent()))
-                .addOnSuccessListener(this) { pendingDynamicLinkData ->
-                    // Get deep link from result (may be null if no link is found)
-                    val deepLink: Uri?
-                    if (pendingDynamicLinkData != null) {
-                        deepLink = pendingDynamicLinkData.link
-                        openHomeActivity(deepLink)
-                    } else {
-                        openHomeActivity(null)
-                    }
-                }
-                .addOnFailureListener(this) { _ ->
-                    openHomeActivity(null)
-                }
-    }
-
-    private fun openHomeActivity(deepLink: Uri?) {
-        val stackBuilder = TaskStackBuilder.create(this)
-
-        stackBuilder.addParentStack(MainActivity::class.java)
-        val homeIntent = Intent(this, MainActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        stackBuilder.addNextIntent(homeIntent)
-
-        if (deepLink?.getQueryParameter("id") != null) {
-            var intent = Intent(this, DoctorDetailActivity::class.java)
-            if (deepLink.toString().contains(DeepLink.USER_PROFILE)) {
-                intent = Intent(this, DoctorDetailActivity::class.java)
-                intent.putExtra(DoctorDetailActivity.DOCTOR_ID, deepLink.getQueryParameter("id"))
-            }
-            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-            stackBuilder.addNextIntent(intent)
-        }
-
-        stackBuilder.startActivities()
-        finish()
-    }
-
-    override fun onResume() {
-        super.onResume()
-
     }
 }

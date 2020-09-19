@@ -12,7 +12,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.consultantapp.R
 import com.consultantapp.databinding.FragmentLocationBinding
-import com.consultantapp.utils.AppRequestCode.LOCATION_PERMISSION_ID
 import com.consultantapp.utils.PermissionUtils
 import com.consultantapp.utils.PrefsManager
 import dagger.android.support.DaggerFragment

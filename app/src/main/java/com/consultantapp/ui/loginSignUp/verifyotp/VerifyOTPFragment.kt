@@ -1,6 +1,5 @@
 package com.consultantapp.ui.loginSignUp.verifyotp
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -18,14 +17,13 @@ import com.consultantapp.data.repos.UserRepository
 import com.consultantapp.databinding.FragmentVerifyOtpBinding
 import com.consultantapp.ui.LoginViewModel
 import com.consultantapp.ui.dashboard.MainActivity
-import com.consultantapp.ui.loginSignUp.insurance.InsuranceFragment
 import com.consultantapp.ui.loginSignUp.signup.SignUpFragment
 import com.consultantapp.utils.*
 import com.consultantapp.utils.dialogs.ProgressDialog
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
-class VerifyOTPFragment : DaggerFragment() {
+class   VerifyOTPFragment : DaggerFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -127,12 +125,6 @@ class VerifyOTPFragment : DaggerFragment() {
 
                     prefsManager.save(USER_DATA, it.data)
                     if (userRepository.isUserLoggedIn()) {
-                        /*Connect socket and update token*//*
-                        appSocket.init()
-                        userRepository.pushTokenUpdate()
-
-                        requireActivity().setResult(Activity.RESULT_OK)
-                        requireActivity().finish()*/
 
                         startActivity(Intent(requireContext(), MainActivity::class.java))
                         requireActivity().finish()
@@ -186,20 +178,9 @@ class VerifyOTPFragment : DaggerFragment() {
                     prefsManager.save(USER_DATA, it.data)
 
                     if (userRepository.isUserLoggedIn()) {
-                        /*Connect socket and update token*/
-                        appSocket.init()
-                        userRepository.pushTokenUpdate()
 
-                        requireActivity().setResult(Activity.RESULT_OK)
+                        startActivity(Intent(requireContext(), MainActivity::class.java))
                         requireActivity().finish()
-                    } else {
-
-                        val appSetting = userRepository.getAppSetting()
-                        /*Handle feature keys*/
-                        if (appSetting?.insurance == true || appSetting?.clientFeaturesKeys?.isAddress == true) {
-                            replaceFragment(requireActivity().supportFragmentManager,
-                                    InsuranceFragment(), R.id.container)
-                        }
                     }
 
                 }

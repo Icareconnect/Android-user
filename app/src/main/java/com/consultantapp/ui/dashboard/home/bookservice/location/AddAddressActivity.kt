@@ -13,13 +13,16 @@ import android.os.Bundle
 import android.view.MotionEvent
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import com.consultantapp.R
 import com.consultantapp.data.models.requests.SaveAddress
 import com.consultantapp.data.repos.UserRepository
 import com.consultantapp.databinding.ActivityAddAddressBinding
 import com.consultantapp.utils.*
+import com.consultantapp.utils.PermissionUtils
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.libraries.places.widget.Autocomplete
@@ -28,9 +31,6 @@ import permissions.dispatcher.*
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
-import com.consultantapp.R
-import com.consultantapp.utils.PermissionUtils
-import com.google.android.gms.maps.SupportMapFragment
 
 @RuntimePermissions
 class AddAddressActivity : DaggerAppCompatActivity(), GoogleMap.OnCameraChangeListener, OnMapReadyCallback {

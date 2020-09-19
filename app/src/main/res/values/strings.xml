@@ -4,10 +4,8 @@
     <!--Facebook keys-->
     <string name="facebook_app_id">614826522700049</string>
     <string name="fb_login_protocol_scheme">fb614826522700049</string>
-    <string name="google_places_api_key" translatable="false">AIzaSyA6HPRyKHLgPK4WpkqP3L6N_AYc5BtI_uU</string>
+    <string name="google_places_api_key" translatable="false">AIzaSyCWRLStt_5Kmgd877p8o_fPM2W5pdZ4WbU</string>
 
-    <!--Google-->
-    <string name="server_client_id">952614479078-892v5fage0p4pguerkht8krnpoo55dq3.apps.googleusercontent.com</string>
 
     <string name="allow">ALLOW</string>
     <string name="deny">Deny</string>
@@ -287,11 +285,11 @@
     <string name="buy_health_packages">Buy Health Packages</string>
     <string name="choose_package">Choose Packages</string>
 
-    <string name="you_need">You need a Intelligent Care</string>
-    <string name="account_to_continue">Connect account to continue</string>
+    <string name="create_a_account">Create a Intelligent Care\nConnect account to continue</string>
     <string name="signup_with_email">Sign Up with Email</string>
     <string name="or">or</string>
     <string name="login_care_connect">Login to Intelligent Care Connect</string>
+    <string name="sign_up_care_connect">Sign up to Intelligent Care Connect</string>
     <string name="login_with">Login with</string>
     <string name="full_name">Full name</string>
     <string name="search_for_service">Search for service</string>
@@ -350,11 +348,11 @@
     <string name="no_nurse_found">No Nurse found for you according to yur requirements</string>
 
     <array name="home_care">
-    <item>@string/palliative_end_of_life_care</item>
-    <item>@string/woundcare</item>
-    <item>@string/dual_diagnostic</item>
-    <item>@string/medically_compromised</item>
-    <item>@string/other</item>
+        <item>@string/palliative_end_of_life_care</item>
+        <item>@string/woundcare</item>
+        <item>@string/dual_diagnostic</item>
+        <item>@string/medically_compromised</item>
+        <item>@string/other</item>
     </array>
 
 </resources>

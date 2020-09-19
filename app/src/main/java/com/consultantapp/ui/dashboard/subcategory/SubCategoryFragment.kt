@@ -28,7 +28,6 @@ import com.consultantapp.ui.dashboard.doctor.listing.DoctorListActivity
 import com.consultantapp.ui.dashboard.home.BannerViewModel
 import com.consultantapp.ui.dashboard.home.banner.BannerFragment
 import com.consultantapp.ui.drawermenu.DrawerActivity
-import com.consultantapp.ui.loginSignUp.welcome.WelcomeFragment
 import com.consultantapp.utils.*
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
@@ -223,16 +222,11 @@ class SubCategoryFragment : DaggerFragment() {
                         .putExtra(CATEGORY_PARENT_ID, item))
             }
             requireActivity().intent.getBooleanExtra(CLASSES_PAGE, false) -> {
-                if (userRepository.getUser() == null) {
-                    val fragment = WelcomeFragment()
-                    fragment.show(requireActivity().supportFragmentManager, fragment.tag)
-                } else {
                     startActivity(
                         Intent(requireContext(), DrawerActivity::class.java)
                             .putExtra(PAGE_TO_OPEN, DrawerActivity.CLASSES)
                             .putExtra(CATEGORY_PARENT_ID, item)
                     )
-                }
             }
             else -> {
                 startActivity(Intent(requireContext(), DoctorListActivity::class.java)

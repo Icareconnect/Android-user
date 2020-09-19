@@ -1,11 +1,9 @@
 package com.consultantapp.ui.dashboard.home.bookservice.waiting
 
 import android.os.Bundle
-import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -14,8 +12,6 @@ import com.consultantapp.data.models.requests.BookService
 import com.consultantapp.data.network.ApisRespHandler
 import com.consultantapp.data.network.responseUtil.Status
 import com.consultantapp.data.repos.UserRepository
-import com.consultantapp.databinding.FragmentRegisterServiceBinding
-import com.consultantapp.databinding.FragmentUserVerificationBinding
 import com.consultantapp.databinding.FragmentWaitingAllocationBinding
 import com.consultantapp.ui.dashboard.home.bookservice.AllocateDoctorViewModel
 import com.consultantapp.utils.*

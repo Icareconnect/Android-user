@@ -40,7 +40,7 @@ import com.consultantapp.R
 import com.consultantapp.data.models.responses.UserData
 import com.consultantapp.data.network.Config
 import com.consultantapp.data.repos.UserRepository
-import com.consultantapp.ui.dashboard.MainActivity
+import com.consultantapp.ui.loginSignUp.SignUpActivity
 import com.consultantapp.ui.webview.WebViewActivity
 import com.consultantapp.utils.DateUtils.dateFormatChange
 import com.consultantapp.utils.dialogs.ProgressDialog
@@ -110,10 +110,8 @@ fun logoutUser(activity: Activity?, prefsManager: PrefsManager) {
     prefsManager.remove(USER_DATA)
 
     ActivityCompat.finishAffinity(activity)
-    activity.startActivity(
-        Intent(activity, MainActivity::class.java)
-            .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-    )
+    activity.startActivity(Intent(activity, SignUpActivity::class.java)
+            .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP))
 
     activity.setResult(Activity.RESULT_CANCELED)
 }

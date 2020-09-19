@@ -26,7 +26,6 @@ import androidx.navigation.fragment.NavHostFragment
 import com.consultantapp.R
 import com.consultantapp.data.repos.UserRepository
 import com.consultantapp.ui.dashboard.MainActivity
-import com.consultantapp.ui.loginSignUp.welcome.WelcomeFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 /**
@@ -93,8 +92,6 @@ fun BottomNavigationView.setupWithNavController(
             false
         } else if (!userRepository.isUserLoggedIn()) {
             if (item.itemId != R.id.home) {
-                val fragment = WelcomeFragment()
-                fragment.show(activity.supportFragmentManager, fragment.tag)
             }
             false
         } else {

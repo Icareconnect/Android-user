@@ -19,7 +19,6 @@ import com.consultantapp.ui.dashboard.doctor.detail.prefrence.PrefrenceFragment
 import com.consultantapp.ui.dashboard.doctor.listing.DoctorListActivity
 import com.consultantapp.ui.dashboard.doctor.schedule.ScheduleFragment
 import com.consultantapp.ui.dashboard.home.HomeFragment
-import com.consultantapp.ui.dashboard.home.HomeMainFragment
 import com.consultantapp.ui.dashboard.home.banner.BannerFragment
 import com.consultantapp.ui.dashboard.home.bookservice.datetime.DateTimeFragment
 import com.consultantapp.ui.dashboard.home.bookservice.location.AddAddressActivity
@@ -30,6 +29,8 @@ import com.consultantapp.ui.dashboard.home.verification.UserVerificationFragment
 import com.consultantapp.ui.dashboard.location.LocationFragment
 import com.consultantapp.ui.dashboard.settings.SettingsFragment
 import com.consultantapp.ui.dashboard.subcategory.SubCategoryFragment
+import com.consultantapp.ui.dashboard.subscription.SubscriptionDetailFragment
+import com.consultantapp.ui.dashboard.subscription.SubscriptionListFragment
 import com.consultantapp.ui.drawermenu.DrawerActivity
 import com.consultantapp.ui.drawermenu.addmoney.AddCardFragment
 import com.consultantapp.ui.drawermenu.addmoney.AddMoneyActivity
@@ -46,8 +47,6 @@ import com.consultantapp.ui.loginSignUp.loginemail.LoginEmailFragment
 import com.consultantapp.ui.loginSignUp.signup.SignUpFragment
 import com.consultantapp.ui.loginSignUp.verifyotp.VerifyOTPFragment
 import com.consultantapp.ui.loginSignUp.welcome.WelcomeFragment
-import com.consultantapp.ui.dashboard.subscription.SubscriptionDetailFragment
-import com.consultantapp.ui.dashboard.subscription.SubscriptionListFragment
 import com.consultantapp.ui.webview.WebViewActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -134,8 +133,6 @@ abstract class BindingsModule {
     @ContributesAndroidInjector
     abstract fun homeFragment(): HomeFragment
 
-    @ContributesAndroidInjector
-    abstract fun homeMainFragment(): HomeMainFragment
 
     @ContributesAndroidInjector
     abstract fun locationFragment(): LocationFragment

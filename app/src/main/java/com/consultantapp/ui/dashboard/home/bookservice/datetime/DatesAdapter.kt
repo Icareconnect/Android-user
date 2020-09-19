@@ -8,11 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.consultantapp.R
 import com.consultantapp.data.models.requests.DatesAvailability
 import com.consultantapp.databinding.ItemDatesBinding
-import com.consultantapp.ui.dashboard.doctor.schedule.ScheduleFragment
-import com.consultantapp.utils.DateFormat.DATE_MON_YEAR
 import com.consultantapp.utils.DateFormat.DATE_ONLY
 import com.consultantapp.utils.DateUtils.dateFormatFromMillis
-import com.consultantapp.utils.hideShowView
 import com.consultantapp.utils.invisible
 import com.consultantapp.utils.visible
 import java.util.*

@@ -9,7 +9,11 @@ import com.consultantapp.databinding.ActivityContainerBinding
 import com.consultantapp.ui.loginSignUp.login.LoginFragment
 import com.consultantapp.ui.loginSignUp.loginemail.LoginEmailFragment
 import com.consultantapp.ui.loginSignUp.signup.SignUpFragment
-import com.consultantapp.utils.*
+import com.consultantapp.ui.loginSignUp.welcome.WelcomeFragment
+import com.consultantapp.utils.LocaleHelper
+import com.consultantapp.utils.PrefsManager
+import com.consultantapp.utils.UPDATE_PROFILE
+import com.consultantapp.utils.addFragment
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
@@ -36,7 +40,7 @@ class SignUpActivity : DaggerAppCompatActivity() {
 
         LocaleHelper.setLocale(this, userRepository.getUserLanguage(), prefsManager)
 
-        var fragment = Fragment()
+        val fragment: Fragment
         val bundle = Bundle()
 
         when {
@@ -51,6 +55,9 @@ class SignUpActivity : DaggerAppCompatActivity() {
             }
             intent.hasExtra(EXTRA_SIGNUP_EMAIL) -> {
                 fragment = SignUpFragment()
+            }
+            else ->{
+                fragment = WelcomeFragment()
             }
         }
         if (intent.hasExtra(UPDATE_PROFILE))

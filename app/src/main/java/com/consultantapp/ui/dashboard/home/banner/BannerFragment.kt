@@ -18,7 +18,6 @@ import com.consultantapp.ui.dashboard.doctor.listing.DoctorListActivity
 import com.consultantapp.ui.dashboard.home.HomeFragment
 import com.consultantapp.ui.dashboard.subcategory.SubCategoryFragment
 import com.consultantapp.ui.drawermenu.DrawerActivity
-import com.consultantapp.ui.loginSignUp.welcome.WelcomeFragment
 import com.consultantapp.utils.PAGE_TO_OPEN
 import com.consultantapp.utils.getHtmlText
 import com.consultantapp.utils.loadImage
@@ -72,14 +71,10 @@ class BannerFragment(private val fragment: Fragment?, private val banner: Banner
                         }
                     }
                     BannerType.CLASS_ -> {
-                        if (userRepository.getUser() == null) {
-                            val fragment = WelcomeFragment()
-                            fragment.show(requireActivity().supportFragmentManager, fragment.tag)
-                        } else {
+
                             startActivity(Intent(requireContext(), DrawerActivity::class.java)
                                     .putExtra(PAGE_TO_OPEN, DrawerActivity.CLASSES_DETAILS)
                                     .putExtra(CLASS_ID, banner.class_id))
-                        }
                     }
                 }
             }

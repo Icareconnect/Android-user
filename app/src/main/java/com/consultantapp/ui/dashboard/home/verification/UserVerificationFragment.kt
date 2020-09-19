@@ -5,20 +5,17 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
-import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.consultantapp.R
 import com.consultantapp.data.network.PushType
 import com.consultantapp.data.repos.UserRepository
-import com.consultantapp.databinding.FragmentRegisterServiceBinding
 import com.consultantapp.databinding.FragmentUserVerificationBinding
-import com.consultantapp.utils.*
+import com.consultantapp.utils.PrefsManager
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 

@@ -21,7 +21,6 @@ import com.consultantapp.ui.dashboard.doctor.DoctorActionActivity
 import com.consultantapp.ui.dashboard.doctor.schedule.ScheduleFragment.Companion.SERVICE_ID
 import com.consultantapp.ui.drawermenu.DrawerActivity
 import com.consultantapp.ui.drawermenu.DrawerActivity.Companion.WALLET
-import com.consultantapp.ui.loginSignUp.welcome.WelcomeFragment
 import com.consultantapp.utils.*
 import com.consultantapp.utils.dialogs.ProgressDialog
 import dagger.android.support.DaggerAppCompatActivity
@@ -267,9 +266,6 @@ class DoctorDetailActivity : DaggerAppCompatActivity() {
         serviceSelected = item
         if (userRepository.isUserLoggedIn()) {
             bottomOption(item)
-        } else {
-            val fragment = WelcomeFragment()
-            fragment.show(supportFragmentManager, fragment.tag)
         }
     }
 

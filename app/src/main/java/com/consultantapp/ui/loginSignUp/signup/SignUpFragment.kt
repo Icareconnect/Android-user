@@ -23,7 +23,6 @@ import com.consultantapp.data.repos.UserRepository
 import com.consultantapp.databinding.FragmentSignupBinding
 import com.consultantapp.ui.LoginViewModel
 import com.consultantapp.ui.dashboard.MainActivity
-import com.consultantapp.ui.loginSignUp.insurance.InsuranceFragment
 import com.consultantapp.ui.loginSignUp.login.LoginFragment
 import com.consultantapp.utils.*
 import com.consultantapp.utils.PermissionUtils

@@ -16,6 +16,7 @@ import com.consultantapp.databinding.FragmentLoginBinding
 import com.consultantapp.ui.LoginViewModel
 import com.consultantapp.ui.loginSignUp.loginemail.LoginEmailFragment
 import com.consultantapp.ui.loginSignUp.verifyotp.VerifyOTPFragment
+import com.consultantapp.ui.loginSignUp.welcome.WelcomeFragment.Companion.EXTRA_SIGNUP
 import com.consultantapp.utils.*
 import com.consultantapp.utils.dialogs.ProgressDialog
 import dagger.android.support.DaggerFragment
@@ -55,7 +56,14 @@ class LoginFragment : DaggerFragment() {
         progressDialog = ProgressDialog(requireActivity())
 
         binding.tvTerms.movementMethod = LinkMovementMethod.getInstance()
-        binding.tvTerms.setText(setAcceptTerms(requireActivity(),getString(R.string.you_agree_to_our_terms)), TextView.BufferType.SPANNABLE)
+        binding.tvTerms.setText(setAcceptTerms(requireActivity(), getString(R.string.you_agree_to_our_terms)), TextView.BufferType.SPANNABLE)
+
+        if (arguments?.containsKey(EXTRA_SIGNUP) == true) {
+            binding.tvTitle.text = getString(R.string.sign_up_care_connect)
+
+            binding.tvLoginScreen.gone()
+            binding.tvLoginTitle.gone()
+        }
     }
 
     private fun listeners() {
@@ -82,7 +90,7 @@ class LoginFragment : DaggerFragment() {
         binding.tvLoginScreen.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
             replaceFragment(requireActivity().supportFragmentManager,
-                LoginEmailFragment(), R.id.container)
+                    LoginEmailFragment(), R.id.container)
         }
     }
 

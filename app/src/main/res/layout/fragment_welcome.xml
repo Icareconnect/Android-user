@@ -6,154 +6,120 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/dp_32"
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/dp_36"
             app:layout_constraintBottom_toTopOf="@+id/viewLogin"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/startGuideLine"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_begin="@dimen/dp_24" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:orientation="vertical">
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/endGuideLine"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_end="@dimen/dp_24" />
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/startGuideLine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_begin="@dimen/dp_24" />
 
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/ivCross"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_20"
-                android:layout_marginTop="@dimen/dp_36"
-                android:background="?android:attr/selectableItemBackground"
-                android:clickable="true"
-                android:focusable="true"
-                android:src="@drawable/ic_cross"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/ivInfo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_36"
-                android:layout_marginEnd="@dimen/dp_20"
-                android:background="?android:attr/selectableItemBackground"
-                android:clickable="true"
-                android:focusable="true"
-                android:src="@drawable/ic_mark"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/endGuideLine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_end="@dimen/dp_24" />
 
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_32"
-                android:fontFamily="@font/sans_regular"
-                android:gravity="center"
-                android:text="@string/you_need"
-                android:textColor="@color/colorBlack"
-                android:textSize="@dimen/sp_18"
-                app:layout_constraintEnd_toEndOf="@id/endGuideLine"
-                app:layout_constraintStart_toStartOf="@id/startGuideLine"
-                app:layout_constraintTop_toBottomOf="@+id/ivCross" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/sans_regular"
+                    android:gravity="center"
+                    android:text="@string/create_a_account"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/sp_18"
+                    app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+                    app:layout_constraintStart_toStartOf="@id/startGuideLine"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvTitleBottom"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/sans_regular"
-                android:gravity="center"
-                android:text="@string/account_to_continue"
-                android:textColor="@color/colorBlack"
-                android:textSize="@dimen/sp_18"
-                app:layout_constraintEnd_toEndOf="@id/endGuideLine"
-                app:layout_constraintStart_toStartOf="@id/startGuideLine"
-                app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvSignUpMobile"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_38"
-                android:background="@drawable/drawable_bg_theme"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:gravity="center"
-                android:padding="@dimen/dp_8"
-                android:text="@string/signup_with_phone_number"
-                android:textAppearance="@style/Toolbar.LoginButton"
-                android:textSize="@dimen/sp_14"
-                android:textColor="@color/colorWhite"
-                app:layout_constraintEnd_toEndOf="@id/endGuideLine"
-                app:layout_constraintStart_toStartOf="@id/startGuideLine"
-                app:layout_constraintTop_toBottomOf="@+id/tvTitleBottom" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSignUpMobile"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_38"
+                    android:background="@drawable/drawable_bg_theme"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:padding="@dimen/dp_8"
+                    android:text="@string/signup_with_phone_number"
+                    android:textAppearance="@style/Toolbar.LoginButton"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/sp_14"
+                    app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+                    app:layout_constraintStart_toStartOf="@id/startGuideLine"
+                    app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
 
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvOr"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/or"
-                android:alpha="0.4"
-                android:fontFamily="@font/sans_bold"
-                android:textSize="@dimen/sp_14"
-                android:textColor="@color/textColor"
-                android:layout_marginTop="@dimen/dp_32"
-                app:layout_constraintEnd_toEndOf="@id/endGuideLine"
-                app:layout_constraintStart_toStartOf="@id/startGuideLine"
-                app:layout_constraintTop_toBottomOf="@+id/tvSignUpMobile" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvOr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_32"
+                    android:alpha="0.4"
+                    android:fontFamily="@font/sans_bold"
+                    android:text="@string/or"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/sp_14"
+                    app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+                    app:layout_constraintStart_toStartOf="@id/startGuideLine"
+                    app:layout_constraintTop_toBottomOf="@+id/tvSignUpMobile" />
 
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvSignUpEmail"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_32"
-                android:background="@drawable/drawable_bg_theme"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:gravity="center"
-                android:padding="@dimen/dp_8"
-                android:text="@string/signup_with_email"
-                android:textSize="@dimen/sp_14"
-                android:textAppearance="@style/Toolbar.LoginButton"
-                android:textColor="@color/colorWhite"
-                app:layout_constraintEnd_toEndOf="@id/endGuideLine"
-                app:layout_constraintStart_toStartOf="@id/startGuideLine"
-                app:layout_constraintTop_toBottomOf="@+id/tvOr" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSignUpEmail"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_32"
+                    android:background="@drawable/drawable_bg_theme"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:padding="@dimen/dp_8"
+                    android:text="@string/signup_with_email"
+                    android:textAppearance="@style/Toolbar.LoginButton"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/sp_14"
+                    app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+                    app:layout_constraintStart_toStartOf="@id/startGuideLine"
+                    app:layout_constraintTop_toBottomOf="@+id/tvOr" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvTerms"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_24"
-                android:fontFamily="@font/sans_regular"
-                android:gravity="center"
-                android:text="@string/you_agree_to_our_terms"
-                android:textColor="@color/textColor"
-                android:textSize="@dimen/sp_14"
-                app:layout_constraintEnd_toEndOf="@id/endGuideLine"
-                app:layout_constraintStart_toStartOf="@id/startGuideLine"
-                app:layout_constraintTop_toBottomOf="@id/tvSignUpEmail" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvTerms"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_24"
+                    android:fontFamily="@font/sans_regular"
+                    android:gravity="center"
+                    android:text="@string/you_agree_to_our_terms"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/sp_14"
+                    app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+                    app:layout_constraintStart_toStartOf="@id/startGuideLine"
+                    app:layout_constraintTop_toBottomOf="@id/tvSignUpEmail" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
 
         <View
             android:id="@+id/viewLogin"
@@ -173,7 +139,7 @@
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
-            android:fontFamily="@font/sans_regular"
+            android:fontFamily="@font/circular_bold"
             android:padding="@dimen/dp_4"
             android:text="@string/already_have_an_account"
             android:textAppearance="@style/Toolbar.LoginButton"
@@ -193,7 +159,7 @@
             android:background="?android:attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
-            android:fontFamily="@font/sans_regular"
+            android:fontFamily="@font/circular_bold"
             android:padding="@dimen/dp_4"
             android:text="@string/login"
             android:textColor="@color/colorPrimary"

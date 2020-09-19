@@ -13,8 +13,8 @@ android {
         applicationId "com.intely"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 3
-        versionName "1.0.2"
+        versionCode 1
+        versionName "1.0.0"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
@@ -22,15 +22,15 @@ android {
     }
     signingConfigs {
         debug {
-            storeFile file("consultapp.jks")
-            keyAlias "consultapp"
+            storeFile file("intely.jks")
+            keyAlias "Intely"
             keyPassword "codebrew"
             storePassword "codebrew"
         }
 
         release {
-            storeFile file("consultapp.jks")
-            keyAlias "consultapp"
+            storeFile file("intely.jks")
+            keyAlias "Intely"
             keyPassword "codebrew"
             storePassword "codebrew"
         }
@@ -97,9 +97,9 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.core:core-ktx:1.3.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.core:core-ktx:1.3.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.navigation:navigation-fragment:2.3.0'
     implementation 'androidx.navigation:navigation-ui:2.3.0'
@@ -107,8 +107,8 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.0'
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.0'
     testImplementation 'junit:junit:4.13'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     /*
 *LIFECYCLE COMPONENTS
@@ -122,19 +122,19 @@ dependencies {
     /*
     *COUNTRY CODE PICKER
     * */
-    implementation 'com.hbb20:ccp:2.3.2'
+    implementation 'com.hbb20:ccp:2.4.0'
 
 
     /*
     * ANDROID SUPPORT
     * */
-    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
 
     /*
    * MATERIAL COMPONENTS
    * */
-    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'com.google.android.material:material:1.2.1'
 
     /*
   * KOTLIN
@@ -179,13 +179,13 @@ dependencies {
     implementation "com.jakewharton.timber:timber:4.7.1"
 
     /*Firebase*/
-    implementation 'com.google.firebase:firebase-messaging:20.2.1'
-    implementation 'com.google.firebase:firebase-core:17.4.3'
-    implementation 'com.google.firebase:firebase-analytics:17.4.3'
+    implementation 'com.google.firebase:firebase-messaging:20.2.4'
+    implementation 'com.google.firebase:firebase-core:17.5.0'
+    implementation 'com.google.firebase:firebase-analytics-ktx:17.5.0'
     implementation 'com.google.firebase:firebase-dynamic-links-ktx:19.1.0'
 
     // Add the Firebase Crashlytics dependency.
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
+    implementation 'com.google.firebase:firebase-crashlytics-ktx:17.2.1'
 
 
     /*
@@ -193,14 +193,10 @@ dependencies {
     * */
     implementation 'com.makeramen:roundedimageview:2.3.0'
 
-    /*
-* FACEBOOK
-* */
-    implementation 'com.facebook.android:facebook-android-sdk:5.0.1'
 
     //Google sign in dependency
-    implementation 'com.google.android.gms:play-services-auth:18.0.0'
-    implementation 'com.google.firebase:firebase-auth:19.3.1'
+    implementation 'com.google.android.gms:play-services-auth:18.1.0'
+    implementation 'com.google.firebase:firebase-auth:19.4.0'
     implementation 'com.google.android.gms:play-services-location:17.0.0'
     implementation 'com.google.android.libraries.places:places:2.3.0'
 

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.consultantapp.R
 import com.consultantapp.data.models.requests.BookService
@@ -16,13 +17,11 @@ import com.consultantapp.databinding.FragmentDateTimeBinding
 import com.consultantapp.ui.dashboard.home.bookservice.AllocateDoctorViewModel
 import com.consultantapp.ui.dashboard.home.bookservice.waiting.WaitingAllocationFragment
 import com.consultantapp.utils.*
-import androidx.lifecycle.Observer
 import com.consultantapp.utils.dialogs.ProgressDialog
 import dagger.android.support.DaggerFragment
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
-import kotlin.collections.HashMap
 
 class DateTimeFragment : DaggerFragment(), OnTimeSelected {
 

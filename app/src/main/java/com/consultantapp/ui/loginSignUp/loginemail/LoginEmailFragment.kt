@@ -1,6 +1,5 @@
 package com.consultantapp.ui.loginSignUp.loginemail
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
@@ -127,12 +126,6 @@ class LoginEmailFragment : DaggerFragment() {
 
                     prefsManager.save(USER_DATA, it.data)
                     if (userRepository.isUserLoggedIn()) {
-                        /*Connect socket and update token*//*
-                        appSocket.init()
-                        userRepository.pushTokenUpdate()
-
-                        requireActivity().setResult(Activity.RESULT_OK)
-                        requireActivity().finish()*/
 
                         startActivity(Intent(requireContext(), MainActivity::class.java))
                         requireActivity().finish()

@@ -23,7 +23,6 @@ import com.consultantapp.ui.dashboard.CategoriesAdapter
 import com.consultantapp.ui.dashboard.subcategory.SubCategoryFragment
 import com.consultantapp.ui.dashboard.subcategory.SubCategoryFragment.Companion.CLASSES_PAGE
 import com.consultantapp.ui.drawermenu.DrawerActivity
-import com.consultantapp.ui.loginSignUp.welcome.WelcomeFragment
 import com.consultantapp.utils.*
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
@@ -160,21 +159,17 @@ class CategoriesFragment : DaggerFragment() {
 
 
     fun clickItem(item: Categories?) {
-        when {
-            userRepository.getUser() == null -> {
-                val fragment = WelcomeFragment()
-                fragment.show(requireActivity().supportFragmentManager, fragment.tag)
-            }
-            item?.is_subcategory == true -> {
+        when (item?.is_subcategory) {
+            true -> {
                 startActivity(Intent(requireContext(), DrawerActivity::class.java)
-                        .putExtra(PAGE_TO_OPEN, DrawerActivity.SUB_CATEGORY)
-                        .putExtra(CLASSES_PAGE, true)
-                        .putExtra(SubCategoryFragment.CATEGORY_PARENT_ID, item))
+                    .putExtra(PAGE_TO_OPEN, DrawerActivity.SUB_CATEGORY)
+                    .putExtra(CLASSES_PAGE, true)
+                    .putExtra(SubCategoryFragment.CATEGORY_PARENT_ID, item))
             }
             else -> {
                 startActivity(Intent(requireContext(), DrawerActivity::class.java)
-                        .putExtra(PAGE_TO_OPEN, DrawerActivity.CLASSES)
-                        .putExtra(SubCategoryFragment.CATEGORY_PARENT_ID, item))
+                    .putExtra(PAGE_TO_OPEN, DrawerActivity.CLASSES)
+                    .putExtra(SubCategoryFragment.CATEGORY_PARENT_ID, item))
             }
         }
     }
