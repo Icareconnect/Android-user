@@ -20,9 +20,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import com.consultantapp.R
+import com.consultantapp.data.models.requests.SaveAddress
 import com.consultantapp.data.repos.UserRepository
 import com.consultantapp.databinding.ActivityMainBinding
 import com.consultantapp.ui.LoginViewModel
+import com.consultantapp.ui.dashboard.home.HomeFragment
 import com.consultantapp.ui.drawermenu.DrawerActivity
 import com.consultantapp.utils.*
 import com.consultantapp.utils.AppRequestCode.LOCATION_PERMISSION_ID
@@ -137,7 +139,7 @@ class MainActivity : DaggerAppCompatActivity() {
             if (isLocationEnabled()) {
 
                 mFusedLocationClient.lastLocation.addOnCompleteListener(this) { task ->
-                    var location: Location? = task.result
+                    val location: Location? = task.result
                     if (location == null) {
                         requestNewLocationData()
                     } else {
@@ -156,7 +158,7 @@ class MainActivity : DaggerAppCompatActivity() {
 
     @SuppressLint("MissingPermission")
     private fun requestNewLocationData() {
-        var mLocationRequest = LocationRequest()
+        val mLocationRequest = LocationRequest()
         mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         mLocationRequest.interval = 0
         mLocationRequest.fastestInterval = 0
@@ -171,13 +173,13 @@ class MainActivity : DaggerAppCompatActivity() {
 
     private val mLocationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
-            var mLastLocation: Location = locationResult.lastLocation
+            val mLastLocation: Location = locationResult.lastLocation
             getLocationName(mLastLocation.latitude, mLastLocation.longitude)
         }
     }
 
     private fun isLocationEnabled(): Boolean {
-        var locationManager: LocationManager =
+        val locationManager: LocationManager =
                 getSystemService(Context.LOCATION_SERVICE) as LocationManager
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
                 LocationManager.NETWORK_PROVIDER
@@ -227,14 +229,22 @@ class MainActivity : DaggerAppCompatActivity() {
                         addresses[0].getAddressLine(1) != null -> addresses[0].getAddressLine(
                                 1)
                         addresses[0].featureName == null -> addresses[0].adminArea
-                        else -> String.format(
-                                "%s, %s",
-                                addresses[0].featureName,
-                                addresses[0].locality)
+                        else -> String.format("%s, %s", addresses[0].featureName, addresses[0].locality)
                     }
                 }
 
-                //( as HomeFragment.setLocation(locationName)
+                /*Save Address*/
+                val address = SaveAddress()
+                address.locationName = locationName
+                address.location = ArrayList()
+                address.location?.add(lng)
+                address.location?.add(lat)
+
+                prefsManager.save(USER_ADDRESS, address)
+
+                val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+                val homeFragment = navHostFragment?.childFragmentManager?.fragments?.get(0) as HomeFragment
+                homeFragment.setLocation(locationName)
             } catch (e: Exception) {
             }
         }
@@ -245,25 +255,6 @@ class MainActivity : DaggerAppCompatActivity() {
         try {
             if (resultCode == Activity.RESULT_OK) {
                 when (requestCode) {
-                    AppRequestCode.AUTOCOMPLETE_REQUEST_CODE -> {
-                        data?.let {
-                            val place = Autocomplete.getPlaceFromIntent(it)
-
-                            //binding.itemMain.tvLocation.text = getAddress(place)
-
-                            Log.i("Place===", "Place: " + place.name + ", " + place.id)
-
-                            /*  val address = SaveAddress()
-                              address.locationName = getAddress(place)
-                              address.location = ArrayList()
-                              address.location?.add(place.latLng?.longitude ?: 0.0)
-                              address.location?.add(place.latLng?.latitude ?: 0.0)
-
-                              LocaleHelper.setLocale(this, userRepository.getUserLanguage(), prefsManager)*/
-
-                            //performAddressSelectAction(false, address)
-                        }
-                    }
                     AppRequestCode.ASK_FOR_LOCATION -> {
                         ActivityCompat.requestPermissions(
                                 this,

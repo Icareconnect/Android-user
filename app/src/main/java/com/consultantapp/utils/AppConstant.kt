@@ -19,6 +19,7 @@ const val COUNTRY_CODE = "COUNTRY_CODE"
 const val PHONE_NUMBER = "PHONE_NUMBER"
 const val UPDATE_NUMBER = "UPDATE_NUMBER"
 const val UPDATE_PROFILE = "UPDATE_PROFILE"
+const val USER_ADDRESS = "user address"
 
 const val PUSH_DATA = "PUSH_DATA"
 const val PAGE_TO_OPEN = "PAGE_TO_OPEN"
