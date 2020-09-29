@@ -25,7 +25,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:navigationIcon="@drawable/ic_back_white"
-                app:title="@string/registered_nurse"
+                app:title="@string/select_date_time"
                 app:titleTextAppearance="@style/Toolbar.TitleText"
                 app:titleTextColor="@color/colorWhite" />
 

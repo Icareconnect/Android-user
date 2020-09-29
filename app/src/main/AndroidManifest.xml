@@ -55,7 +55,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="royoconsult.page.link"
+                    android:host="@string/deep_link_url"
                     android:scheme="https" />
             </intent-filter>
         </activity>

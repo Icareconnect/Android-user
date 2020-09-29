@@ -4,8 +4,13 @@
     <!--Facebook keys-->
     <string name="facebook_app_id">614826522700049</string>
     <string name="fb_login_protocol_scheme">fb614826522700049</string>
-    <string name="google_places_api_key" translatable="false">AIzaSyCWRLStt_5Kmgd877p8o_fPM2W5pdZ4WbU</string>
 
+    <!--Deep Link-->
+    <string name="deep_link_url" translatable="false">intely.page.link</string>
+    <string name="deep_link_ios_bundle" translatable="false">com.codebrew.RoyoConsultant</string>
+
+    <!--Google-->
+    <string name="google_places_api_key" translatable="false">AIzaSyCWRLStt_5Kmgd877p8o_fPM2W5pdZ4WbU</string>
 
     <string name="allow">ALLOW</string>
     <string name="deny">Deny</string>
@@ -90,7 +95,7 @@
     <string name="sent_password">We have sent a temporary password in your email. Please check your email.</string>
     <string name="request_sent">Request Sent successfully</string>
     <string name="create_request">Create a request</string>
-    <string name="create_request_message">Create a request to consult with doctor</string>
+    <string name="create_request_message">Create a request to consult with nurse</string>
     <string name="cancel">Cancel</string>
     <string name="available_balance">Available balance</string>
     <string name="pay_out">Pay out</string>
@@ -181,12 +186,12 @@
     <string name="schedule_chat">Schedule chat</string>
     <string name="consult_general_physicians">Consult General\nPhysicians</string>
     <string name="book_now">Book Now</string>
-    <string name="with_experts">With Experts</string>
+    <string name="with_experts">With Nurse</string>
     <string name="meet">Meet</string>
-    <string name="search_for_consultant">Search for consultant</string>
+    <string name="search_for_consultant">Search for nurse</string>
     <string name="at_20"><font size="14">At</font> $20</string>
     <string name="consultants">Consultants</string>
-    <string name="wait_for_request">Please wait for the consultant to accept and Initiate your request</string>
+    <string name="wait_for_request">Please wait for the nurse to accept and Initiate your request</string>
     <string name="skip_for_now">Skip For Now</string>
     <string name="use_my_location">Use My Location</string>
     <string name="we_will_need_your_location">We will need your location to give you better experience</string>
@@ -223,7 +228,7 @@
     <string name="pay">Pay</string>
     <string name="cancel_appointment">Cancel appointment</string>
     <string name="re_schedule">Re-Schedule</string>
-    <string name="consult_a_doctor">Consult a <b>Doctor</b> </string>
+    <string name="consult_a_doctor">Consult a <b>Nurse</b> </string>
     <string name="use_code_s"><![CDATA[ Use Code: <b>%s</b> ]]></string>
     <string name="s_user_remaining"><![CDATA[ <b>%s</b> User Remaining ]]></string>
     <string name="code_text"><![CDATA[ <b>%s</b> Discount on booking a <b>%s</b> till <b>%s</b> ]]></string>
@@ -251,19 +256,19 @@
     <string name="no_transaction">Recharge your wallet to create booking!</string>
     <string name="no_transaction_desc">Once you add money or any deduction will appear here.</string>
     <string name="no_classes">No classes yet!</string>
-    <string name="no_classes_desc">All classes from Experts will appear here.</string>
+    <string name="no_classes_desc">All classes from Nurses will appear here.</string>
     <string name="no_notification">No notifications yet!</string>
     <string name="no_notification_desc">All notifications related to your activities will appear here.</string>
     <string name="no_history">No appointments history!</string>
     <string name="no_history_desc">No appointments created yet, so we are unable to show your history.</string>
-    <string name="no_vendor">No experts yet!</string>
-    <string name="no_vendor_desc">Currently not any expert registered under \'%s\', so come back later.</string>
+    <string name="no_vendor">No nurse yet!</string>
+    <string name="no_vendor_desc">Currently no nurse available, so come back later.</string>
 
 
     <!--Share text-->
     <string name="share">Share</string>
     <string name="post_sharing">Checkout this post</string>
-    <string name="invite_text">Hey, Here is app for Online Consultancy Platform for Doctors, Physiotherapists, Accountants, Lawyers, Consultants etc. You should try it.</string>
+    <string name="invite_text">Hey, Here is app for Online Consultancy Platform for Nurse. You should try it.</string>
     <string name="payment">Payment</string>
     <string name="start_your_journey">Start Your\nJourney now</string>
     <string name="address">Address</string>
@@ -345,6 +350,9 @@
     <string name="selected">Selected</string>
     <string name="allocated_nurse">Allocated Nurse</string>
     <string name="no_nurse_found">No Nurse found for you according to yur requirements</string>
+    <string name="select_date_time">Choose Date &amp; Time</string>
+    <string name="save_as">Save As</string>
+    <string name="work">Work</string>
 
     <array name="home_care">
         <item>@string/palliative_end_of_life_care</item>

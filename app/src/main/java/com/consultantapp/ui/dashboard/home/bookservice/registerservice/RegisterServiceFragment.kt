@@ -105,6 +105,13 @@ class RegisterServiceFragment : DaggerFragment() {
 
 
     private fun listeners() {
+        binding.toolbar.setNavigationOnClickListener {
+            if (requireActivity().supportFragmentManager.backStackEntryCount > 0)
+                requireActivity().supportFragmentManager.popBackStack()
+            else
+                requireActivity().finish()
+        }
+
 
         binding.tvSelectHomeCare.setOnClickListener {
             binding.cvHomeCare.hideShowView(binding.cvHomeCare.visibility == View.GONE)

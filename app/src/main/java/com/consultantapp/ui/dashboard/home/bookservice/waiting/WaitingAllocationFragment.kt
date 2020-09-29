@@ -67,8 +67,8 @@ class WaitingAllocationFragment : DaggerFragment() {
 
             hashMap["category_id"] = "1"
             hashMap["filter_id"] = bookService.filter_id ?: ""
-            hashMap["date"] = DateUtils.dateFormatFromMillis(DateFormat.DATE_FORMAT, bookService.date)
-            hashMap["end_date"] = DateUtils.dateFormatFromMillis(DateFormat.DATE_FORMAT, bookService.date)
+           /* hashMap["date"] = DateUtils.dateFormatFromMillis(DateFormat.DATE_FORMAT, bookService.date)
+            hashMap["end_date"] = DateUtils.dateFormatFromMillis(DateFormat.DATE_FORMAT, bookService.date)*/
             hashMap["time"] = DateUtils.dateFormatChange(DateFormat.TIME_FORMAT,
                     DateFormat.TIME_FORMAT_24, bookService.startTime ?: "")
             hashMap["end_time"] = DateUtils.dateFormatChange(DateFormat.TIME_FORMAT,

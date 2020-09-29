@@ -1,5 +1,6 @@
 package com.consultantapp.ui.dashboard.home.bookservice.datetime
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ import com.consultantapp.data.network.ApisRespHandler
 import com.consultantapp.data.network.responseUtil.Status
 import com.consultantapp.data.repos.UserRepository
 import com.consultantapp.databinding.FragmentDateTimeBinding
+import com.consultantapp.ui.dashboard.doctor.listing.DoctorListActivity
 import com.consultantapp.ui.dashboard.home.bookservice.AllocateDoctorViewModel
 import com.consultantapp.ui.dashboard.home.bookservice.waiting.WaitingAllocationFragment
 import com.consultantapp.utils.*
@@ -22,6 +24,7 @@ import dagger.android.support.DaggerFragment
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 class DateTimeFragment : DaggerFragment(), OnTimeSelected {
 
@@ -45,8 +48,6 @@ class DateTimeFragment : DaggerFragment(), OnTimeSelected {
     private var itemDays = ArrayList<DatesAvailability>()
 
     private lateinit var datesAdapter: DatesAdapter
-
-    private var dateSelected: Long? = null
 
     private var bookService = BookService()
 
@@ -81,7 +82,7 @@ class DateTimeFragment : DaggerFragment(), OnTimeSelected {
         itemDays.clear()
         var calendar: Calendar
         var date: DatesAvailability
-        for (i in 0..30) {
+        for (i in 1..60) {
             calendar = Calendar.getInstance()
             calendar.add(Calendar.DAY_OF_MONTH, i)
 
@@ -92,7 +93,6 @@ class DateTimeFragment : DaggerFragment(), OnTimeSelected {
 
             if (i == 1) {
                 date.isSelected = true
-                dateSelected = date.date
 
                 binding.tvMonth.text = DateUtils.dateFormatFromMillis(DateFormat.MONTH_YEAR, date.date)
             }
@@ -132,8 +132,15 @@ class DateTimeFragment : DaggerFragment(), OnTimeSelected {
         }
 
         binding.tvBookAppointment.setOnClickListener {
+            var dateSelected = ""
+
+            itemDays.forEach {
+                if (it.isSelected)
+                    dateSelected += "${DateUtils.dateFormatFromMillis(DateFormat.DATE_FORMAT, it.date ?: 0L)}, "
+            }
+
             when {
-                dateSelected == null -> {
+                dateSelected.isNullOrEmpty() -> {
                     binding.tvAppointments.showSnackBar(getString(R.string.select_date))
                 }
                 binding.tvStartTimeV.text.toString().trim().isEmpty() -> {
@@ -146,19 +153,21 @@ class DateTimeFragment : DaggerFragment(), OnTimeSelected {
                     binding.etReason.showSnackBar(getString(R.string.reason_of_service))
                 }
                 else -> {
-                    bookService.date = dateSelected
+                    bookService.date = dateSelected.removeSuffix(", ")
                     bookService.startTime = binding.tvStartTimeV.text.toString()
                     bookService.endTime = binding.tvEndTimeV.text.toString()
                     bookService.reason = binding.etReason.text.toString()
 
-
                     if (isConnectedToInternet(requireContext(), true)) {
 
-                        val fragment = WaitingAllocationFragment()
+                        startActivity(Intent(requireContext(), DoctorListActivity::class.java)
+                                .putExtra(EXTRA_REQUEST_ID, bookService))
+
+                        /*val fragment = WaitingAllocationFragment()
                         val bundle = Bundle()
                         bundle.putSerializable(EXTRA_REQUEST_ID, bookService)
                         fragment.arguments = bundle
-                        replaceFragment(requireActivity().supportFragmentManager, fragment, R.id.container)
+                        replaceFragment(requireActivity().supportFragmentManager, fragment, R.id.container)*/
 
                         /*val hashMap = HashMap<String, String>()
                         hashMap["category_id"] = "1"
@@ -236,7 +245,7 @@ class DateTimeFragment : DaggerFragment(), OnTimeSelected {
     fun onDateSelected(item: DatesAvailability) {
         binding.rvWeek.smoothScrollToPosition(itemDays.indexOf(item))
         binding.tvMonth.text = DateUtils.dateFormatFromMillis(DateFormat.MONTH_YEAR, item.date)
-        dateSelected = item.date
+        //dateSelected = item.date
     }
 
 }

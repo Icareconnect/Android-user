@@ -185,7 +185,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-dynamic-links-ktx:19.1.0'
 
     // Add the Firebase Crashlytics dependency.
-    implementation 'com.google.firebase:firebase-crashlytics-ktx:17.2.1'
+        implementation 'com.google.firebase:firebase-crashlytics-ktx:17.2.1'
 
 
     /*

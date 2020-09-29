@@ -120,7 +120,7 @@ class HomeFragment : DaggerFragment() {
     private fun hitApi() {
         if (isConnectedToInternet(requireContext(), true)) {
             val hashMap = HashMap<String, String>()
-            hashMap["category_id"] = "1"
+            hashMap["category_id"] = CATEGORY_ID
             viewModel.getFilters(hashMap)
         }
     }
@@ -173,32 +173,28 @@ class HomeFragment : DaggerFragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        try {
-            if (resultCode == Activity.RESULT_OK) {
-                when (requestCode) {
-                    AppRequestCode.AUTOCOMPLETE_REQUEST_CODE -> {
-                        data?.let {
-                            val place = Autocomplete.getPlaceFromIntent(it)
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                AppRequestCode.AUTOCOMPLETE_REQUEST_CODE -> {
+                    data?.let {
+                        val place = Autocomplete.getPlaceFromIntent(it)
 
-                            binding.tvAddress.text = getAddress(place)
+                        binding.tvAddress.text = getAddress(place)
 
-                            Log.i("Place===", "Place: " + place.name + ", " + place.id)
+                        Log.i("Place===", "Place: " + place.name + ", " + place.id)
 
-                            val address = SaveAddress()
-                            address.locationName = getAddress(place)
-                            address.location = ArrayList()
-                            address.location?.add(place.latLng?.longitude ?: 0.0)
-                            address.location?.add(place.latLng?.latitude ?: 0.0)
+                        val address = SaveAddress()
+                        address.locationName = getAddress(place)
+                        address.location = ArrayList()
+                        address.location?.add(place.latLng?.longitude ?: 0.0)
+                        address.location?.add(place.latLng?.latitude ?: 0.0)
 
-                            prefsManager.save(USER_ADDRESS, address)
+                        prefsManager.save(USER_ADDRESS, address)
 
-                            //performAddressSelectAction(false, address)
-                        }
+                        //performAddressSelectAction(false, address)
                     }
                 }
             }
-        } catch (ex: Exception) {
-            ex.printStackTrace()
         }
     }
 

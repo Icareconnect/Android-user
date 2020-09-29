@@ -6,7 +6,7 @@ class BookService : Serializable {
     var filter_id: String? = null
 
     var address: SaveAddress? = null
-    var date: Long? = null
+    var date: String? = null
     var startTime: String? = null
     var endTime: String? = null
     var reason: String? = null

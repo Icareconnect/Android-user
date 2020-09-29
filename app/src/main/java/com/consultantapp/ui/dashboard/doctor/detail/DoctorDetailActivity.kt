@@ -120,7 +120,7 @@ class DoctorDetailActivity : DaggerAppCompatActivity() {
             when (it.status) {
                 Status.SUCCESS -> {
                     binding.clLoader.gone()
-                    binding.ivMark.visible()
+                    //binding.ivMark.visible()
 
                     doctorData = it.data?.dcotor_detail
                     setDoctorData()
@@ -217,7 +217,6 @@ class DoctorDetailActivity : DaggerAppCompatActivity() {
             binding.ivPic, doctorData?.profile_image,
             R.drawable.image_placeholder
         )
-        binding.tvAboutV.text = doctorData?.profile?.bio ?: getString(R.string.na)
 
         binding.tvDesc.text = doctorData?.categoryData?.name ?: getString(R.string.na)
 
@@ -238,10 +237,10 @@ class DoctorDetailActivity : DaggerAppCompatActivity() {
         binding.tvReviewsV.text = doctorData?.reviewCount ?: getString(R.string.na)
         binding.tvReviewCount.text = getUserRating(doctorData?.totalRating)
 
-        val serviceList = ArrayList<Service>()
+        /*val serviceList = ArrayList<Service>()
         serviceList.addAll(doctorData?.services ?: emptyList())
         val adapter = ServicesAdapter(this, serviceList)
-        binding.rvServices.adapter = adapter
+        binding.rvServices.adapter = adapter*/
     }
 
 
@@ -258,6 +257,18 @@ class DoctorDetailActivity : DaggerAppCompatActivity() {
         binding.ivMark.setOnClickListener {
             if (isConnectedToInternet(this, true)) {
                 shareDeepLink(DeepLink.USER_PROFILE, this, doctorData, userRepository)
+            }
+        }
+
+        binding.tvBookAppointment.setOnClickListener {
+            if (isConnectedToInternet(this, true)) {
+                val hashMap = HashMap<String, Any>()
+
+                hashMap["consultant_id"] = doctorId
+                hashMap["service_id"] = SERVICE_ID
+                hashMap["schedule_type"] = RequestType.INSTANT
+
+                viewModel.confirmRequest(hashMap)
             }
         }
     }

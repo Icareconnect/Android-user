@@ -174,6 +174,80 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSaveAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_24"
+                    android:alpha="0.5"
+                    android:fontFamily="@font/sans_regular"
+                    android:text="@string/save_as"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/sp_14"
+                    app:layout_constraintStart_toStartOf="@id/startGuideLine"
+                    app:layout_constraintTop_toBottomOf="@+id/ilHouseNo" />
+
+
+
+                <RadioGroup
+                    android:id="@+id/rgSaveAddress"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/dp_1"
+                    android:layout_marginTop="@dimen/dp_24"
+                    app:layout_constraintStart_toStartOf="@+id/startGuideLine"
+                    app:layout_constraintEnd_toEndOf="@+id/endGuideLine"
+                    app:layout_constraintTop_toBottomOf="@+id/tvSaveAddress">
+
+                    <RadioButton
+                        android:id="@+id/rbHome"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/campton_semibold"
+                        android:gravity="center"
+                        android:button="@null"
+                        android:paddingStart="@dimen/dp_24"
+                        android:paddingEnd="@dimen/dp_24"
+                        android:background="@drawable/selector_address"
+                        android:text="@string/home"
+                        android:layout_marginEnd="@dimen/dp_8"
+                        android:textColor="@color/selector_text_date_color"
+                        android:textSize="14sp" />
+
+
+                    <RadioButton
+                        android:id="@+id/rbWork"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/dp_8"
+                        android:layout_marginEnd="@dimen/dp_8"
+                        android:fontFamily="@font/campton_semibold"
+                        android:gravity="center"
+                        android:button="@null"
+                        android:paddingStart="@dimen/dp_24"
+                        android:paddingEnd="@dimen/dp_24"
+                        android:background="@drawable/selector_address"
+                        android:text="@string/work"
+                        android:textColor="@color/selector_text_date_color"
+                        android:textSize="14sp" />
+
+                    <RadioButton
+                        android:id="@+id/rbOther"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/dp_8"
+                        android:button="@null"
+                        android:paddingStart="@dimen/dp_24"
+                        android:paddingEnd="@dimen/dp_24"
+                        android:fontFamily="@font/campton_semibold"
+                        android:gravity="center"
+                        android:background="@drawable/selector_address"
+                        android:text="@string/other"
+                        android:textColor="@color/selector_text_date_color"
+                        android:textSize="14sp" />
+                </RadioGroup>
 
                 <Button
                     android:id="@+id/btnSave"
@@ -190,7 +264,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@id/endGuideLine"
                     app:layout_constraintStart_toStartOf="@id/startGuideLine"
-                    app:layout_constraintTop_toBottomOf="@+id/ilHouseNo" />
+                    app:layout_constraintTop_toBottomOf="@+id/rgSaveAddress" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
 

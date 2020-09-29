@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.consultantapp.R
+import com.consultantapp.data.models.requests.BookService
 import com.consultantapp.data.models.responses.*
 import com.consultantapp.data.network.ApiKeys.AFTER
 import com.consultantapp.data.network.ApiKeys.PER_PAGE
@@ -90,7 +91,7 @@ class DoctorListActivity : DaggerAppCompatActivity() {
         binding.clLoader.visible()
         hitApi(true)
 
-        if (isConnectedToInternet(this, false)) {
+        if (intent.hasExtra(CATEGORY_PARENT_ID) && isConnectedToInternet(this, false)) {
             val hashMap = HashMap<String, String>()
             hashMap["category_id"] = categoryData?.id ?: ""
 
@@ -105,15 +106,24 @@ class DoctorListActivity : DaggerAppCompatActivity() {
         viewModelBanner = ViewModelProvider(this, viewModelFactory)[BannerViewModel::class.java]
         progressDialog = ProgressDialog(this)
 
-        categoryData = intent.getSerializableExtra(CATEGORY_PARENT_ID) as Categories
-        binding.tvTitle.text = categoryData?.name
-        binding.clLoader.setBackgroundColor(ContextCompat.getColor(this, R.color.colorWhite))
+        var title=""
+        if (intent.hasExtra(CATEGORY_PARENT_ID)) {
+            categoryData = intent.getSerializableExtra(CATEGORY_PARENT_ID) as Categories
+            title = categoryData?.name ?:""
 
-        binding.ivFilter.hideShowView(categoryData?.is_filters == true)
+            binding.clLoader.setBackgroundResource( R.color.colorWhite)
+            binding.ivFilter.hideShowView(categoryData?.is_filters == true)
+        } else {
+            binding.rvServices.gone()
+            binding.ivFilter.gone()
 
+            title = getString(R.string.consult_a_doctor)
+        }
+
+        binding.tvTitle.text = title
         binding.clNoData.ivNoData.setImageResource(R.drawable.ic_profile_empty_state)
         binding.clNoData.tvNoData.text = getString(R.string.no_vendor)
-        binding.clNoData.tvNoDataDesc.text = getString(R.string.no_vendor_desc, categoryData?.name)
+        binding.clNoData.tvNoDataDesc.text = getString(R.string.no_vendor_desc)
     }
 
     private fun setAdapter() {
@@ -148,18 +158,18 @@ class DoctorListActivity : DaggerAppCompatActivity() {
 
         binding.ivFilter.setOnClickListener {
             startActivityForResult(
-                Intent(this, DoctorActionActivity::class.java)
-                    .putExtra(PAGE_TO_OPEN, DoctorActionActivity.FILTER)
-                    .putExtra(CATEGORY_PARENT_ID, categoryData)
-                    .putExtra(FILTER_DATA, filters), AppRequestCode.ADD_FILTER
+                    Intent(this, DoctorActionActivity::class.java)
+                            .putExtra(PAGE_TO_OPEN, DoctorActionActivity.FILTER)
+                            .putExtra(CATEGORY_PARENT_ID, categoryData)
+                            .putExtra(FILTER_DATA, filters), AppRequestCode.ADD_FILTER
             )
         }
 
         binding.etSearch.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {}
             override fun beforeTextChanged(
-                s: CharSequence, start: Int,
-                count: Int, after: Int
+                    s: CharSequence, start: Int,
+                    count: Int, after: Int
             ) {
             }
 
@@ -204,6 +214,23 @@ class DoctorListActivity : DaggerAppCompatActivity() {
 
             if (intent.hasExtra(CATEGORY_PARENT_ID))
                 hashMap["category_id"] = categoryData?.id ?: ""
+
+            /*Nurse listing*/
+            if (intent.hasExtra(EXTRA_REQUEST_ID)){
+                val bookService=intent.getSerializableExtra(EXTRA_REQUEST_ID) as BookService
+                hashMap["category_id"] = CATEGORY_ID
+                hashMap["filter_id"] = bookService.filter_id ?: ""
+
+                hashMap["date"] = bookService.date ?:""
+                hashMap["time"] = DateUtils.dateFormatChange(DateFormat.TIME_FORMAT,
+                        DateFormat.TIME_FORMAT_24, bookService.startTime ?: "")
+                hashMap["end_time"] = DateUtils.dateFormatChange(DateFormat.TIME_FORMAT,
+                        DateFormat.TIME_FORMAT_24, bookService.endTime ?: "")
+
+                hashMap["lat"] = bookService.address?.location?.get(1).toString()
+                hashMap["long"] = bookService.address?.location?.get(0).toString()
+                hashMap["service_address"] = bookService.address?.locationName ?: ""
+            }
 
             if (searchText.isNotEmpty())
                 hashMap["search"] = searchText

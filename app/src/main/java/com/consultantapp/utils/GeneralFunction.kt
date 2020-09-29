@@ -35,6 +35,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.consultantapp.BuildConfig
 import com.consultantapp.ConsultantUserApplication
 import com.consultantapp.R
 import com.consultantapp.data.models.responses.UserData
@@ -548,11 +549,11 @@ fun shareDeepLink(
 
     val shortLinkTask = Firebase.dynamicLinks.shortLinkAsync {
         link = Uri.parse(longLink)
-        domainUriPrefix = "https://royoconsult.page.link"
+        domainUriPrefix = "https://${activity.getString(R.string.deep_link_url)}"
         // Open links with this app on Android
-        androidParameters("com.consultantapp") { }
+        androidParameters(BuildConfig.APPLICATION_ID) { }
         // Open links with com.example.ios on iOS
-        iosParameters("com.codebrew.RoyoConsultant") { }
+        iosParameters(activity.getString(R.string.deep_link_ios_bundle)) { }
 
         socialMetaTagParameters {
             title = titleM
