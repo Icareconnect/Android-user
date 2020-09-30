@@ -18,6 +18,7 @@ import com.consultantapp.data.repos.UserRepository
 import com.consultantapp.databinding.FragmentRegisterServiceBinding
 import com.consultantapp.ui.dashboard.home.bookservice.datetime.DateTimeFragment
 import com.consultantapp.ui.dashboard.home.bookservice.location.AddAddressActivity
+import com.consultantapp.ui.dashboard.subcategory.SubCategoryFragment
 import com.consultantapp.utils.*
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
@@ -157,9 +158,9 @@ class RegisterServiceFragment : DaggerFragment() {
                     binding.etAddress.showSnackBar(getString(R.string.select_delivery_address))
                 }
                 else -> {
-                    bookService.filter_id = requireActivity().intent.getStringExtra(EXTRA_REQUEST_ID)
+                    bookService.filter_id = requireActivity().intent.getStringExtra(SubCategoryFragment.CATEGORY_PARENT_ID)
                     bookService.service_for = itemsServiceFor[servicePos].option_name
-                    bookService.home_care_req = homeCare
+                    bookService.home_care_req = homeCare.removeSuffix(", ")
 
                     if (servicePos == 0)
                         bookService.personName = binding.etName.text.toString().trim()

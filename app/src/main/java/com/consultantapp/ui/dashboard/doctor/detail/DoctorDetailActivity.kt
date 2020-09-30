@@ -1,5 +1,6 @@
 package com.consultantapp.ui.dashboard.doctor.detail
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
@@ -8,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.consultantapp.R
+import com.consultantapp.data.models.requests.BookService
 import com.consultantapp.data.models.responses.Review
 import com.consultantapp.data.models.responses.Service
 import com.consultantapp.data.models.responses.UserData
@@ -94,10 +96,10 @@ class DoctorDetailActivity : DaggerAppCompatActivity() {
     fun hiApiDoctorRequest(schedule: Boolean, service: Service) {
         if (schedule) {
             startActivity(
-                Intent(this, DoctorActionActivity::class.java)
-                    .putExtra(PAGE_TO_OPEN, RequestType.SCHEDULE)
-                    .putExtra(SERVICE_ID, service.service_id)
-                    .putExtra(USER_DATA, doctorData)
+                    Intent(this, DoctorActionActivity::class.java)
+                            .putExtra(PAGE_TO_OPEN, RequestType.SCHEDULE)
+                            .putExtra(SERVICE_ID, service.service_id)
+                            .putExtra(USER_DATA, doctorData)
             )
         } else {
 
@@ -167,7 +169,7 @@ class DoctorDetailActivity : DaggerAppCompatActivity() {
             }
         })
 
-        viewModel.confirmRequest.observe(this, Observer {
+        viewModel.createRequest.observe(this, Observer {
             it ?: return@Observer
             when (it.status) {
                 Status.SUCCESS -> {
@@ -176,26 +178,21 @@ class DoctorDetailActivity : DaggerAppCompatActivity() {
                     /*If amount not sufficient then add money*/
                     if (it.data?.amountNotSufficient == true) {
                         AlertDialog.Builder(this)
-                            .setCancelable(false)
-                            .setTitle(getString(R.string.added_to_wallet))
-                            .setMessage(getString(R.string.money_insufficient))
-                            .setPositiveButton(getString(R.string.ok)) { dialog, which ->
+                                .setCancelable(false)
+                                .setTitle(getString(R.string.added_to_wallet))
+                                .setMessage(getString(R.string.money_insufficient))
+                                .setPositiveButton(getString(R.string.ok)) { dialog, which ->
 
-                            }
-                            .setNegativeButton(getString(R.string.add_money)) { dialog, which ->
-                                startActivity(
-                                    Intent(this, DrawerActivity::class.java)
-                                        .putExtra(PAGE_TO_OPEN, WALLET)
-                                )
-                            }.show()
+                                }
+                                .setNegativeButton(getString(R.string.add_money)) { dialog, which ->
+                                    startActivity(Intent(this, DrawerActivity::class.java)
+                                                    .putExtra(PAGE_TO_OPEN, WALLET))
+                                }.show()
 
                     } else {
-                        startActivity(
-                            Intent(this, DoctorActionActivity::class.java)
-                                .putExtra(PAGE_TO_OPEN, RequestType.INSTANT)
-                                .putExtra(SERVICE_ID, serviceSelected?.service_id)
-                                .putExtra(USER_DATA, doctorData)
-                        )
+                        longToast(getString(R.string.request_sent))
+                        setResult(Activity.RESULT_OK)
+                        finish()
                     }
 
                 }
@@ -214,16 +211,16 @@ class DoctorDetailActivity : DaggerAppCompatActivity() {
     private fun setDoctorData() {
         binding.tvName.text = getDoctorName(doctorData)
         loadImage(
-            binding.ivPic, doctorData?.profile_image,
-            R.drawable.image_placeholder
+                binding.ivPic, doctorData?.profile_image,
+                R.drawable.image_placeholder
         )
 
         binding.tvDesc.text = doctorData?.categoryData?.name ?: getString(R.string.na)
 
         binding.tvRating.text = getString(
-            R.string.s_s_reviews,
-            getUserRating(doctorData?.totalRating),
-            doctorData?.reviewCount
+                R.string.s_s_reviews,
+                getUserRating(doctorData?.totalRating),
+                doctorData?.reviewCount
         )
         binding.tvPatientV.text = doctorData?.patientCount ?: getString(R.string.na)
 
@@ -232,7 +229,7 @@ class DoctorDetailActivity : DaggerAppCompatActivity() {
             binding.tvExperienceV.gone()
         } else
             binding.tvExperienceV.text =
-                "${getAge(doctorData?.profile?.working_since)} ${getString(R.string.years)}"
+                    "${getAge(doctorData?.profile?.working_since)} ${getString(R.string.years)}"
 
         binding.tvReviewsV.text = doctorData?.reviewCount ?: getString(R.string.na)
         binding.tvReviewCount.text = getUserRating(doctorData?.totalRating)
@@ -265,10 +262,32 @@ class DoctorDetailActivity : DaggerAppCompatActivity() {
                 val hashMap = HashMap<String, Any>()
 
                 hashMap["consultant_id"] = doctorId
-                hashMap["service_id"] = SERVICE_ID
-                hashMap["schedule_type"] = RequestType.INSTANT
+                hashMap["service_id"] = CATEGORY_SERVICE_ID
+                hashMap["schedule_type"] = RequestType.SCHEDULE
+                hashMap["request_type"] = "multiple"
 
-                viewModel.confirmRequest(hashMap)
+                if (intent.hasExtra(EXTRA_REQUEST_ID)) {
+                    val bookService = intent.getSerializableExtra(EXTRA_REQUEST_ID) as BookService
+                    hashMap["filter_id"] = bookService.filter_id ?: ""
+
+                    hashMap["dates"] = bookService.date ?: ""
+                    hashMap["start_time"] = DateUtils.dateFormatChange(DateFormat.TIME_FORMAT,
+                            DateFormat.TIME_FORMAT_24, bookService.startTime ?: "")
+                    hashMap["end_time"] = DateUtils.dateFormatChange(DateFormat.TIME_FORMAT,
+                            DateFormat.TIME_FORMAT_24, bookService.endTime ?: "")
+
+                    hashMap["lat"] = bookService.address?.location?.get(1).toString()
+                    hashMap["long"] = bookService.address?.location?.get(0).toString()
+                    hashMap["service_address"] = bookService.address?.locationName ?: ""
+
+                    hashMap["first_name"] = bookService.personName
+                    hashMap["last_name"] = bookService.personName
+                    hashMap["service_for"] = bookService.service_for ?: ""
+                    hashMap["home_care_req"] = bookService.home_care_req ?: ""
+                    hashMap["reason_for_service"] = bookService.reason ?: ""
+                }
+
+                viewModel.createRequest(hashMap)
             }
         }
     }
@@ -291,14 +310,14 @@ class DoctorDetailActivity : DaggerAppCompatActivity() {
 
     private fun showCreateRequestDialog(service: Service) {
         AlertDialog.Builder(this)
-            .setCancelable(false)
-            .setTitle(getString(R.string.create_request))
-            .setMessage(getString(R.string.create_request_message))
-            .setPositiveButton(getString(R.string.create_request)) { dialog, which ->
-                hiApiDoctorRequest(false, service)
-            }.setNegativeButton(getString(R.string.cancel)) { dialog, which ->
+                .setCancelable(false)
+                .setTitle(getString(R.string.create_request))
+                .setMessage(getString(R.string.create_request_message))
+                .setPositiveButton(getString(R.string.create_request)) { dialog, which ->
+                    hiApiDoctorRequest(false, service)
+                }.setNegativeButton(getString(R.string.cancel)) { dialog, which ->
 
-            }.show()
+                }.show()
     }
 
 

@@ -51,10 +51,6 @@ class AppointmentAdapter(private val fragment: AppointmentFragment, private val 
             RecyclerView.ViewHolder(binding.root) {
 
         init {
-            binding.tvReSchedule.setOnClickListener {
-                fragment.rescheduleAppointment(items[adapterPosition])
-            }
-
             binding.tvCancel.setOnClickListener {
                 fragment.cancelAppointment(items[adapterPosition])
             }
@@ -70,8 +66,6 @@ class AppointmentAdapter(private val fragment: AppointmentFragment, private val 
             slideRecyclerItem(binding.root, context)
 
             tvCancel.hideShowView(request.canCancel)
-            tvReSchedule.hideShowView(request.canReschedule)
-            tvReSchedule.text=context.getString(R.string.re_schedule)
             tvRate.gone()
 
             tvStatus.setTextColor(ContextCompat.getColor(context, R.color.colorPrimary))
@@ -91,7 +85,6 @@ class AppointmentAdapter(private val fragment: AppointmentFragment, private val 
             when (request.status) {
                 CallAction.ACCEPT -> {
                     tvStatus.text = context.getString(R.string.accepted)
-                    tvReSchedule.gone()
                     tvCancel.gone()
                 }
                 CallAction.PENDING -> {
@@ -99,14 +92,11 @@ class AppointmentAdapter(private val fragment: AppointmentFragment, private val 
                 }
                 CallAction.COMPLETED -> {
                     tvStatus.text = context.getString(R.string.done)
-                    tvReSchedule.text=context.getString(R.string.book_again)
-                    tvReSchedule.visible()
                     tvCancel.gone()
                     tvRate.visible()
                 }
                 CallAction.INPROGRESS, CallAction.BUSY -> {
                     tvStatus.text = context.getString(R.string.inprogess)
-                    tvReSchedule.gone()
                     tvCancel.gone()
                 }
                 CallAction.FAILED -> {
@@ -116,7 +106,6 @@ class AppointmentAdapter(private val fragment: AppointmentFragment, private val 
                 CallAction.CANCELED -> {
                     tvStatus.text = context.getString(R.string.canceled)
                     tvStatus.setTextColor(ContextCompat.getColor(context, R.color.colorNoShow))
-                    tvReSchedule.gone()
                     tvCancel.gone()
                 }
                 else -> {

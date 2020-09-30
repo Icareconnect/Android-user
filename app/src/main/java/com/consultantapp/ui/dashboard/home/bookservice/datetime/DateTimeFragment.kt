@@ -1,5 +1,6 @@
 package com.consultantapp.ui.dashboard.home.bookservice.datetime
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,10 +12,12 @@ import androidx.lifecycle.ViewModelProvider
 import com.consultantapp.R
 import com.consultantapp.data.models.requests.BookService
 import com.consultantapp.data.models.requests.DatesAvailability
+import com.consultantapp.data.models.responses.Filter
 import com.consultantapp.data.network.ApisRespHandler
 import com.consultantapp.data.network.responseUtil.Status
 import com.consultantapp.data.repos.UserRepository
 import com.consultantapp.databinding.FragmentDateTimeBinding
+import com.consultantapp.ui.dashboard.doctor.detail.prefrence.PrefrenceFragment
 import com.consultantapp.ui.dashboard.doctor.listing.DoctorListActivity
 import com.consultantapp.ui.dashboard.home.bookservice.AllocateDoctorViewModel
 import com.consultantapp.ui.dashboard.home.bookservice.waiting.WaitingAllocationFragment
@@ -160,8 +163,8 @@ class DateTimeFragment : DaggerFragment(), OnTimeSelected {
 
                     if (isConnectedToInternet(requireContext(), true)) {
 
-                        startActivity(Intent(requireContext(), DoctorListActivity::class.java)
-                                .putExtra(EXTRA_REQUEST_ID, bookService))
+                        startActivityForResult(Intent(requireContext(), DoctorListActivity::class.java)
+                                .putExtra(EXTRA_REQUEST_ID, bookService), AppRequestCode.APPOINTMENT_BOOKING)
 
                         /*val fragment = WaitingAllocationFragment()
                         val bundle = Bundle()
@@ -246,6 +249,15 @@ class DateTimeFragment : DaggerFragment(), OnTimeSelected {
         binding.rvWeek.smoothScrollToPosition(itemDays.indexOf(item))
         binding.tvMonth.text = DateUtils.dateFormatFromMillis(DateFormat.MONTH_YEAR, item.date)
         //dateSelected = item.date
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == AppRequestCode.APPOINTMENT_BOOKING) {
+                requireActivity().finish()
+            }
+        }
     }
 
 }

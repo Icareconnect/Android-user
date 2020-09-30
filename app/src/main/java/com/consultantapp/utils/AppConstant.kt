@@ -10,7 +10,7 @@ const val STORAGE_DIRECTORY = "/Callouts/"
 const val FILE_PATH_DIRECTORY = "file://"
 
 const val CATEGORY_ID = "1"
-const val SERVICE_ID = "1"
+const val CATEGORY_SERVICE_ID = "1"
 
 const val ANDROID = "ANDROID"
 const val APP_TYPE = "customer"
@@ -98,6 +98,7 @@ object AppRequestCode {
     const val ADD_FILTER: Int = 108
     const val NEW_APPOINTMENT: Int = 109
     const val ADD_CARD: Int = 110
+    const val APPOINTMENT_BOOKING: Int = 111
 }
 
 object ChatType {

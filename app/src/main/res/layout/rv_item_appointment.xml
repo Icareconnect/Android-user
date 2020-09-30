@@ -158,24 +158,6 @@
                 app:layout_constraintEnd_toEndOf="@id/endGuideLine"
                 app:layout_constraintTop_toBottomOf="@+id/tvStatus" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvReSchedule"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_8"
-                android:layout_marginTop="@dimen/dp_16"
-                android:background="?android:attr/selectableItemBackground"
-                android:clickable="true"
-                android:focusable="true"
-                android:fontFamily="@font/campton_semibold"
-                android:paddingTop="@dimen/dp_4"
-                android:paddingBottom="@dimen/dp_4"
-                android:text="@string/re_schedule"
-                android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/sp_12"
-                app:layout_constraintStart_toStartOf="@id/startGuideLine"
-                app:layout_constraintTop_toBottomOf="@+id/tvStatus" />
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

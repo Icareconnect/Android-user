@@ -27,6 +27,7 @@ import com.consultantapp.ui.adapter.CommonFragmentPagerAdapter
 import com.consultantapp.ui.dashboard.DoctorViewModel
 import com.consultantapp.ui.dashboard.DoctorsAdapter
 import com.consultantapp.ui.dashboard.doctor.DoctorActionActivity
+import com.consultantapp.ui.dashboard.doctor.detail.DoctorDetailActivity
 import com.consultantapp.ui.dashboard.doctor.detail.prefrence.PrefrenceFragment.Companion.FILTER_DATA
 import com.consultantapp.ui.dashboard.home.BannerViewModel
 import com.consultantapp.ui.dashboard.home.banner.BannerFragment
@@ -106,12 +107,12 @@ class DoctorListActivity : DaggerAppCompatActivity() {
         viewModelBanner = ViewModelProvider(this, viewModelFactory)[BannerViewModel::class.java]
         progressDialog = ProgressDialog(this)
 
-        var title=""
+        var title = ""
         if (intent.hasExtra(CATEGORY_PARENT_ID)) {
             categoryData = intent.getSerializableExtra(CATEGORY_PARENT_ID) as Categories
-            title = categoryData?.name ?:""
+            title = categoryData?.name ?: ""
 
-            binding.clLoader.setBackgroundResource( R.color.colorWhite)
+            binding.clLoader.setBackgroundResource(R.color.colorWhite)
             binding.ivFilter.hideShowView(categoryData?.is_filters == true)
         } else {
             binding.rvServices.gone()
@@ -127,7 +128,7 @@ class DoctorListActivity : DaggerAppCompatActivity() {
     }
 
     private fun setAdapter() {
-        adapter = DoctorsAdapter(items)
+        adapter = DoctorsAdapter(this, items)
         binding.rvListing.adapter = adapter
         binding.rvListing.itemAnimator = null
 
@@ -216,12 +217,12 @@ class DoctorListActivity : DaggerAppCompatActivity() {
                 hashMap["category_id"] = categoryData?.id ?: ""
 
             /*Nurse listing*/
-            if (intent.hasExtra(EXTRA_REQUEST_ID)){
-                val bookService=intent.getSerializableExtra(EXTRA_REQUEST_ID) as BookService
+            if (intent.hasExtra(EXTRA_REQUEST_ID)) {
+                val bookService = intent.getSerializableExtra(EXTRA_REQUEST_ID) as BookService
                 hashMap["category_id"] = CATEGORY_ID
                 hashMap["filter_id"] = bookService.filter_id ?: ""
 
-                hashMap["date"] = bookService.date ?:""
+                hashMap["date"] = bookService.date ?: ""
                 hashMap["time"] = DateUtils.dateFormatChange(DateFormat.TIME_FORMAT,
                         DateFormat.TIME_FORMAT_24, bookService.startTime ?: "")
                 hashMap["end_time"] = DateUtils.dateFormatChange(DateFormat.TIME_FORMAT,
@@ -364,6 +365,9 @@ class DoctorListActivity : DaggerAppCompatActivity() {
                 binding.clLoader.visible()
                 hitApi(true)
 
+            } else if (requestCode == AppRequestCode.APPOINTMENT_BOOKING) {
+                setResult(Activity.RESULT_OK)
+                finish()
             }
         }
     }
@@ -373,6 +377,13 @@ class DoctorListActivity : DaggerAppCompatActivity() {
         serviceId = item.service_id ?: ""
         binding.clLoader.visible()
         hitApi(true)
+    }
+
+    fun clickItem(doctor: Doctor) {
+        startActivityForResult(Intent(this, DoctorDetailActivity::class.java)
+                .putExtra(EXTRA_REQUEST_ID, intent.getSerializableExtra(EXTRA_REQUEST_ID))
+                .putExtra(DoctorDetailActivity.DOCTOR_ID, doctor.doctor_data?.id),AppRequestCode.APPOINTMENT_BOOKING)
+
     }
 
 }

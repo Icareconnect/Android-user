@@ -13,10 +13,11 @@ import com.consultantapp.databinding.ItemPagingLoaderBinding
 import com.consultantapp.databinding.RvItemPopularBinding
 import com.consultantapp.ui.dashboard.doctor.detail.DoctorDetailActivity
 import com.consultantapp.ui.dashboard.doctor.detail.DoctorDetailActivity.Companion.DOCTOR_ID
+import com.consultantapp.ui.dashboard.doctor.listing.DoctorListActivity
 import com.consultantapp.utils.*
 
 
-class DoctorsAdapter(private val items: ArrayList<Doctor>) :
+class DoctorsAdapter(private val activity: DoctorListActivity,private val items: ArrayList<Doctor>) :
         RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var allItemsLoaded = true
@@ -51,29 +52,27 @@ class DoctorsAdapter(private val items: ArrayList<Doctor>) :
 
     inner class ViewHolder(val binding: RvItemPopularBinding) :
             RecyclerView.ViewHolder(binding.root) {
+        val context = binding.root.context
 
         init {
             binding.clDoctor.setOnClickListener {
-                binding.root.context.startActivity(
-                        Intent(binding.root.context, DoctorDetailActivity::class.java)
-                                .putExtra(DOCTOR_ID, items[adapterPosition].doctor_data?.id)
-                )
+                activity.clickItem(items[adapterPosition])
             }
         }
 
         fun bind(doctor: Doctor) = with(binding) {
-            slideRecyclerItem(binding.root, binding.root.context)
+            slideRecyclerItem(binding.root, context)
 
             tvName.text = getDoctorName(doctor.doctor_data)
             binding.tvDesc.text = doctor.doctor_data?.categoryData?.name
-                    ?: binding.root.context.getString(R.string.na)
+                    ?: context.getString(R.string.na)
             loadImage(
-                binding.ivPic,
-                doctor.doctor_data?.profile_image,
-                R.drawable.ic_profile_placeholder
+                    binding.ivPic,
+                    doctor.doctor_data?.profile_image,
+                    R.drawable.ic_profile_placeholder
             )
 
-            binding.tvRating.text = binding.root.context.getString(R.string.s_s_reviews,
+            binding.tvRating.text = context.getString(R.string.s_s_reviews,
                     getUserRating(doctor.doctor_data?.totalRating), doctor.doctor_data?.reviewCount)
 
             binding.ivActiveStatus.hideShowView(doctor.doctor_data?.isAvailable == true)
