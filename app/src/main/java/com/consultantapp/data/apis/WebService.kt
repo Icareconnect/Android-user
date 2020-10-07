@@ -5,6 +5,7 @@ import com.consultantapp.data.models.responses.CommonDataModel
 import com.consultantapp.data.models.responses.UserData
 import com.consultantapp.data.models.responses.appdetails.AppVersion
 import com.consultantapp.data.network.responseUtil.ApiResponse
+import com.consultantvendor.data.models.responses.directions.Direction
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -38,6 +39,7 @@ interface WebService {
         private const val UPLOAD_IMAGE = "/api/upload-image"
 
         private const val REQUESTS = "/api/requests-cs"
+        private const val REQUEST_DETAIL="/api/request-detail"
         private const val CANCEL_REQUEST = "/api/cancel-request"
         private const val DOCTOR_LIST = "/api/doctor-list"
         private const val BANNERS = "/api/banners"
@@ -66,6 +68,7 @@ interface WebService {
         private const val PACK_DETAIL = "/api/pack-detail"
         private const val CONFIRM_AUTO_ALLOCATE = "/api/confirm-auto-allocate"
         private const val AUTO_ALLOCATE = "/api/auto-allocate"
+        private const val DIRECTIONS="https://maps.googleapis.com/maps/api/directions/json"
 
         private const val WORKING_HOURS = "/api/workingHours"
         private const val SPEAKOUT_LIST = "/common/listSpeakouts"
@@ -204,6 +207,9 @@ interface WebService {
     @GET(REQUESTS)
     fun request(@QueryMap hashMap: Map<String, String>): Call<ApiResponse<CommonDataModel>>
 
+    @GET(REQUEST_DETAIL)
+    fun requestDetail(@QueryMap hashMap: Map<String, String>): Call<ApiResponse<CommonDataModel>>
+
     @GET(DOCTOR_LIST)
     fun doctorList(@QueryMap hashMap: Map<String, String>): Call<ApiResponse<CommonDataModel>>
 
@@ -261,6 +267,10 @@ interface WebService {
 
     @GET(PACK_SUB)
     fun packSub(@QueryMap hashMap: Map<String, String>): Call<ApiResponse<CommonDataModel>>
+
+    @GET(DIRECTIONS)
+    fun directions(@QueryMap hashMap: Map<String, String>): Call<Direction>
+
 
     /*PUT API*/
     @FormUrlEncoded

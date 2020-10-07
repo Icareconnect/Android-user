@@ -64,4 +64,7 @@ class CommonDataModel {
     /*Package*/
     var packages: List<Packages>? = null
     var detail: Packages? = null
+
+    /*Request*/
+    var request_detail: Request ?= null
 }

@@ -312,7 +312,6 @@
             android:gravity="center"
             android:padding="@dimen/dp_8"
             android:text="@string/book_appointment"
-            android:textAllCaps="true"
             android:textAppearance="@style/Toolbar.LoginButton"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/sp_14"

@@ -12,12 +12,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.consultantapp.R
 import com.consultantapp.data.models.requests.BookService
 import com.consultantapp.data.models.requests.DatesAvailability
-import com.consultantapp.data.models.responses.Filter
 import com.consultantapp.data.network.ApisRespHandler
 import com.consultantapp.data.network.responseUtil.Status
 import com.consultantapp.data.repos.UserRepository
 import com.consultantapp.databinding.FragmentDateTimeBinding
-import com.consultantapp.ui.dashboard.doctor.detail.prefrence.PrefrenceFragment
 import com.consultantapp.ui.dashboard.doctor.listing.DoctorListActivity
 import com.consultantapp.ui.dashboard.home.bookservice.AllocateDoctorViewModel
 import com.consultantapp.ui.dashboard.home.bookservice.waiting.WaitingAllocationFragment

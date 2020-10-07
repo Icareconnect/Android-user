@@ -8,6 +8,7 @@ import com.consultantapp.ui.calling.CallViewModel
 import com.consultantapp.ui.classes.ClassesViewModel
 import com.consultantapp.ui.dashboard.DoctorViewModel
 import com.consultantapp.ui.dashboard.appointment.AppointmentViewModel
+import com.consultantapp.ui.dashboard.appointment.appointmentStatus.DirectionViewModel
 import com.consultantapp.ui.dashboard.chat.ChatViewModel
 import com.consultantapp.ui.dashboard.chat.UploadFileViewModel
 import com.consultantapp.ui.dashboard.doctor.schedule.GetSlotsViewModel
@@ -92,6 +93,12 @@ abstract class ViewModelsModule {
     @IntoMap
     @ViewModelKey(AllocateDoctorViewModel::class)
     abstract fun allocateDoctorViewModel(viewModel: AllocateDoctorViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(DirectionViewModel::class)
+    abstract fun directionViewModel(viewModel: DirectionViewModel): ViewModel
+
 
 
 

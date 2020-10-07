@@ -77,12 +77,7 @@ class ConfirmBookingFragment : DaggerFragment() {
         viewModel = ViewModelProvider(this, viewModelFactory)[DoctorViewModel::class.java]
         progressDialog = ProgressDialog(requireActivity())
 
-        binding.clLoader.setBackgroundColor(
-            ContextCompat.getColor(
-                requireContext(),
-                R.color.colorWhite
-            )
-        )
+        binding.clLoader.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorWhite))
         doctorData = requireActivity().intent.getSerializableExtra(USER_DATA) as UserData
         scheduleType = requireActivity().intent.getStringExtra(PAGE_TO_OPEN) ?: ""
 
@@ -94,10 +89,8 @@ class ConfirmBookingFragment : DaggerFragment() {
         binding.tvName.text = getDoctorName(doctorData)
         binding.tvDesc.text = doctorData?.categoryData?.name
             ?: binding.root.context.getString(R.string.na)
-        loadImage(
-            binding.ivPic, doctorData?.profile_image,
-            R.drawable.ic_profile_placeholder
-        )
+        loadImage(binding.ivPic, doctorData?.profile_image,
+            R.drawable.ic_profile_placeholder)
 
         if (doctorData?.phone != null)
             binding.etPhone.setText(
@@ -105,8 +98,7 @@ class ConfirmBookingFragment : DaggerFragment() {
                     R.string.phone_s_s,
                     doctorData?.country_code,
                     doctorData?.phone
-                )
-            )
+                ))
 
         if (doctorData?.email != null)
             binding.etEmail.setText(doctorData?.email)

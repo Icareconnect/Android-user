@@ -260,6 +260,7 @@ public class AppSocket {
         String ACKNOWLEDGE_MESSAGE = "acknowledgeMessage";
         String READ_MESSAGE = "readMessage";
         String DELIVERED_MESSAGE = "deliveredMessage";
+        String SEND_LIVE_LOCATION = "sendlivelocation";
     }
 
     public interface MessageStatus {

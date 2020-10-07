@@ -24,6 +24,7 @@ import com.consultantapp.data.network.PER_PAGE_LOAD
 import com.consultantapp.data.network.PushType
 import com.consultantapp.data.network.responseUtil.Status
 import com.consultantapp.databinding.ActivityListingToolbarBinding
+import com.consultantapp.ui.dashboard.appointment.appointmentStatus.AppointmentStatusActivity
 import com.consultantapp.ui.dashboard.doctor.DoctorActionActivity
 import com.consultantapp.ui.dashboard.doctor.schedule.ScheduleFragment.Companion.SERVICE_ID
 import com.consultantapp.ui.drawermenu.DrawerActivity
@@ -64,16 +65,16 @@ class AppointmentFragment : DaggerFragment() {
 
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         if (rootView == null) {
             binding = DataBindingUtil.inflate(
-                inflater,
-                R.layout.activity_listing_toolbar,
-                container,
-                false
+                    inflater,
+                    R.layout.activity_listing_toolbar,
+                    container,
+                    false
             )
             rootView = binding.root
 
@@ -218,19 +219,23 @@ class AppointmentFragment : DaggerFragment() {
     }
 
     fun rateUser(item: Request) {
-        startActivity(
-            Intent(requireActivity(), DrawerActivity::class.java)
+        startActivity(Intent(requireActivity(), DrawerActivity::class.java)
                 .putExtra(PAGE_TO_OPEN, RATE)
                 .putExtra(USER_DATA, item.to_user)
-                .putExtra(EXTRA_REQUEST_ID, item.id)
-        )
+                .putExtra(EXTRA_REQUEST_ID, item.id))
+    }
+
+    fun checkStatus(item: Request) {
+//        item.status = CallAction.REACHED
+        startActivity(Intent(requireActivity(), AppointmentStatusActivity::class.java)
+                .putExtra(EXTRA_REQUEST_ID, item))
     }
 
     fun rescheduleAppointment(item: Request) {
         val intent = Intent(requireContext(), DoctorActionActivity::class.java)
-            .putExtra(PAGE_TO_OPEN, item.schedule_type)
-            .putExtra(SERVICE_ID, item.service_id)
-            .putExtra(USER_DATA, item.to_user)
+                .putExtra(PAGE_TO_OPEN, item.schedule_type)
+                .putExtra(SERVICE_ID, item.service_id)
+                .putExtra(USER_DATA, item.to_user)
 
         if (item.status != CallAction.COMPLETED) {
             intent.putExtra(EXTRA_REQUEST_ID, item.id)
@@ -240,23 +245,23 @@ class AppointmentFragment : DaggerFragment() {
 
     fun cancelAppointment(item: Request) {
         AlertDialogUtil.instance.createOkCancelDialog(requireActivity(),
-            R.string.cancel_appointment,
-            R.string.cancel_appointment_msg,
-            R.string.cancel_appointment,
-            R.string.cancel,
-            false,
-            object : AlertDialogUtil.OnOkCancelDialogListener {
-                override fun onOkButtonClicked() {
-                    if (isConnectedToInternet(requireContext(), true)) {
-                        val hashMap = HashMap<String, String>()
-                        hashMap["request_id"] = item.id ?: ""
-                        viewModel.cancelRequest(hashMap)
+                R.string.cancel_appointment,
+                R.string.cancel_appointment_msg,
+                R.string.cancel_appointment,
+                R.string.cancel,
+                false,
+                object : AlertDialogUtil.OnOkCancelDialogListener {
+                    override fun onOkButtonClicked() {
+                        if (isConnectedToInternet(requireContext(), true)) {
+                            val hashMap = HashMap<String, String>()
+                            hashMap["request_id"] = item.id ?: ""
+                            viewModel.cancelRequest(hashMap)
+                        }
                     }
-                }
 
-                override fun onCancelButtonClicked() {
-                }
-            }).show()
+                    override fun onCancelButtonClicked() {
+                    }
+                }).show()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -288,7 +293,7 @@ class AppointmentFragment : DaggerFragment() {
             intentFilter.addAction(PushType.REQUEST_FAILED)
             intentFilter.addAction(PushType.CHAT_STARTED)
             LocalBroadcastManager.getInstance(requireContext())
-                .registerReceiver(refreshRequests, intentFilter)
+                    .registerReceiver(refreshRequests, intentFilter)
             isReceiverRegistered = true
         }
     }
@@ -303,7 +308,7 @@ class AppointmentFragment : DaggerFragment() {
     private val refreshRequests = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             if (intent.action == PushType.REQUEST_COMPLETED || intent.action == PushType.REQUEST_ACCEPTED ||
-                intent.action == PushType.CANCELED_REQUEST || intent.action == PushType.REQUEST_FAILED
+                    intent.action == PushType.CANCELED_REQUEST || intent.action == PushType.REQUEST_FAILED
                     || intent.action == PushType.CHAT_STARTED) {
                 hitApi(true)
             }

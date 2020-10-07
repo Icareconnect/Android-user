@@ -74,7 +74,7 @@
                 android:maxLines="2"
                 android:textColor="@color/textColor"
                 android:textSize="@dimen/sp_12"
-                app:layout_constraintEnd_toStartOf="@+id/tvRequestType"
+                app:layout_constraintEnd_toEndOf="@id/endGuideLine"
                 app:layout_constraintStart_toEndOf="@+id/ivPic"
                 app:layout_constraintTop_toBottomOf="@+id/tvName"
                 tools:text="@string/app_name" />
@@ -89,22 +89,6 @@
                 android:textSize="@dimen/sp_16"
                 app:layout_constraintEnd_toEndOf="@id/endGuideLine"
                 app:layout_constraintTop_toTopOf="@id/tvName" />
-
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvRequestType"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_16"
-                android:layout_marginTop="@dimen/dp_2"
-                android:alpha="0.7"
-                android:fontFamily="@font/campton_medium"
-                android:text="@string/chat_request"
-                android:textAllCaps="true"
-                android:textColor="@color/textColor"
-                android:textSize="@dimen/sp_12"
-                app:layout_constraintEnd_toEndOf="@id/endGuideLine"
-                app:layout_constraintTop_toBottomOf="@+id/tvPrice" />
 
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -145,7 +129,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_8"
-                android:layout_marginTop="@dimen/dp_16"
                 android:background="?android:attr/selectableItemBackground"
                 android:clickable="true"
                 android:focusable="true"
@@ -156,7 +139,24 @@
                 android:textColor="@color/colorCancel"
                 android:textSize="@dimen/sp_12"
                 app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+                app:layout_constraintTop_toTopOf="@+id/tvStatus" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvAccept"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_16"
+                android:background="@drawable/drawable_bg_theme"
+                android:fontFamily="@font/sans_bold"
+                android:gravity="center"
+                android:visibility="gone"
+                android:text="@string/track_status"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/sp_16"
+                app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+                app:layout_constraintStart_toStartOf="@id/startGuideLine"
                 app:layout_constraintTop_toBottomOf="@+id/tvStatus" />
+
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

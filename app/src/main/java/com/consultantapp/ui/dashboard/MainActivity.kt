@@ -12,7 +12,6 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
-import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
@@ -30,7 +29,6 @@ import com.consultantapp.utils.*
 import com.consultantapp.utils.AppRequestCode.LOCATION_PERMISSION_ID
 import com.consultantapp.utils.dialogs.ProgressDialog
 import com.google.android.gms.location.*
-import com.google.android.libraries.places.widget.Autocomplete
 import dagger.android.support.DaggerAppCompatActivity
 import java.util.*
 import javax.inject.Inject

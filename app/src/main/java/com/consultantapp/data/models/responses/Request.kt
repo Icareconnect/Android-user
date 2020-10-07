@@ -1,6 +1,8 @@
 package com.consultantapp.data.models.responses
 
-class Request {
+import java.io.Serializable
+
+class Request :Serializable{
 
     var id: String? = null
     var booking_date: String? = null
@@ -16,4 +18,7 @@ class Request {
     var bookingDateUTC: String? = null
     var canReschedule = false
     var canCancel = false
+
+    var extra_detail: Extra_detail? = null
+    var last_location:Last_location?=null
 }

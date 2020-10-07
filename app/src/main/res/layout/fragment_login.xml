@@ -82,6 +82,7 @@
             android:imeOptions="actionDone"
             android:inputType="number"
             android:maxLength="15"
+            android:ellipsize="end"
             android:padding="@dimen/dp_10"
             android:maxLines="1"
             android:textAppearance="@style/Toolbar.TitleText"

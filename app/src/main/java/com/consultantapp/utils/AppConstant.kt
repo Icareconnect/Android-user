@@ -72,6 +72,7 @@ object CallAction {
     const val REJECT = "reject"
     const val INPROGRESS = "in-progress"
     const val BUSY = "busy"
+    const val REACHED = "reached"
     const val COMPLETED = "completed"
     const val FAILED = "failed"
     const val CANCELED = "canceled"

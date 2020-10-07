@@ -1,6 +1,5 @@
 package com.consultantapp.ui.dashboard
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -11,8 +10,6 @@ import com.consultantapp.data.network.LoadingStatus.ITEM
 import com.consultantapp.data.network.LoadingStatus.LOADING
 import com.consultantapp.databinding.ItemPagingLoaderBinding
 import com.consultantapp.databinding.RvItemPopularBinding
-import com.consultantapp.ui.dashboard.doctor.detail.DoctorDetailActivity
-import com.consultantapp.ui.dashboard.doctor.detail.DoctorDetailActivity.Companion.DOCTOR_ID
 import com.consultantapp.ui.dashboard.doctor.listing.DoctorListActivity
 import com.consultantapp.utils.*
 

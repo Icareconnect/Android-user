@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.2"
+            android:background="#4EAFE8" />
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite"
+            android:elevation="4dp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:navigationIcon="@drawable/ic_back_white"
+            app:titleTextAppearance="@style/Toolbar.TitleText" />
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/startGuideLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="@dimen/dp_24" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/endGuideLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="@dimen/dp_24" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_32"
+            android:fontFamily="@font/sans_regular"
+            android:gravity="center"
+            android:text="@string/service_status_update"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/sp_18"
+            app:layout_constraintStart_toStartOf="@id/startGuideLine"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvCurrentStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_32"
+            android:drawableStart="@drawable/sale"
+            android:drawablePadding="@dimen/dp_8"
+            android:fontFamily="@font/sans_regular"
+            android:gravity="center"
+            android:text="@string/current_status"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintStart_toStartOf="@id/startGuideLine"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+
+        <View
+            android:id="@+id/viewArrived"
+            android:layout_width="1dp"
+            android:layout_height="@dimen/dp_56"
+            android:layout_marginStart="@dimen/dp_48"
+            android:layout_marginTop="@dimen/dp_16"
+            android:background="@color/colorPrimary"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvCurrentStatus" />
+
+        <RadioButton
+            android:id="@+id/tvArrived"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_12"
+            android:layout_marginTop="@dimen/dp_4"
+            android:checked="true"
+            android:clickable="false"
+            android:drawablePadding="@dimen/dp_8"
+            android:focusable="false"
+            android:fontFamily="@font/sans_regular"
+            android:gravity="center"
+            android:text="@string/arrived"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/sp_14"
+            app:layout_constraintStart_toEndOf="@+id/viewArrived"
+            app:layout_constraintTop_toTopOf="@+id/viewArrived" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvArrivedTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="46dp"
+            android:layout_marginTop="@dimen/dp_24"
+            android:alpha="0.7"
+            android:checked="true"
+            android:clickable="false"
+            android:drawablePadding="@dimen/dp_8"
+            android:focusable="false"
+            android:fontFamily="@font/sans_regular"
+            android:gravity="center"
+            android:text="12:31AM"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/sp_12"
+            app:layout_constraintStart_toEndOf="@+id/viewArrived"
+            app:layout_constraintTop_toTopOf="@+id/tvArrived" />
+
+
+        <View
+            android:id="@+id/viewStarted"
+            android:layout_width="1dp"
+            android:layout_height="@dimen/dp_56"
+            android:layout_marginStart="@dimen/dp_48"
+            android:layout_marginTop="@dimen/dp_16"
+            android:background="@color/colorPrimary"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/viewArrived" />
+
+
+        <RadioButton
+            android:id="@+id/tvStarted"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_12"
+            android:layout_marginTop="@dimen/dp_4"
+            android:checked="true"
+            android:clickable="false"
+            android:drawablePadding="@dimen/dp_8"
+            android:focusable="false"
+            android:fontFamily="@font/sans_regular"
+            android:gravity="top"
+            android:text="@string/started"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintStart_toEndOf="@+id/viewStarted"
+            app:layout_constraintTop_toTopOf="@+id/viewStarted" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvStartedTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="46dp"
+            android:layout_marginTop="@dimen/dp_24"
+            android:alpha="0.7"
+            android:checked="true"
+            android:clickable="false"
+            android:drawablePadding="@dimen/dp_8"
+            android:focusable="false"
+            android:fontFamily="@font/sans_regular"
+            android:gravity="center"
+            android:text="12:31AM"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/sp_12"
+            app:layout_constraintStart_toEndOf="@+id/viewArrived"
+            app:layout_constraintTop_toTopOf="@+id/tvStarted" />
+
+
+        <View
+            android:id="@+id/viewComplete"
+            android:layout_width="1dp"
+            android:layout_height="@dimen/dp_56"
+            android:layout_marginStart="@dimen/dp_48"
+            android:layout_marginTop="@dimen/dp_16"
+            android:alpha="0.4"
+            android:background="@color/colorPrimary"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/viewStarted" />
+
+        <RadioButton
+            android:id="@+id/tvComplete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_12"
+            android:layout_marginTop="@dimen/dp_4"
+            android:clickable="false"
+            android:drawablePadding="@dimen/dp_8"
+            android:focusable="false"
+            android:fontFamily="@font/sans_regular"
+            android:gravity="top"
+            android:text="@string/completed"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintStart_toEndOf="@+id/viewComplete"
+            app:layout_constraintTop_toTopOf="@+id/viewComplete" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvCompleteTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="46dp"
+            android:layout_marginTop="@dimen/dp_24"
+            android:alpha="0.7"
+            android:checked="true"
+            android:clickable="false"
+            android:drawablePadding="@dimen/dp_8"
+            android:focusable="false"
+            android:fontFamily="@font/sans_regular"
+            android:gravity="center"
+            android:text="12:31AM"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/sp_12"
+            app:layout_constraintStart_toEndOf="@+id/viewArrived"
+            app:layout_constraintTop_toTopOf="@+id/tvComplete" />
+
+
+        <include
+            android:id="@+id/clLoader"
+            layout="@layout/item_loader"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

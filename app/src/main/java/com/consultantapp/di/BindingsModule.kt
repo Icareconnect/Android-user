@@ -8,6 +8,8 @@ import com.consultantapp.ui.classes.ClassesDetailFragment
 import com.consultantapp.ui.classes.ClassesFragment
 import com.consultantapp.ui.dashboard.MainActivity
 import com.consultantapp.ui.dashboard.appointment.AppointmentFragment
+import com.consultantapp.ui.dashboard.appointment.appointmentStatus.AppointmentStatusActivity
+import com.consultantapp.ui.dashboard.appointment.appointmentStatus.StatusUpdateFragment
 import com.consultantapp.ui.dashboard.appointment.rating.AddRatingFragment
 import com.consultantapp.ui.dashboard.chat.ChatFragment
 import com.consultantapp.ui.dashboard.chat.chatdetail.ChatDetailActivity
@@ -196,5 +198,11 @@ abstract class BindingsModule {
 
     @ContributesAndroidInjector
     abstract fun dialogAllocatedNurseFragment(): DialogAllocatedNurseFragment
+
+    @ContributesAndroidInjector
+    abstract fun appointmentStatusActivity(): AppointmentStatusActivity
+
+    @ContributesAndroidInjector
+    abstract fun statusUpdateFragment(): StatusUpdateFragment
 
 }

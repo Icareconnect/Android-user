@@ -58,12 +58,14 @@ class AppointmentAdapter(private val fragment: AppointmentFragment, private val 
             binding.tvRate.setOnClickListener {
                 fragment.rateUser(items[adapterPosition])
             }
+
+            binding.tvAccept.setOnClickListener {
+                fragment.checkStatus(items[adapterPosition])
+            }
         }
 
         fun bind(request: Request) = with(binding) {
             val context = binding.root.context
-
-            slideRecyclerItem(binding.root, context)
 
             tvCancel.hideShowView(request.canCancel)
             tvRate.gone()
@@ -79,8 +81,8 @@ class AppointmentAdapter(private val fragment: AppointmentFragment, private val 
             tvDateTime.text = "${DateUtils.dateTimeFormatFromUTC(DateFormat.MON_YEAR_FORMAT, request.bookingDateUTC)} · " +
                     "${DateUtils.dateTimeFormatFromUTC(DateFormat.TIME_FORMAT, request.bookingDateUTC)}"
 
-            tvRequestType.text = request.service_type
             tvPrice.text = getCurrency(request.price)
+            tvAccept.gone()
 
             when (request.status) {
                 CallAction.ACCEPT -> {
@@ -97,6 +99,7 @@ class AppointmentAdapter(private val fragment: AppointmentFragment, private val 
                 }
                 CallAction.INPROGRESS, CallAction.BUSY -> {
                     tvStatus.text = context.getString(R.string.inprogess)
+                    tvAccept.visible()
                     tvCancel.gone()
                 }
                 CallAction.FAILED -> {

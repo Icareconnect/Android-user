@@ -1,16 +1,12 @@
 <resources>
     <string name="app_name">Intely</string>
 
-    <!--Facebook keys-->
-    <string name="facebook_app_id">614826522700049</string>
-    <string name="fb_login_protocol_scheme">fb614826522700049</string>
-
     <!--Deep Link-->
     <string name="deep_link_url" translatable="false">intely.page.link</string>
     <string name="deep_link_ios_bundle" translatable="false">com.codebrew.RoyoConsultant</string>
 
     <!--Google-->
-    <string name="google_places_api_key" translatable="false">AIzaSyCWRLStt_5Kmgd877p8o_fPM2W5pdZ4WbU</string>
+    <string name="google_places_api_key" translatable="false">AIzaSyBxwRzUvnbtTjNc8DURP4l4auJWsmrr7Bk</string>
 
     <string name="allow">ALLOW</string>
     <string name="deny">Deny</string>
@@ -120,7 +116,7 @@
     <string name="select_card">Select card</string>
     <string name="chat_request">Chat request</string>
     <string name="call_equest">Call request</string>
-    <string name="neww">New</string>
+    <string name="neww">New Request</string>
     <string name="accepted">accepted</string>
     <string name="inprogess">In progress</string>
     <string name="no_show">No show</string>
@@ -361,5 +357,19 @@
         <item>@string/medically_compromised</item>
         <item>@string/other</item>
     </array>
+
+    <string name="estimate_time_of_arrival_s">Estimate Time of Arrival : %s</string>
+    <string name="status">Status :</string>
+    <string name="on_the_way">On the way</string>
+    <string name="reached_destination">Reached Destination</string>
+    <string name="arrived">Arrived</string>
+    <string name="started">Started</string>
+    <string name="completed">Completed</string>
+    <string name="track_status">Track Status</string>
+    <string name="service_status_update">Service Status Update</string>
+    <string name="current_status">Current Status</string>
+
+    <string name="quit">Quit</string>
+    <string name="quit_message">Are you sure you want to quit? It will stop your tracking</string>
 
 </resources>

@@ -1,42 +1,34 @@
 {
   "project_info": {
-    "project_number": "203420252485",
-    "firebase_url": "https://intely-aac86.firebaseio.com",
-    "project_id": "intely-aac86",
-    "storage_bucket": "intely-aac86.appspot.com"
+    "project_number": "83734797857",
+    "firebase_url": "https://intely-3a60b.firebaseio.com",
+    "project_id": "intely-3a60b",
+    "storage_bucket": "intely-3a60b.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:203420252485:android:b6288d37c7777b402ce62c",
+        "mobilesdk_app_id": "1:83734797857:android:ed5be2145bb36669b08d60",
         "android_client_info": {
           "package_name": "com.intely"
         }
       },
       "oauth_client": [
         {
-          "client_id": "203420252485-ro5kv82nsgdcfva4ukc5mcc8em173g57.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.intely",
-            "certificate_hash": "254c3ddba79b66293742b97181d2c21318648ff6"
-          }
-        },
-        {
-          "client_id": "203420252485-4fqa758b7sfunk4bfpcu22nc733m10op.apps.googleusercontent.com",
+          "client_id": "83734797857-1qpbavrolkkevfvfb7mtjoakb4lf3lcc.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCqzzkL2g9iubx-oeZNy1ue6bLcyoRpLnQ"
+          "current_key": "AIzaSyBxwRzUvnbtTjNc8DURP4l4auJWsmrr7Bk"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "203420252485-4fqa758b7sfunk4bfpcu22nc733m10op.apps.googleusercontent.com",
+              "client_id": "83734797857-1qpbavrolkkevfvfb7mtjoakb4lf3lcc.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
