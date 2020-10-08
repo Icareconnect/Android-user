@@ -1,5 +1,6 @@
 package com.consultantapp.ui.dashboard.appointment.appointmentStatus
 
+import android.Manifest
 import android.animation.ValueAnimator
 import android.app.Activity
 import android.content.BroadcastReceiver
@@ -8,6 +9,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.location.Location
 import android.location.LocationManager
+import android.net.Uri
 import android.os.Bundle
 import android.view.WindowManager
 import android.view.animation.LinearInterpolator
@@ -26,6 +28,7 @@ import com.consultantapp.databinding.ActivityAppointmentStatusBinding
 import com.consultantapp.ui.dashboard.appointment.AppointmentViewModel
 import com.consultantapp.ui.drawermenu.DrawerActivity
 import com.consultantapp.utils.*
+import com.consultantapp.utils.PermissionUtils
 import com.consultantvendor.data.models.responses.directions.Overview_polyline
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -35,11 +38,13 @@ import com.google.android.gms.maps.model.*
 import dagger.android.support.DaggerAppCompatActivity
 import io.socket.emitter.Emitter
 import org.json.JSONObject
+import permissions.dispatcher.*
 import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 import kotlin.math.sign
 
+@RuntimePermissions
 class AppointmentStatusActivity : DaggerAppCompatActivity(), OnMapReadyCallback {
 
     @Inject
@@ -113,7 +118,7 @@ class AppointmentStatusActivity : DaggerAppCompatActivity(), OnMapReadyCallback 
         }
 
         binding.tvName.text = request?.to_user?.name
-        binding.tvTime.text = request?.time
+
         loadImage(binding.ivPic, request?.to_user?.profile_image,
                 R.drawable.ic_profile_placeholder)
 
@@ -144,7 +149,9 @@ class AppointmentStatusActivity : DaggerAppCompatActivity(), OnMapReadyCallback 
             }
             CallAction.REACHED -> {
                 binding.tvTime.gone()
-                binding.ivCall.visible()
+
+                binding.ivCall.hideShowView(!request?.to_user?.phone.isNullOrEmpty())
+
                 binding.tvStatusV.text = getString(R.string.reached_destination)
 
                 polyline?.remove()
@@ -154,7 +161,7 @@ class AppointmentStatusActivity : DaggerAppCompatActivity(), OnMapReadyCallback 
             }
             CallAction.START_SERVICE -> {
                 binding.tvTime.gone()
-                binding.ivCall.visible()
+                binding.ivCall.hideShowView(!request?.to_user?.phone.isNullOrEmpty())
                 binding.tvStatusV.text = getString(R.string.started)
 
                 polyline?.remove()
@@ -180,6 +187,10 @@ class AppointmentStatusActivity : DaggerAppCompatActivity(), OnMapReadyCallback 
     private fun setListeners() {
         binding.toolbar.setNavigationOnClickListener {
             onBackPressed()
+        }
+
+        binding.ivCall.setOnClickListener {
+            getCallWithPermissionCheck()
         }
     }
 
@@ -451,16 +462,15 @@ class AppointmentStatusActivity : DaggerAppCompatActivity(), OnMapReadyCallback 
     private val refreshRequests = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             if (request?.id == intent.getStringExtra(EXTRA_REQUEST_ID)) {
+                setResult(Activity.RESULT_OK)
                 when (intent.action) {
                     PushType.REACHED -> {
                         hitApi()
                     }
                     PushType.CANCEL_SERVICE -> {
-                        setResult(Activity.RESULT_OK)
                         finish()
                     }
                     PushType.COMPLETED, PushType.START_SERVICE -> {
-                        setResult(Activity.RESULT_OK)
                         startActivityForResult(
                                 Intent(this@AppointmentStatusActivity, DrawerActivity::class.java)
                                         .putExtra(PAGE_TO_OPEN, DrawerActivity.UPDATE_SERVICE)
@@ -473,5 +483,36 @@ class AppointmentStatusActivity : DaggerAppCompatActivity(), OnMapReadyCallback 
                 }
             }
         }
+    }
+
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        onRequestPermissionsResult(requestCode, grantResults)
+    }
+
+    @NeedsPermission(Manifest.permission.CALL_PHONE)
+    fun getCall() {
+        val user = request?.to_user
+        val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "${user?.country_code}${user?.phone}"))
+        startActivity(intent)
+    }
+
+    @OnShowRationale(Manifest.permission.CALL_PHONE)
+    fun showCallRationale(request: PermissionRequest) {
+        PermissionUtils.showRationalDialog(this, R.string.we_will_need_call, request)
+    }
+
+    @OnNeverAskAgain(Manifest.permission.CALL_PHONE)
+    fun onNeverAskAgainCallRationale() {
+        PermissionUtils.showAppSettingsDialog(
+                this,
+                R.string.we_will_need_call)
+    }
+
+    @OnPermissionDenied(Manifest.permission.CALL_PHONE)
+    fun showDeniedForCall() {
+        PermissionUtils.showAppSettingsDialog(
+                this, R.string.we_will_need_call)
     }
 }

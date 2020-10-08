@@ -87,6 +87,7 @@ class StatusUpdateFragment : DaggerFragment() {
     private fun setData() {
         if (request.status == CallAction.COMPLETED) {
             binding.tvComplete.isChecked = true
+            binding.viewComplete.alpha = 1f
         }
     }
 
