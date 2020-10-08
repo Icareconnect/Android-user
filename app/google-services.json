@@ -15,6 +15,43 @@
       },
       "oauth_client": [
         {
+          "client_id": "83734797857-nkn78mi530ih7t9m1odlmqfcpjqrg2lo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.intely",
+            "certificate_hash": "254c3ddba79b66293742b97181d2c21318648ff6"
+          }
+        },
+        {
+          "client_id": "83734797857-1qpbavrolkkevfvfb7mtjoakb4lf3lcc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxwRzUvnbtTjNc8DURP4l4auJWsmrr7Bk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "83734797857-1qpbavrolkkevfvfb7mtjoakb4lf3lcc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:83734797857:android:71ec1ebb61e3d26ab08d60",
+        "android_client_info": {
+          "package_name": "com.intely.nurse"
+        }
+      },
+      "oauth_client": [
+        {
           "client_id": "83734797857-1qpbavrolkkevfvfb7mtjoakb4lf3lcc.apps.googleusercontent.com",
           "client_type": 3
         }

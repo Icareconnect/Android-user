@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.consultantapp.R
 import com.consultantapp.data.models.requests.BookService
 import com.consultantapp.data.models.responses.Review
@@ -15,6 +16,7 @@ import com.consultantapp.data.models.responses.Service
 import com.consultantapp.data.models.responses.UserData
 import com.consultantapp.data.network.ApisRespHandler
 import com.consultantapp.data.network.PER_PAGE_LOAD
+import com.consultantapp.data.network.PushType
 import com.consultantapp.data.network.responseUtil.Status
 import com.consultantapp.data.repos.UserRepository
 import com.consultantapp.databinding.ActivityDoctorDetailBinding
@@ -190,6 +192,10 @@ class DoctorDetailActivity : DaggerAppCompatActivity() {
                                 }.show()
 
                     } else {
+                        val intentBroadcast = Intent()
+                        intentBroadcast.action = PushType.NEW_REQUEST
+                        LocalBroadcastManager.getInstance(this).sendBroadcast(intentBroadcast)
+
                         longToast(getString(R.string.request_sent))
                         setResult(Activity.RESULT_OK)
                         finish()

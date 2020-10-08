@@ -229,7 +229,7 @@ class ChatDetailActivity : DaggerAppCompatActivity(), AppSocket.OnMessageReceive
                     }
 
                     /*Check request request_status*/
-                    showTimer(data?.request_status == CallAction.INPROGRESS, data)
+                    showTimer(data?.request_status == CallAction.START, data)
                 }
 
                 Status.ERROR -> {

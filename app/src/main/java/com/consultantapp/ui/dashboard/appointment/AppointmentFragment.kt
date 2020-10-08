@@ -219,16 +219,25 @@ class AppointmentFragment : DaggerFragment() {
     }
 
     fun rateUser(item: Request) {
-        startActivity(Intent(requireActivity(), DrawerActivity::class.java)
-                .putExtra(PAGE_TO_OPEN, RATE)
-                .putExtra(USER_DATA, item.to_user)
-                .putExtra(EXTRA_REQUEST_ID, item.id))
+        startActivity(
+                Intent(requireActivity(), DrawerActivity::class.java)
+                        .putExtra(PAGE_TO_OPEN, RATE)
+                        .putExtra(USER_DATA, item.to_user)
+                        .putExtra(EXTRA_REQUEST_ID, item.id)
+        )
     }
 
     fun checkStatus(item: Request) {
 //        item.status = CallAction.REACHED
-        startActivity(Intent(requireActivity(), AppointmentStatusActivity::class.java)
-                .putExtra(EXTRA_REQUEST_ID, item))
+        when (item.status) {
+            CallAction.START, CallAction.REACHED ->
+                startActivityForResult(Intent(requireActivity(), AppointmentStatusActivity::class.java)
+                        .putExtra(EXTRA_REQUEST_ID, item.id), AppRequestCode.APPOINTMENT_DETAILS)
+            CallAction.START_SERVICE ->
+                startActivityForResult(Intent(requireContext(), DrawerActivity::class.java)
+                        .putExtra(PAGE_TO_OPEN, DrawerActivity.UPDATE_SERVICE)
+                        .putExtra(EXTRA_REQUEST_ID, item.id), AppRequestCode.APPOINTMENT_DETAILS)
+        }
     }
 
     fun rescheduleAppointment(item: Request) {
@@ -267,8 +276,10 @@ class AppointmentFragment : DaggerFragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == AppRequestCode.NEW_APPOINTMENT) {
-                hitApi(true)
+            when (requestCode) {
+                AppRequestCode.NEW_APPOINTMENT, AppRequestCode.APPOINTMENT_DETAILS -> {
+                    hitApi(true)
+                }
             }
         }
     }
@@ -287,11 +298,16 @@ class AppointmentFragment : DaggerFragment() {
     private fun registerReceiver() {
         if (!isReceiverRegistered) {
             val intentFilter = IntentFilter()
+            intentFilter.addAction(PushType.NEW_REQUEST)
             intentFilter.addAction(PushType.REQUEST_COMPLETED)
+            intentFilter.addAction(PushType.COMPLETED)
             intentFilter.addAction(PushType.REQUEST_ACCEPTED)
             intentFilter.addAction(PushType.CANCELED_REQUEST)
             intentFilter.addAction(PushType.REQUEST_FAILED)
             intentFilter.addAction(PushType.CHAT_STARTED)
+            intentFilter.addAction(PushType.START)
+            intentFilter.addAction(PushType.START_SERVICE)
+            intentFilter.addAction(PushType.CANCEL_SERVICE)
             LocalBroadcastManager.getInstance(requireContext())
                     .registerReceiver(refreshRequests, intentFilter)
             isReceiverRegistered = true
@@ -307,10 +323,12 @@ class AppointmentFragment : DaggerFragment() {
 
     private val refreshRequests = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            if (intent.action == PushType.REQUEST_COMPLETED || intent.action == PushType.REQUEST_ACCEPTED ||
-                    intent.action == PushType.CANCELED_REQUEST || intent.action == PushType.REQUEST_FAILED
-                    || intent.action == PushType.CHAT_STARTED) {
-                hitApi(true)
+            when (intent.action) {
+                PushType.REQUEST_COMPLETED, PushType.COMPLETED, PushType.REQUEST_ACCEPTED,
+                PushType.CANCELED_REQUEST, PushType.REQUEST_FAILED, PushType.CHAT_STARTED, PushType.START,
+                PushType.REACHED, PushType.START_SERVICE, PushType.CANCEL_SERVICE, PushType.NEW_REQUEST -> {
+                    hitApi(true)
+                }
             }
         }
     }

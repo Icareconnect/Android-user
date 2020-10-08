@@ -1,5 +1,9 @@
 package com.consultantapp.ui.dashboard.appointment.appointmentStatus
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,9 +11,11 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.consultantapp.R
 import com.consultantapp.data.models.responses.Request
 import com.consultantapp.data.network.ApisRespHandler
+import com.consultantapp.data.network.PushType
 import com.consultantapp.data.network.responseUtil.Status
 import com.consultantapp.databinding.FragmentStatusUpdateBinding
 import com.consultantapp.ui.dashboard.appointment.AppointmentViewModel
@@ -37,6 +43,8 @@ class StatusUpdateFragment : DaggerFragment() {
 
     private lateinit var request: Request
 
+    private var isReceiverRegistered = false
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         if (rootView == null) {
@@ -46,6 +54,7 @@ class StatusUpdateFragment : DaggerFragment() {
             initialise()
             listeners()
             bindObservers()
+            hitApi()
         }
         return rootView
     }
@@ -76,7 +85,9 @@ class StatusUpdateFragment : DaggerFragment() {
     }
 
     private fun setData() {
-
+        if (request.status == CallAction.COMPLETED) {
+            binding.tvComplete.isChecked = true
+        }
     }
 
     private fun bindObservers() {
@@ -99,6 +110,45 @@ class StatusUpdateFragment : DaggerFragment() {
                 }
             }
         })
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        registerReceiver()
+    }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver()
+    }
+
+    private fun registerReceiver() {
+        if (!isReceiverRegistered) {
+            val intentFilter = IntentFilter()
+            intentFilter.addAction(PushType.COMPLETED)
+            LocalBroadcastManager.getInstance(requireContext())
+                    .registerReceiver(refreshRequests, intentFilter)
+            isReceiverRegistered = true
+        }
+    }
+
+    private fun unregisterReceiver() {
+        if (isReceiverRegistered) {
+            LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(refreshRequests)
+            isReceiverRegistered = false
+        }
+    }
+
+    private val refreshRequests = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            when (intent.action) {
+               PushType.COMPLETED -> {
+                    hitApi()
+                }
+            }
+        }
     }
 
 }

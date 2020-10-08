@@ -59,7 +59,7 @@ class AppointmentAdapter(private val fragment: AppointmentFragment, private val 
                 fragment.rateUser(items[adapterPosition])
             }
 
-            binding.tvAccept.setOnClickListener {
+            binding.tvTrack.setOnClickListener {
                 fragment.checkStatus(items[adapterPosition])
             }
         }
@@ -73,16 +73,14 @@ class AppointmentAdapter(private val fragment: AppointmentFragment, private val 
             tvStatus.setTextColor(ContextCompat.getColor(context, R.color.colorPrimary))
 
             tvName.text = getDoctorName(request.to_user)
-            loadImage(
-                binding.ivPic, request.to_user?.profile_image,
-                R.drawable.ic_profile_placeholder
-            )
+            loadImage(binding.ivPic, request.to_user?.profile_image,
+                R.drawable.ic_profile_placeholder)
 
             tvDateTime.text = "${DateUtils.dateTimeFormatFromUTC(DateFormat.MON_YEAR_FORMAT, request.bookingDateUTC)} · " +
                     "${DateUtils.dateTimeFormatFromUTC(DateFormat.TIME_FORMAT, request.bookingDateUTC)}"
 
             tvPrice.text = getCurrency(request.price)
-            tvAccept.gone()
+            tvTrack.gone()
 
             when (request.status) {
                 CallAction.ACCEPT -> {
@@ -97,9 +95,19 @@ class AppointmentAdapter(private val fragment: AppointmentFragment, private val 
                     tvCancel.gone()
                     tvRate.visible()
                 }
-                CallAction.INPROGRESS, CallAction.BUSY -> {
+                CallAction.START -> {
                     tvStatus.text = context.getString(R.string.inprogess)
-                    tvAccept.visible()
+                    tvTrack.visible()
+                    tvCancel.gone()
+                }
+                CallAction.REACHED -> {
+                    tvStatus.text = context.getString(R.string.reached_destination)
+                    tvTrack.visible()
+                    tvCancel.gone()
+                }
+                CallAction.START_SERVICE -> {
+                    tvStatus.text = context.getString(R.string.started)
+                    tvTrack.visible()
                     tvCancel.gone()
                 }
                 CallAction.FAILED -> {
@@ -108,6 +116,11 @@ class AppointmentAdapter(private val fragment: AppointmentFragment, private val 
                 }
                 CallAction.CANCELED -> {
                     tvStatus.text = context.getString(R.string.canceled)
+                    tvStatus.setTextColor(ContextCompat.getColor(context, R.color.colorNoShow))
+                    tvCancel.gone()
+                }
+                CallAction.CANCEL_SERVICE -> {
+                    tvStatus.text = context.getString(R.string.canceled_service)
                     tvStatus.setTextColor(ContextCompat.getColor(context, R.color.colorNoShow))
                     tvCancel.gone()
                 }

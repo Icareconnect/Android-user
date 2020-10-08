@@ -70,12 +70,14 @@ object CallAction {
     const val PENDING = "pending"
     const val ACCEPT = "accept"
     const val REJECT = "reject"
-    const val INPROGRESS = "in-progress"
-    const val BUSY = "busy"
-    const val REACHED = "reached"
     const val COMPLETED = "completed"
     const val FAILED = "failed"
     const val CANCELED = "canceled"
+
+    const val START = "start"
+    const val REACHED = "reached"
+    const val START_SERVICE = "start_service"
+    const val CANCEL_SERVICE = "cancel_service"
 
 }
 
@@ -100,6 +102,7 @@ object AppRequestCode {
     const val NEW_APPOINTMENT: Int = 109
     const val ADD_CARD: Int = 110
     const val APPOINTMENT_BOOKING: Int = 111
+    const val APPOINTMENT_DETAILS: Int = 112
 }
 
 object ChatType {

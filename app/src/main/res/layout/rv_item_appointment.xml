@@ -142,7 +142,7 @@
                 app:layout_constraintTop_toTopOf="@+id/tvStatus" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvAccept"
+                android:id="@+id/tvTrack"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_16"

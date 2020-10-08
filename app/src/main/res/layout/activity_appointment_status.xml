@@ -56,9 +56,11 @@
 
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cvDetails"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:cardCornerRadius="@dimen/dp_8"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/endGuideLine"
             app:layout_constraintStart_toStartOf="@id/startGuideLine">

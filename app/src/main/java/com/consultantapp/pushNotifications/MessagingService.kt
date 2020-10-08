@@ -1,10 +1,7 @@
 package com.consultantapp.pushNotifications
 
 import android.annotation.TargetApi
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
-import android.app.TaskStackBuilder
+import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
@@ -17,12 +14,14 @@ import androidx.core.content.ContextCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.consultantapp.R
 import com.consultantapp.data.models.PushData
+import com.consultantapp.data.models.responses.Request
 import com.consultantapp.data.network.PushType
 import com.consultantapp.data.repos.UserRepository
 import com.consultantapp.ui.calling.Constants
 import com.consultantapp.ui.calling.IncomingCallNotificationService
 import com.consultantapp.ui.calling.SoundPoolManager
 import com.consultantapp.ui.dashboard.MainActivity
+import com.consultantapp.ui.dashboard.appointment.appointmentStatus.AppointmentStatusActivity
 import com.consultantapp.ui.dashboard.chat.chatdetail.ChatDetailActivity
 import com.consultantapp.ui.drawermenu.DrawerActivity
 import com.consultantapp.ui.drawermenu.DrawerActivity.Companion.WALLET
@@ -141,44 +140,66 @@ class MessagingService : FirebaseMessagingService() {
                         .putExtra(USER_NAME, pushData.senderName)
                         .putExtra(EXTRA_REQUEST_ID, pushData.request_id)
 
-                val intent = Intent()
-                intent.action = pushData.pushType
-                intent.putExtra(USER_ID, pushData.senderId)
+                val intentBroadcast = Intent()
+                intentBroadcast.action = pushData.pushType
+                intentBroadcast.putExtra(USER_ID, pushData.senderId)
                         .putExtra(USER_NAME, pushData.senderName)
                         .putExtra(EXTRA_REQUEST_ID, pushData.request_id)
 
-                LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
+                LocalBroadcastManager.getInstance(this).sendBroadcast(intentBroadcast)
             }
-            PushType.PROFILE_APPROVED->{
+            PushType.PROFILE_APPROVED -> {
                 val userData = userRepository.getUser()
                 if (userData?.isApproved == false) {
                     userData.isApproved = true
                     prefsManager.save(USER_DATA, userData)
                 }
 
-                val intent = Intent()
-                intent.action = pushData.pushType
-                LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
+                val intentBroadcast = Intent()
+                intentBroadcast.action = pushData.pushType
+                LocalBroadcastManager.getInstance(this).sendBroadcast(intentBroadcast)
             }
-            PushType.REQUEST_ACCEPTED, PushType.REQUEST_COMPLETED,
-            PushType.CANCELED_REQUEST, PushType.RESCHEDULED_REQUEST -> {
+            PushType.START, PushType.REACHED -> {
+
+                intent = Intent(this, AppointmentStatusActivity::class.java)
+                        .putExtra(EXTRA_REQUEST_ID, pushData.request_id)
+
+                val intentBroadcast = Intent()
+                intentBroadcast.action = pushData.pushType
+                intentBroadcast.putExtra(EXTRA_REQUEST_ID, pushData.request_id)
+                LocalBroadcastManager.getInstance(this).sendBroadcast(intentBroadcast)
+            }
+            PushType.START_SERVICE -> {
+
+                intent = Intent(this, DrawerActivity::class.java)
+                        .putExtra(PAGE_TO_OPEN, DrawerActivity.UPDATE_SERVICE)
+                        .putExtra(EXTRA_REQUEST_ID, pushData.request_id)    
+
+                val intentBroadcast = Intent()
+                intentBroadcast.action = pushData.pushType
+                intentBroadcast.putExtra(EXTRA_REQUEST_ID, pushData.request_id)
+                LocalBroadcastManager.getInstance(this).sendBroadcast(intentBroadcast)
+            }
+
+            PushType.REQUEST_ACCEPTED, PushType.REQUEST_COMPLETED, PushType.COMPLETED,
+            PushType.CANCELED_REQUEST, PushType.CANCEL_SERVICE, PushType.RESCHEDULED_REQUEST -> {
                 homeIntent.putExtra(EXTRA_TAB, "1")
 
-                val intent = Intent()
-                intent.action = pushData.pushType
-                intent.putExtra(EXTRA_REQUEST_ID, pushData.request_id)
+                val intentBroadcast = Intent()
+                intentBroadcast.action = pushData.pushType
+                intentBroadcast.putExtra(EXTRA_REQUEST_ID, pushData.request_id)
 
-                LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
+                LocalBroadcastManager.getInstance(this).sendBroadcast(intentBroadcast)
             }
             PushType.BOOKING_RESERVED, PushType.BALANCE_ADDED, PushType.BALANCE_FAILED -> {
                 intent = Intent(this, DrawerActivity::class.java)
                         .putExtra(PAGE_TO_OPEN, WALLET)
 
-                val intent = Intent()
-                intent.action = pushData.pushType
-                intent.putExtra(EXTRA_REQUEST_ID, pushData.transaction_id)
+                val intentBroadcast = Intent()
+                intentBroadcast.action = pushData.pushType
+                intentBroadcast.putExtra(EXTRA_REQUEST_ID, pushData.transaction_id)
 
-                LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
+                LocalBroadcastManager.getInstance(this).sendBroadcast(intentBroadcast)
 
             }
             PushType.CALL -> {
@@ -234,7 +255,7 @@ class MessagingService : FirebaseMessagingService() {
                 .setContentIntent(pendingIntent)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            notificationBuilder.setSmallIcon(R.drawable.ic_push)
+            notificationBuilder.setSmallIcon(R.mipmap.ic_launcher)
             notificationBuilder.color = ContextCompat.getColor(this, R.color.colorAccent)
         } else {
             notificationBuilder.setSmallIcon(R.mipmap.ic_launcher)

@@ -35,6 +35,7 @@ object PushType {
     const val PROFILE_APPROVED = "PROFILE_APPROVED"
     const val CHAT = "chat"
     const val CHAT_STARTED = "CHAT_STARTED"
+    const val NEW_REQUEST = "NEW_REQUEST"
     const val REQUEST_COMPLETED = "REQUEST_COMPLETED"
     const val REQUEST_FAILED = "REQUEST_FAILED"
     const val CANCELED_REQUEST = "CANCELED_REQUEST"
@@ -47,4 +48,10 @@ object PushType {
     const val CALL_CANCELED = "CALL_CANCELED"
     const val BALANCE_ADDED = "BALANCE_ADDED"
     const val BALANCE_FAILED="BALANCE_FAILED"
+
+    const val START = "START"
+    const val REACHED = "REACHED"
+    const val START_SERVICE = "START_SERVICE"
+    const val CANCEL_SERVICE = "CANCEL_SERVICE"
+    const val COMPLETED = "COMPLETED"
 }

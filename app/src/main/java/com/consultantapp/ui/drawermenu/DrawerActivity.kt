@@ -8,6 +8,7 @@ import com.consultantapp.databinding.ActivityContainerBinding
 import com.consultantapp.ui.classes.ClassesDetailFragment
 import com.consultantapp.ui.classes.ClassesFragment
 import com.consultantapp.ui.dashboard.appointment.AppointmentFragment
+import com.consultantapp.ui.dashboard.appointment.appointmentStatus.StatusUpdateFragment
 import com.consultantapp.ui.dashboard.appointment.rating.AddRatingFragment
 import com.consultantapp.ui.dashboard.chat.ChatFragment
 import com.consultantapp.ui.dashboard.home.bookservice.datetime.DateTimeFragment
@@ -111,6 +112,9 @@ class DrawerActivity : DaggerAppCompatActivity() {
             USER_VERIFICATION ->
                 addFragment(supportFragmentManager,
                         UserVerificationFragment(), R.id.container)
+            UPDATE_SERVICE ->
+                addFragment(supportFragmentManager,
+                        StatusUpdateFragment(), R.id.container)
         }
     }
 
@@ -131,6 +135,7 @@ class DrawerActivity : DaggerAppCompatActivity() {
         const val REGISTER_SERVICE = "REGISTER_SERVICE"
         const val USER_VERIFICATION = "USER_VERIFICATION"
         const val DATE_TIME="DATE_TIME"
+        const val UPDATE_SERVICE="UPDATE_SERVICE"
     }
 
     override fun onBackPressed() {

@@ -83,7 +83,7 @@ class DateTimeFragment : DaggerFragment(), OnTimeSelected {
         itemDays.clear()
         var calendar: Calendar
         var date: DatesAvailability
-        for (i in 1..60) {
+        for (i in 0..60) {
             calendar = Calendar.getInstance()
             calendar.add(Calendar.DAY_OF_MONTH, i)
 

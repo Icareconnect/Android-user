@@ -1,6 +1,11 @@
 package com.consultantapp.ui.dashboard.appointment.appointmentStatus
 
 import android.animation.ValueAnimator
+import android.app.Activity
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
@@ -10,13 +15,16 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.consultantapp.R
 import com.consultantapp.data.models.responses.Request
 import com.consultantapp.data.network.ApisRespHandler
+import com.consultantapp.data.network.PushType
 import com.consultantapp.data.network.responseUtil.Status
 import com.consultantapp.data.repos.UserRepository
 import com.consultantapp.databinding.ActivityAppointmentStatusBinding
 import com.consultantapp.ui.dashboard.appointment.AppointmentViewModel
+import com.consultantapp.ui.drawermenu.DrawerActivity
 import com.consultantapp.utils.*
 import com.consultantvendor.data.models.responses.directions.Overview_polyline
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -66,20 +74,24 @@ class AppointmentStatusActivity : DaggerAppCompatActivity(), OnMapReadyCallback 
 
     private var markerToMove: Marker? = null
 
+    private var markerToReach: Marker? = null
+
+    private var isReceiverRegistered = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_appointment_status)
 
         initialise()
         setListeners()
-        setRequestData()
         bindObservers()
     }
 
     private fun initialise() {
         mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment?.getMapAsync(this)
-        viewModelDirection = ViewModelProvider(this, viewModelFactory)[DirectionViewModel::class.java]
+        viewModelDirection =
+                ViewModelProvider(this, viewModelFactory)[DirectionViewModel::class.java]
         viewModel = ViewModelProvider(this, viewModelFactory)[AppointmentViewModel::class.java]
 
         // These flags ensure that the activity can be launched when the screen is locked.
@@ -87,30 +99,81 @@ class AppointmentStatusActivity : DaggerAppCompatActivity(), OnMapReadyCallback 
     }
 
     private fun setRequestData() {
-        request = intent.getSerializableExtra(EXTRA_REQUEST_ID) as Request
+        binding.cvDetails.visible()
+
         finalLatLng = LatLng(request?.extra_detail?.lat?.toDouble()
                 ?: 0.0, request?.extra_detail?.long?.toDouble() ?: 0.0)
+
+        if (markerToReach == null && ::finalLatLng.isInitialized) {
+            markerToReach = mMap?.addMarker(MarkerOptions()
+                    .position(finalLatLng)
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_drop_location_mrkr))
+                    .anchor(0.5f, 0.5f)
+                    .flat(true))
+        }
 
         binding.tvName.text = request?.to_user?.name
         binding.tvTime.text = request?.time
         loadImage(binding.ivPic, request?.to_user?.profile_image,
                 R.drawable.ic_profile_placeholder)
 
-        if (request?.status == CallAction.INPROGRESS) {
-            if (isConnectedToInternet(this, true)) {
-                val hashMap = HashMap<String, String>()
-                hashMap["request_id"] = request?.id ?: ""
-                viewModel.requestDetail(hashMap)
+        when (request?.status) {
+            CallAction.START -> {
+                if (request?.last_location != null) {
+                    placeLatLng = LatLng(request?.last_location?.lat
+                            ?: 0.0, request?.last_location?.long ?: 0.0)
+
+                    if (request?.status == CallAction.START && markerToMove == null && ::placeLatLng.isInitialized) {
+                        markerToMove = mMap?.addMarker(
+                                MarkerOptions()
+                                        .position(placeLatLng)
+                                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_location_arrow))
+                                        .anchor(0.5f, 0.5f)
+                                        .flat(true))
+                    }
+
+
+                    mMap?.moveCamera(CameraUpdateFactory.newLatLng(placeLatLng))
+                    mMap?.animateCamera(CameraUpdateFactory.zoomTo(14f))
+
+                    drawPolyLineApi()
+                } else {
+                    mMap?.moveCamera(CameraUpdateFactory.newLatLng(finalLatLng))
+                    mMap?.animateCamera(CameraUpdateFactory.zoomTo(14f))
+                }
             }
-        } else {
-            binding.tvTime.gone()
-            binding.ivCall.visible()
-            binding.tvStatusV.text = getString(R.string.reached_destination)
+            CallAction.REACHED -> {
+                binding.tvTime.gone()
+                binding.ivCall.visible()
+                binding.tvStatusV.text = getString(R.string.reached_destination)
 
-            mMap?.moveCamera(CameraUpdateFactory.newLatLng(finalLatLng))
-            mMap?.animateCamera(CameraUpdateFactory.zoomTo(14f))
+                polyline?.remove()
+                markerToMove?.remove()
+                mMap?.moveCamera(CameraUpdateFactory.newLatLng(finalLatLng))
+                mMap?.animateCamera(CameraUpdateFactory.zoomTo(14f))
+            }
+            CallAction.START_SERVICE -> {
+                binding.tvTime.gone()
+                binding.ivCall.visible()
+                binding.tvStatusV.text = getString(R.string.started)
+
+                polyline?.remove()
+                markerToMove?.remove()
+                mMap?.moveCamera(CameraUpdateFactory.newLatLng(finalLatLng))
+                mMap?.animateCamera(CameraUpdateFactory.zoomTo(14f))
+            }
+            CallAction.CANCEL_SERVICE -> {
+                finish()
+            }
         }
+    }
 
+    private fun hitApi() {
+        if (isConnectedToInternet(this, true)) {
+            val hashMap = HashMap<String, String>()
+            hashMap["request_id"] = intent.getStringExtra(EXTRA_REQUEST_ID) ?: ""
+            viewModel.requestDetail(hashMap)
+        }
     }
 
 
@@ -122,12 +185,14 @@ class AppointmentStatusActivity : DaggerAppCompatActivity(), OnMapReadyCallback 
 
     private fun drawPolyLineApi() {
         runOnUiThread {
-            if (request?.status == CallAction.INPROGRESS && markerToMove == null) {
-                markerToMove = mMap?.addMarker(MarkerOptions()
-                        .position(placeLatLng)
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_location_arrow))
-                        .anchor(0.5f, 0.5f)
-                        .flat(true))
+            if (request?.status == CallAction.START && markerToMove == null) {
+                markerToMove = mMap?.addMarker(
+                        MarkerOptions()
+                                .position(placeLatLng)
+                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_location_arrow))
+                                .anchor(0.5f, 0.5f)
+                                .flat(true)
+                )
             } else
                 animateMarker()
 
@@ -149,22 +214,7 @@ class AppointmentStatusActivity : DaggerAppCompatActivity(), OnMapReadyCallback 
         // mMap?.isMyLocationEnabled = true
         mMap?.uiSettings?.isMyLocationButtonEnabled = true
 
-        mMap?.addMarker(MarkerOptions()
-                .position(finalLatLng)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_drop_location_mrkr))
-                .anchor(0.5f, 0.5f)
-                .flat(true))
-
-        if (request?.status == CallAction.INPROGRESS && markerToMove == null && ::placeLatLng.isInitialized) {
-            markerToMove = mMap?.addMarker(MarkerOptions()
-                    .position(placeLatLng)
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_location_arrow))
-                    .anchor(0.5f, 0.5f)
-                    .flat(true))
-        } else if (::finalLatLng.isInitialized) {
-            mMap?.moveCamera(CameraUpdateFactory.newLatLng(finalLatLng))
-            mMap?.animateCamera(CameraUpdateFactory.zoomTo(14f))
-        }
+        hitApi()
     }
 
     private fun animateMarker() {
@@ -186,7 +236,8 @@ class AppointmentStatusActivity : DaggerAppCompatActivity(), OnMapReadyCallback 
                     val newPosition = latLngInterpolator.interpolate(v, startPosition, endPosition)
                             ?: LatLng(0.0, 0.0)
                     markerToMove?.position = newPosition
-                    markerToMove?.rotation = computeRotation(v, startRotation, locationStart.bearing)
+                    markerToMove?.rotation =
+                            computeRotation(v, startRotation, locationStart.bearing)
                 } catch (ex: Exception) {
                     // I don't care atm..
                 }
@@ -214,7 +265,8 @@ class AppointmentStatusActivity : DaggerAppCompatActivity(), OnMapReadyCallback 
     private fun computeRotation(fraction: Float, start: Float, end: Float): Float {
         val normalizeEnd = end - start // rotate start to 0
         val normalizedEndAbs = (normalizeEnd + 360) % 360
-        val direction = if (normalizedEndAbs > 180) (-1).toFloat() else 1.toFloat() // -1 = anticlockwise, 1 = clockwise
+        val direction =
+                if (normalizedEndAbs > 180) (-1).toFloat() else 1.toFloat() // -1 = anticlockwise, 1 = clockwise
         val rotation: Float
         rotation = if (direction > 0) {
             normalizedEndAbs
@@ -233,23 +285,7 @@ class AppointmentStatusActivity : DaggerAppCompatActivity(), OnMapReadyCallback 
                 Status.SUCCESS -> {
                     runOnUiThread {
                         request = it.data?.request_detail ?: Request()
-
-                        finalLatLng = LatLng(request?.extra_detail?.lat?.toDouble()
-                                ?: 0.0, request?.extra_detail?.long?.toDouble() ?: 0.0)
-
-
-                        if (request?.status == CallAction.INPROGRESS && request?.last_location != null) {
-                            placeLatLng = LatLng(request?.last_location?.lat
-                                    ?: 0.0, request?.last_location?.long ?: 0.0)
-
-                            mMap?.moveCamera(CameraUpdateFactory.newLatLng(placeLatLng))
-                            mMap?.animateCamera(CameraUpdateFactory.zoomTo(14f))
-
-                            drawPolyLineApi()
-                        } else {
-                            mMap?.moveCamera(CameraUpdateFactory.newLatLng(finalLatLng))
-                            mMap?.animateCamera(CameraUpdateFactory.zoomTo(14f))
-                        }
+                        setRequestData()
                     }
 
                 }
@@ -265,9 +301,11 @@ class AppointmentStatusActivity : DaggerAppCompatActivity(), OnMapReadyCallback 
             it ?: return@Observer
             when (it.status) {
                 Status.SUCCESS -> {
-                    if (request?.status == CallAction.INPROGRESS) {
-                        binding.tvTime.text = getString(R.string.estimate_time_of_arrival_s,
-                                it.data?.routes?.get(0)?.legs?.get(0)?.duration?.text)
+                    if (request?.status == CallAction.START) {
+                        binding.tvTime.text = getString(
+                                R.string.estimate_time_of_arrival_s,
+                                it.data?.routes?.get(0)?.legs?.get(0)?.duration?.text
+                        )
                         drawDirectionToStop(it.data?.routes?.get(0)?.overview_polyline)
                     }
 
@@ -283,7 +321,7 @@ class AppointmentStatusActivity : DaggerAppCompatActivity(), OnMapReadyCallback 
     }
 
     override fun onBackPressed() {
-        if (request?.status == CallAction.INPROGRESS) {
+        if (request?.status == CallAction.START) {
             AlertDialogUtil.instance.createOkCancelDialog(this, R.string.quit,
                     R.string.quit_message, R.string.yes, R.string.no, false,
                     object : AlertDialogUtil.OnOkCancelDialogListener {
@@ -348,8 +386,10 @@ class AppointmentStatusActivity : DaggerAppCompatActivity(), OnMapReadyCallback 
                 } while (b >= 0x20)
                 val dlng = if (result and 1 != 0) (result shr 1).inv() else result shr 1
                 lng += dlng
-                val p = LatLng(lat.toDouble() / 1E5,
-                        lng.toDouble() / 1E5)
+                val p = LatLng(
+                        lat.toDouble() / 1E5,
+                        lng.toDouble() / 1E5
+                )
                 poly.add(p)
             }
         }
@@ -364,6 +404,7 @@ class AppointmentStatusActivity : DaggerAppCompatActivity(), OnMapReadyCallback 
     override fun onDestroy() {
         super.onDestroy()
         appSocket.off(AppSocket.Events.SEND_LIVE_LOCATION, listener)
+        unregisterReceiver()
     }
 
     private val listener = Emitter.Listener {
@@ -380,6 +421,57 @@ class AppointmentStatusActivity : DaggerAppCompatActivity(), OnMapReadyCallback 
             placeLatLng = LatLng(lat.toDouble(), long.toDouble())
 
             drawPolyLineApi()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        registerReceiver()
+    }
+
+    private fun registerReceiver() {
+        if (!isReceiverRegistered) {
+            val intentFilter = IntentFilter()
+            intentFilter.addAction(PushType.REACHED)
+            intentFilter.addAction(PushType.START_SERVICE)
+            intentFilter.addAction(PushType.CANCEL_SERVICE)
+            LocalBroadcastManager.getInstance(this)
+                    .registerReceiver(refreshRequests, intentFilter)
+            isReceiverRegistered = true
+        }
+    }
+
+    private fun unregisterReceiver() {
+        if (isReceiverRegistered) {
+            LocalBroadcastManager.getInstance(this).unregisterReceiver(refreshRequests)
+            isReceiverRegistered = false
+        }
+    }
+
+    private val refreshRequests = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            if (request?.id == intent.getStringExtra(EXTRA_REQUEST_ID)) {
+                when (intent.action) {
+                    PushType.REACHED -> {
+                        hitApi()
+                    }
+                    PushType.CANCEL_SERVICE -> {
+                        setResult(Activity.RESULT_OK)
+                        finish()
+                    }
+                    PushType.COMPLETED, PushType.START_SERVICE -> {
+                        setResult(Activity.RESULT_OK)
+                        startActivityForResult(
+                                Intent(this@AppointmentStatusActivity, DrawerActivity::class.java)
+                                        .putExtra(PAGE_TO_OPEN, DrawerActivity.UPDATE_SERVICE)
+                                        .putExtra(EXTRA_REQUEST_ID, request?.id),
+                                AppRequestCode.APPOINTMENT_DETAILS
+                        )
+                        finish()
+
+                    }
+                }
+            }
         }
     }
 }
