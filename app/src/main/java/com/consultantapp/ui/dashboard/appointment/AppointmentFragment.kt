@@ -219,12 +219,10 @@ class AppointmentFragment : DaggerFragment() {
     }
 
     fun rateUser(item: Request) {
-        startActivity(
-                Intent(requireActivity(), DrawerActivity::class.java)
+        startActivity(Intent(requireActivity(), DrawerActivity::class.java)
                         .putExtra(PAGE_TO_OPEN, RATE)
-                        .putExtra(USER_DATA, item.to_user)
-                        .putExtra(EXTRA_REQUEST_ID, item.id)
-        )
+                        .putExtra(EXTRA_TAB, true)
+                        .putExtra(EXTRA_REQUEST_ID, item.id))
     }
 
     fun checkStatus(item: Request) {

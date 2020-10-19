@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorWhite"
+            android:elevation="@dimen/dp_1">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/startGuideLine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="@dimen/dp_24" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/endGuideLine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="@dimen/dp_24" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/checked"
+                android:drawablePadding="@dimen/dp_12"
+                android:fontFamily="@font/sans_regular"
+                android:text="@string/service_completed"
+                android:textColor="@color/textColor"
+                android:layout_marginTop="160dp"
+                android:textSize="@dimen/sp_24"
+                app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+                app:layout_constraintStart_toStartOf="@id/startGuideLine"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvGiveFeedback"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_24"
+                android:layout_marginBottom="@dimen/dp_16"
+                android:background="@drawable/drawable_bg_theme_rounded"
+                android:fontFamily="@font/sans_bold"
+                android:gravity="center"
+                android:text="@string/give_feedback"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/sp_16"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+                app:layout_constraintStart_toStartOf="@id/startGuideLine"
+                app:layout_constraintTop_toBottomOf="@+id/tvText" />
+
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivBackground"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@color/colorWhite"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <!--Feedback-->
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:visibility="gone"
+                app:navigationIcon="@drawable/ic_back"
+                app:titleTextAppearance="@style/Toolbar.TitleText" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_42"
+                android:fontFamily="@font/sans_bold"
+                android:text="@string/how_was_experience"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/sp_18"
+                app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+                app:layout_constraintStart_toStartOf="@id/startGuideLine"
+                app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvUnsatisfactory"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_24"
+                android:layout_marginEnd="@dimen/dp_8"
+                android:background="@drawable/drawable_bg_theme"
+                android:drawableStart="@drawable/ic_unsatisfactory"
+                android:drawablePadding="@dimen/dp_24"
+                android:fontFamily="@font/sans_bold"
+                android:padding="@dimen/dp_16"
+                android:text="@string/unsatisfactory"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/sp_14"
+                app:layout_constraintEnd_toStartOf="@id/tvSatisfactory"
+                app:layout_constraintStart_toStartOf="@id/startGuideLine"
+                app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvSatisfactory"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_8"
+                android:layout_marginTop="@dimen/dp_24"
+                android:background="@drawable/drawable_bg_theme"
+                android:drawableStart="@drawable/ic_satisfactory"
+                android:drawablePadding="@dimen/dp_24"
+                android:fontFamily="@font/sans_bold"
+                android:padding="@dimen/dp_16"
+                android:text="@string/satisfactory"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/sp_14"
+                app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+                app:layout_constraintStart_toEndOf="@id/tvUnsatisfactory"
+                app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivFeedback"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+                app:layout_constraintStart_toStartOf="@id/startGuideLine"
+                app:layout_constraintTop_toBottomOf="@+id/tvUnsatisfactory"
+                app:srcCompat="@drawable/ic_feedback" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/groupFeedback"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:constraint_referenced_ids="tvTitle,tvSatisfactory,tvUnsatisfactory,ivFeedback" />
+
+
+            <!--Satisfactory-->
+            <androidx.appcompat.widget.AppCompatRatingBar
+                android:id="@+id/ratingBar"
+                style="@style/MyRating"
+                android:layout_width="wrap_content"
+                android:layout_height="44dp"
+                android:layout_marginTop="32dp"
+                android:numStars="5"
+                android:rating="0"
+                app:layout_constraintStart_toStartOf="@id/startGuideLine"
+                app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvTitleSatisfactory"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_42"
+                android:fontFamily="@font/sans_bold"
+                android:text="@string/unsatisfactory"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/sp_32"
+                app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+                app:layout_constraintStart_toStartOf="@id/startGuideLine"
+                app:layout_constraintTop_toBottomOf="@+id/ratingBar" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvTitleFeedback"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_12"
+                android:fontFamily="@font/sans_bold"
+                android:text="@string/feedback_message_optional"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/sp_14"
+                app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+                app:layout_constraintStart_toStartOf="@id/startGuideLine"
+                app:layout_constraintTop_toBottomOf="@+id/tvTitleSatisfactory" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etReason"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_16"
+                android:fontFamily="@font/sans_regular"
+                android:gravity="start"
+                android:hint="@string/write_your_message_here"
+                android:imeOptions="actionDone"
+                android:inputType="textCapSentences|textMultiLine"
+                android:lines="4"
+                android:maxLength="1000"
+                android:maxLines="4"
+                android:background="@drawable/drawable_bg_grey"
+                android:padding="@dimen/dp_12"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/sp_16"
+                app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+                app:layout_constraintStart_toStartOf="@id/startGuideLine"
+                app:layout_constraintTop_toBottomOf="@+id/tvTitleFeedback" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvProceedPayment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_24"
+                android:layout_marginBottom="@dimen/dp_16"
+                android:background="@drawable/drawable_bg_theme"
+                android:fontFamily="@font/sans_bold"
+                android:gravity="center"
+                android:text="@string/report_service"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/sp_16"
+                app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+                app:layout_constraintStart_toStartOf="@id/startGuideLine"
+                app:layout_constraintTop_toBottomOf="@+id/etReason" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/groupFeedbackNext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:constraint_referenced_ids="ratingBar,tvTitleSatisfactory,tvTitleFeedback,etReason,tvProceedPayment" />
+
+
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivSatisfactory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_32"
+                android:background="@color/colorWhite"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvProceedPayment"
+                app:srcCompat="@drawable/ic_satisfactory1" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivUnsatisfactory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_32"
+                android:visibility="gone"
+                android:background="@color/colorWhite"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvProceedPayment"
+                app:srcCompat="@drawable/ic_unsatisfactory1" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</layout>

@@ -8,6 +8,7 @@ import com.consultantapp.databinding.ActivityContainerBinding
 import com.consultantapp.ui.classes.ClassesDetailFragment
 import com.consultantapp.ui.classes.ClassesFragment
 import com.consultantapp.ui.dashboard.appointment.AppointmentFragment
+import com.consultantapp.ui.dashboard.appointment.appointmentStatus.CompletedRequestFragment
 import com.consultantapp.ui.dashboard.appointment.appointmentStatus.StatusUpdateFragment
 import com.consultantapp.ui.dashboard.appointment.rating.AddRatingFragment
 import com.consultantapp.ui.dashboard.chat.ChatFragment
@@ -67,7 +68,7 @@ class DrawerActivity : DaggerAppCompatActivity() {
                         AppointmentFragment(), R.id.container)
             RATE ->
                 addFragment(supportFragmentManager,
-                        AddRatingFragment(), R.id.container)
+                        CompletedRequestFragment(), R.id.container)
             USER_CHAT ->
                 addFragment(supportFragmentManager,
                         ChatFragment(), R.id.container)

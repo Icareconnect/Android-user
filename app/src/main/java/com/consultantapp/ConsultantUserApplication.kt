@@ -11,6 +11,8 @@ import com.consultantapp.data.network.PushType
 import com.consultantapp.data.repos.UserRepository
 import com.consultantapp.di.DaggerAppComponent
 import com.consultantapp.ui.dashboard.chat.chatdetail.ChatDetailActivity
+import com.consultantapp.ui.drawermenu.DrawerActivity
+import com.consultantapp.ui.drawermenu.DrawerActivity.Companion.RATE
 import com.consultantapp.utils.*
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.google.android.libraries.places.api.Places
@@ -83,6 +85,7 @@ class ConsultantUserApplication : DaggerApplication(), LifecycleObserver {
         if (!isReceiverRegistered) {
             val intentFilter = IntentFilter()
             intentFilter.addAction(PushType.CHAT_STARTED)
+            intentFilter.addAction(PushType.COMPLETED)
             LocalBroadcastManager.getInstance(this).registerReceiver(refreshRequests, intentFilter)
             isReceiverRegistered = true
         }
@@ -104,6 +107,14 @@ class ConsultantUserApplication : DaggerApplication(), LifecycleObserver {
                     .putExtra(EXTRA_REQUEST_ID, intent.getStringExtra(EXTRA_REQUEST_ID))
                     .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+
+                startActivity(intent)
+            }else if (intent.action == PushType.COMPLETED) {
+                val intent = Intent(this@ConsultantUserApplication, DrawerActivity::class.java)
+                        .putExtra(PAGE_TO_OPEN, RATE)
+                        .putExtra(EXTRA_REQUEST_ID, intent.getStringExtra(EXTRA_REQUEST_ID))
+                        .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
                 startActivity(intent)
             }

@@ -262,7 +262,10 @@ class SignUpFragment : DaggerFragment(), OnDateSelected {
 
                     prefsManager.save(USER_DATA, it.data)
 
-                    startActivity(Intent(requireContext(), MainActivity::class.java))
+                    requireActivity().setResult(Activity.RESULT_OK)
+
+                    if (!requireActivity().intent.hasExtra(UPDATE_PROFILE))
+                        startActivity(Intent(requireContext(), MainActivity::class.java))
                     requireActivity().finish()
                 }
                 Status.ERROR -> {

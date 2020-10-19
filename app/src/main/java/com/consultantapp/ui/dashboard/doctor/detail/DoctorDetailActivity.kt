@@ -25,6 +25,7 @@ import com.consultantapp.ui.dashboard.doctor.DoctorActionActivity
 import com.consultantapp.ui.dashboard.doctor.schedule.ScheduleFragment.Companion.SERVICE_ID
 import com.consultantapp.ui.drawermenu.DrawerActivity
 import com.consultantapp.ui.drawermenu.DrawerActivity.Companion.WALLET
+import com.consultantapp.ui.drawermenu.addmoney.AddMoneyActivity
 import com.consultantapp.utils.*
 import com.consultantapp.utils.dialogs.ProgressDialog
 import dagger.android.support.DaggerAppCompatActivity
@@ -97,12 +98,10 @@ class DoctorDetailActivity : DaggerAppCompatActivity() {
 
     fun hiApiDoctorRequest(schedule: Boolean, service: Service) {
         if (schedule) {
-            startActivity(
-                    Intent(this, DoctorActionActivity::class.java)
-                            .putExtra(PAGE_TO_OPEN, RequestType.SCHEDULE)
-                            .putExtra(SERVICE_ID, service.service_id)
-                            .putExtra(USER_DATA, doctorData)
-            )
+            startActivity(Intent(this, DoctorActionActivity::class.java)
+                    .putExtra(PAGE_TO_OPEN, RequestType.SCHEDULE)
+                    .putExtra(SERVICE_ID, service.service_id)
+                    .putExtra(USER_DATA, doctorData))
         } else {
 
             if (isConnectedToInternet(this, true)) {
@@ -188,7 +187,7 @@ class DoctorDetailActivity : DaggerAppCompatActivity() {
                                 }
                                 .setNegativeButton(getString(R.string.add_money)) { dialog, which ->
                                     startActivity(Intent(this, DrawerActivity::class.java)
-                                                    .putExtra(PAGE_TO_OPEN, WALLET))
+                                            .putExtra(PAGE_TO_OPEN, WALLET))
                                 }.show()
 
                     } else {
@@ -293,7 +292,9 @@ class DoctorDetailActivity : DaggerAppCompatActivity() {
                     hashMap["reason_for_service"] = bookService.reason ?: ""
                 }
 
-                viewModel.createRequest(hashMap)
+                 viewModel.createRequest(hashMap)
+
+                //startActivityForResult(Intent(this, AddMoneyActivity::class.java), AppRequestCode.ADD_MONEY)
             }
         }
     }

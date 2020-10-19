@@ -11,33 +11,53 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorWhite"
-            android:elevation="2dp"
+            android:layout_height="120dp"
+            android:background="@color/colorPrimary"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:title="@string/profile"
             app:titleTextAppearance="@style/Toolbar.TitleText" />
 
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvWallet"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dp_16"
-            android:background="?android:attr/selectableItemBackground"
-            android:clickable="true"
-            android:drawableEnd="@drawable/ic_wallet"
-            android:drawablePadding="@dimen/dp_12"
-            android:elevation="@dimen/dp_4"
-            android:focusable="true"
-            android:fontFamily="@font/campton_semibold"
-            android:gravity="center_vertical"
-            android:textColor="@color/textColor"
-            android:textSize="@dimen/sp_14"
+        <View
+            android:id="@+id/viewRound"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_32"
+            android:layout_marginTop="86dp"
+            android:background="@drawable/drawable_rounded_top"
             app:layout_constraintBottom_toBottomOf="@id/toolbar"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/toolbar" />
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/ivPic"
+            android:layout_width="126dp"
+            android:layout_height="126dp"
+            android:layout_marginTop="@dimen/dp_32"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_profile_placeholder"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:riv_border_color="@color/colorWhite"
+            app:riv_border_width="@dimen/dp_4"
+            app:riv_corner_radius="144dp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_8"
+            android:alpha="0.5"
+            android:ellipsize="end"
+            android:fontFamily="@font/sans_bold"
+            android:gravity="center_horizontal"
+            android:maxLines="2"
+            android:text="@string/app_name"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivPic" />
 
 
         <androidx.core.widget.NestedScrollView
@@ -48,11 +68,12 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+            app:layout_constraintTop_toBottomOf="@+id/tvName">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/dp_24">
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/startGuideLine"
@@ -68,183 +89,172 @@
                     android:orientation="vertical"
                     app:layout_constraintGuide_end="@dimen/dp_24" />
 
-                <com.makeramen.roundedimageview.RoundedImageView
-                    android:id="@+id/ivPic"
-                    android:layout_width="144dp"
-                    android:layout_height="144dp"
-                    android:layout_marginTop="@dimen/dp_8"
-                    android:scaleType="centerCrop"
-                    android:src="@color/lineColor"
-                    app:layout_constraintEnd_toEndOf="@id/endGuideLine"
-                    app:layout_constraintStart_toStartOf="@id/startGuideLine"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:riv_border_color="@color/colorPrimary"
-                    app:riv_border_width="@dimen/dp_2"
-                    app:riv_corner_radius="144dp" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvName"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_16"
-                    android:ellipsize="end"
-                    android:fontFamily="@font/circular_bold"
-                    android:gravity="center_horizontal"
-                    android:maxLines="2"
-                    android:text="@string/app_name"
-                    android:textColor="@color/textColor"
-                    android:textSize="@dimen/sp_24"
-                    app:layout_constraintEnd_toEndOf="@id/endGuideLine"
-                    app:layout_constraintStart_toStartOf="@id/startGuideLine"
-                    app:layout_constraintTop_toBottomOf="@+id/ivPic" />
-
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvAge"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_8"
-                    android:fontFamily="@font/circular_book"
-                    android:gravity="center_horizontal"
-                    android:text="@string/age"
-                    android:textColor="@color/textAge"
-                    android:textSize="@dimen/sp_14"
-                    app:layout_constraintEnd_toEndOf="@id/endGuideLine"
-                    app:layout_constraintStart_toStartOf="@id/startGuideLine"
-                    app:layout_constraintTop_toBottomOf="@+id/tvName" />
-
-
-                <View
-                    android:id="@+id/view"
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="@dimen/dp_24"
-                    android:background="@color/lineColor"
-                    app:layout_constraintEnd_toEndOf="@id/endGuideLine"
-                    app:layout_constraintStart_toStartOf="@id/startGuideLine"
-                    app:layout_constraintTop_toBottomOf="@+id/tvAge" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvHistory"
+                    android:id="@+id/tvEdit"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:background="?android:attr/selectableItemBackground"
                     android:clickable="true"
-                    android:drawableStart="@drawable/ic_history_drawer"
+                    android:drawableStart="@drawable/ic_edit_profile"
+                    android:drawableEnd="@drawable/ic_next"
                     android:drawablePadding="@dimen/dp_16"
                     android:focusable="true"
-                    android:fontFamily="@font/circular_medium"
+                    android:fontFamily="@font/sans_regular"
                     android:paddingTop="@dimen/dp_16"
                     android:paddingBottom="@dimen/dp_16"
-                    android:text="@string/history"
+                    android:text="@string/edit_profile"
                     android:textColor="@color/textColor"
                     android:textSize="@dimen/sp_16"
                     app:drawableTint="@color/colorPrimary"
                     app:layout_constraintEnd_toEndOf="@id/endGuideLine"
                     app:layout_constraintStart_toStartOf="@id/startGuideLine"
-                    app:layout_constraintTop_toBottomOf="@+id/view" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvNotification"
+                    android:id="@+id/tvChangePassword"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:background="?android:attr/selectableItemBackground"
                     android:clickable="true"
-                    android:drawableStart="@drawable/ic_notification_drawer"
+                    android:drawableStart="@drawable/lock"
+                    android:drawableEnd="@drawable/ic_next"
                     android:drawablePadding="@dimen/dp_16"
                     android:focusable="true"
-                    android:fontFamily="@font/circular_medium"
+                    android:fontFamily="@font/sans_regular"
                     android:paddingTop="@dimen/dp_16"
                     android:paddingBottom="@dimen/dp_16"
-                    android:text="@string/notification"
+                    android:text="@string/change_password"
                     android:textColor="@color/textColor"
                     android:textSize="@dimen/sp_16"
                     app:drawableTint="@color/colorPrimary"
                     app:layout_constraintEnd_toEndOf="@id/endGuideLine"
                     app:layout_constraintStart_toStartOf="@id/startGuideLine"
-                    app:layout_constraintTop_toBottomOf="@+id/tvHistory" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvEdit" />
+
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvInvite"
+                    android:id="@+id/tvMyPets"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:background="?android:attr/selectableItemBackground"
                     android:clickable="true"
-                    android:drawableStart="@drawable/ic_invite"
+                    android:drawableStart="@drawable/pawprint"
+                    android:drawableEnd="@drawable/ic_next"
                     android:drawablePadding="@dimen/dp_16"
                     android:focusable="true"
-                    android:fontFamily="@font/circular_medium"
+                    android:fontFamily="@font/sans_regular"
                     android:paddingTop="@dimen/dp_16"
                     android:paddingBottom="@dimen/dp_16"
-                    android:text="@string/invite_people"
+                    android:text="@string/my_pets"
                     android:textColor="@color/textColor"
                     android:textSize="@dimen/sp_16"
                     app:drawableTint="@color/colorPrimary"
                     app:layout_constraintEnd_toEndOf="@id/endGuideLine"
                     app:layout_constraintStart_toStartOf="@id/startGuideLine"
-                    app:layout_constraintTop_toBottomOf="@+id/tvNotification" />
-
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvPages"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:overScrollMode="never"
-                    tools:listitem="@layout/item_pages_title"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintEnd_toEndOf="@id/endGuideLine"
-                    app:layout_constraintStart_toStartOf="@id/startGuideLine"
-                    app:layout_constraintTop_toBottomOf="@+id/tvInvite" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvChangePassword" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvSubscription"
+                    android:id="@+id/tvMyBookings"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:background="?android:attr/selectableItemBackground"
                     android:clickable="true"
-                    android:drawableStart="@drawable/ic_packages"
+                    android:drawableStart="@drawable/reservation"
+                    android:drawableEnd="@drawable/ic_next"
                     android:drawablePadding="@dimen/dp_16"
                     android:focusable="true"
-                    android:fontFamily="@font/circular_medium"
+                    android:fontFamily="@font/sans_regular"
                     android:paddingTop="@dimen/dp_16"
                     android:paddingBottom="@dimen/dp_16"
-                    android:text="@string/packages"
+                    android:text="@string/my_bookings"
                     android:textColor="@color/textColor"
                     android:textSize="@dimen/sp_16"
                     app:drawableTint="@color/colorPrimary"
                     app:layout_constraintEnd_toEndOf="@id/endGuideLine"
                     app:layout_constraintStart_toStartOf="@id/startGuideLine"
-                    app:layout_constraintTop_toBottomOf="@+id/rvPages" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvMyPets" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvContactUs"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:drawableStart="@drawable/interface_2"
+                    android:drawableEnd="@drawable/ic_next"
+                    android:drawablePadding="@dimen/dp_16"
+                    android:focusable="true"
+                    android:fontFamily="@font/sans_regular"
+                    android:paddingTop="@dimen/dp_16"
+                    android:paddingBottom="@dimen/dp_16"
+                    android:text="@string/contact_us"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/sp_16"
+                    app:drawableTint="@color/colorPrimary"
+                    app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+                    app:layout_constraintStart_toStartOf="@id/startGuideLine"
+                    app:layout_constraintTop_toBottomOf="@+id/tvMyBookings" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSavedCards"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:drawableStart="@drawable/business_and_finance"
+                    android:drawableEnd="@drawable/ic_next"
+                    android:drawablePadding="@dimen/dp_16"
+                    android:focusable="true"
+                    android:fontFamily="@font/sans_regular"
+                    android:paddingTop="@dimen/dp_16"
+                    android:paddingBottom="@dimen/dp_16"
+                    android:text="@string/saved_cards"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/sp_16"
+                    app:drawableTint="@color/colorPrimary"
+                    app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+                    app:layout_constraintStart_toStartOf="@id/startGuideLine"
+                    app:layout_constraintTop_toBottomOf="@+id/tvContactUs" />
+
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvLogout"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_32"
                     android:background="?android:attr/selectableItemBackground"
                     android:clickable="true"
-                    android:drawableStart="@drawable/ic_logout"
-                    android:drawablePadding="@dimen/dp_16"
                     android:focusable="true"
-                    android:fontFamily="@font/circular_medium"
-                    android:paddingTop="@dimen/dp_16"
-                    android:paddingBottom="@dimen/dp_16"
+                    android:fontFamily="@font/sans_bold"
+                    android:paddingStart="@dimen/dp_32"
+                    android:paddingTop="@dimen/dp_8"
+                    android:paddingEnd="@dimen/dp_32"
+                    android:paddingBottom="@dimen/dp_8"
                     android:text="@string/logout"
-                    android:textColor="@color/textColor"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/sp_16"
-                    app:drawableTint="@color/colorPrimary"
                     app:layout_constraintEnd_toEndOf="@id/endGuideLine"
                     app:layout_constraintStart_toStartOf="@id/startGuideLine"
-                    app:layout_constraintTop_toBottomOf="@+id/tvSubscription" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvSavedCards" />
 
+                <View
+                    android:layout_width="@dimen/dp_36"
+                    android:layout_height="@dimen/dp_2"
+                    android:background="@color/colorPrimary"
+                    app:layout_constraintEnd_toEndOf="@id/tvLogout"
+                    app:layout_constraintStart_toStartOf="@+id/tvLogout"
+                    app:layout_constraintTop_toBottomOf="@id/tvLogout" />
 
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvVersion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_64"
-                    android:fontFamily="@font/circular_medium"
+                    android:layout_marginTop="@dimen/dp_32"
+                    android:fontFamily="@font/sans_regular"
                     android:text="@string/version"
                     android:textColor="@color/textTitleColor"
                     android:textSize="@dimen/sp_12"
@@ -257,7 +267,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_4"
-                    android:fontFamily="@font/circular_medium"
+                    android:fontFamily="@font/sans_regular"
                     android:paddingBottom="@dimen/dp_24"
                     android:text="@string/you_are_running_the_latest_version"
                     android:textColor="@color/textTitleColor"

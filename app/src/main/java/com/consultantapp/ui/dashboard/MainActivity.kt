@@ -135,15 +135,15 @@ class MainActivity : DaggerAppCompatActivity() {
     private fun getLastLocation() {
         if (checkPermissions()) {
             if (isLocationEnabled()) {
-
-                mFusedLocationClient.lastLocation.addOnCompleteListener(this) { task ->
+                requestNewLocationData()
+               /* mFusedLocationClient.lastLocation.addOnCompleteListener(this) { task ->
                     val location: Location? = task.result
                     if (location == null) {
                         requestNewLocationData()
                     } else {
                         getLocationName(location.latitude, location.longitude)
                     }
-                }
+                }*/
             } else {
                 Toast.makeText(this, "Turn on location", Toast.LENGTH_LONG).show()
                 val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
@@ -156,17 +156,19 @@ class MainActivity : DaggerAppCompatActivity() {
 
     @SuppressLint("MissingPermission")
     private fun requestNewLocationData() {
-        val mLocationRequest = LocationRequest()
-        mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        mLocationRequest.interval = 0
-        mLocationRequest.fastestInterval = 0
-        mLocationRequest.numUpdates = 1
+        runOnUiThread {
+            val mLocationRequest = LocationRequest()
+            mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+            mLocationRequest.interval = 0
+            mLocationRequest.fastestInterval = 0
+            mLocationRequest.numUpdates = 1
 
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        mFusedLocationClient.requestLocationUpdates(
+            mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+            mFusedLocationClient.requestLocationUpdates(
                 mLocationRequest, mLocationCallback,
                 Looper.myLooper()
-        )
+            )
+        }
     }
 
     private val mLocationCallback = object : LocationCallback() {

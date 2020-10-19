@@ -19,6 +19,7 @@ import com.consultantapp.data.network.PushType
 import com.consultantapp.data.network.responseUtil.Status
 import com.consultantapp.databinding.FragmentStatusUpdateBinding
 import com.consultantapp.ui.dashboard.appointment.AppointmentViewModel
+import com.consultantapp.ui.drawermenu.DrawerActivity
 import com.consultantapp.utils.*
 import com.consultantapp.utils.dialogs.ProgressDialog
 import dagger.android.support.DaggerFragment
@@ -88,6 +89,8 @@ class StatusUpdateFragment : DaggerFragment() {
         if (request.status == CallAction.COMPLETED) {
             binding.tvComplete.isChecked = true
             binding.viewComplete.alpha = 1f
+
+
         }
     }
 
@@ -147,6 +150,12 @@ class StatusUpdateFragment : DaggerFragment() {
             when (intent.action) {
                PushType.COMPLETED -> {
                     hitApi()
+
+                   val intent = Intent(requireContext(), DrawerActivity::class.java)
+                       .putExtra(PAGE_TO_OPEN, DrawerActivity.RATE)
+                       .putExtra(EXTRA_REQUEST_ID, intent.getStringExtra(EXTRA_REQUEST_ID))
+
+                   startActivity(intent)
                 }
             }
         }

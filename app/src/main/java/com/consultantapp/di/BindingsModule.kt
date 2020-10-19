@@ -9,6 +9,7 @@ import com.consultantapp.ui.classes.ClassesFragment
 import com.consultantapp.ui.dashboard.MainActivity
 import com.consultantapp.ui.dashboard.appointment.AppointmentFragment
 import com.consultantapp.ui.dashboard.appointment.appointmentStatus.AppointmentStatusActivity
+import com.consultantapp.ui.dashboard.appointment.appointmentStatus.CompletedRequestFragment
 import com.consultantapp.ui.dashboard.appointment.appointmentStatus.StatusUpdateFragment
 import com.consultantapp.ui.dashboard.appointment.rating.AddRatingFragment
 import com.consultantapp.ui.dashboard.chat.ChatFragment
@@ -204,5 +205,8 @@ abstract class BindingsModule {
 
     @ContributesAndroidInjector
     abstract fun statusUpdateFragment(): StatusUpdateFragment
+
+    @ContributesAndroidInjector
+    abstract fun completedRequestFragment(): CompletedRequestFragment
 
 }

@@ -373,5 +373,20 @@
 
     <string name="quit">Quit</string>
     <string name="quit_message">Are you sure you want to quit? It will stop your tracking</string>
+    <string name="service_completed">Service completed</string>
+    <string name="give_feedback">Give Feedback</string>
+    <string name="how_was_experience">How was your overall experience?</string>
+    <string name="unsatisfactory">Unsatisfactory</string>
+    <string name="satisfactory">Satisfactory</string>
+    <string name="feedback_message_optional">Feedback Message (Optional)</string>
+    <string name="feedback_message">Feedback Message</string>
+    <string name="proceed_to_pay_full_amount">Proceed to pay full amount</string>
+    <string name="write_your_message_here">Write your message here…</string>
+    <string name="report_service">Report Service</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="saved_cards">Saved Cards</string>
+    <string name="change_password">Change Password</string>
+    <string name="my_pets">My Pets</string>
+    <string name="my_bookings">My Bookings</string>
 
 </resources>

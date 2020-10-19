@@ -134,30 +134,6 @@ class AddMoneyActivity : DaggerAppCompatActivity(), PaymentResultListener {
                 }
             }
         }
-
-        binding.tvMoney1.setOnClickListener {
-            updateMoney(500)
-        }
-
-        binding.tvMoney2.setOnClickListener {
-            updateMoney(1000)
-        }
-
-        binding.tvMoney3.setOnClickListener {
-            updateMoney(1500)
-        }
-
-    }
-
-    private fun updateMoney(amount: Int) {
-        val newAmount = if (binding.etAmount.text.toString().isEmpty())
-            amount
-        else
-            binding.etAmount.text.toString().toInt() + amount
-
-        if (newAmount.toString().length < 5) {
-            binding.etAmount.setText(newAmount.toString())
-        }
     }
 
 

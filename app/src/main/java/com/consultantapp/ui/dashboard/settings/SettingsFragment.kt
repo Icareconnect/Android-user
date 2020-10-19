@@ -21,6 +21,8 @@ import com.consultantapp.ui.drawermenu.DrawerActivity.Companion.NOTIFICATION
 import com.consultantapp.ui.drawermenu.DrawerActivity.Companion.PROFILE
 import com.consultantapp.ui.drawermenu.DrawerActivity.Companion.SUBSCRIPTION
 import com.consultantapp.ui.drawermenu.DrawerActivity.Companion.WALLET
+import com.consultantapp.ui.drawermenu.addmoney.AddMoneyActivity
+import com.consultantapp.ui.loginSignUp.SignUpActivity
 import com.consultantapp.utils.*
 import com.consultantapp.utils.dialogs.ProgressDialog
 import dagger.android.support.DaggerFragment
@@ -60,9 +62,6 @@ class SettingsFragment : DaggerFragment() {
             listeners()
             bindObservers()
             setUserProfile()
-
-            if (isConnectedToInternet(requireContext(), true))
-                viewModel.getPages()
         }
         return rootView
     }
@@ -76,60 +75,34 @@ class SettingsFragment : DaggerFragment() {
         val userData = userRepository.getUser()
 
         binding.tvName.text = userData?.name
-        binding.tvAge.text =
-            "${getString(R.string.age)} ${getAge(userData?.profile?.dob)}"
-        loadImage(
-            binding.ivPic, userData?.profile_image,
-            R.drawable.ic_profile_placeholder
-        )
+        loadImage(binding.ivPic, userData?.profile_image,
+            R.drawable.ic_profile_placeholder)
 
         binding.tvVersion.text =
             getString(R.string.version, getVersion(requireActivity()).versionName)
     }
 
     private fun listeners() {
-        binding.ivPic.setOnClickListener {
+        /*binding.ivPic.setOnClickListener {
             goToProfile()
         }
 
         binding.tvName.setOnClickListener {
             goToProfile()
-        }
+        }*/
 
-        binding.tvHistory.setOnClickListener {
-            startActivity(
-                Intent(requireContext(), DrawerActivity::class.java)
-                    .putExtra(PAGE_TO_OPEN, HISTORY)
-            )
-        }
-
-        binding.tvNotification.setOnClickListener {
-            startActivity(
-                Intent(requireContext(), DrawerActivity::class.java)
-                    .putExtra(PAGE_TO_OPEN, NOTIFICATION)
-            )
-        }
-
-        binding.tvWallet.setOnClickListener {
-            startActivity(
-                Intent(requireContext(), DrawerActivity::class.java)
-                    .putExtra(PAGE_TO_OPEN, WALLET)
-            )
-        }
-
-        binding.tvSubscription.setOnClickListener {
-            startActivity(
-                Intent(requireContext(), DrawerActivity::class.java)
-                    .putExtra(PAGE_TO_OPEN, SUBSCRIPTION)
-            )
-        }
 
         binding.tvLogout.setOnClickListener {
             showLogoutDialog()
         }
 
-        binding.tvInvite.setOnClickListener {
-            shareDeepLink(DeepLink.INVITE, requireActivity(), null,userRepository)
+        binding.tvSavedCards.setOnClickListener {
+            startActivity(Intent(requireContext(), AddMoneyActivity::class.java))
+        }
+
+        binding.tvEdit.setOnClickListener {
+            startActivityForResult(Intent(requireActivity(), SignUpActivity::class.java)
+                    .putExtra(UPDATE_PROFILE, true), AppRequestCode.PROFILE_UPDATE)
         }
     }
 
@@ -165,38 +138,14 @@ class SettingsFragment : DaggerFragment() {
                 }
             }
         })
-
-        viewModel.pagesLink.observe(this, Observer {
-            it ?: return@Observer
-            when (it.status) {
-                Status.SUCCESS -> {
-                    progressDialog.setLoading(false)
-
-                    val adapter = PagesAdapter(it.data?.pages ?: emptyList())
-                    binding.rvPages.adapter = adapter
-                }
-                Status.ERROR -> {
-                    progressDialog.setLoading(false)
-                    ApisRespHandler.handleError(it.error, requireActivity(), prefsManager)
-                }
-                Status.LOADING -> {
-                    progressDialog.setLoading(true)
-                }
-            }
-        })
-    }
-
-    private fun goToProfile() {
-        startActivityForResult(
-            Intent(requireContext(), DrawerActivity::class.java)
-                .putExtra(PAGE_TO_OPEN, PROFILE), AppRequestCode.PROFILE_UPDATE
-        )
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
-            setUserProfile()
+            if (requestCode == AppRequestCode.PROFILE_UPDATE) {
+                setUserProfile()
+            }
         }
     }
 

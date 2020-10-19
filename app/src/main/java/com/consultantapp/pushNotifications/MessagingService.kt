@@ -181,9 +181,20 @@ class MessagingService : FirebaseMessagingService() {
                 LocalBroadcastManager.getInstance(this).sendBroadcast(intentBroadcast)
             }
 
-            PushType.REQUEST_ACCEPTED, PushType.REQUEST_COMPLETED, PushType.COMPLETED,
+            PushType.REQUEST_ACCEPTED, PushType.REQUEST_COMPLETED,
             PushType.CANCELED_REQUEST, PushType.CANCEL_SERVICE, PushType.RESCHEDULED_REQUEST -> {
                 homeIntent.putExtra(EXTRA_TAB, "1")
+
+                val intentBroadcast = Intent()
+                intentBroadcast.action = pushData.pushType
+                intentBroadcast.putExtra(EXTRA_REQUEST_ID, pushData.request_id)
+
+                LocalBroadcastManager.getInstance(this).sendBroadcast(intentBroadcast)
+            }
+            PushType.COMPLETED-> {
+                intent = Intent(this, DrawerActivity::class.java)
+                        .putExtra(PAGE_TO_OPEN, DrawerActivity.RATE)
+                        .putExtra(EXTRA_REQUEST_ID, pushData.request_id)
 
                 val intentBroadcast = Intent()
                 intentBroadcast.action = pushData.pushType

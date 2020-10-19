@@ -34,5 +34,6 @@
     <color name="colorCancel">#FF4646</color>
     <color name="colorLink">#0000A0</color>
     <color name="colorUserVerification">#4D3CB2DA</color>
+    <color name="textColor_5">#0D323232</color>
 
 </resources>

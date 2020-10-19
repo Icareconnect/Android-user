@@ -22,6 +22,7 @@ import com.consultantapp.ui.classes.ClassesViewModel
 import com.consultantapp.ui.dashboard.CategoriesAdapter
 import com.consultantapp.ui.dashboard.subcategory.SubCategoryFragment.Companion.CATEGORY_PARENT_ID
 import com.consultantapp.ui.drawermenu.DrawerActivity
+import com.consultantapp.ui.drawermenu.addmoney.AddMoneyActivity
 import com.consultantapp.utils.*
 import com.google.android.libraries.places.widget.Autocomplete
 import dagger.android.support.DaggerFragment
@@ -93,22 +94,13 @@ class HomeFragment : DaggerFragment() {
             hitApi()
         }
 
-        binding.ivPic.setOnClickListener {
-            goToProfile()
-        }
-
-        binding.tvName.setOnClickListener {
-            goToProfile()
-        }
-
         binding.tvAddress.setOnClickListener {
             placePicker(this, requireActivity())
         }
-    }
 
-    private fun goToProfile() {
-        startActivity(Intent(requireContext(), DrawerActivity::class.java)
-                .putExtra(PAGE_TO_OPEN, DrawerActivity.PROFILE))
+        binding.ivSearch.setOnClickListener {
+            startActivityForResult(Intent(requireContext(), AddMoneyActivity::class.java), AppRequestCode.ADD_MONEY)
+        }
     }
 
     private fun hitApi() {

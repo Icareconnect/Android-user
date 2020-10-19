@@ -14,7 +14,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:navigationIcon="@drawable/ic_back"
-            app:title="@string/add_money"
+            app:title="@string/payment"
             app:titleTextAppearance="@style/Toolbar.TitleText" />
 
 
@@ -26,6 +26,7 @@
             android:fontFamily="@font/circular_bold"
             android:gravity="center"
             android:padding="@dimen/dp_4"
+            android:visibility="gone"
             android:text="@string/pay"
             android:textColor="@color/colorPrimary"
             android:textSize="@dimen/sp_14"
@@ -40,8 +41,9 @@
             android:layout_marginStart="@dimen/dp_16"
             android:layout_marginTop="@dimen/dp_24"
             android:alpha="0.6"
+            android:visibility="gone"
             android:fontFamily="@font/campton_semibold"
-            android:text="@string/input_amount"
+            android:text="@string/amount"
             android:textColor="@color/colorBlack"
             android:textSize="@dimen/sp_12"
             app:layout_constraintStart_toStartOf="parent"
@@ -59,6 +61,9 @@
             android:imeOptions="actionDone"
             android:inputType="number"
             android:maxLength="5"
+            android:clickable="false"
+            android:visibility="gone"
+            android:focusable="false"
             android:paddingEnd="@dimen/dp_16"
             android:paddingStart="@dimen/dp_16"
             android:textColor="@color/textColor"
@@ -72,6 +77,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:alpha="0.6"
+            android:visibility="gone"
             android:fontFamily="@font/circular_bold"
             android:textColor="@color/colorBlack"
             android:textSize="@dimen/sp_24"
@@ -79,66 +85,6 @@
             app:layout_constraintStart_toStartOf="@+id/etAmount"
             app:layout_constraintTop_toTopOf="@+id/etAmount" />
 
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvMoney1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_16"
-            android:layout_marginTop="@dimen/dp_24"
-            android:layout_marginEnd="@dimen/dp_8"
-            android:background="@drawable/drawable_bg_button"
-            android:fontFamily="@font/circular_book"
-            android:gravity="center"
-            android:text="+ ₹500"
-            android:textColor="@color/colorBlack"
-            android:textSize="@dimen/sp_16"
-            app:layout_constraintEnd_toStartOf="@+id/tvMoney2"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etAmount" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvMoney2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_8"
-            android:layout_marginEnd="@dimen/dp_8"
-            android:background="@drawable/drawable_bg_button"
-            android:fontFamily="@font/circular_book"
-            android:gravity="center"
-            android:text="+ ₹1000"
-            android:textColor="@color/colorBlack"
-            android:textSize="@dimen/sp_16"
-            app:layout_constraintEnd_toStartOf="@+id/tvMoney3"
-            app:layout_constraintStart_toEndOf="@+id/tvMoney1"
-            app:layout_constraintTop_toTopOf="@+id/tvMoney1" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvMoney3"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_8"
-            android:layout_marginEnd="@dimen/dp_16"
-            android:background="@drawable/drawable_bg_button"
-            android:fontFamily="@font/circular_book"
-            android:gravity="center"
-            android:text="+ ₹1500"
-            android:textColor="@color/colorBlack"
-            android:textSize="@dimen/sp_16"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/tvMoney2"
-            app:layout_constraintTop_toTopOf="@+id/tvMoney1" />
-
-
-        <View
-            android:id="@+id/view"
-            android:layout_width="0dp"
-            android:layout_height="2dp"
-            android:layout_marginTop="@dimen/dp_32"
-            android:background="@color/lineColor"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvMoney1" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvSelectCard"
@@ -152,7 +98,7 @@
             android:textSize="@dimen/sp_16"
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view" />
+            app:layout_constraintTop_toBottomOf="@+id/etAmount" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvAddCard"
