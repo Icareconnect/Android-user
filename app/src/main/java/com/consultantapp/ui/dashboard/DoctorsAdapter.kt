@@ -14,7 +14,7 @@ import com.consultantapp.ui.dashboard.doctor.listing.DoctorListActivity
 import com.consultantapp.utils.*
 
 
-class DoctorsAdapter(private val activity: DoctorListActivity,private val items: ArrayList<Doctor>) :
+class DoctorsAdapter(private val activity: DoctorListActivity, private val items: ArrayList<Doctor>) :
         RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var allItemsLoaded = true
@@ -61,8 +61,9 @@ class DoctorsAdapter(private val activity: DoctorListActivity,private val items:
             slideRecyclerItem(binding.root, context)
 
             tvName.text = getDoctorName(doctor.doctor_data)
-            binding.tvDesc.text = doctor.doctor_data?.categoryData?.name
+            binding.tvLocation.text = doctor.doctor_data?.profile?.location_name
                     ?: context.getString(R.string.na)
+            binding.tvRate.text = context.getString(R.string.price_ss, getCurrency(doctor.price))
             loadImage(
                     binding.ivPic,
                     doctor.doctor_data?.profile_image,

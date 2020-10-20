@@ -65,13 +65,6 @@ class SplashActivity : DaggerAppCompatActivity() {
 
                     val appDetails = it.data
 
-                    if (userRepository.isUserLoggedIn()) {
-                        val userData = userRepository.getUser()
-                        userData?.isApproved = appDetails?.isApproved
-                        prefsManager.save(USER_DATA, userData)
-
-                    }
-
                     /*Handle feature keys*/
                     appDetails?.client_features?.forEach {
                         when (it.name?.toLowerCase(Locale.getDefault())) {

@@ -99,7 +99,7 @@ class HomeFragment : DaggerFragment() {
         }
 
         binding.ivSearch.setOnClickListener {
-            startActivityForResult(Intent(requireContext(), AddMoneyActivity::class.java), AppRequestCode.ADD_MONEY)
+            //startActivityForResult(Intent(requireContext(), AddMoneyActivity::class.java), AppRequestCode.ADD_MONEY)
         }
     }
 

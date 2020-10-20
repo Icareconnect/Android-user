@@ -27,4 +27,6 @@ class Profile :Serializable{
     var state_id: String? = null
     var city_id: String? = null
 
+    var location_name: String? = null
+
 }

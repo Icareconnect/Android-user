@@ -11,5 +11,6 @@ class Doctor {
     var updated_at: String? = null
     var service_type: String? = null
     var doctor_data: UserData? = null
+    var price: String? = null
 
 }

@@ -196,6 +196,7 @@
     <string name="allow_your_location">Allow Your Location</string>
     <string name="profile">Profile</string>
     <string name="price_s">%s/<font size="8">%s</font></string>
+    <string name="price_ss">Price - %s</string>
     <string name="set_prefrences">Set Filter</string>
     <string name="choose_date_amp_time">Choose date &amp; time</string>
     <string name="tomorrow">Tomorrow</string>
@@ -376,13 +377,9 @@
     <string name="service_completed">Service completed</string>
     <string name="give_feedback">Give Feedback</string>
     <string name="how_was_experience">How was your overall experience?</string>
-    <string name="unsatisfactory">Unsatisfactory</string>
-    <string name="satisfactory">Satisfactory</string>
-    <string name="feedback_message_optional">Feedback Message (Optional)</string>
     <string name="feedback_message">Feedback Message</string>
     <string name="proceed_to_pay_full_amount">Proceed to pay full amount</string>
     <string name="write_your_message_here">Write your message here…</string>
-    <string name="report_service">Report Service</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="saved_cards">Saved Cards</string>
     <string name="change_password">Change Password</string>

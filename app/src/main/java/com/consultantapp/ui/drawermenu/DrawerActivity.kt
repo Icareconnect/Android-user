@@ -10,11 +10,9 @@ import com.consultantapp.ui.classes.ClassesFragment
 import com.consultantapp.ui.dashboard.appointment.AppointmentFragment
 import com.consultantapp.ui.dashboard.appointment.appointmentStatus.CompletedRequestFragment
 import com.consultantapp.ui.dashboard.appointment.appointmentStatus.StatusUpdateFragment
-import com.consultantapp.ui.dashboard.appointment.rating.AddRatingFragment
 import com.consultantapp.ui.dashboard.chat.ChatFragment
 import com.consultantapp.ui.dashboard.home.bookservice.datetime.DateTimeFragment
 import com.consultantapp.ui.dashboard.home.bookservice.registerservice.RegisterServiceFragment
-import com.consultantapp.ui.dashboard.home.verification.UserVerificationFragment
 import com.consultantapp.ui.dashboard.location.LocationFragment
 import com.consultantapp.ui.dashboard.subcategory.SubCategoryFragment
 import com.consultantapp.ui.dashboard.subcategory.SubCategoryFragment.Companion.CATEGORY_PARENT_ID
@@ -110,9 +108,6 @@ class DrawerActivity : DaggerAppCompatActivity() {
             DATE_TIME ->
                 addFragment(supportFragmentManager,
                         DateTimeFragment(), R.id.container)
-            USER_VERIFICATION ->
-                addFragment(supportFragmentManager,
-                        UserVerificationFragment(), R.id.container)
             UPDATE_SERVICE ->
                 addFragment(supportFragmentManager,
                         StatusUpdateFragment(), R.id.container)
@@ -134,7 +129,6 @@ class DrawerActivity : DaggerAppCompatActivity() {
         const val SUB_CATEGORY = "SUB_CATEGORY"
         const val ADD_CARD = "ADD_CARD"
         const val REGISTER_SERVICE = "REGISTER_SERVICE"
-        const val USER_VERIFICATION = "USER_VERIFICATION"
         const val DATE_TIME="DATE_TIME"
         const val UPDATE_SERVICE="UPDATE_SERVICE"
     }
@@ -144,7 +138,7 @@ class DrawerActivity : DaggerAppCompatActivity() {
             supportFragmentManager.backStackEntryCount - 1
         else 0
         val fragment = supportFragmentManager.fragments[index]
-        if (fragment is UserVerificationFragment || fragment is LocationFragment) {
+        if (fragment is LocationFragment) {
             /*Nothing to Do*/
         } else
             super.onBackPressed()

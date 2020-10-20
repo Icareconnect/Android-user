@@ -28,7 +28,6 @@ import com.consultantapp.ui.dashboard.home.bookservice.location.AddAddressActivi
 import com.consultantapp.ui.dashboard.home.bookservice.registerservice.RegisterServiceFragment
 import com.consultantapp.ui.dashboard.home.bookservice.waiting.DialogAllocatedNurseFragment
 import com.consultantapp.ui.dashboard.home.bookservice.waiting.WaitingAllocationFragment
-import com.consultantapp.ui.dashboard.home.verification.UserVerificationFragment
 import com.consultantapp.ui.dashboard.location.LocationFragment
 import com.consultantapp.ui.dashboard.settings.SettingsFragment
 import com.consultantapp.ui.dashboard.subcategory.SubCategoryFragment
@@ -184,9 +183,6 @@ abstract class BindingsModule {
 
     @ContributesAndroidInjector
     abstract fun registerServiceFragment(): RegisterServiceFragment
-
-    @ContributesAndroidInjector
-    abstract fun userVerificationFragment(): UserVerificationFragment
 
     @ContributesAndroidInjector
     abstract fun addAddressActivity(): AddAddressActivity

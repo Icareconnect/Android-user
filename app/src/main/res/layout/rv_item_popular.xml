@@ -80,24 +80,6 @@
                     app:layout_constraintTop_toTopOf="@+id/ivPic" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvDesc"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dp_16"
-                    android:ellipsize="end"
-                    android:fontFamily="@font/circular_book"
-                    android:maxLines="2"
-                    android:layout_marginTop="@dimen/dp_2"
-                    android:alpha="0.7"
-                    android:visibility="gone"
-                    tools:text="@string/app_name"
-                    android:textColor="@color/textColor"
-                    android:textSize="@dimen/sp_14"
-                    app:layout_constraintEnd_toEndOf="@id/endGuideLine"
-                    app:layout_constraintStart_toEndOf="@+id/ivPic"
-                    app:layout_constraintTop_toBottomOf="@+id/tvName" />
-
-                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvRating"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -113,7 +95,43 @@
                     android:textSize="@dimen/sp_12"
                     app:layout_constraintEnd_toEndOf="@id/endGuideLine"
                     app:layout_constraintStart_toEndOf="@+id/ivPic"
-                    app:layout_constraintTop_toBottomOf="@+id/tvDesc" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvName" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvLocation"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_16"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/circular_book"
+                    android:maxLines="1"
+                    android:drawablePadding="@dimen/dp_8"
+                    android:drawableTint="@color/colorPrimary"
+                    android:drawableStart="@drawable/ic_location"
+                    android:layout_marginTop="@dimen/dp_2"
+                    tools:text="@string/app_name"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/sp_14"
+                    app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+                    app:layout_constraintStart_toEndOf="@+id/ivPic"
+                    app:layout_constraintTop_toBottomOf="@+id/tvRating" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvRate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_16"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/circular_book"
+                    android:maxLines="1"
+                    android:layout_marginTop="@dimen/dp_2"
+                    tools:text="@string/price_ss"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/sp_14"
+                    app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+                    app:layout_constraintStart_toEndOf="@+id/ivPic"
+                    app:layout_constraintTop_toBottomOf="@+id/tvLocation" />
+
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

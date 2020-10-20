@@ -52,6 +52,7 @@ class CompletedRequestFragment : DaggerFragment() {
     }
 
     private fun initialise() {
+        editTextScroll(binding.etReason)
         progressDialog = ProgressDialog(requireActivity())
         viewModel = ViewModelProvider(this, viewModelFactory)[AppointmentViewModel::class.java]
 
@@ -67,12 +68,6 @@ class CompletedRequestFragment : DaggerFragment() {
     private fun listeners() {
         binding.toolbar.setNavigationOnClickListener {
             when {
-                binding.groupFeedbackNext.visibility == View.VISIBLE -> {
-                    binding.groupFeedback.visible()
-                    binding.groupFeedbackNext.gone()
-                    binding.ivSatisfactory.gone()
-                    binding.ivUnsatisfactory.gone()
-                }
                 requireActivity().supportFragmentManager.backStackEntryCount > 0 -> {
                     requireActivity().supportFragmentManager.popBackStack()
                 }
@@ -84,33 +79,6 @@ class CompletedRequestFragment : DaggerFragment() {
             binding.toolbar.visible()
             binding.ivBackground.visible()
             binding.groupFeedback.visible()
-        }
-
-        binding.tvUnsatisfactory.setOnClickListener {
-            binding.toolbar.visible()
-            binding.ivBackground.visible()
-            binding.groupFeedback.gone()
-            binding.groupFeedbackNext.visible()
-            binding.ivUnsatisfactory.visible()
-
-            binding.ratingBar.rating = 1.0f
-            binding.tvTitleSatisfactory.text = getString(R.string.unsatisfactory)
-            binding.tvTitleFeedback.text = getString(R.string.feedback_message)
-            binding.tvProceedPayment.text = getString(R.string.report_service)
-
-        }
-
-        binding.tvSatisfactory.setOnClickListener {
-            binding.toolbar.visible()
-            binding.ivBackground.visible()
-            binding.groupFeedback.gone()
-            binding.groupFeedbackNext.visible()
-            binding.ivSatisfactory.visible()
-
-            binding.ratingBar.rating = 4.0f
-            binding.tvTitleSatisfactory.text = getString(R.string.satisfactory)
-            binding.tvTitleFeedback.text = getString(R.string.feedback_message_optional)
-            binding.tvProceedPayment.text = getString(R.string.proceed_to_pay_full_amount)
         }
     }
 

@@ -149,11 +149,6 @@ class MessagingService : FirebaseMessagingService() {
                 LocalBroadcastManager.getInstance(this).sendBroadcast(intentBroadcast)
             }
             PushType.PROFILE_APPROVED -> {
-                val userData = userRepository.getUser()
-                if (userData?.isApproved == false) {
-                    userData.isApproved = true
-                    prefsManager.save(USER_DATA, userData)
-                }
 
                 val intentBroadcast = Intent()
                 intentBroadcast.action = pushData.pushType

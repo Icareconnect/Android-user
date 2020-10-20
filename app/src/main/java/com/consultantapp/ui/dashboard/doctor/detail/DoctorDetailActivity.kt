@@ -227,6 +227,10 @@ class DoctorDetailActivity : DaggerAppCompatActivity() {
                 getUserRating(doctorData?.totalRating),
                 doctorData?.reviewCount
         )
+        binding.tvLocation.text = doctorData?.profile?.location_name
+                ?: getString(R.string.na)
+        binding.tvRate.text = getString(R.string.price_ss, getCurrency(doctorData?.price))
+
         binding.tvPatientV.text = doctorData?.patientCount ?: getString(R.string.na)
 
         if (doctorData?.profile?.working_since == null) {

@@ -134,6 +134,41 @@
                     app:layout_constraintStart_toEndOf="@+id/ivPic"
                     app:layout_constraintTop_toBottomOf="@+id/tvDesc" />
 
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvLocation"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_16"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/circular_book"
+                    android:maxLines="2"
+                    android:drawablePadding="@dimen/dp_8"
+                    android:drawableTint="@color/colorPrimary"
+                    android:drawableStart="@drawable/ic_location"
+                    android:layout_marginTop="@dimen/dp_2"
+                    tools:text="@string/app_name"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/sp_14"
+                    app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+                    app:layout_constraintStart_toEndOf="@+id/ivPic"
+                    app:layout_constraintTop_toBottomOf="@+id/tvRating" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvRate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_16"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/circular_book"
+                    android:maxLines="1"
+                    android:layout_marginTop="@dimen/dp_2"
+                    tools:text="@string/price_s"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/sp_14"
+                    app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+                    app:layout_constraintStart_toEndOf="@+id/ivPic"
+                    app:layout_constraintTop_toBottomOf="@+id/tvLocation" />
+
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvPatient"
@@ -149,6 +184,8 @@
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="@id/startGuideLine"
                     app:layout_constraintTop_toBottomOf="@+id/ivPic" />
+
+
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvExperience"
