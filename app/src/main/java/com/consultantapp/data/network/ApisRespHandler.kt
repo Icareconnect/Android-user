@@ -37,8 +37,14 @@ object ApisRespHandler {
             }
 
             is AppError.ApiFailure -> {
-                if (alertDialog == null)
-                    errorMessage(activity, error.message)
+                if (alertDialog == null) {
+                    if (error.message.contains("Failed to connect to") ||
+                        error.message.contains("Unable to resolve host") ||
+                        error.message.contains("No address associated with hostname"))
+                        errorMessage(activity, activity.getString(R.string.check_internet))
+                    else
+                        errorMessage(activity, error.message)
+                }
             }
         }
     }

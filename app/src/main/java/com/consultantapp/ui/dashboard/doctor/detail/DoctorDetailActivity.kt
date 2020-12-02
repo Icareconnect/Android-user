@@ -273,6 +273,7 @@ class DoctorDetailActivity : DaggerAppCompatActivity() {
                 hashMap["consultant_id"] = doctorId
                 hashMap["service_id"] = CATEGORY_SERVICE_ID
                 hashMap["schedule_type"] = RequestType.SCHEDULE
+                /*Mutiple date*/
                 hashMap["request_type"] = "multiple"
 
                 if (intent.hasExtra(EXTRA_REQUEST_ID)) {

@@ -29,7 +29,7 @@ import com.consultantapp.ui.dashboard.appointment.AppointmentViewModel
 import com.consultantapp.ui.drawermenu.DrawerActivity
 import com.consultantapp.utils.*
 import com.consultantapp.utils.PermissionUtils
-import com.consultantvendor.data.models.responses.directions.Overview_polyline
+import com.consultantapp.data.models.responses.directions.Overview_polyline
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback

@@ -128,7 +128,7 @@ class PrefrenceFragment : DaggerFragment() {
     }
 
     private fun bindObservers() {
-        viewModel.getFilters.observe(this, Observer {
+        viewModel.getFilters.observe(requireActivity(), Observer {
             it ?: return@Observer
             when (it.status) {
                 Status.SUCCESS -> {

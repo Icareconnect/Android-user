@@ -146,7 +146,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_16"
-                android:background="@drawable/drawable_bg_theme"
+                android:background="@drawable/drawable_theme_8"
                 android:fontFamily="@font/sans_bold"
                 android:gravity="center"
                 android:visibility="gone"

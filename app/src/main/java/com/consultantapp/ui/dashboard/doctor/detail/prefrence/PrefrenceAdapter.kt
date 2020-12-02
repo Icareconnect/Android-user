@@ -3,6 +3,7 @@ package com.consultantapp.ui.dashboard.doctor.detail.prefrence
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.consultantapp.R
 import com.consultantapp.data.models.responses.Filter
@@ -13,7 +14,7 @@ import com.consultantapp.databinding.ItemPagingLoaderBinding
 import com.consultantapp.databinding.RvItemPrefrenceBinding
 
 
-class PrefrenceAdapter(private val fragment: PrefrenceFragment, private val items: ArrayList<Filter>) :
+class PrefrenceAdapter(private val fragment: Fragment, private val items: ArrayList<Filter>) :
         RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var allItemsLoaded = true
@@ -51,13 +52,14 @@ class PrefrenceAdapter(private val fragment: PrefrenceFragment, private val item
 
         init {
             binding.root.setOnClickListener {
+                if(fragment is PrefrenceFragment)
                 fragment.clickItem(items[adapterPosition])
             }
 
         }
 
         fun bind(item: Filter) = with(binding) {
-            tvName.text = item.filter_name
+            tvName.text = item.filter_name ?: item.preference_name
 
 
             val listOptions = ArrayList<FilterOption>()

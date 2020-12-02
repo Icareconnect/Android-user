@@ -142,3 +142,7 @@ object CountryListType {
     const val STATE = "state"
     const val CITY = "city"
 }
+
+object PreferencesType {
+    const val ALL = "All"
+}

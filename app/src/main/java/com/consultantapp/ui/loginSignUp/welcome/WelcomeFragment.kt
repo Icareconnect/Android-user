@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.consultantapp.R
 import com.consultantapp.databinding.FragmentWelcomeBinding
+import com.consultantapp.ui.dashboard.covid.CovidFragment
 import com.consultantapp.ui.loginSignUp.login.LoginFragment
 import com.consultantapp.ui.loginSignUp.signup.SignUpFragment
 import com.consultantapp.utils.PrefsManager
@@ -67,9 +68,8 @@ class WelcomeFragment : DaggerFragment() {
         }
 
         binding.tvSignUpEmail.setOnClickListener {
-
             replaceFragment(requireActivity().supportFragmentManager,
-                    SignUpFragment(), R.id.container)
+                    CovidFragment(), R.id.container)
         }
     }
 

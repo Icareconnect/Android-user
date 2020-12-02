@@ -1,4 +1,4 @@
-package com.consultantvendor.data.models.responses.directions
+package com.consultantapp.data.models.responses.directions
 
 class Leg {
     var distance: Distance? = null

@@ -63,7 +63,7 @@
             android:layout_marginStart="@dimen/dp_16"
             android:layout_marginTop="@dimen/dp_24"
             android:layout_marginEnd="@dimen/dp_16"
-            android:background="@drawable/drawable_bg_theme"
+            android:background="@drawable/drawable_theme_8"
             android:fontFamily="@font/circular_bold"
             android:paddingStart="@dimen/dp_24"
             android:paddingEnd="@dimen/dp_24"

@@ -289,7 +289,7 @@
     <string name="buy_health_packages">Buy Health Packages</string>
     <string name="choose_package">Choose Packages</string>
 
-    <string name="create_a_account">Create a Intelligent Care\nConnect account to continue</string>
+    <string name="create_a_account">Create an iCareConnect account\nto continue</string>
     <string name="signup_with_email">Sign Up with Email</string>
     <string name="or">or</string>
     <string name="login_care_connect">Login to Intelligent Care Connect</string>

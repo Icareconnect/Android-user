@@ -74,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_48"
                 android:layout_marginBottom="@dimen/dp_16"
-                android:background="@drawable/drawable_theme"
+                android:background="@drawable/drawable_theme_40"
                 android:fontFamily="@font/sans_bold"
                 android:gravity="center"
                 android:text="@string/ok"

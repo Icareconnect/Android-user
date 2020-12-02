@@ -5,7 +5,7 @@ import com.consultantapp.data.apis.WebService
 import com.consultantapp.data.network.responseUtil.ApiUtils
 import com.consultantapp.data.network.responseUtil.Resource
 import com.consultantapp.di.SingleLiveEvent
-import com.consultantvendor.data.models.responses.directions.Direction
+import com.consultantapp.data.models.responses.directions.Direction
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
