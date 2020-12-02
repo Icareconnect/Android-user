@@ -139,13 +139,13 @@ class AppointmentFragment : DaggerFragment() {
     }
 
     private fun hitApi(firstHit: Boolean) {
-        if (firstHit) {
-            isFirstPage = true
-            isLastPage = false
-        }
-
-        val hashMap = HashMap<String, String>()
         if (isConnectedToInternet(requireContext(), true)) {
+            if (firstHit) {
+                isFirstPage = true
+                isLastPage = false
+            }
+
+            val hashMap = HashMap<String, String>()
             if (!isFirstPage && items.isNotEmpty())
                 hashMap[AFTER] = items[items.size - 1].id ?: ""
 
@@ -153,11 +153,12 @@ class AppointmentFragment : DaggerFragment() {
 
             hashMap["service_type"] = CallType.ALL
             viewModel.request(hashMap)
-        }
+        }else
+            binding.swipeRefresh.isRefreshing=false
     }
 
     private fun bindObservers() {
-        viewModel.request.observe(this, Observer {
+        viewModel.request.observe(requireActivity(), Observer {
             it ?: return@Observer
             when (it.status) {
                 Status.SUCCESS -> {
@@ -199,7 +200,7 @@ class AppointmentFragment : DaggerFragment() {
             }
         })
 
-        viewModel.cancelRequest.observe(this, Observer {
+        viewModel.cancelRequest.observe(requireActivity(), Observer {
             it ?: return@Observer
             when (it.status) {
                 Status.SUCCESS -> {
