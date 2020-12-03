@@ -81,10 +81,13 @@ class ProfileFragment : DaggerFragment() {
         binding.tvAge.text = "${getString(R.string.age)} ${getAge(userData?.profile?.dob)}"
         binding.tvBioV.text = userData?.profile?.bio ?: getString(R.string.na)
         binding.tvEmailV.text = userData?.email ?: getString(R.string.na)
-        binding.tvPhoneV.text = "${userData?.country_code ?: ""} ${userData?.phone ?: ""}"
+        binding.tvPhoneV.text = "${userData?.country_code ?: getString(R.string.na)} ${userData?.phone ?: ""}"
         binding.tvDOBV.text = userData?.profile?.dob ?: getString(R.string.na)
 
-        if (!userData?.profile?.dob.isNullOrEmpty())
+        if (userData?.profile?.dob.isNullOrEmpty()){
+            binding.tvDOB.gone()
+            binding.tvDOBV.gone()
+        }else
             binding.tvDOBV.text = DateUtils.dateFormatChange(DateFormat.DATE_FORMAT,
                     DateFormat.MON_DAY_YEAR, userData?.profile?.dob ?: "")
 

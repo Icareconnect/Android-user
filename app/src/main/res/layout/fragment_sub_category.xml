@@ -93,7 +93,7 @@
             android:textColor="@color/textColor_50"
             android:textSize="@dimen/sp_14"
             android:visibility="gone"
-            app:fontFamily="@font/circular_medium"
+            app:fontFamily="@font/campton_medium"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

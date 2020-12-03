@@ -71,7 +71,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="4dp"
         android:layout_marginTop="4dp"
-        android:fontFamily="@font/circular_medium"
+        android:fontFamily="@font/campton_medium"
         android:textColor="@color/textColor"
         android:textSize="12sp"
         app:layout_constraintEnd_toStartOf="@+id/ivTick"

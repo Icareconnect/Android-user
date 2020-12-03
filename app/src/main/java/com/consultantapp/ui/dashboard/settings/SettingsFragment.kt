@@ -11,16 +11,14 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.consultantapp.R
 import com.consultantapp.data.network.ApisRespHandler
+import com.consultantapp.data.network.ProviderType
 import com.consultantapp.data.network.responseUtil.Status
 import com.consultantapp.data.repos.UserRepository
 import com.consultantapp.databinding.FragmentSettingsBinding
 import com.consultantapp.ui.LoginViewModel
 import com.consultantapp.ui.drawermenu.DrawerActivity
-import com.consultantapp.ui.drawermenu.DrawerActivity.Companion.HISTORY
-import com.consultantapp.ui.drawermenu.DrawerActivity.Companion.NOTIFICATION
-import com.consultantapp.ui.drawermenu.DrawerActivity.Companion.PROFILE
-import com.consultantapp.ui.drawermenu.DrawerActivity.Companion.SUBSCRIPTION
-import com.consultantapp.ui.drawermenu.DrawerActivity.Companion.WALLET
+import com.consultantapp.ui.drawermenu.DrawerActivity.Companion.CHANGE_PASSWORD
+import com.consultantapp.ui.drawermenu.DrawerActivity.Companion.REQUEST
 import com.consultantapp.ui.drawermenu.addmoney.AddMoneyActivity
 import com.consultantapp.ui.loginSignUp.SignUpActivity
 import com.consultantapp.utils.*
@@ -49,13 +47,13 @@ class SettingsFragment : DaggerFragment() {
 
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         if (rootView == null) {
             binding =
-                DataBindingUtil.inflate(inflater, R.layout.fragment_settings, container, false)
+                    DataBindingUtil.inflate(inflater, R.layout.fragment_settings, container, false)
             rootView = binding.root
 
             initialise()
@@ -76,10 +74,12 @@ class SettingsFragment : DaggerFragment() {
 
         binding.tvName.text = userData?.name
         loadImage(binding.ivPic, userData?.profile_image,
-            R.drawable.ic_profile_placeholder)
+                R.drawable.ic_profile_placeholder)
 
         binding.tvVersion.text =
-            getString(R.string.version, getVersion(requireActivity()).versionName)
+                getString(R.string.version, getVersion(requireActivity()).versionName)
+
+        binding.tvChangePassword.hideShowView(userRepository.getUser()?.provider_type == ProviderType.email)
     }
 
     private fun listeners() {
@@ -104,24 +104,34 @@ class SettingsFragment : DaggerFragment() {
             startActivityForResult(Intent(requireActivity(), SignUpActivity::class.java)
                     .putExtra(UPDATE_PROFILE, true), AppRequestCode.PROFILE_UPDATE)
         }
+
+        binding.tvChangePassword.setOnClickListener {
+            startActivity(Intent(requireContext(), DrawerActivity::class.java)
+                    .putExtra(PAGE_TO_OPEN, CHANGE_PASSWORD))
+        }
+
+        binding.tvMyBookings.setOnClickListener {
+            startActivity(Intent(requireContext(), DrawerActivity::class.java)
+                .putExtra(PAGE_TO_OPEN, REQUEST))
+        }
     }
 
     private fun showLogoutDialog() {
         AlertDialogUtil.instance.createOkCancelDialog(
-            requireContext(), R.string.sign_out,
-            R.string.logout_dialog_message, R.string.yes, R.string.no, false,
-            object : AlertDialogUtil.OnOkCancelDialogListener {
-                override fun onOkButtonClicked() {
-                    viewModel.logout()
-                }
+                requireContext(), R.string.sign_out,
+                R.string.logout_dialog_message, R.string.yes, R.string.no, false,
+                object : AlertDialogUtil.OnOkCancelDialogListener {
+                    override fun onOkButtonClicked() {
+                        viewModel.logout()
+                    }
 
-                override fun onCancelButtonClicked() {
-                }
-            }).show()
+                    override fun onCancelButtonClicked() {
+                    }
+                }).show()
     }
 
     private fun bindObservers() {
-        viewModel.logout.observe(this, Observer {
+        viewModel.logout.observe(requireActivity(), Observer {
             it ?: return@Observer
             when (it.status) {
                 Status.SUCCESS -> {

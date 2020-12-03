@@ -25,7 +25,7 @@
         android:elevation="4dp"
         android:autoLink="web"
         android:textColorLink="@color/colorLink"
-        android:fontFamily="@font/circular_medium"
+        android:fontFamily="@font/campton_medium"
         android:minWidth="48dp"
         android:padding="8dp"
         android:textColor="@android:color/black"
@@ -38,7 +38,7 @@
         android:layout_below="@+id/tvChatTextLeft"
         android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
-        android:fontFamily="@font/circular_medium"
+        android:fontFamily="@font/campton_medium"
         android:textColor="@color/textColor"
         android:textSize="12sp" />
 

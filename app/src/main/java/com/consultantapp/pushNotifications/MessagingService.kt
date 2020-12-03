@@ -1,7 +1,10 @@
 package com.consultantapp.pushNotifications
 
 import android.annotation.TargetApi
-import android.app.*
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.app.TaskStackBuilder
 import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
@@ -14,7 +17,6 @@ import androidx.core.content.ContextCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.consultantapp.R
 import com.consultantapp.data.models.PushData
-import com.consultantapp.data.models.responses.Request
 import com.consultantapp.data.network.PushType
 import com.consultantapp.data.repos.UserRepository
 import com.consultantapp.ui.calling.Constants

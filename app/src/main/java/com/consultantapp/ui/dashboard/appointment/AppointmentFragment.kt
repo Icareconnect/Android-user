@@ -65,16 +65,16 @@ class AppointmentFragment : DaggerFragment() {
 
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         if (rootView == null) {
             binding = DataBindingUtil.inflate(
-                    inflater,
-                    R.layout.activity_listing_toolbar,
-                    container,
-                    false
+                inflater,
+                R.layout.activity_listing_toolbar,
+                container,
+                false
             )
             rootView = binding.root
 
@@ -92,8 +92,9 @@ class AppointmentFragment : DaggerFragment() {
         viewModel = ViewModelProvider(this, viewModelFactory)[AppointmentViewModel::class.java]
         progressDialog = ProgressDialog(requireActivity())
 
-        binding.toolbar.title = getString(R.string.appointments)
-        binding.toolbar.navigationIcon = null
+        binding.toolbar.title = getString(R.string.my_bookings)
+        if (!requireActivity().intent.hasExtra(PAGE_TO_OPEN))
+            binding.toolbar.navigationIcon = null
         binding.tvTitle.gone()
 
         binding.clNoData.ivNoData.setImageResource(R.drawable.ic_requests_empty_state)
@@ -153,8 +154,8 @@ class AppointmentFragment : DaggerFragment() {
 
             hashMap["service_type"] = CallType.ALL
             viewModel.request(hashMap)
-        }else
-            binding.swipeRefresh.isRefreshing=false
+        } else
+            binding.swipeRefresh.isRefreshing = false
     }
 
     private fun bindObservers() {
@@ -220,30 +221,36 @@ class AppointmentFragment : DaggerFragment() {
     }
 
     fun rateUser(item: Request) {
-        startActivity(Intent(requireActivity(), DrawerActivity::class.java)
-                        .putExtra(PAGE_TO_OPEN, RATE)
-                        .putExtra(EXTRA_TAB, true)
-                        .putExtra(EXTRA_REQUEST_ID, item.id))
+        startActivity(
+            Intent(requireActivity(), DrawerActivity::class.java)
+                .putExtra(PAGE_TO_OPEN, RATE)
+                .putExtra(EXTRA_TAB, true)
+                .putExtra(EXTRA_REQUEST_ID, item.id)
+        )
     }
 
     fun checkStatus(item: Request) {
 //        item.status = CallAction.REACHED
         when (item.status) {
             CallAction.START, CallAction.REACHED ->
-                startActivityForResult(Intent(requireActivity(), AppointmentStatusActivity::class.java)
-                        .putExtra(EXTRA_REQUEST_ID, item.id), AppRequestCode.APPOINTMENT_DETAILS)
+                startActivityForResult(
+                    Intent(requireActivity(), AppointmentStatusActivity::class.java)
+                        .putExtra(EXTRA_REQUEST_ID, item.id), AppRequestCode.APPOINTMENT_DETAILS
+                )
             CallAction.START_SERVICE ->
-                startActivityForResult(Intent(requireContext(), DrawerActivity::class.java)
+                startActivityForResult(
+                    Intent(requireContext(), DrawerActivity::class.java)
                         .putExtra(PAGE_TO_OPEN, DrawerActivity.UPDATE_SERVICE)
-                        .putExtra(EXTRA_REQUEST_ID, item.id), AppRequestCode.APPOINTMENT_DETAILS)
+                        .putExtra(EXTRA_REQUEST_ID, item.id), AppRequestCode.APPOINTMENT_DETAILS
+                )
         }
     }
 
     fun rescheduleAppointment(item: Request) {
         val intent = Intent(requireContext(), DoctorActionActivity::class.java)
-                .putExtra(PAGE_TO_OPEN, item.schedule_type)
-                .putExtra(SERVICE_ID, item.service_id)
-                .putExtra(USER_DATA, item.to_user)
+            .putExtra(PAGE_TO_OPEN, item.schedule_type)
+            .putExtra(SERVICE_ID, item.service_id)
+            .putExtra(USER_DATA, item.to_user)
 
         if (item.status != CallAction.COMPLETED) {
             intent.putExtra(EXTRA_REQUEST_ID, item.id)
@@ -253,23 +260,23 @@ class AppointmentFragment : DaggerFragment() {
 
     fun cancelAppointment(item: Request) {
         AlertDialogUtil.instance.createOkCancelDialog(requireActivity(),
-                R.string.cancel_appointment,
-                R.string.cancel_appointment_msg,
-                R.string.cancel_appointment,
-                R.string.cancel,
-                false,
-                object : AlertDialogUtil.OnOkCancelDialogListener {
-                    override fun onOkButtonClicked() {
-                        if (isConnectedToInternet(requireContext(), true)) {
-                            val hashMap = HashMap<String, String>()
-                            hashMap["request_id"] = item.id ?: ""
-                            viewModel.cancelRequest(hashMap)
-                        }
+            R.string.cancel_appointment,
+            R.string.cancel_appointment_msg,
+            R.string.cancel_appointment,
+            R.string.cancel,
+            false,
+            object : AlertDialogUtil.OnOkCancelDialogListener {
+                override fun onOkButtonClicked() {
+                    if (isConnectedToInternet(requireContext(), true)) {
+                        val hashMap = HashMap<String, String>()
+                        hashMap["request_id"] = item.id ?: ""
+                        viewModel.cancelRequest(hashMap)
                     }
+                }
 
-                    override fun onCancelButtonClicked() {
-                    }
-                }).show()
+                override fun onCancelButtonClicked() {
+                }
+            }).show()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -308,7 +315,7 @@ class AppointmentFragment : DaggerFragment() {
             intentFilter.addAction(PushType.START_SERVICE)
             intentFilter.addAction(PushType.CANCEL_SERVICE)
             LocalBroadcastManager.getInstance(requireContext())
-                    .registerReceiver(refreshRequests, intentFilter)
+                .registerReceiver(refreshRequests, intentFilter)
             isReceiverRegistered = true
         }
     }

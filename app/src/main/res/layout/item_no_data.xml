@@ -42,7 +42,7 @@
         android:layout_marginStart="@dimen/dp_36"
         android:layout_marginTop="@dimen/dp_8"
         android:layout_marginEnd="@dimen/dp_36"
-        android:fontFamily="@font/circular_medium"
+        android:fontFamily="@font/campton_medium"
         android:gravity="center"
         android:text="@string/no_data_found"
         android:textColor="@color/textColor"

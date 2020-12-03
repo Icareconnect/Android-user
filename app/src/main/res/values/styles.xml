@@ -30,13 +30,13 @@
     <style name="Toolbar.LoginButton" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">@dimen/sp_14</item>
         <item name="android:textColor">@color/textColor</item>
-        <item name="android:fontFamily">@font/sans_regular</item>
+        <item name="android:fontFamily">@font/campton_medium</item>
     </style>
 
     <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">@dimen/sp_20</item>
         <item name="android:textColor">@color/colorBlack</item>
-        <item name="android:fontFamily">@font/sans_regular</item>
+        <item name="android:fontFamily">@font/campton_medium</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

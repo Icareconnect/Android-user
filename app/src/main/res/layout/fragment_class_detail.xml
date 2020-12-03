@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
             android:elevation="@dimen/dp_2"
-            android:fontFamily="@font/circular_bold"
+            android:fontFamily="@font/campton_semibold"
             android:gravity="center"
             android:textColor="@color/textColor"
             android:textSize="@dimen/sp_16"

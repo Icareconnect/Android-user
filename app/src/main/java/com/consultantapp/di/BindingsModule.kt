@@ -51,6 +51,7 @@ import com.consultantapp.ui.loginSignUp.signup.SignUpFragment
 import com.consultantapp.ui.loginSignUp.verifyotp.VerifyOTPFragment
 import com.consultantapp.ui.loginSignUp.welcome.WelcomeFragment
 import com.consultantapp.ui.webview.WebViewActivity
+import com.consultantvendor.ui.loginSignUp.changepassword.ChangePasswordFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -101,6 +102,9 @@ abstract class BindingsModule {
 
     @ContributesAndroidInjector
     abstract fun forgotPasswordFragment(): ForgotPasswordFragment
+
+    @ContributesAndroidInjector
+    abstract fun changePasswordFragment(): ChangePasswordFragment
 
     @ContributesAndroidInjector
     abstract fun walletFragment(): WalletFragment

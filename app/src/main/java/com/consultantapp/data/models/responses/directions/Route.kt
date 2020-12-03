@@ -1,9 +1,5 @@
 package com.consultantapp.data.models.responses.directions
 
-import com.consultantapp.data.models.responses.directions.Bounds
-import com.consultantapp.data.models.responses.directions.Leg
-import com.consultantapp.data.models.responses.directions.Overview_polyline
-
 class Route {
     var bounds: Bounds? = null
     var copyrights: String? = null

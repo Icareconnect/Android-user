@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Intely</string>
+    <string name="app_name">iCareConnect</string>
 
     <!--Deep Link-->
     <string name="deep_link_url" translatable="false">intely.page.link</string>
@@ -14,7 +14,7 @@
     <string name="media_permission">This feature needs permission to use camera and external storage.</string>
 
     <string name="gps_not_enabled">GPS Not Enabled</string>
-    <string name="want_to_enable_gps">Rooh need GPS enabled to access your location.</string>
+    <string name="want_to_enable_gps">Need GPS enabled to access your location.</string>
 
     <string name="internet">Internet</string>
     <string name="check_internet">Please check your internet connection</string>
@@ -86,7 +86,7 @@
     <string name="no_slot_found">No Slot available</string>
     <string name="select_image">Select image</string>
     <string name="update">Update</string>
-    <string name="update_desc">You have new update for Intely!</string>
+    <string name="update_desc">You have new update for iCareConnect!</string>
     <string name="we_need_your_email">We need your registered email to reach you</string>
     <string name="sent_password">We have sent a temporary password in your email. Please check your email.</string>
     <string name="request_sent">Request Sent successfully</string>
@@ -385,5 +385,10 @@
     <string name="change_password">Change Password</string>
     <string name="my_pets">My Pets</string>
     <string name="my_bookings">My Bookings</string>
+
+    <string name="old_password">Old Password</string>
+    <string name="new_password">New Password</string>
+    <string name="confirm_password">Confirm New Password</string>
+    <string name="password_changed">Password changed successfully</string>
 
 </resources>

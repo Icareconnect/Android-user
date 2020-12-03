@@ -24,6 +24,8 @@ class LoginViewModel @Inject constructor(private val webService: WebService) : V
 
     val forgotPassword by lazy { SingleLiveEvent<Resource<UserData>>() }
 
+    val changePassword by lazy { SingleLiveEvent<Resource<UserData>>() }
+
     val updateProfile by lazy { SingleLiveEvent<Resource<UserData>>() }
 
     val logout by lazy { SingleLiveEvent<Resource<UserData>>() }
@@ -129,6 +131,30 @@ class LoginViewModel @Inject constructor(private val webService: WebService) : V
                 }
 
             })
+    }
+
+    fun changePassword(hashMap: HashMap<String, Any>) {
+        changePassword.value = Resource.loading()
+
+        webService.changePassword(hashMap)
+                .enqueue(object : Callback<ApiResponse<UserData>> {
+
+                    override fun onResponse(call: Call<ApiResponse<UserData>>,
+                                            response: Response<ApiResponse<UserData>>) {
+                        if (response.isSuccessful) {
+                            changePassword.value = Resource.success(response.body()?.data)
+                        } else {
+                            changePassword.value = Resource.error(
+                                    ApiUtils.getError(response.code(),
+                                            response.errorBody()?.string()))
+                        }
+                    }
+
+                    override fun onFailure(call: Call<ApiResponse<UserData>>, throwable: Throwable) {
+                        changePassword.value = Resource.error(ApiUtils.failure(throwable))
+                    }
+
+                })
     }
 
     fun updateProfile(hashMap: HashMap<String, RequestBody>) {

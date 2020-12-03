@@ -13,7 +13,7 @@
             android:layout_marginStart="@dimen/dp_16"
             android:layout_marginTop="@dimen/dp_16"
             android:layout_marginEnd="@dimen/dp_16"
-            android:fontFamily="@font/sans_bold"
+            android:fontFamily="@font/campton_semibold"
             android:text="@string/consult_a_doctor"
             android:textColor="@color/textColor"
             android:textSize="@dimen/sp_16"

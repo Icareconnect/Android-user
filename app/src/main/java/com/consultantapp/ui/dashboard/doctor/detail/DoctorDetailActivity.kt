@@ -25,7 +25,6 @@ import com.consultantapp.ui.dashboard.doctor.DoctorActionActivity
 import com.consultantapp.ui.dashboard.doctor.schedule.ScheduleFragment.Companion.SERVICE_ID
 import com.consultantapp.ui.drawermenu.DrawerActivity
 import com.consultantapp.ui.drawermenu.DrawerActivity.Companion.WALLET
-import com.consultantapp.ui.drawermenu.addmoney.AddMoneyActivity
 import com.consultantapp.utils.*
 import com.consultantapp.utils.dialogs.ProgressDialog
 import dagger.android.support.DaggerAppCompatActivity
@@ -215,10 +214,8 @@ class DoctorDetailActivity : DaggerAppCompatActivity() {
 
     private fun setDoctorData() {
         binding.tvName.text = getDoctorName(doctorData)
-        loadImage(
-                binding.ivPic, doctorData?.profile_image,
-                R.drawable.image_placeholder
-        )
+        loadImage(binding.ivPic, doctorData?.profile_image,
+                R.drawable.image_placeholder)
 
         binding.tvDesc.text = doctorData?.categoryData?.name ?: getString(R.string.na)
 
@@ -233,15 +230,16 @@ class DoctorDetailActivity : DaggerAppCompatActivity() {
 
         binding.tvPatientV.text = doctorData?.patientCount ?: getString(R.string.na)
 
-        if (doctorData?.profile?.working_since == null) {
-            binding.tvExperience.gone()
-            binding.tvExperienceV.gone()
-        } else
-            binding.tvExperienceV.text =
-                    "${getAge(doctorData?.profile?.working_since)} ${getString(R.string.years)}"
-
         binding.tvReviewsV.text = doctorData?.reviewCount ?: getString(R.string.na)
         binding.tvReviewCount.text = getUserRating(doctorData?.totalRating)
+
+        doctorData?.custom_fields?.forEach {
+            when (it.field_name) {
+                CustomFields.WORK_EXPERIENCE -> {
+                    binding.tvExperienceV.text = it.field_value
+                }
+            }
+        }
 
         /*val serviceList = ArrayList<Service>()
         serviceList.addAll(doctorData?.services ?: emptyList())

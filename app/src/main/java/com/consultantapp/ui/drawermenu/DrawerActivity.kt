@@ -23,6 +23,7 @@ import com.consultantapp.ui.drawermenu.notification.NotificationFragment
 import com.consultantapp.ui.drawermenu.profile.ProfileFragment
 import com.consultantapp.ui.drawermenu.wallet.WalletFragment
 import com.consultantapp.utils.*
+import com.consultantvendor.ui.loginSignUp.changepassword.ChangePasswordFragment
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
@@ -52,6 +53,9 @@ class DrawerActivity : DaggerAppCompatActivity() {
             HISTORY ->
                 addFragment(supportFragmentManager,
                         HistoryFragment(), R.id.container)
+            CHANGE_PASSWORD ->
+                addFragment(supportFragmentManager,
+                        ChangePasswordFragment(), R.id.container)
             PROFILE ->
                 addFragment(supportFragmentManager,
                         ProfileFragment(), R.id.container)
@@ -116,6 +120,7 @@ class DrawerActivity : DaggerAppCompatActivity() {
 
     companion object {
         const val HISTORY = "HISTORY"
+        const val CHANGE_PASSWORD = "CHANGE_PASSWORD"
         const val PROFILE = "PROFILE"
         const val NOTIFICATION = "NOTIFICATION"
         const val WALLET = "WALLET"

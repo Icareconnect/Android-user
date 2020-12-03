@@ -1,10 +1,5 @@
 package com.consultantapp.data.models.responses.directions
 
-import com.consultantapp.data.models.responses.directions.Distance
-import com.consultantapp.data.models.responses.directions.Duration
-import com.consultantapp.data.models.responses.directions.End_location
-import com.consultantapp.data.models.responses.directions.Polyline
-
 class Step {
     var distance: Distance? = null
     var duration: Duration? = null
