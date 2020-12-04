@@ -151,4 +151,7 @@ object CountryListType {
 
 object PreferencesType {
     const val ALL = "All"
+    const val COVID = "covid"
+    const val PERSONAL_INTEREST = "personal_interest"
+    const val WORK_ENVIRONMENT = "work_environment"
 }

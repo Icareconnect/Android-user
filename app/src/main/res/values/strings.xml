@@ -391,4 +391,11 @@
     <string name="confirm_password">Confirm New Password</string>
     <string name="password_changed">Password changed successfully</string>
 
+    <string name="show_more">show more</string>
+    <string name="show_less">show less</string>
+    <string name="expertise">Expertise</string>
+    <string name="covid_19">Covid 19</string>
+    <string name="personal_interests">Personal Interests</string>
+    <string name="work_environment">"Work Environment "</string>
+
 </resources>

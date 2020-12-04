@@ -40,4 +40,9 @@ class UserData : Serializable {
 
     var isApproved: Boolean? = null
     var price: String? = null
+
+    var filters: ArrayList<Filter>? = null
+
+    /*Prefrences*/
+    var master_preferences: ArrayList<Filter>? = null
 }

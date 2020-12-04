@@ -71,7 +71,7 @@
                     android:id="@+id/ivPic"
                     android:layout_width="120dp"
                     android:layout_height="128dp"
-                    android:layout_marginTop="@dimen/dp_16"
+                    android:layout_marginTop="@dimen/dp_8"
                     android:layout_marginBottom="@dimen/dp_16"
                     android:scaleType="centerCrop"
                     android:src="@drawable/image_placeholder"
@@ -108,10 +108,10 @@
                     android:fontFamily="@font/campton_book"
                     android:gravity="center"
                     android:paddingStart="@dimen/dp_8"
-                    android:visibility="gone"
                     android:paddingEnd="@dimen/dp_8"
                     android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/sp_14"
+                    android:visibility="gone"
                     app:layout_constraintStart_toEndOf="@+id/ivPic"
                     app:layout_constraintTop_toBottomOf="@+id/tvName"
                     tools:text="@string/app_name" />
@@ -139,42 +139,42 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp_16"
+                    android:layout_marginTop="@dimen/dp_6"
+                    android:drawableStart="@drawable/ic_location"
+                    android:drawablePadding="@dimen/dp_8"
+                    android:drawableTint="@color/colorPrimary"
                     android:ellipsize="end"
                     android:fontFamily="@font/campton_book"
                     android:maxLines="2"
-                    android:drawablePadding="@dimen/dp_8"
-                    android:drawableTint="@color/colorPrimary"
-                    android:drawableStart="@drawable/ic_location"
-                    android:layout_marginTop="@dimen/dp_2"
-                    tools:text="@string/app_name"
                     android:textColor="@color/textColor"
                     android:textSize="@dimen/sp_14"
                     app:layout_constraintEnd_toEndOf="@id/endGuideLine"
                     app:layout_constraintStart_toEndOf="@+id/ivPic"
-                    app:layout_constraintTop_toBottomOf="@+id/tvRating" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvRating"
+                    tools:text="@string/app_name" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvRate"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp_16"
+                    android:layout_marginTop="@dimen/dp_6"
                     android:ellipsize="end"
                     android:fontFamily="@font/campton_book"
                     android:maxLines="1"
-                    android:layout_marginTop="@dimen/dp_2"
-                    tools:text="@string/price_s"
                     android:textColor="@color/textColor"
                     android:textSize="@dimen/sp_14"
                     app:layout_constraintEnd_toEndOf="@id/endGuideLine"
                     app:layout_constraintStart_toEndOf="@+id/ivPic"
-                    app:layout_constraintTop_toBottomOf="@+id/tvLocation" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvLocation"
+                    tools:text="@string/price_s" />
 
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvPatient"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_32"
+                    android:layout_marginTop="@dimen/dp_24"
                     android:alpha="0.7"
                     android:fontFamily="@font/campton_book"
                     android:text="@string/patients"
@@ -186,13 +186,12 @@
                     app:layout_constraintTop_toBottomOf="@+id/ivPic" />
 
 
-
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvExperience"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp_4"
-                    android:layout_marginTop="@dimen/dp_32"
+                    android:layout_marginTop="@dimen/dp_24"
                     android:alpha="0.7"
                     android:fontFamily="@font/campton_book"
                     android:text="@string/experience"
@@ -208,7 +207,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp_4"
-                    android:layout_marginTop="@dimen/dp_32"
+                    android:layout_marginTop="@dimen/dp_24"
                     android:alpha="0.7"
                     android:fontFamily="@font/campton_book"
                     android:text="@string/reviews"
@@ -267,13 +266,179 @@
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_marginStart="@dimen/dp_8"
-                    android:layout_marginTop="@dimen/dp_24"
+                    android:layout_marginTop="@dimen/dp_12"
                     android:layout_marginEnd="@dimen/dp_8"
                     android:background="@color/lineColor"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvPatientV" />
 
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvExpertise"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_12"
+                    android:fontFamily="@font/campton_semibold"
+                    android:text="@string/expertise"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/sp_18"
+                    app:layout_constraintStart_toStartOf="@id/startGuideLine"
+                    app:layout_constraintTop_toBottomOf="@id/view1" />
+
+                <com.borjabravo.readmoretextview.ReadMoreTextView
+                    android:id="@+id/tvExpertiseV"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_8"
+                    android:fontFamily="@font/campton_book"
+                    android:gravity="start"
+                    android:text="@string/app_name"
+                    android:textColor="@color/textColor"
+                    android:textDirection="locale"
+                    android:textSize="@dimen/sp_14"
+                    app:colorClickableText="@color/colorPrimary"
+                    app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+                    app:layout_constraintStart_toStartOf="@id/startGuideLine"
+                    app:layout_constraintTop_toBottomOf="@+id/tvExpertise"
+                    app:trimCollapsedText="@string/show_more"
+                    app:trimExpandedText="@string/show_less"
+                    app:trimLength="150"
+                    app:trimLines="3"
+                    app:trimMode="trimModeLength" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvAbout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_16"
+                    android:fontFamily="@font/campton_semibold"
+                    android:text="@string/about"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/sp_18"
+                    app:layout_constraintStart_toStartOf="@id/startGuideLine"
+                    app:layout_constraintTop_toBottomOf="@id/tvExpertiseV" />
+
+                <com.borjabravo.readmoretextview.ReadMoreTextView
+                    android:id="@+id/tvAboutV"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_8"
+                    android:fontFamily="@font/campton_book"
+                    android:gravity="start"
+                    android:text="@string/app_name"
+                    android:textColor="@color/textColor"
+                    android:textDirection="locale"
+                    android:textSize="@dimen/sp_14"
+                    app:colorClickableText="@color/colorPrimary"
+                    app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+                    app:layout_constraintStart_toStartOf="@id/startGuideLine"
+                    app:layout_constraintTop_toBottomOf="@+id/tvAbout"
+                    app:trimCollapsedText="@string/show_more"
+                    app:trimExpandedText="@string/show_less"
+                    app:trimLength="150"
+                    app:trimLines="3"
+                    app:trimMode="trimModeLength" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvPersonal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_16"
+                    android:fontFamily="@font/campton_semibold"
+                    android:text="@string/personal_interests"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/sp_18"
+                    app:layout_constraintStart_toStartOf="@id/startGuideLine"
+                    app:layout_constraintTop_toBottomOf="@id/tvAboutV" />
+
+                <com.borjabravo.readmoretextview.ReadMoreTextView
+                    android:id="@+id/tvPersonalV"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_8"
+                    android:fontFamily="@font/campton_book"
+                    android:gravity="start"
+                    android:text="@string/app_name"
+                    android:textColor="@color/textColor"
+                    android:textDirection="locale"
+                    android:textSize="@dimen/sp_14"
+                    app:colorClickableText="@color/colorPrimary"
+                    app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+                    app:layout_constraintStart_toStartOf="@id/startGuideLine"
+                    app:layout_constraintTop_toBottomOf="@+id/tvPersonal"
+                    app:trimCollapsedText="@string/show_more"
+                    app:trimExpandedText="@string/show_less"
+                    app:trimLength="150"
+                    app:trimLines="3"
+                    app:trimMode="trimModeLength" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvWork"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_16"
+                    android:fontFamily="@font/campton_semibold"
+                    android:text="@string/work_environment"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/sp_18"
+                    app:layout_constraintStart_toStartOf="@id/startGuideLine"
+                    app:layout_constraintTop_toBottomOf="@id/tvPersonalV" />
+
+                <com.borjabravo.readmoretextview.ReadMoreTextView
+                    android:id="@+id/tvWorkV"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_8"
+                    android:fontFamily="@font/campton_book"
+                    android:gravity="start"
+                    android:text="@string/app_name"
+                    android:textColor="@color/textColor"
+                    android:textDirection="locale"
+                    android:textSize="@dimen/sp_14"
+                    app:colorClickableText="@color/colorPrimary"
+                    app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+                    app:layout_constraintStart_toStartOf="@id/startGuideLine"
+                    app:layout_constraintTop_toBottomOf="@+id/tvWork"
+                    app:trimCollapsedText="@string/show_more"
+                    app:trimExpandedText="@string/show_less"
+                    app:trimLength="150"
+                    app:trimLines="3"
+                    app:trimMode="trimModeLength" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvCovid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_16"
+                    android:fontFamily="@font/campton_semibold"
+                    android:text="@string/covid_19"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/sp_18"
+                    app:layout_constraintStart_toStartOf="@id/startGuideLine"
+                    app:layout_constraintTop_toBottomOf="@id/tvWorkV" />
+
+                <com.borjabravo.readmoretextview.ReadMoreTextView
+                    android:id="@+id/tvCovidV"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_8"
+                    android:fontFamily="@font/campton_book"
+                    android:gravity="start"
+                    android:text="@string/app_name"
+                    android:textColor="@color/textColor"
+                    android:textDirection="locale"
+                    android:textSize="@dimen/sp_14"
+                    app:colorClickableText="@color/colorPrimary"
+                    app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+                    app:layout_constraintStart_toStartOf="@id/startGuideLine"
+                    app:layout_constraintTop_toBottomOf="@+id/tvCovid"
+                    app:trimCollapsedText="@string/show_more"
+                    app:trimExpandedText="@string/show_less"
+                    app:trimLength="150"
+                    app:trimLines="3"
+                    app:trimMode="trimModeLength" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvReview"
@@ -285,7 +450,7 @@
                     android:textColor="@color/textColor"
                     android:textSize="@dimen/sp_18"
                     app:layout_constraintStart_toStartOf="@id/startGuideLine"
-                    app:layout_constraintTop_toBottomOf="@id/view1" />
+                    app:layout_constraintTop_toBottomOf="@id/tvCovidV" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvReviewCount"
@@ -315,6 +480,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvReviewCount"
+                    tools:itemCount="2"
                     tools:listitem="@layout/rv_item_rating" />
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -341,6 +507,7 @@
             android:id="@+id/tvBookAppointment"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_16"
             android:layout_marginTop="@dimen/dp_32"
             android:background="@drawable/drawable_theme_8"
             android:clickable="true"
@@ -352,10 +519,9 @@
             android:textAppearance="@style/Toolbar.LoginButton"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/sp_14"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_margin="@dimen/dp_16"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintStart_toStartOf="parent" />
 
 
         <include

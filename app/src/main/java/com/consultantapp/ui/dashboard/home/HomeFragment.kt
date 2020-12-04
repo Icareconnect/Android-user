@@ -20,6 +20,7 @@ import com.consultantapp.data.repos.UserRepository
 import com.consultantapp.databinding.FragmentHomeBinding
 import com.consultantapp.ui.classes.ClassesViewModel
 import com.consultantapp.ui.dashboard.CategoriesAdapter
+import com.consultantapp.ui.dashboard.doctor.listing.DoctorListActivity
 import com.consultantapp.ui.dashboard.subcategory.SubCategoryFragment.Companion.CATEGORY_PARENT_ID
 import com.consultantapp.ui.drawermenu.DrawerActivity
 import com.consultantapp.utils.*
@@ -111,7 +112,7 @@ class HomeFragment : DaggerFragment() {
     }
 
     private fun bindObservers() {
-        viewModel.getFilters.observe(this, Observer {
+        viewModel.getFilters.observe(requireActivity(), Observer {
             it ?: return@Observer
             when (it.status) {
                 Status.SUCCESS -> {
@@ -148,6 +149,8 @@ class HomeFragment : DaggerFragment() {
         startActivity(Intent(requireContext(), DrawerActivity::class.java)
                 .putExtra(PAGE_TO_OPEN, DrawerActivity.REGISTER_SERVICE)
                 .putExtra(CATEGORY_PARENT_ID, item?.id))
+
+        //startActivityForResult(Intent(requireContext(), DoctorListActivity::class.java), AppRequestCode.APPOINTMENT_BOOKING)
     }
 
     override fun onResume() {

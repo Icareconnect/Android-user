@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.consultantapp.R
 import com.consultantapp.data.models.requests.BookService
+import com.consultantapp.data.models.responses.Filter
 import com.consultantapp.data.models.responses.Review
 import com.consultantapp.data.models.responses.Service
 import com.consultantapp.data.models.responses.UserData
@@ -216,7 +217,7 @@ class DoctorDetailActivity : DaggerAppCompatActivity() {
         binding.tvName.text = getDoctorName(doctorData)
         loadImage(binding.ivPic, doctorData?.profile_image,
                 R.drawable.image_placeholder)
-
+        binding.tvAboutV.text = doctorData?.profile?.bio ?: getString(R.string.na)
         binding.tvDesc.text = doctorData?.categoryData?.name ?: getString(R.string.na)
 
         binding.tvRating.text = getString(
@@ -241,10 +242,97 @@ class DoctorDetailActivity : DaggerAppCompatActivity() {
             }
         }
 
-        /*val serviceList = ArrayList<Service>()
-        serviceList.addAll(doctorData?.services ?: emptyList())
-        val adapter = ServicesAdapter(this, serviceList)
-        binding.rvServices.adapter = adapter*/
+        var specialisation = ""
+        doctorData?.filters?.forEach {
+            it.options?.forEach {
+                if (it.isSelected) {
+                    specialisation += "${it.option_name}, "
+                }
+            }
+        }
+        binding.tvExpertiseV.text = specialisation.removeSuffix(", ")
+        binding.tvExpertiseV.hideShowView(specialisation.isNotEmpty())
+        binding.tvExpertise.hideShowView(specialisation.isNotEmpty())
+
+        doctorData?.custom_fields?.forEach {
+            when (it.field_name) {
+                CustomFields.WORK_EXPERIENCE -> {
+                    binding.tvExperienceV.text = it.field_value
+                }
+            }
+        }
+
+
+        val covid = ArrayList<Filter>()
+        val personalInterest = ArrayList<Filter>()
+        val workExperience = ArrayList<Filter>()
+        doctorData?.master_preferences?.forEach {
+            when (it.preference_type) {
+                PreferencesType.COVID ->
+                    covid.add(it)
+                PreferencesType.PERSONAL_INTEREST ->
+                    personalInterest.add(it)
+                PreferencesType.WORK_ENVIRONMENT ->
+                    workExperience.add(it)
+            }
+        }
+
+        if (covid.isNotEmpty()) {
+            binding.tvCovid.visible()
+            binding.tvCovidV.visible()
+
+            var covidText = ""
+            covid.forEach {
+                covidText += it.preference_name + "\n"
+
+                it.options?.forEach {
+                    if (it.isSelected) {
+                        covidText += it.option_name + "\n\n"
+                    }
+                }
+            }
+            binding.tvCovidV.text = covidText
+        } else {
+            binding.tvCovid.visible()
+            binding.tvCovidV.visible()
+        }
+
+        if (personalInterest.isNotEmpty()) {
+            binding.tvPersonal.visible()
+            binding.tvPersonalV.visible()
+
+            var personalText = ""
+            personalInterest.forEach {
+                it.options?.forEach {
+                    if (it.isSelected) {
+                        personalText += it.option_name + ", "
+                    }
+                }
+            }
+            binding.tvPersonalV.text = personalText.removeSuffix(", ")
+        } else {
+            binding.tvPersonal.visible()
+            binding.tvPersonalV.visible()
+        }
+
+        if (workExperience.isNotEmpty()) {
+            binding.tvWork.visible()
+            binding.tvWorkV.visible()
+
+            var workText = ""
+            workExperience.forEach {
+                it.options?.forEach {
+                    if (it.isSelected) {
+                        workText += it.option_name + ", "
+                    }
+                }
+            }
+            binding.tvWorkV.text = workText.removeSuffix(", ")
+        } else {
+            binding.tvWork.gone()
+            binding.tvWorkV.gone()
+        }
+
     }
 
 
