@@ -265,6 +265,7 @@ class DoctorDetailActivity : DaggerAppCompatActivity() {
 
         val covid = ArrayList<Filter>()
         val personalInterest = ArrayList<Filter>()
+        val providableServices = ArrayList<Filter>()
         val workExperience = ArrayList<Filter>()
         doctorData?.master_preferences?.forEach {
             when (it.preference_type) {
@@ -274,13 +275,12 @@ class DoctorDetailActivity : DaggerAppCompatActivity() {
                     personalInterest.add(it)
                 PreferencesType.WORK_ENVIRONMENT ->
                     workExperience.add(it)
+                PreferencesType.PROVIDABLE_SERVICES ->
+                    providableServices.add(it)
             }
         }
 
         if (covid.isNotEmpty()) {
-            binding.tvCovid.visible()
-            binding.tvCovidV.visible()
-
             var covidText = ""
             covid.forEach {
                 covidText += it.preference_name + "\n"
@@ -292,16 +292,34 @@ class DoctorDetailActivity : DaggerAppCompatActivity() {
                 }
             }
             binding.tvCovidV.text = covidText
+
+            binding.tvCovid.hideShowView(covidText.isNotEmpty())
+            binding.tvCovidV.hideShowView(covidText.isNotEmpty())
         } else {
-            binding.tvCovid.visible()
-            binding.tvCovidV.visible()
+            binding.tvCovid.gone()
+            binding.tvCovidV.gone()
+        }
+
+        if (providableServices.isNotEmpty()) {
+            var servicesText = ""
+            providableServices.forEach {
+                it.options?.forEach {
+                    if (it.isSelected) {
+                        servicesText += it.option_name + ", "
+                    }
+                }
+            }
+            binding.tvServicesV.text = servicesText.removeSuffix(", ")
+
+            binding.tvServices.hideShowView(servicesText.isNotEmpty())
+            binding.tvServicesV.hideShowView(servicesText.isNotEmpty())
+        } else {
+            binding.tvServices.gone()
+            binding.tvServicesV.gone()
         }
 
         if (personalInterest.isNotEmpty()) {
-            binding.tvPersonal.visible()
-            binding.tvPersonalV.visible()
-
-            var personalText = ""
+           var personalText = ""
             personalInterest.forEach {
                 it.options?.forEach {
                     if (it.isSelected) {
@@ -310,16 +328,16 @@ class DoctorDetailActivity : DaggerAppCompatActivity() {
                 }
             }
             binding.tvPersonalV.text = personalText.removeSuffix(", ")
+
+            binding.tvPersonal.hideShowView(personalText.isNotEmpty())
+            binding.tvPersonalV.hideShowView(personalText.isNotEmpty())
         } else {
-            binding.tvPersonal.visible()
-            binding.tvPersonalV.visible()
+            binding.tvPersonal.gone()
+            binding.tvPersonalV.gone()
         }
 
         if (workExperience.isNotEmpty()) {
-            binding.tvWork.visible()
-            binding.tvWorkV.visible()
-
-            var workText = ""
+             var workText = ""
             workExperience.forEach {
                 it.options?.forEach {
                     if (it.isSelected) {
@@ -328,6 +346,9 @@ class DoctorDetailActivity : DaggerAppCompatActivity() {
                 }
             }
             binding.tvWorkV.text = workText.removeSuffix(", ")
+
+            binding.tvWork.hideShowView(workText.isNotEmpty())
+            binding.tvWorkV.hideShowView(workText.isNotEmpty())
         } else {
             binding.tvWork.gone()
             binding.tvWorkV.gone()

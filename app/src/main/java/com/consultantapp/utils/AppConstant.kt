@@ -154,4 +154,5 @@ object PreferencesType {
     const val COVID = "covid"
     const val PERSONAL_INTEREST = "personal_interest"
     const val WORK_ENVIRONMENT = "work_environment"
+    const val PROVIDABLE_SERVICES = "duty"
 }

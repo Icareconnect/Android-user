@@ -306,6 +306,39 @@
                     app:trimLines="3"
                     app:trimMode="trimModeLength" />
 
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvServices"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_12"
+                    android:fontFamily="@font/campton_semibold"
+                    android:text="@string/providable_services"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/sp_18"
+                    app:layout_constraintStart_toStartOf="@id/startGuideLine"
+                    app:layout_constraintTop_toBottomOf="@id/tvExpertiseV" />
+
+                <com.borjabravo.readmoretextview.ReadMoreTextView
+                    android:id="@+id/tvServicesV"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_8"
+                    android:fontFamily="@font/campton_book"
+                    android:gravity="start"
+                    android:text="@string/app_name"
+                    android:textColor="@color/textColor"
+                    android:textDirection="locale"
+                    android:textSize="@dimen/sp_14"
+                    app:colorClickableText="@color/colorPrimary"
+                    app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+                    app:layout_constraintStart_toStartOf="@id/startGuideLine"
+                    app:layout_constraintTop_toBottomOf="@+id/tvServices"
+                    app:trimCollapsedText="@string/show_more"
+                    app:trimExpandedText="@string/show_less"
+                    app:trimLength="150"
+                    app:trimLines="3"
+                    app:trimMode="trimModeLength" />
+
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvAbout"
@@ -317,7 +350,7 @@
                     android:textColor="@color/textColor"
                     android:textSize="@dimen/sp_18"
                     app:layout_constraintStart_toStartOf="@id/startGuideLine"
-                    app:layout_constraintTop_toBottomOf="@id/tvExpertiseV" />
+                    app:layout_constraintTop_toBottomOf="@id/tvServicesV" />
 
                 <com.borjabravo.readmoretextview.ReadMoreTextView
                     android:id="@+id/tvAboutV"

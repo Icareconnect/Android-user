@@ -10,7 +10,7 @@
             android:id="@+id/ivLocation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/ic_launcher"
+            android:src="@drawable/ic_ask_location"
             app:layout_constraintVertical_chainStyle="packed"
             app:layout_constraintBottom_toTopOf="@+id/tvAllow"
             app:layout_constraintEnd_toEndOf="parent"

@@ -232,7 +232,7 @@ class SignUpFragment : DaggerFragment(), OnDateSelected {
 
 
     private fun bindObservers() {
-        viewModel.register.observe(this, Observer {
+        viewModel.register.observe(requireActivity(), Observer {
             it ?: return@Observer
             when (it.status) {
                 Status.SUCCESS -> {
@@ -254,7 +254,7 @@ class SignUpFragment : DaggerFragment(), OnDateSelected {
             }
         })
 
-        viewModel.updateProfile.observe(this, Observer {
+        viewModel.updateProfile.observe(requireActivity(), Observer {
             it ?: return@Observer
             when (it.status) {
                 Status.SUCCESS -> {
@@ -305,10 +305,8 @@ class SignUpFragment : DaggerFragment(), OnDateSelected {
 
             if (requestCode == AppRequestCode.IMAGE_PICKER) {
                 val docPaths = ArrayList<Uri>()
-                docPaths.addAll(
-                        data?.getParcelableArrayListExtra(FilePickerConst.KEY_SELECTED_MEDIA)
-                                ?: emptyList()
-                )
+                docPaths.addAll(data?.getParcelableArrayListExtra(FilePickerConst.KEY_SELECTED_MEDIA)
+                                ?: emptyList())
 
                 fileToUpload = File(getPathUri(requireContext(), docPaths[0]))
                 Glide.with(requireContext()).load(fileToUpload).into(binding.ivPic)

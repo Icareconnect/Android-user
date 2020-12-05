@@ -397,5 +397,6 @@
     <string name="covid_19">Covid 19</string>
     <string name="personal_interests">Personal Interests</string>
     <string name="work_environment">"Work Environment "</string>
+    <string name="providable_services">Providable Services</string>
 
 </resources>

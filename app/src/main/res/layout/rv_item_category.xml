@@ -4,7 +4,10 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvName"
@@ -13,14 +16,14 @@
             android:layout_marginStart="@dimen/dp_16"
             android:layout_marginTop="@dimen/dp_16"
             android:layout_marginEnd="@dimen/dp_16"
+            android:drawableEnd="@drawable/ic_arrow_next"
+            android:drawablePadding="@dimen/dp_12"
+            android:ellipsize="end"
             android:fontFamily="@font/campton_semibold"
+            android:maxLines="1"
             android:text="@string/consult_a_doctor"
             android:textColor="@color/textColor"
             android:textSize="@dimen/sp_16"
-            android:drawableEnd="@drawable/ic_arrow_next"
-            android:drawablePadding="@dimen/dp_12"
-            android:maxLines="1"
-            android:ellipsize="end"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -29,9 +32,9 @@
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_marginTop="@dimen/dp_16"
+            android:background="@color/colorCategoryLine"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:background="@color/colorCategoryLine"
             app:layout_constraintTop_toBottomOf="@+id/tvName" />
 
 
