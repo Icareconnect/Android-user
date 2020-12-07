@@ -58,17 +58,15 @@ class DoctorsAdapter(private val activity: DoctorListActivity, private val items
         }
 
         fun bind(doctor: Doctor) = with(binding) {
-            slideRecyclerItem(binding.root, context)
 
             tvName.text = getDoctorName(doctor.doctor_data)
             binding.tvLocation.text = doctor.doctor_data?.profile?.location_name
                     ?: context.getString(R.string.na)
-            binding.tvRate.text = context.getString(R.string.price_ss, getCurrency(doctor.price))
-            loadImage(
-                    binding.ivPic,
-                    doctor.doctor_data?.profile_image,
-                    R.drawable.ic_profile_placeholder
-            )
+            binding.tvRate.text = binding.root.context.getString(R.string.price_s, getCurrency(doctor.price),
+                getUnitPrice(doctor.unit_price,binding.root.context))
+            context.getString(R.string.price_ss, getCurrency(doctor.price))
+            loadImage(binding.ivPic, doctor.doctor_data?.profile_image,
+                    R.drawable.ic_profile_placeholder)
 
             binding.tvRating.text = context.getString(R.string.s_s_reviews,
                     getUserRating(doctor.doctor_data?.totalRating), doctor.doctor_data?.reviewCount)

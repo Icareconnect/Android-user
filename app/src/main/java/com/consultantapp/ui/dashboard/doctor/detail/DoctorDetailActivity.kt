@@ -234,6 +234,13 @@ class DoctorDetailActivity : DaggerAppCompatActivity() {
         binding.tvReviewsV.text = doctorData?.reviewCount ?: getString(R.string.na)
         binding.tvReviewCount.text = getUserRating(doctorData?.totalRating)
 
+        if(doctorData?.services?.isNotEmpty()==true){
+            val service=doctorData?.services?.get(0)
+            binding.tvRate.text = getString(R.string.price_s, getCurrency(service?.price),
+                getUnitPrice(service?.unit_price,this))
+        }
+
+
         doctorData?.custom_fields?.forEach {
             when (it.field_name) {
                 CustomFields.WORK_EXPERIENCE -> {

@@ -129,7 +129,6 @@ class DoctorListActivity : DaggerAppCompatActivity() {
     private fun setAdapter() {
         adapter = DoctorsAdapter(this, items)
         binding.rvListing.adapter = adapter
-        binding.rvListing.itemAnimator = null
 
         serviceAdapter = ServiceAdapter(this, itemsService)
         binding.rvServices.adapter = serviceAdapter
