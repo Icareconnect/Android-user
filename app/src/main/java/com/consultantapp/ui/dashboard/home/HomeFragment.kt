@@ -68,8 +68,7 @@ class HomeFragment : DaggerFragment() {
     private fun initialise() {
         viewModel = ViewModelProvider(this, viewModelFactory)[ClassesViewModel::class.java]
         binding.clLoader.setBackgroundColor(
-                ContextCompat.getColor(requireContext(), R.color.colorWhite)
-        )
+                ContextCompat.getColor(requireContext(), R.color.colorWhite))
 
     }
 

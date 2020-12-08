@@ -220,7 +220,7 @@
                     android:layout_marginTop="@dimen/dp_32"
                     android:alpha="0.7"
                     android:fontFamily="@font/campton_semibold"
-                    android:text="@string/home_care_requirement"
+                    android:text="@string/type_of_service"
                     android:textColor="@color/colorBlack"
                     android:textSize="@dimen/sp_14"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -233,12 +233,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_24"
                     android:background="@drawable/drawable_stroke_grey"
-                    android:drawableEnd="@drawable/ic_dropdown"
                     android:fontFamily="@font/campton_medium"
                     android:gravity="center_vertical"
                     android:paddingStart="@dimen/dp_16"
                     android:paddingEnd="@dimen/dp_16"
-                    android:hint="@string/select_home_care_requirement"
+                    android:hint="@string/select_service_requirement"
                     android:textColor="@color/colorBlack"
                     android:textSize="@dimen/sp_14"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -250,9 +249,7 @@
                     android:id="@+id/cvHomeCare"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dp_4"
                     android:layout_marginTop="@dimen/dp_8"
-                    android:layout_marginEnd="@dimen/dp_4"
                     app:cardElevation="@dimen/dp_4"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -264,7 +261,7 @@
                         android:layout_height="wrap_content"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         tools:itemCount="2"
-                        tools:listitem="@layout/rv_item_check" />
+                        tools:listitem="@layout/rv_item_prefrence_option" />
                 </androidx.cardview.widget.CardView>
 
                 <com.google.android.material.textfield.TextInputLayout

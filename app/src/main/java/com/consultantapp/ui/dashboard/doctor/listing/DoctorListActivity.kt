@@ -156,12 +156,10 @@ class DoctorListActivity : DaggerAppCompatActivity() {
         })
 
         binding.ivFilter.setOnClickListener {
-            startActivityForResult(
-                    Intent(this, DoctorActionActivity::class.java)
+            startActivityForResult(Intent(this, DoctorActionActivity::class.java)
                             .putExtra(PAGE_TO_OPEN, DoctorActionActivity.FILTER)
                             .putExtra(CATEGORY_PARENT_ID, categoryData)
-                            .putExtra(FILTER_DATA, filters), AppRequestCode.ADD_FILTER
-            )
+                            .putExtra(FILTER_DATA, filters), AppRequestCode.ADD_FILTER)
         }
 
         binding.etSearch.addTextChangedListener(object : TextWatcher {
@@ -193,13 +191,14 @@ class DoctorListActivity : DaggerAppCompatActivity() {
 
 
     fun hitApi(firstHit: Boolean) {
-        if (firstHit) {
-            isFirstPage = true
-            isLastPage = false
-        }
-
-        val hashMap = HashMap<String, String>()
         if (isConnectedToInternet(this, true)) {
+            if (firstHit) {
+                isFirstPage = true
+                isLastPage = false
+            }
+
+            val hashMap = HashMap<String, String>()
+
             if (!isFirstPage && items.isNotEmpty())
                 hashMap[AFTER] = items[items.size - 1].id ?: ""
 

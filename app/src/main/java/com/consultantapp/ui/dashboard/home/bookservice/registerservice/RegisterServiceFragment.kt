@@ -9,17 +9,24 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.consultantapp.R
 import com.consultantapp.data.models.requests.BookService
 import com.consultantapp.data.models.requests.SaveAddress
+import com.consultantapp.data.models.responses.Filter
 import com.consultantapp.data.models.responses.FilterOption
+import com.consultantapp.data.network.ApisRespHandler
+import com.consultantapp.data.network.responseUtil.Status
 import com.consultantapp.data.repos.UserRepository
 import com.consultantapp.databinding.FragmentRegisterServiceBinding
+import com.consultantapp.ui.AppVersionViewModel
+import com.consultantapp.ui.dashboard.doctor.detail.prefrence.PrefrenceAdapter
 import com.consultantapp.ui.dashboard.home.bookservice.datetime.DateTimeFragment
 import com.consultantapp.ui.dashboard.home.bookservice.location.AddAddressActivity
 import com.consultantapp.ui.dashboard.subcategory.SubCategoryFragment
 import com.consultantapp.utils.*
+import com.consultantapp.utils.dialogs.ProgressDialog
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
@@ -36,6 +43,10 @@ class RegisterServiceFragment : DaggerFragment() {
 
     private lateinit var binding: FragmentRegisterServiceBinding
 
+    private lateinit var viewModelAppVersion: AppVersionViewModel
+
+    private lateinit var progressDialog: ProgressDialog
+
     private var rootView: View? = null
 
     private var bookService = BookService()
@@ -44,9 +55,9 @@ class RegisterServiceFragment : DaggerFragment() {
 
     private var itemsServiceFor = ArrayList<FilterOption>()
 
-    private lateinit var adapterHomeCare: CheckItemAdapter
+    private lateinit var adapterHomeCare: PrefrenceAdapter
 
-    private var itemsHomeCare = ArrayList<FilterOption>()
+    private var itemsHomeCare = ArrayList<Filter>()
 
 
     override fun onCreateView(
@@ -61,11 +72,14 @@ class RegisterServiceFragment : DaggerFragment() {
             listeners()
             bindObservers()
             setAdapter()
+            hitApi()
         }
         return rootView
     }
 
     private fun initialise() {
+        viewModelAppVersion = ViewModelProvider(this, viewModelFactory)[AppVersionViewModel::class.java]
+        progressDialog = ProgressDialog(requireActivity())
 
         binding.cvHomeCare.gone()
         binding.ilNotSelf.gone()
@@ -76,6 +90,14 @@ class RegisterServiceFragment : DaggerFragment() {
 
         binding.etName.setText(userRepository.getUser()?.name ?: "")
 
+    }
+
+    private fun hitApi() {
+        if (isConnectedToInternet(requireContext(), true)) {
+            val hashMap = HashMap<String, String>()
+            hashMap["filter_ids"] = requireActivity().intent.getStringExtra(SubCategoryFragment.CATEGORY_PARENT_ID)
+            viewModelAppVersion.duty(hashMap)
+        }
     }
 
     private fun setAdapter() {
@@ -91,16 +113,7 @@ class RegisterServiceFragment : DaggerFragment() {
         adapterServiceFor = CheckItemAdapter(this, true, false, itemsServiceFor)
         binding.rvServiceFor.adapter = adapterServiceFor
 
-
-        val listHomeCare = resources.getStringArray(R.array.home_care)
-        itemsHomeCare.clear()
-        listHomeCare.forEach {
-            val item = FilterOption()
-            item.option_name = it
-            itemsHomeCare.add(item)
-        }
-
-        adapterHomeCare = CheckItemAdapter(this, false, true, itemsHomeCare)
+        adapterHomeCare = PrefrenceAdapter(this, itemsHomeCare)
         binding.rvHomeCare.adapter = adapterHomeCare
     }
 
@@ -134,10 +147,18 @@ class RegisterServiceFragment : DaggerFragment() {
                 }
             }
 
-            var homeCare = ""
-            itemsHomeCare.forEachIndexed { index, filterOption ->
+            var duties = ""
+            /*itemsHomeCare.forEachIndexed { index, filterOption ->
                 if (filterOption.isSelected) {
                     homeCare += "${filterOption.option_name},"
+                }
+            }*/
+
+            itemsHomeCare.forEachIndexed { index, filter ->
+                filter.options?.forEach {
+                    if (it.isSelected) {
+                        duties += "${filter.id},"
+                    }
                 }
             }
 
@@ -151,8 +172,8 @@ class RegisterServiceFragment : DaggerFragment() {
                 servicePos != 0 && binding.etNameOther.text.toString().trim().isEmpty() -> {
                     binding.etName.showSnackBar(getString(R.string.enter_name_other))
                 }
-                homeCare.isEmpty() -> {
-                    binding.tvHomeCare.showSnackBar(getString(R.string.select_home_care_requirement))
+                duties.isEmpty() -> {
+                    binding.tvHomeCare.showSnackBar(getString(R.string.select_service_requirement))
                 }
                 binding.etAddress.text.toString().trim().isEmpty() -> {
                     binding.etAddress.showSnackBar(getString(R.string.select_delivery_address))
@@ -160,7 +181,7 @@ class RegisterServiceFragment : DaggerFragment() {
                 else -> {
                     bookService.filter_id = requireActivity().intent.getStringExtra(SubCategoryFragment.CATEGORY_PARENT_ID)
                     bookService.service_for = itemsServiceFor[servicePos].option_name
-                    bookService.home_care_req = homeCare.removeSuffix(", ")
+                    bookService.service_type = duties.removeSuffix(",")
 
                     if (servicePos == 0)
                         bookService.personName = binding.etName.text.toString().trim()
@@ -178,7 +199,29 @@ class RegisterServiceFragment : DaggerFragment() {
     }
 
     private fun bindObservers() {
+        viewModelAppVersion.preferences.observe(requireActivity(), Observer {
+            it ?: return@Observer
+            when (it.status) {
+                Status.SUCCESS -> {
+                    progressDialog.setLoading(false)
 
+                    val tempList = it.data?.preferences ?: emptyList()
+                    itemsHomeCare.clear()
+                    itemsHomeCare.addAll(tempList)
+
+                    adapterHomeCare.notifyDataSetChanged()
+
+                }
+                Status.ERROR -> {
+                    progressDialog.setLoading(false)
+
+                    ApisRespHandler.handleError(it.error, requireActivity(), prefsManager)
+                }
+                Status.LOADING -> {
+                    progressDialog.setLoading(true)
+                }
+            }
+        })
     }
 
     fun onItemClick(serviceFor: Boolean, pos: Int) {
@@ -191,7 +234,7 @@ class RegisterServiceFragment : DaggerFragment() {
                 binding.ilNotSelf.visible()
             }
         } else {
-            var selectedItem = 0
+           /* var selectedItem = 0
             itemsHomeCare.forEach {
                 if (it.isSelected)
                     selectedItem += 1
@@ -200,7 +243,7 @@ class RegisterServiceFragment : DaggerFragment() {
             if (selectedItem == 0)
                 binding.tvSelectHomeCare.text = ""
             else
-                binding.tvSelectHomeCare.text = "${getString(R.string.selected)} ($selectedItem)"
+                binding.tvSelectHomeCare.text = "${getString(R.string.selected)} ($selectedItem)"*/
         }
     }
 

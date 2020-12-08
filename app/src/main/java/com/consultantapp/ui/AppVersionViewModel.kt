@@ -113,4 +113,26 @@ class AppVersionViewModel @Inject constructor(private val webService: WebService
                     }
                 })
     }
+
+    fun duty(hashMap: HashMap<String, String>) {
+        preferences.value = Resource.loading()
+
+        webService.duty(hashMap)
+                .enqueue(object : Callback<ApiResponse<CommonDataModel>> {
+
+                    override fun onResponse(call: Call<ApiResponse<CommonDataModel>>,
+                                            response: Response<ApiResponse<CommonDataModel>>) {
+                        if (response.isSuccessful) {
+                            preferences.value =Resource.success(response.body()?.data)
+                        } else {
+                            preferences.value = Resource.error(
+                                    ApiUtils.getError(response.code(), response.errorBody()?.string()))
+                        }
+                    }
+
+                    override fun onFailure(call: Call<ApiResponse<CommonDataModel>>, throwable: Throwable) {
+                        preferences.value = Resource.error(ApiUtils.failure(throwable))
+                    }
+                })
+    }
 }

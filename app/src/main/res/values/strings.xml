@@ -216,7 +216,7 @@
     <string name="consult">Consult</string>
     <string name="edit_slot">Edit Slot</string>
     <string name="signup_with_phone_number">Sign Up with Phone Number</string>
-    <string name="you_agree_to_our_terms">By continue, you agree to our</string>
+    <string name="you_agree_to_our_terms">By Continuing, you agree to our</string>
     <string name="terms">Terms of service</string>
     <string name="and">and</string>
     <string name="privacy">Privacy Policy</string>
@@ -227,7 +227,7 @@
     <string name="pay">Pay</string>
     <string name="cancel_appointment">Cancel appointment</string>
     <string name="re_schedule">Re-Schedule</string>
-    <string name="consult_a_doctor">Consult a <b>Nurse</b> </string>
+    <string name="consult_a_doctor">Book a Nurse</string>
     <string name="use_code_s"><![CDATA[ Use Code: <b>%s</b> ]]></string>
     <string name="s_user_remaining"><![CDATA[ <b>%s</b> User Remaining ]]></string>
     <string name="code_text"><![CDATA[ <b>%s</b> Discount on booking a <b>%s</b> till <b>%s</b> ]]></string>
@@ -292,19 +292,19 @@
     <string name="create_a_account">Create an iCareConnect account\nto continue</string>
     <string name="signup_with_email">Sign Up with Email</string>
     <string name="or">or</string>
-    <string name="login_care_connect">Login to Intelligent Care Connect</string>
-    <string name="sign_up_care_connect">Sign up to Intelligent Care Connect</string>
+    <string name="login_care_connect">Login to iCareConnect</string>
+    <string name="sign_up_care_connect">Sign up to iCareConnect</string>
     <string name="login_with">Login with</string>
     <string name="full_name">Full name</string>
     <string name="search_for_service">Search for service</string>
     <string name="hi">Hi,</string>
     <string name="register">Register</string>
-    <string name="become_a_member">Become a member of Intelligent Care Connect.</string>
+    <string name="become_a_member">Become a member of iCareConnect.</string>
     <string name="service_address">Service Address</string>
     <string name="service_date">Service Date</string>
     <string name="continuee">Continue</string>
     <string name="verification_may_take_some_time">Verification may take some time.</string>
-    <string name="thank_you_for_your_interest">Thank you for your interest in intelligent care connect, one of our care coordinators will connect with you shortly.</string>
+    <string name="thank_you_for_your_interest">Thank you for your interest in iCareConnect, one of our care coordinators will connect with you shortly.</string>
     <string name="add_address">Add address</string>
     <string name="house_no">ADDRESS(HOUSE NO, BUILDING, STREET AREA)</string>
     <string name="select_delivery_address">Select Delivery Address</string>
@@ -336,30 +336,17 @@
         <item>@string/mother</item>
         <item>@string/child</item>
         <item>@string/other</item>
-
     </array>
 
     <!--Home care-->
-    <string name="home_care_requirement">Home care requirement</string>
-    <string name="select_home_care_requirement">Select Home care requirement</string>
-    <string name="palliative_end_of_life_care">Palliative (end of life care)</string>
-    <string name="woundcare">Woundcare</string>
-    <string name="dual_diagnostic">Dual Diagnostic (Cognitive decline patients)</string>
-    <string name="medically_compromised">Medically compromised &amp; complex continu-ing care></string>
+    <string name="type_of_service">Type of service</string>
+    <string name="select_service_requirement">Select Services required</string>
     <string name="selected">Selected</string>
     <string name="allocated_nurse">Allocated Nurse</string>
     <string name="no_nurse_found">No Nurse found for you according to yur requirements</string>
     <string name="select_date_time">Choose Date &amp; Time</string>
     <string name="save_as">Save As</string>
     <string name="work">Work</string>
-
-    <array name="home_care">
-        <item>@string/palliative_end_of_life_care</item>
-        <item>@string/woundcare</item>
-        <item>@string/dual_diagnostic</item>
-        <item>@string/medically_compromised</item>
-        <item>@string/other</item>
-    </array>
 
     <string name="estimate_time_of_arrival_s">Estimate Time of Arrival : %s</string>
     <string name="status">Status :</string>
@@ -396,7 +383,8 @@
     <string name="expertise">Expertise</string>
     <string name="covid_19">Covid 19</string>
     <string name="personal_interests">Personal Interests</string>
-    <string name="work_environment">"Work Environment "</string>
+    <string name="work_environment">Work Environment</string>
     <string name="providable_services">Providable Services</string>
+    <string name="agree">I Agree</string>
 
 </resources>

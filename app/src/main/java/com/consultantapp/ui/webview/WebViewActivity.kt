@@ -20,10 +20,7 @@ import com.consultantapp.data.network.Config
 import com.consultantapp.data.network.PushType
 import com.consultantapp.data.repos.UserRepository
 import com.consultantapp.databinding.ActivityWebViewBinding
-import com.consultantapp.utils.EXTRA_REQUEST_ID
-import com.consultantapp.utils.PrefsManager
-import com.consultantapp.utils.gone
-import com.consultantapp.utils.longToast
+import com.consultantapp.utils.*
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
@@ -58,11 +55,23 @@ class WebViewActivity : DaggerAppCompatActivity() {
 
     private fun initialise() {
         binding.toolbar.title = intent.getStringExtra(LINK_TITLE)
+        binding.clLoader.setBackgroundResource(R.color.colorWhite)
+
+        when (intent.getStringExtra(LINK_URL)) {
+            PageLink.TERMS_CONDITIONS, PageLink.PRIVACY_POLICY -> {
+                binding.tvAgree.visible()
+            }
+            else -> {
+                binding.tvAgree.gone()
+            }
+
+        }
+
         if (intent.hasExtra(PAYMENT_URL)) {
             transactionId = intent.getStringExtra(EXTRA_REQUEST_ID) ?: ""
             loadUrl = intent.getStringExtra(PAYMENT_URL) ?: ""
         } else {
-            loadUrl = "${Config.baseURL}${intent.getStringExtra(LINK_URL)}"
+            loadUrl = "${userRepository.getAppSetting()?.domain_url}/${intent.getStringExtra(LINK_URL)}"
         }
     }
 
@@ -93,6 +102,7 @@ class WebViewActivity : DaggerAppCompatActivity() {
         binding.webView.settings.domStorageEnabled = true
         binding.webView.settings.loadWithOverviewMode = true
         binding.webView.settings.useWideViewPort = true
+        binding.webView.setInitialScale(100)
         binding.webView.webChromeClient = WebChromeClient()
 
 
@@ -112,6 +122,10 @@ class WebViewActivity : DaggerAppCompatActivity() {
 
     private fun setListeners() {
         binding.toolbar.setNavigationOnClickListener { finish() }
+
+        binding.tvAgree.setOnClickListener {
+            finish()
+        }
 
     }
 

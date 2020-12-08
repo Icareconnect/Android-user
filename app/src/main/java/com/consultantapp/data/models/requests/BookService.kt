@@ -11,7 +11,7 @@ class BookService : Serializable {
     var endTime: String? = null
     var reason: String? = null
     var service_for: String? = null
-    var home_care_req: String? = null
+    var service_type: String? = null
 
     var personName = ""
 }

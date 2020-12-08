@@ -3,7 +3,7 @@ package com.consultantapp.data.models.responses
 import java.io.Serializable
 
 class Filter :Serializable{
-    var id: Int? = null
+    var id: String? = null
     var category_id: Int? = null
     var filter_name: String? = null
     var preference_name: String? = null

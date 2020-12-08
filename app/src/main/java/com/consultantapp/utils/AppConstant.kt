@@ -111,6 +111,12 @@ object ChatType {
     const val MESSAGE_TYPING = "TYPING"
 }
 
+object ImageFolder{
+    const val UPLOADS = "uploads/"
+    const val THUMBS = "thumbs/"
+    const val PDF = "pdf/"
+}
+
 object MediaUploadStatus {
     const val NOT_UPLOADED = "not_uploaded"
     const val UPLOADING = "uploading"

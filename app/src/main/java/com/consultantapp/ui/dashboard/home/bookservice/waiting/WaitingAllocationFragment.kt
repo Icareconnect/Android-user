@@ -84,7 +84,7 @@ class WaitingAllocationFragment : DaggerFragment() {
             hashMap["first_name"] = bookService.personName
             hashMap["last_name"] = bookService.personName
             hashMap["service_for"] = bookService.service_for ?: ""
-            hashMap["home_care_req"] = bookService.home_care_req ?: ""
+            hashMap["home_care_req"] = bookService.service_type ?: ""
 
             viewModel.autoAllocate(hashMap)
         }

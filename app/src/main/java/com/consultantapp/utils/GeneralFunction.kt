@@ -265,20 +265,14 @@ fun getAge(date: String?): String {
     }
 }
 
-var density: Int = 10
-fun loadImage(ivImage: ImageView, image: String?, placeholder: Int) {
-
-    //if (density == 10) density = (ivImage.context.resources.displayMetrics.density).toInt()
-    //val imageLink = "${Config.imageURL}$image?w=${width * density}&h=${height * density}"
-
-    val imageLink = "${Config.imageURL}uploads/$image"
-    val imageThumbnail = "${Config.imageURL}thumbs/$image"
-
-    val glide = Glide.with(ivImage.context)
-
-    val requestOptions = RequestOptions()
+val requestOptions = RequestOptions()
         .dontAnimate()
         .dontTransform()
+fun loadImage(ivImage: ImageView, image: String?, placeholder: Int) {
+    val imageLink = "${Config.imageURL}${ImageFolder.UPLOADS}$image"
+    val imageThumbnail = "${Config.imageURL}${ImageFolder.THUMBS}$image"
+
+    val glide = Glide.with(ivImage.context)
 
     glide.load(imageLink)
         .apply(requestOptions)
@@ -289,9 +283,9 @@ fun loadImage(ivImage: ImageView, image: String?, placeholder: Int) {
 
 fun getImageBaseUrl(upload: Boolean, image: String): String {
     return if (upload)
-        "${Config.imageURL}uploads/$image"
+        "${Config.imageURL}${ImageFolder.UPLOADS}$image"
     else
-        "${Config.imageURL}thumbs/$image"
+        "${Config.imageURL}${ImageFolder.THUMBS}$image"
 }
 
 fun pxFromDp(context: Context, dp: Float): Float {

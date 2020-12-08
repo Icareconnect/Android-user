@@ -22,6 +22,7 @@ class AppVersion {
     var jitsi_id: String? = null
     var applogo: String? = null
     var domain = ""
+    var domain_url: String? = null
     var razorKey: String? = null
     var insurance: Boolean? = null
     var insurances: ArrayList<Insurance>? = null
