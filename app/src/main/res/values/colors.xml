@@ -13,6 +13,7 @@
     <color name="primary_20">#330491FF</color>
     <color name="bgChat">#8477DF</color>
     <color name="bgCall">#FF7860</color>
+    <color name="colorRate">#EDBF1E</color>
     <color name="bgRating">#1A484848</color>
     <color name="textAge">#5C6472</color>
     <color name="textColor_50">#80484848</color>
@@ -35,5 +36,7 @@
     <color name="colorLink">#0000A0</color>
     <color name="colorUserVerification">#4D3CB2DA</color>
     <color name="textColor_5">#0D323232</color>
+    <color name="colorDecline">#E5E5E5</color>
+    <color name="colorBlack40">#66000000</color>
 
 </resources>

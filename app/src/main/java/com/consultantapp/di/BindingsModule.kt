@@ -7,6 +7,7 @@ import com.consultantapp.ui.classes.CategoriesFragment
 import com.consultantapp.ui.classes.ClassesDetailFragment
 import com.consultantapp.ui.classes.ClassesFragment
 import com.consultantapp.ui.dashboard.MainActivity
+import com.consultantapp.ui.dashboard.appointment.AppointmentDetailsFragment
 import com.consultantapp.ui.dashboard.appointment.AppointmentFragment
 import com.consultantapp.ui.dashboard.appointment.appointmentStatus.AppointmentStatusActivity
 import com.consultantapp.ui.dashboard.appointment.appointmentStatus.CompletedRequestFragment
@@ -120,6 +121,9 @@ abstract class BindingsModule {
 
     @ContributesAndroidInjector
     abstract fun appointmentFragment(): AppointmentFragment
+
+    @ContributesAndroidInjector
+    abstract fun appointmentDetailsFragment(): AppointmentDetailsFragment
 
     @ContributesAndroidInjector
     abstract fun addRatingFragment(): AddRatingFragment

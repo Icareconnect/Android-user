@@ -28,7 +28,6 @@ import com.consultantapp.ui.dashboard.appointment.appointmentStatus.AppointmentS
 import com.consultantapp.ui.dashboard.doctor.DoctorActionActivity
 import com.consultantapp.ui.dashboard.doctor.schedule.ScheduleFragment.Companion.SERVICE_ID
 import com.consultantapp.ui.drawermenu.DrawerActivity
-import com.consultantapp.ui.drawermenu.DrawerActivity.Companion.RATE
 import com.consultantapp.utils.*
 import com.consultantapp.utils.dialogs.ProgressDialog
 import dagger.android.support.DaggerFragment
@@ -220,14 +219,6 @@ class AppointmentFragment : DaggerFragment() {
         })
     }
 
-    fun rateUser(item: Request) {
-        startActivity(
-            Intent(requireActivity(), DrawerActivity::class.java)
-                .putExtra(PAGE_TO_OPEN, RATE)
-                .putExtra(EXTRA_TAB, true)
-                .putExtra(EXTRA_REQUEST_ID, item.id)
-        )
-    }
 
     fun checkStatus(item: Request) {
 //        item.status = CallAction.REACHED

@@ -244,25 +244,18 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvHomeCare" />
 
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cvHomeCare"
-                    android:layout_width="0dp"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvHomeCare"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_8"
-                    app:cardElevation="@dimen/dp_4"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="2"
+                    android:background="@drawable/drawable_stroke_grey"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvSelectHomeCare">
+                    app:layout_constraintTop_toBottomOf="@id/tvSelectHomeCare"
+                    tools:listitem="@layout/rv_item_prefrence_option" />
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rvHomeCare"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        tools:itemCount="2"
-                        tools:listitem="@layout/rv_item_prefrence_option" />
-                </androidx.cardview.widget.CardView>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/ilAddress"
@@ -271,7 +264,7 @@
                     android:layout_marginTop="@dimen/dp_32"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cvHomeCare">
+                    app:layout_constraintTop_toBottomOf="@+id/rvHomeCare">
 
                     <androidx.appcompat.widget.AppCompatEditText
                         android:id="@+id/etAddress"

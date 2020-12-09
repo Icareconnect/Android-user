@@ -81,7 +81,6 @@ class RegisterServiceFragment : DaggerFragment() {
         viewModelAppVersion = ViewModelProvider(this, viewModelFactory)[AppVersionViewModel::class.java]
         progressDialog = ProgressDialog(requireActivity())
 
-        binding.cvHomeCare.gone()
         binding.ilNotSelf.gone()
         binding.ilNameOther.gone()
 
@@ -128,7 +127,7 @@ class RegisterServiceFragment : DaggerFragment() {
 
 
         binding.tvSelectHomeCare.setOnClickListener {
-            binding.cvHomeCare.hideShowView(binding.cvHomeCare.visibility == View.GONE)
+            binding.rvHomeCare.hideShowView(binding.rvHomeCare.visibility == View.GONE)
         }
 
         binding.etAddress.setOnClickListener {
@@ -157,7 +156,7 @@ class RegisterServiceFragment : DaggerFragment() {
             itemsHomeCare.forEachIndexed { index, filter ->
                 filter.options?.forEach {
                     if (it.isSelected) {
-                        duties += "${filter.id},"
+                        duties += "${it.id},"
                     }
                 }
             }
@@ -211,10 +210,10 @@ class RegisterServiceFragment : DaggerFragment() {
 
                     adapterHomeCare.notifyDataSetChanged()
 
+                    binding.rvHomeCare.visible()
                 }
                 Status.ERROR -> {
                     progressDialog.setLoading(false)
-
                     ApisRespHandler.handleError(it.error, requireActivity(), prefsManager)
                 }
                 Status.LOADING -> {

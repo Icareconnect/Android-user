@@ -10,10 +10,10 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorWhite"
+            android:background="@color/colorPrimary"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:navigationIcon="@drawable/ic_back" />
+            app:navigationIcon="@drawable/ic_back_white" />
 
 
         <TextView
@@ -24,7 +24,7 @@
             android:fontFamily="@font/campton_semibold"
             android:gravity="center|center_vertical"
             android:text="@string/add_card"
-            android:textColor="@color/textColor"
+            android:textColor="@color/colorWhite"
             android:textSize="@dimen/sp_16"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

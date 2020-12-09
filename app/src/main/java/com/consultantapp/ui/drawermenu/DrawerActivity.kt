@@ -7,6 +7,7 @@ import com.consultantapp.data.repos.UserRepository
 import com.consultantapp.databinding.ActivityContainerBinding
 import com.consultantapp.ui.classes.ClassesDetailFragment
 import com.consultantapp.ui.classes.ClassesFragment
+import com.consultantapp.ui.dashboard.appointment.AppointmentDetailsFragment
 import com.consultantapp.ui.dashboard.appointment.AppointmentFragment
 import com.consultantapp.ui.dashboard.appointment.appointmentStatus.CompletedRequestFragment
 import com.consultantapp.ui.dashboard.appointment.appointmentStatus.StatusUpdateFragment
@@ -68,7 +69,7 @@ class DrawerActivity : DaggerAppCompatActivity() {
             REQUEST ->
                 addFragment(supportFragmentManager,
                         AppointmentFragment(), R.id.container)
-            RATE ->
+            RATE, REQUEST_COMPLETE, APPROVE_HOUR ->
                 addFragment(supportFragmentManager,
                         CompletedRequestFragment(), R.id.container)
             USER_CHAT ->
@@ -115,6 +116,9 @@ class DrawerActivity : DaggerAppCompatActivity() {
             UPDATE_SERVICE ->
                 addFragment(supportFragmentManager,
                         StatusUpdateFragment(), R.id.container)
+            APPOINTMENT_DETAILS ->
+                addFragment(supportFragmentManager,
+                        AppointmentDetailsFragment(), R.id.container)
         }
     }
 
@@ -127,6 +131,8 @@ class DrawerActivity : DaggerAppCompatActivity() {
         const val SUBSCRIPTION = "SUBSCRIPTION"
         const val REQUEST = "REQUEST"
         const val USER_CHAT = "USER_CHAT"
+        const val REQUEST_COMPLETE = "REQUEST_COMPLETE"
+        const val APPROVE_HOUR = "APPROVE_HOUR"
         const val RATE = "RATE"
         const val CLASSES = "CLASSES"
         const val CLASSES_DETAILS = "CLASSES_DETAILS"
@@ -134,8 +140,9 @@ class DrawerActivity : DaggerAppCompatActivity() {
         const val SUB_CATEGORY = "SUB_CATEGORY"
         const val ADD_CARD = "ADD_CARD"
         const val REGISTER_SERVICE = "REGISTER_SERVICE"
-        const val DATE_TIME="DATE_TIME"
-        const val UPDATE_SERVICE="UPDATE_SERVICE"
+        const val DATE_TIME = "DATE_TIME"
+        const val UPDATE_SERVICE = "UPDATE_SERVICE"
+        const val APPOINTMENT_DETAILS="APPOINTMENT_DETAILS"
     }
 
     override fun onBackPressed() {

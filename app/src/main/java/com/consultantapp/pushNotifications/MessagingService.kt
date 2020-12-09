@@ -190,7 +190,7 @@ class MessagingService : FirebaseMessagingService() {
             }
             PushType.COMPLETED-> {
                 intent = Intent(this, DrawerActivity::class.java)
-                        .putExtra(PAGE_TO_OPEN, DrawerActivity.RATE)
+                        .putExtra(PAGE_TO_OPEN, DrawerActivity.REQUEST_COMPLETE)
                         .putExtra(EXTRA_REQUEST_ID, pushData.request_id)
 
                 val intentBroadcast = Intent()

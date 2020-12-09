@@ -98,7 +98,7 @@
                 android:layout_marginStart="@dimen/dp_8"
                 android:layout_marginTop="@dimen/dp_12"
                 android:fontFamily="@font/campton_semibold"
-                android:text="@string/neww"
+                android:text="@string/new_request"
                 android:textAllCaps="true"
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/sp_12"
@@ -109,7 +109,6 @@
                 android:id="@+id/tvRate"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_8"
                 android:background="?android:attr/selectableItemBackground"
                 android:clickable="true"
                 android:focusable="true"
@@ -121,6 +120,24 @@
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/sp_12"
                 app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+                app:layout_constraintTop_toTopOf="@+id/tvStatus" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvApprove"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dp_8"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:visibility="gone"
+                android:fontFamily="@font/campton_semibold"
+                android:padding="@dimen/dp_2"
+                android:text="@string/approve"
+                android:textAllCaps="true"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/sp_12"
+                app:layout_constraintEnd_toStartOf="@+id/tvRate"
                 app:layout_constraintTop_toTopOf="@+id/tvStatus" />
 
 

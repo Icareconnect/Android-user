@@ -59,10 +59,8 @@ class AddRatingFragment : DaggerFragment() {
         userData = requireActivity().intent.getSerializableExtra(USER_DATA) as UserData
 
         binding.tvName.text = getDoctorName(userData)
-        loadImage(
-            binding.ivPic, userData.profile_image,
-            R.drawable.ic_profile_placeholder
-        )
+        loadImage(binding.ivPic, userData.profile_image,
+            R.drawable.ic_profile_placeholder)
 
         editTextScroll(binding.etDescription)
     }
@@ -96,7 +94,7 @@ class AddRatingFragment : DaggerFragment() {
     }
 
     private fun bindObservers() {
-        viewModel.addReview.observe(this, Observer {
+        viewModel.addReview.observe(requireActivity(), Observer {
             it ?: return@Observer
             when (it.status) {
                 Status.SUCCESS -> {

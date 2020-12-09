@@ -218,6 +218,7 @@ class DoctorListActivity : DaggerAppCompatActivity() {
                 val bookService = intent.getSerializableExtra(EXTRA_REQUEST_ID) as BookService
                 hashMap["category_id"] = CATEGORY_ID
                 hashMap["filter_id"] = bookService.filter_id ?: ""
+                hashMap["duties"] = bookService.service_type ?: ""
 
                 hashMap["date"] = bookService.date ?: ""
                 hashMap["time"] = DateUtils.dateFormatChange(DateFormat.TIME_FORMAT,

@@ -202,7 +202,7 @@ class DateTimeFragment : DaggerFragment(), OnTimeSelected {
     }
 
     private fun bindObservers() {
-        viewModel.confirmAutoAllocate.observe(this, Observer {
+        viewModel.confirmAutoAllocate.observe(requireActivity(), Observer {
             it ?: return@Observer
             when (it.status) {
                 Status.SUCCESS -> {

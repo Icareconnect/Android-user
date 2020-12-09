@@ -116,8 +116,8 @@
     <string name="select_card">Select card</string>
     <string name="chat_request">Chat request</string>
     <string name="call_equest">Call request</string>
-    <string name="neww">New Request</string>
-    <string name="accepted">accepted</string>
+    <string name="new_request">New Request</string>
+    <string name="accepted">Accepted</string>
     <string name="inprogess">In progress</string>
     <string name="no_show">No show</string>
     <string name="canceled">Cancelled</string>
@@ -386,5 +386,19 @@
     <string name="work_environment">Work Environment</string>
     <string name="providable_services">Providable Services</string>
     <string name="agree">I Agree</string>
+    <string name="approve">Approve</string>
+    <string name="approved">Approved</string>
+    <string name="approve_working_hours">Nurse has completed the request. Please approve working hours</string>
+    <string name="service_detail">Service Detail</string>
+    <string name="view_map">View map</string>
+    <string name="time_from_to">Time (from - to) :</string>
+    <string name="date">Date :</string>
+    <string name="special_instructions">Special Instructions :</string>
+    <string name="time">Time</string>
+    <string name="service_type">Service Type</string>
+    <string name="distance">Distance :</string>
+    <string name="map_not_found">Google map application not found</string>
+    <string name="working_hour_message">Working hour Message</string>
+    <string name="error_working_hour_message">Please define working hours</string>
 
 </resources>

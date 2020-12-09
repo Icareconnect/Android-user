@@ -1,5 +1,6 @@
 package com.consultantapp.ui.dashboard.appointment
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -11,6 +12,7 @@ import com.consultantapp.data.network.LoadingStatus.ITEM
 import com.consultantapp.data.network.LoadingStatus.LOADING
 import com.consultantapp.databinding.ItemPagingLoaderBinding
 import com.consultantapp.databinding.RvItemAppointmentBinding
+import com.consultantapp.ui.drawermenu.DrawerActivity
 import com.consultantapp.utils.*
 
 
@@ -56,11 +58,29 @@ class AppointmentAdapter(private val fragment: AppointmentFragment, private val 
             }
 
             binding.tvRate.setOnClickListener {
-                fragment.rateUser(items[adapterPosition])
+                if (items[adapterPosition].rating == null) {
+                    fragment.startActivityForResult(Intent(fragment.requireActivity(), DrawerActivity::class.java)
+                            .putExtra(PAGE_TO_OPEN, DrawerActivity.RATE)
+                            .putExtra(EXTRA_REQUEST_ID, items[adapterPosition].id), AppRequestCode.APPOINTMENT_DETAILS)
+                }
+            }
+
+            binding.tvApprove.setOnClickListener {
+                if (items[adapterPosition].userIsApproved == false) {
+                    fragment.startActivityForResult(Intent(fragment.requireActivity(), DrawerActivity::class.java)
+                            .putExtra(PAGE_TO_OPEN, DrawerActivity.APPROVE_HOUR)
+                            .putExtra(EXTRA_REQUEST_ID, items[adapterPosition].id), AppRequestCode.APPOINTMENT_DETAILS)
+                }
             }
 
             binding.tvTrack.setOnClickListener {
                 fragment.checkStatus(items[adapterPosition])
+            }
+
+            binding.root.setOnClickListener {
+                fragment.startActivityForResult(Intent(fragment.requireContext(), DrawerActivity::class.java)
+                        .putExtra(PAGE_TO_OPEN, DrawerActivity.APPOINTMENT_DETAILS)
+                        .putExtra(EXTRA_REQUEST_ID, items[adapterPosition].id), AppRequestCode.APPOINTMENT_DETAILS)
             }
         }
 
@@ -74,7 +94,7 @@ class AppointmentAdapter(private val fragment: AppointmentFragment, private val 
 
             tvName.text = getDoctorName(request.to_user)
             loadImage(binding.ivPic, request.to_user?.profile_image,
-                R.drawable.ic_profile_placeholder)
+                    R.drawable.ic_profile_placeholder)
 
             tvDateTime.text = "${DateUtils.dateTimeFormatFromUTC(DateFormat.MON_YEAR_FORMAT, request.bookingDateUTC)} · " +
                     "${DateUtils.dateTimeFormatFromUTC(DateFormat.TIME_FORMAT, request.bookingDateUTC)}"
@@ -88,12 +108,30 @@ class AppointmentAdapter(private val fragment: AppointmentFragment, private val 
                     tvCancel.gone()
                 }
                 CallAction.PENDING -> {
-                    tvStatus.text = context.getString(R.string.neww)
+                    tvStatus.text = context.getString(R.string.new_request)
                 }
                 CallAction.COMPLETED -> {
                     tvStatus.text = context.getString(R.string.done)
                     tvCancel.gone()
                     tvRate.visible()
+                    tvApprove.visible()
+
+                    if (request.rating == null) {
+                        tvRate.text = context.getString(R.string.rate)
+                        tvRate.setTextColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                        tvRate.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0)
+                    } else {
+                        tvRate.text = request.rating
+                        tvRate.setTextColor(ContextCompat.getColor(context, R.color.colorRate))
+                        tvRate.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_star, 0, 0, 0)
+                    }
+
+                    if (request.userIsApproved == false) {
+                        binding.tvApprove.visible()
+                        tvApprove.text = context.getString(R.string.approve)
+                    } else {
+                        binding.tvApprove.gone()
+                    }
                 }
                 CallAction.START -> {
                     tvStatus.text = context.getString(R.string.inprogess)
@@ -125,7 +163,7 @@ class AppointmentAdapter(private val fragment: AppointmentFragment, private val 
                     tvCancel.gone()
                 }
                 else -> {
-                    tvStatus.text = context.getString(R.string.neww)
+                    tvStatus.text = context.getString(R.string.new_request)
                 }
             }
         }

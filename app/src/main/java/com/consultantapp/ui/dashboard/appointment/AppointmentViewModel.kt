@@ -22,6 +22,8 @@ class AppointmentViewModel @Inject constructor(private val webService: WebServic
 
     val addReview by lazy { SingleLiveEvent<Resource<Any>>() }
 
+    val approveWorkingHour by lazy { SingleLiveEvent<Resource<Any>>() }
+
     val completeChat by lazy { SingleLiveEvent<Resource<CommonDataModel>>() }
 
     val notifications by lazy { SingleLiveEvent<Resource<CommonDataModel>>() }
@@ -118,6 +120,30 @@ class AppointmentViewModel @Inject constructor(private val webService: WebServic
 
                     override fun onFailure(call: Call<ApiResponse<Any>>, throwable: Throwable) {
                         addReview.value = Resource.error(ApiUtils.failure(throwable))
+                    }
+
+                })
+    }
+
+    fun approveWorkingHour(hashMap: HashMap<String, String>) {
+        approveWorkingHour.value = Resource.loading()
+
+        webService.approveWorkingHour(hashMap)
+                .enqueue(object : Callback<ApiResponse<Any>> {
+
+                    override fun onResponse(call: Call<ApiResponse<Any>>,
+                                            response: Response<ApiResponse<Any>>) {
+                        if (response.isSuccessful) {
+                            approveWorkingHour.value = Resource.success(response.body()?.data)
+                        } else {
+                            approveWorkingHour.value = Resource.error(
+                                    ApiUtils.getError(response.code(),
+                                            response.errorBody()?.string()))
+                        }
+                    }
+
+                    override fun onFailure(call: Call<ApiResponse<Any>>, throwable: Throwable) {
+                        approveWorkingHour.value = Resource.error(ApiUtils.failure(throwable))
                     }
 
                 })

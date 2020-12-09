@@ -12,7 +12,6 @@ import com.consultantapp.data.repos.UserRepository
 import com.consultantapp.di.DaggerAppComponent
 import com.consultantapp.ui.dashboard.chat.chatdetail.ChatDetailActivity
 import com.consultantapp.ui.drawermenu.DrawerActivity
-import com.consultantapp.ui.drawermenu.DrawerActivity.Companion.RATE
 import com.consultantapp.utils.*
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.google.android.libraries.places.api.Places
@@ -101,22 +100,22 @@ class ConsultantUserApplication : DaggerApplication(), LifecycleObserver {
     private val refreshRequests = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             if (ChatDetailActivity.otherUserID == "-1" && intent.action == PushType.CHAT_STARTED) {
-                val intent = Intent(this@ConsultantUserApplication, ChatDetailActivity::class.java)
+                val intentActivity = Intent(this@ConsultantUserApplication, ChatDetailActivity::class.java)
                     .putExtra(USER_ID, intent.getStringExtra(USER_ID))
                     .putExtra(USER_NAME, intent.getStringExtra(USER_NAME))
                     .putExtra(EXTRA_REQUEST_ID, intent.getStringExtra(EXTRA_REQUEST_ID))
                     .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
-                startActivity(intent)
+                startActivity(intentActivity)
             }else if (intent.action == PushType.COMPLETED) {
-                val intent = Intent(this@ConsultantUserApplication, DrawerActivity::class.java)
-                        .putExtra(PAGE_TO_OPEN, RATE)
+                val intentActivity = Intent(this@ConsultantUserApplication, DrawerActivity::class.java)
+                        .putExtra(PAGE_TO_OPEN, DrawerActivity.REQUEST_COMPLETE)
                         .putExtra(EXTRA_REQUEST_ID, intent.getStringExtra(EXTRA_REQUEST_ID))
                         .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
-                startActivity(intent)
+                startActivity(intentActivity)
             }
         }
     }

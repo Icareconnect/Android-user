@@ -66,7 +66,6 @@ class StatusUpdateFragment : DaggerFragment() {
         binding.clLoader.setBackgroundResource(R.color.colorWhite)
     }
 
-
     private fun listeners() {
         binding.toolbar.setNavigationOnClickListener {
             if (requireActivity().supportFragmentManager.backStackEntryCount > 0)
@@ -74,7 +73,6 @@ class StatusUpdateFragment : DaggerFragment() {
             else
                 requireActivity().finish()
         }
-
     }
 
     private fun hitApi() {
@@ -89,13 +87,11 @@ class StatusUpdateFragment : DaggerFragment() {
         if (request.status == CallAction.COMPLETED) {
             binding.tvComplete.isChecked = true
             binding.viewComplete.alpha = 1f
-
-
         }
     }
 
     private fun bindObservers() {
-        viewModel.requestDetail.observe(this, Observer {
+        viewModel.requestDetail.observe(requireActivity(), Observer {
             it ?: return@Observer
             when (it.status) {
                 Status.SUCCESS -> {
@@ -148,14 +144,12 @@ class StatusUpdateFragment : DaggerFragment() {
     private val refreshRequests = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             when (intent.action) {
-               PushType.COMPLETED -> {
+                PushType.COMPLETED -> {
                     hitApi()
 
-                   val intent = Intent(requireContext(), DrawerActivity::class.java)
-                       .putExtra(PAGE_TO_OPEN, DrawerActivity.RATE)
-                       .putExtra(EXTRA_REQUEST_ID, intent.getStringExtra(EXTRA_REQUEST_ID))
-
-                   startActivity(intent)
+                    startActivity(Intent(requireContext(), DrawerActivity::class.java)
+                            .putExtra(PAGE_TO_OPEN, DrawerActivity.REQUEST_COMPLETE)
+                            .putExtra(EXTRA_REQUEST_ID, intent.getStringExtra(EXTRA_REQUEST_ID)))
                 }
             }
         }

@@ -38,6 +38,7 @@ interface WebService {
         private const val DELETE_CARD = "/api/delete-card"
         private const val ADD_MONEY = "/api/add-money"
         private const val ADD_REVIEW = "/api/add-review"
+        private const val REQUEST_USER_APPROVE = "/api/request-user-approve"
         private const val COMPLETE_CHAT = "/api/complete-chat"
         private const val UPLOAD_IMAGE = "/api/upload-image"
 
@@ -165,6 +166,11 @@ interface WebService {
     @FormUrlEncoded
     @POST(ADD_REVIEW)
     fun addReview(@FieldMap hashMap: HashMap<String, String>): Call<ApiResponse<Any>>
+
+    @FormUrlEncoded
+    @POST(REQUEST_USER_APPROVE)
+    fun approveWorkingHour(@FieldMap hashMap: HashMap<String, String>): Call<ApiResponse<Any>>
+
 
     @FormUrlEncoded
     @POST(ENROLL_USER)

@@ -199,7 +199,6 @@ class DoctorDetailActivity : DaggerAppCompatActivity() {
                         setResult(Activity.RESULT_OK)
                         finish()
                     }
-
                 }
                 Status.ERROR -> {
                     progressDialog.setLoading(false)
@@ -393,6 +392,7 @@ class DoctorDetailActivity : DaggerAppCompatActivity() {
                 if (intent.hasExtra(EXTRA_REQUEST_ID)) {
                     val bookService = intent.getSerializableExtra(EXTRA_REQUEST_ID) as BookService
                     hashMap["filter_id"] = bookService.filter_id ?: ""
+                    hashMap["duties"] = bookService.service_type ?: ""
 
                     hashMap["dates"] = bookService.date ?: ""
                     hashMap["start_time"] = DateUtils.dateFormatChange(DateFormat.TIME_FORMAT,
