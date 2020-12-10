@@ -66,7 +66,7 @@ class AppointmentAdapter(private val fragment: AppointmentFragment, private val 
             }
 
             binding.tvApprove.setOnClickListener {
-                if (items[adapterPosition].userIsApproved == false) {
+                if (items[adapterPosition].user_status == CallAction.PENDING) {
                     fragment.startActivityForResult(Intent(fragment.requireActivity(), DrawerActivity::class.java)
                             .putExtra(PAGE_TO_OPEN, DrawerActivity.APPROVE_HOUR)
                             .putExtra(EXTRA_REQUEST_ID, items[adapterPosition].id), AppRequestCode.APPOINTMENT_DETAILS)
@@ -126,11 +126,15 @@ class AppointmentAdapter(private val fragment: AppointmentFragment, private val 
                         tvRate.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_star, 0, 0, 0)
                     }
 
-                    if (request.userIsApproved == false) {
-                        binding.tvApprove.visible()
-                        tvApprove.text = context.getString(R.string.approve)
-                    } else {
-                        binding.tvApprove.gone()
+
+                    when (request.user_status) {
+                        CallAction.PENDING -> {
+                            binding.tvApprove.visible()
+                            tvApprove.text = context.getString(R.string.approve)
+                        }
+                        else -> {
+                            binding.tvApprove.gone()
+                        }
                     }
                 }
                 CallAction.START -> {

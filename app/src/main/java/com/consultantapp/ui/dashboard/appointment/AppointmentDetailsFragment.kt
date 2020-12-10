@@ -90,7 +90,7 @@ class AppointmentDetailsFragment : DaggerFragment() {
         }
 
         binding.tvApprove.setOnClickListener {
-            if (request.userIsApproved == false) {
+            if (request.user_status == CallAction.PENDING) {
                 startActivityForResult(Intent(requireActivity(), DrawerActivity::class.java)
                         .putExtra(PAGE_TO_OPEN, DrawerActivity.APPROVE_HOUR)
                         .putExtra(EXTRA_REQUEST_ID, request.id), AppRequestCode.APPOINTMENT_DETAILS)
@@ -116,6 +116,16 @@ class AppointmentDetailsFragment : DaggerFragment() {
         binding.tvApprove.gone()
         binding.tvRate.gone()
 
+        /*Approval*/
+        binding.tvUserApprovalT.gone()
+        binding.tvUserApproval.gone()
+        binding.tvUserApprovalComment.gone()
+        binding.tvFeedbackT.gone()
+        binding.tvFeedback.gone()
+        binding.tvFeedbackComment.gone()
+        binding.view1.gone()
+        binding.view1.gone()
+
         binding.tvName.text = request.to_user?.name
         binding.tvServiceTypeV.text = request.extra_detail?.filter_name ?: ""
         binding.tvDistanceV.text = request.extra_detail?.distance ?: ""
@@ -127,7 +137,11 @@ class AppointmentDetailsFragment : DaggerFragment() {
         binding.tvBookingTimeV.text = "${request.extra_detail?.start_time ?: ""} - ${request.extra_detail?.end_time ?: ""}"
 
         binding.tvStatus.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
-        binding.tvSpecialInstructionsV.text = request.extra_detail?.reason_for_service
+
+        /*Hide now*/
+        //binding.tvSpecialInstructionsV.text = request.extra_detail?.reason_for_service
+        binding.tvSpecialInstructions.gone()
+        binding.tvSpecialInstructionsV.gone()
 
 
         var services = ""
@@ -153,18 +167,40 @@ class AppointmentDetailsFragment : DaggerFragment() {
                 binding.tvApprove.visible()
 
                 if (request.rating == null) {
-                    binding.tvRate.text = getString(R.string.rate)
-                    binding.tvRate.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
+                    binding.tvRate.visible()
                 } else {
-                    binding.tvRate.text = request.rating
-                    binding.tvRate.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorRate))
+                    binding.tvRate.gone()
+
+                    binding.tvFeedbackT.visible()
+                    binding.tvFeedback.visible()
+                    binding.tvFeedbackComment.visible()
+                    binding.view1.visible()
+
+                    binding.tvFeedback.text = request.rating
+                    binding.tvFeedbackComment.text = request.comment ?: ""
                 }
 
-                if (request.userIsApproved == false) {
-                    binding.tvApprove.visible()
-                    binding.tvApprove.text = getString(R.string.approve)
-                } else {
-                    binding.tvApprove.gone()
+                when (request.user_status) {
+                    CallAction.PENDING -> {
+                        binding.tvApprove.visible()
+                        binding.tvApprove.text = getString(R.string.approve)
+                    }
+                    else -> {
+                        binding.tvApprove.gone()
+                        binding.tvUserApprovalT.visible()
+                        binding.tvUserApproval.visible()
+                        binding.tvUserApprovalComment.visible()
+                        binding.view1.visible()
+
+                        binding.tvUserApproval.text = request.user_status
+                        binding.tvUserApprovalComment.text = request.user_comment
+
+                        if (request.user_status == CallAction.APPROVED)
+                            binding.tvUserApproval.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
+                        else if (request.user_status == CallAction.DECLINED)
+                            binding.tvUserApproval.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorNoShow))
+
+                    }
                 }
             }
             CallAction.START -> {

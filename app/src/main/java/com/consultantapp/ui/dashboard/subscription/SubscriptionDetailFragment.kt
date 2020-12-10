@@ -93,7 +93,7 @@ class SubscriptionDetailFragment : DaggerFragment() {
     }
 
     private fun bindObservers() {
-        viewModelBanner.packDetail.observe(this, Observer {
+        viewModelBanner.packDetail.observe(requireActivity(), Observer {
             it ?: return@Observer
             when (it.status) {
                 Status.SUCCESS -> {
@@ -117,7 +117,7 @@ class SubscriptionDetailFragment : DaggerFragment() {
             }
         })
 
-        viewModelBanner.purchasePack.observe(this, Observer {
+        viewModelBanner.purchasePack.observe(requireActivity(), Observer {
             it ?: return@Observer
             when (it.status) {
                 Status.SUCCESS -> {

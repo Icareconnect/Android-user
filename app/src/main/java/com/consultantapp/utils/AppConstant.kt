@@ -79,6 +79,8 @@ object CallAction {
     const val START_SERVICE = "start_service"
     const val CANCEL_SERVICE = "cancel_service"
 
+    const val DECLINED = "declined"
+    const val APPROVED = "approved"
 }
 
 object WalletMoney {

@@ -400,5 +400,7 @@
     <string name="map_not_found">Google map application not found</string>
     <string name="working_hour_message">Working hour Message</string>
     <string name="error_working_hour_message">Please define working hours</string>
+    <string name="approval_status">Approval Status</string>
+    <string name="feedback">Feedback</string>
 
 </resources>

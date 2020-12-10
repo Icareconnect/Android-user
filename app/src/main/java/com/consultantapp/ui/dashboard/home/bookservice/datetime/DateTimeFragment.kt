@@ -83,7 +83,7 @@ class DateTimeFragment : DaggerFragment(), OnTimeSelected {
         itemDays.clear()
         var calendar: Calendar
         var date: DatesAvailability
-        for (i in 0..60) {
+        for (i in 1..60) {
             calendar = Calendar.getInstance()
             calendar.add(Calendar.DAY_OF_MONTH, i)
 
@@ -150,14 +150,14 @@ class DateTimeFragment : DaggerFragment(), OnTimeSelected {
                 binding.tvEndTimeV.text.toString().trim().isEmpty() -> {
                     binding.tvEndTimeV.showSnackBar(getString(R.string.end_time))
                 }
-                binding.etReason.text.toString().trim().isEmpty() -> {
+               /* binding.etReason.text.toString().trim().isEmpty() -> {
                     binding.etReason.showSnackBar(getString(R.string.reason_of_service))
-                }
+                }*/
                 else -> {
                     bookService.date = dateSelected.removeSuffix(", ")
                     bookService.startTime = binding.tvStartTimeV.text.toString()
                     bookService.endTime = binding.tvEndTimeV.text.toString()
-                    bookService.reason = binding.etReason.text.toString()
+                    //bookService.reason = binding.etReason.text.toString()
 
                     if (isConnectedToInternet(requireContext(), true)) {
 

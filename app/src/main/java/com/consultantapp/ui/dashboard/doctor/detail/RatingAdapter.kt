@@ -53,7 +53,7 @@ class RatingAdapter(private val items: ArrayList<Review>) :
 
             tvName.text = item.user?.name
             tvRating.text = item.rating.toString()
-            tvComment.text = item.comment.toString()
+            tvComment.text = item.comment ?:""
 
             loadImage(
                 binding.ivPic, item.user?.profile_image,

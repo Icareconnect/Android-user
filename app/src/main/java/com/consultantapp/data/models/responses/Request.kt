@@ -17,7 +17,10 @@ class Request :Serializable{
     var created_at: String? = null
     var bookingDateUTC: String? = null
     var rating: String? = null
+    var comment:String?=null
     var userIsApproved: Boolean? = null
+    var user_status: String? = null
+    var user_comment: String? = null
     var canReschedule = false
     var canCancel = false
 

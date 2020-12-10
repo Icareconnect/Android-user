@@ -51,7 +51,7 @@ class BannerFragment(private val fragment: Fragment?, private val banner: Banner
     private fun initialise() {
         if (fragment is HomeFragment) {
             binding.clBanner.setBackgroundResource(0)
-            loadImage(binding.ivImage, banner.image_mobile, R.drawable.ic_banner_empty_state)
+            loadImage(binding.ivImage, banner.image_mobile, R.drawable.image_placeholder)
 
 
             binding.ivImage.setOnClickListener {
