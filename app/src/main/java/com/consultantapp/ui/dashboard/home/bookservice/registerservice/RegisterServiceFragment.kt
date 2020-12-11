@@ -43,8 +43,6 @@ class RegisterServiceFragment : DaggerFragment() {
 
     private lateinit var binding: FragmentRegisterServiceBinding
 
-    private lateinit var viewModelAppVersion: AppVersionViewModel
-
     private lateinit var progressDialog: ProgressDialog
 
     private var rootView: View? = null
@@ -54,10 +52,6 @@ class RegisterServiceFragment : DaggerFragment() {
     private lateinit var adapterServiceFor: CheckItemAdapter
 
     private var itemsServiceFor = ArrayList<FilterOption>()
-
-    private lateinit var adapterHomeCare: PrefrenceAdapter
-
-    private var itemsHomeCare = ArrayList<Filter>()
 
 
     override fun onCreateView(
@@ -70,7 +64,6 @@ class RegisterServiceFragment : DaggerFragment() {
 
             initialise()
             listeners()
-            bindObservers()
             setAdapter()
             hitApi()
         }
@@ -78,7 +71,6 @@ class RegisterServiceFragment : DaggerFragment() {
     }
 
     private fun initialise() {
-        viewModelAppVersion = ViewModelProvider(this, viewModelFactory)[AppVersionViewModel::class.java]
         progressDialog = ProgressDialog(requireActivity())
 
         binding.ilNotSelf.gone()
@@ -92,11 +84,7 @@ class RegisterServiceFragment : DaggerFragment() {
     }
 
     private fun hitApi() {
-        if (isConnectedToInternet(requireContext(), true)) {
-            val hashMap = HashMap<String, String>()
-            hashMap["filter_ids"] = requireActivity().intent.getStringExtra(SubCategoryFragment.CATEGORY_PARENT_ID)
-            viewModelAppVersion.duty(hashMap)
-        }
+
     }
 
     private fun setAdapter() {
@@ -111,9 +99,6 @@ class RegisterServiceFragment : DaggerFragment() {
 
         adapterServiceFor = CheckItemAdapter(this, true, false, itemsServiceFor)
         binding.rvServiceFor.adapter = adapterServiceFor
-
-        adapterHomeCare = PrefrenceAdapter(this, itemsHomeCare)
-        binding.rvHomeCare.adapter = adapterHomeCare
     }
 
 
@@ -123,11 +108,6 @@ class RegisterServiceFragment : DaggerFragment() {
                 requireActivity().supportFragmentManager.popBackStack()
             else
                 requireActivity().finish()
-        }
-
-
-        binding.tvSelectHomeCare.setOnClickListener {
-            binding.rvHomeCare.hideShowView(binding.rvHomeCare.visibility == View.GONE)
         }
 
         binding.etAddress.setOnClickListener {
@@ -146,20 +126,6 @@ class RegisterServiceFragment : DaggerFragment() {
                 }
             }
 
-            var duties = ""
-            /*itemsHomeCare.forEachIndexed { index, filterOption ->
-                if (filterOption.isSelected) {
-                    homeCare += "${filterOption.option_name},"
-                }
-            }*/
-
-            itemsHomeCare.forEachIndexed { index, filter ->
-                filter.options?.forEach {
-                    if (it.isSelected) {
-                        duties += "${it.id},"
-                    }
-                }
-            }
 
             when {
                 binding.etName.text.toString().trim().isEmpty() -> {
@@ -171,16 +137,13 @@ class RegisterServiceFragment : DaggerFragment() {
                 servicePos != 0 && binding.etNameOther.text.toString().trim().isEmpty() -> {
                     binding.etName.showSnackBar(getString(R.string.enter_name_other))
                 }
-                duties.isEmpty() -> {
-                    binding.tvHomeCare.showSnackBar(getString(R.string.select_service_requirement))
-                }
                 binding.etAddress.text.toString().trim().isEmpty() -> {
                     binding.etAddress.showSnackBar(getString(R.string.select_delivery_address))
                 }
                 else -> {
-                    bookService.filter_id = requireActivity().intent.getStringExtra(SubCategoryFragment.CATEGORY_PARENT_ID)
+                    //bookService.filter_id = requireActivity().intent.getStringExtra(SubCategoryFragment.CATEGORY_PARENT_ID)
                     bookService.service_for = itemsServiceFor[servicePos].option_name
-                    bookService.service_type = duties.removeSuffix(",")
+                    bookService.service_type = requireActivity().intent.getStringExtra(DUTIES)
 
                     if (servicePos == 0)
                         bookService.personName = binding.etName.text.toString().trim()
@@ -197,31 +160,6 @@ class RegisterServiceFragment : DaggerFragment() {
         }
     }
 
-    private fun bindObservers() {
-        viewModelAppVersion.preferences.observe(requireActivity(), Observer {
-            it ?: return@Observer
-            when (it.status) {
-                Status.SUCCESS -> {
-                    progressDialog.setLoading(false)
-
-                    val tempList = it.data?.preferences ?: emptyList()
-                    itemsHomeCare.clear()
-                    itemsHomeCare.addAll(tempList)
-
-                    adapterHomeCare.notifyDataSetChanged()
-
-                    binding.rvHomeCare.visible()
-                }
-                Status.ERROR -> {
-                    progressDialog.setLoading(false)
-                    ApisRespHandler.handleError(it.error, requireActivity(), prefsManager)
-                }
-                Status.LOADING -> {
-                    progressDialog.setLoading(true)
-                }
-            }
-        })
-    }
 
     fun onItemClick(serviceFor: Boolean, pos: Int) {
         if (serviceFor) {
@@ -233,16 +171,16 @@ class RegisterServiceFragment : DaggerFragment() {
                 binding.ilNotSelf.visible()
             }
         } else {
-           /* var selectedItem = 0
-            itemsHomeCare.forEach {
-                if (it.isSelected)
-                    selectedItem += 1
-            }
+            /* var selectedItem = 0
+             itemsHomeCare.forEach {
+                 if (it.isSelected)
+                     selectedItem += 1
+             }
 
-            if (selectedItem == 0)
-                binding.tvSelectHomeCare.text = ""
-            else
-                binding.tvSelectHomeCare.text = "${getString(R.string.selected)} ($selectedItem)"*/
+             if (selectedItem == 0)
+                 binding.tvSelectHomeCare.text = ""
+             else
+                 binding.tvSelectHomeCare.text = "${getString(R.string.selected)} ($selectedItem)"*/
         }
     }
 
@@ -256,5 +194,9 @@ class RegisterServiceFragment : DaggerFragment() {
                 binding.etAddress.setText("${bookService?.address?.locationName} (${bookService?.address?.houseNumber})")
             }
         }
+    }
+
+    companion object {
+        const val DUTIES = "DUTIES"
     }
 }

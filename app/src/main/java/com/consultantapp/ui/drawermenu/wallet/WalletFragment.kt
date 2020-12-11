@@ -145,7 +145,7 @@ class WalletFragment : DaggerFragment() {
     }
 
     private fun bindObservers() {
-        viewModel.wallet.observe(this, Observer {
+        viewModel.wallet.observe(requireActivity(), Observer {
             it ?: return@Observer
             when (it.status) {
                 Status.SUCCESS -> {
@@ -161,7 +161,7 @@ class WalletFragment : DaggerFragment() {
             }
         })
 
-        viewModel.walletHistory.observe(this, Observer {
+        viewModel.walletHistory.observe(requireActivity(), Observer {
             it ?: return@Observer
             when (it.status) {
                 Status.SUCCESS -> {

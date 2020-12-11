@@ -67,16 +67,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_12"
                 android:layout_marginEnd="@dimen/dp_20"
-                android:ellipsize="end"
                 android:background="?android:attr/selectableItemBackground"
                 android:clickable="true"
-                android:padding="@dimen/dp_4"
+                android:ellipsize="end"
                 android:focusable="true"
                 android:fontFamily="@font/campton_medium"
                 android:hint="@string/location"
-                android:textColorHint="@color/colorWhite"
                 android:maxLines="1"
+                android:padding="@dimen/dp_4"
                 android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite"
                 android:textSize="@dimen/sp_14"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/ivPic"
@@ -99,7 +99,6 @@
             android:id="@+id/etSearch"
             android:layout_width="0dp"
             android:layout_height="@dimen/dp_42"
-            android:layout_marginTop="@dimen/dp_4"
             android:background="@null"
             android:fontFamily="@font/campton_medium"
             android:hint="@string/search_for_service"
@@ -127,20 +126,34 @@
             app:layout_constraintEnd_toEndOf="@id/etSearch"
             app:layout_constraintTop_toTopOf="@id/etSearch" />
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvPleaseSelect"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_20"
+            android:fontFamily="@font/campton_medium"
+            android:gravity="center"
+            android:text="@string/please_select_all_that_applies"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/sp_18"
+            app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+            app:layout_constraintStart_toStartOf="@id/startGuideLine"
+            app:layout_constraintTop_toBottomOf="@+id/etSearch" />
+
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cvCategory"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="@dimen/dp_32"
-            android:layout_marginBottom="@dimen/dp_16"
-            android:visibility="gone"
-            app:cardCornerRadius="@dimen/dp_4"
-            app:cardElevation="@dimen/dp_4"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/endGuideLine"
-            app:layout_constraintStart_toStartOf="@id/startGuideLine"
-            app:layout_constraintTop_toBottomOf="@+id/etSearch">
+            android:layout_marginStart="@dimen/dp_4"
+            android:layout_marginEnd="@dimen/dp_4"
+            android:layout_marginBottom="@dimen/dp_4"
+            android:visibility="visible"
+            app:cardElevation="@dimen/dp_0"
+            app:layout_constraintBottom_toTopOf="@+id/tvContinue"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvPleaseSelect">
 
             <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:id="@+id/swipeRefresh"
@@ -153,9 +166,29 @@
                     android:layout_height="wrap_content"
                     android:overScrollMode="never"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="2"
                     tools:listitem="@layout/rv_item_category" />
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
         </androidx.cardview.widget.CardView>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvContinue"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_36"
+            android:layout_marginBottom="@dimen/dp_4"
+            android:background="@drawable/drawable_theme_8"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:padding="@dimen/dp_8"
+            android:text="@string/continuee"
+            android:textAppearance="@style/Toolbar.LoginButton"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/sp_14"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+            app:layout_constraintStart_toStartOf="@id/startGuideLine" />
+
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvNoData"

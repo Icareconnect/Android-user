@@ -127,11 +127,13 @@ class AppointmentDetailsFragment : DaggerFragment() {
         binding.view1.gone()
 
         binding.tvName.text = request.to_user?.name
-        binding.tvServiceTypeV.text = request.extra_detail?.filter_name ?: ""
-        binding.tvDistanceV.text = request.extra_detail?.distance ?: ""
-        binding.tvLocation.text = request.extra_detail?.service_address
         loadImage(binding.ivPic, request.to_user?.profile_image,
                 R.drawable.ic_profile_placeholder)
+
+        binding.tvServiceTypeV.text = request.extra_detail?.filter_name ?: ""
+
+        binding.tvDistanceV.text = request.extra_detail?.distance ?: ""
+        binding.tvLocation.text = request.extra_detail?.service_address
 
         binding.tvBookingDateV.text = getDatesComma(request.extra_detail?.working_dates)
         binding.tvBookingTimeV.text = "${request.extra_detail?.start_time ?: ""} - ${request.extra_detail?.end_time ?: ""}"

@@ -125,16 +125,16 @@ class ProfileFragment : DaggerFragment() {
         }
 
         binding.tvEdit.setOnClickListener {
-            /*startActivityForResult(Intent(requireActivity(), SignUpActivity::class.java)
-                    .putExtra(UPDATE_PROFILE, true), AppRequestCode.PROFILE_UPDATE)*/
+            startActivityForResult(Intent(requireActivity(), SignUpActivity::class.java)
+                    .putExtra(UPDATE_PROFILE, true), AppRequestCode.PROFILE_UPDATE)
 
-            val fragment = MasterPrefrenceFragment()
+            /*val fragment = MasterPrefrenceFragment()
             val bundle = Bundle()
             bundle.putString(MasterPrefrenceFragment.MASTER_PREFRENCE_TYPE, PreferencesType.WORK_ENVIRONMENT)
             fragment.arguments = bundle
 
             replaceFragment(requireActivity().supportFragmentManager,
-                    fragment, R.id.container)
+                    fragment, R.id.container)*/
         }
 
         binding.ivPic.setOnClickListener {

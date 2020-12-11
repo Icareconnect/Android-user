@@ -125,6 +125,19 @@ class DateTimeFragment : DaggerFragment(), OnTimeSelected {
         binding.tvBookAppointment.setOnClickListener {
             var dateSelected = ""
 
+            if (itemDays[0].isSelected && binding.tvStartTimeV.text.isNotEmpty()) {
+                val sdf = SimpleDateFormat(DateFormat.TIME_FORMAT, Locale.ENGLISH)
+                val calendar = Calendar.getInstance(Locale.getDefault())
+                calendar.add(Calendar.HOUR, 1)
+                val newTime = sdf.parse(sdf.format(calendar.time))
+
+                val timeCompare = sdf.parse(binding.tvStartTimeV.text.toString())
+                if (timeCompare.before(newTime)) {
+                    binding.tvStartTimeV.showSnackBar(getString(R.string.error_for_today))
+                    return@setOnClickListener
+                }
+            }
+
             itemDays.forEach {
                 if (it.isSelected)
                     dateSelected += "${DateUtils.dateFormatFromMillis(DateFormat.DATE_FORMAT, it.date ?: 0L)}, "
@@ -140,9 +153,9 @@ class DateTimeFragment : DaggerFragment(), OnTimeSelected {
                 binding.tvEndTimeV.text.toString().trim().isEmpty() -> {
                     binding.tvEndTimeV.showSnackBar(getString(R.string.end_time))
                 }
-               /* binding.etReason.text.toString().trim().isEmpty() -> {
-                    binding.etReason.showSnackBar(getString(R.string.reason_of_service))
-                }*/
+                /* binding.etReason.text.toString().trim().isEmpty() -> {
+                     binding.etReason.showSnackBar(getString(R.string.reason_of_service))
+                 }*/
                 else -> {
                     bookService.date = dateSelected.removeSuffix(", ")
                     bookService.startTime = binding.tvStartTimeV.text.toString()
@@ -221,7 +234,19 @@ class DateTimeFragment : DaggerFragment(), OnTimeSelected {
 
     override fun onTimeSelected(time: Triple<String, Boolean, Boolean>) {
         if (!time.third) {
-            val sdf = SimpleDateFormat(DateFormat.TIME_FORMAT, Locale.ENGLISH)
+            /*If today date is selected*/
+            if (itemDays[0].isSelected && time.first.isNotEmpty()) {
+                val sdf = SimpleDateFormat(DateFormat.TIME_FORMAT, Locale.ENGLISH)
+                val calendar = Calendar.getInstance(Locale.getDefault())
+                calendar.add(Calendar.HOUR, 1)
+                val newTime = sdf.parse(sdf.format(calendar.time))
+
+                val timeCompare = sdf.parse(time.first)
+                if (timeCompare.before(newTime)) {
+                    binding.tvStartTimeV.showSnackBar(getString(R.string.error_for_today))
+                    return
+                }
+            }
 
             if (time.second)
                 binding.tvStartTimeV.text = time.first

@@ -14,6 +14,7 @@ import com.consultantapp.data.network.LoadingStatus.ITEM
 import com.consultantapp.data.network.LoadingStatus.LOADING
 import com.consultantapp.databinding.ItemPagingLoaderBinding
 import com.consultantapp.databinding.RvItemPrefrenceBinding
+import com.consultantapp.ui.dashboard.home.HomeFragment
 import com.consultantapp.ui.dashboard.home.bookservice.registerservice.RegisterServiceFragment
 import com.consultantapp.ui.loginSignUp.masterprefrence.MasterPrefrenceFragment
 import com.consultantapp.utils.PreferencesType
@@ -56,23 +57,30 @@ class PrefrenceAdapter(private val fragment: Fragment, private val items: ArrayL
             RecyclerView.ViewHolder(binding.root) {
 
         init {
-            if (fragment is MasterPrefrenceFragment) {
-                when (fragment.prefrenceType) {
-                    PreferencesType.WORK_ENVIRONMENT -> {
-                        binding.tvName.gravity = Gravity.CENTER_HORIZONTAL
+            when (fragment) {
+                is MasterPrefrenceFragment -> {
+                    when (fragment.prefrenceType) {
+                        PreferencesType.WORK_ENVIRONMENT -> {
+                            binding.tvName.gravity = Gravity.CENTER_HORIZONTAL
 
-                        val layoutManager = LinearLayoutManager(fragment.requireContext())
-                        binding.rvListing.layoutManager = layoutManager
+                            val layoutManager = LinearLayoutManager(fragment.requireContext())
+                            binding.rvListing.layoutManager = layoutManager
 
-                        binding.cbCheckAll.visible()
+                            binding.cbCheckAll.visible()
+                        }
                     }
                 }
-            }
-            else if (fragment is RegisterServiceFragment) {
-                binding.tvName.gone()
+                is HomeFragment -> {
+                    binding.tvName.gone()
+                    val layoutManager = LinearLayoutManager(fragment.requireContext())
+                    binding.rvListing.layoutManager = layoutManager
+                }
+                is RegisterServiceFragment -> {
+                    binding.tvName.gone()
 
-                val layoutManager = LinearLayoutManager(fragment.requireContext())
-                binding.rvListing.layoutManager = layoutManager
+                    val layoutManager = LinearLayoutManager(fragment.requireContext())
+                    binding.rvListing.layoutManager = layoutManager
+                }
             }
 
             binding.root.setOnClickListener {

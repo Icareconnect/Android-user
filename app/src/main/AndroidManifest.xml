@@ -66,6 +66,7 @@
             android:windowSoftInputMode="stateVisible|adjustPan" />
         <activity
             android:name=".ui.dashboard.MainActivity"
+            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.dashboard.doctor.listing.DoctorListActivity"

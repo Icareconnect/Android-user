@@ -3,11 +3,12 @@ package com.consultantapp.ui.dashboard.home
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -18,15 +19,17 @@ import com.consultantapp.data.network.ApisRespHandler
 import com.consultantapp.data.network.responseUtil.Status
 import com.consultantapp.data.repos.UserRepository
 import com.consultantapp.databinding.FragmentHomeBinding
-import com.consultantapp.ui.classes.ClassesViewModel
-import com.consultantapp.ui.dashboard.CategoriesAdapter
-import com.consultantapp.ui.dashboard.doctor.listing.DoctorListActivity
+import com.consultantapp.ui.AppVersionViewModel
+import com.consultantapp.ui.dashboard.doctor.detail.prefrence.PrefrenceItemAdapter
+import com.consultantapp.ui.dashboard.home.bookservice.registerservice.RegisterServiceFragment
 import com.consultantapp.ui.dashboard.subcategory.SubCategoryFragment.Companion.CATEGORY_PARENT_ID
 import com.consultantapp.ui.drawermenu.DrawerActivity
 import com.consultantapp.utils.*
+import com.google.android.gms.common.data.DataHolder
 import com.google.android.libraries.places.widget.Autocomplete
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
+
 
 class HomeFragment : DaggerFragment() {
 
@@ -43,11 +46,13 @@ class HomeFragment : DaggerFragment() {
 
     private var rootView: View? = null
 
-    private lateinit var viewModel: ClassesViewModel
+    private lateinit var viewModelAppVersion: AppVersionViewModel
 
     private var items = ArrayList<FilterOption>()
 
-    private lateinit var adapter: CategoriesAdapter
+    private val tempItems = ArrayList<FilterOption>()
+
+    private lateinit var adapter: PrefrenceItemAdapter
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -66,14 +71,13 @@ class HomeFragment : DaggerFragment() {
     }
 
     private fun initialise() {
-        viewModel = ViewModelProvider(this, viewModelFactory)[ClassesViewModel::class.java]
-        binding.clLoader.setBackgroundColor(
-                ContextCompat.getColor(requireContext(), R.color.colorWhite))
+        viewModelAppVersion = ViewModelProvider(this, viewModelFactory)[AppVersionViewModel::class.java]
+        binding.clLoader.setBackgroundResource(R.color.colorWhite)
 
     }
 
     private fun setAdapter() {
-        adapter = CategoriesAdapter(this, items)
+        adapter = PrefrenceItemAdapter(true, tempItems)
         binding.rvCategory.adapter = adapter
     }
 
@@ -98,41 +102,93 @@ class HomeFragment : DaggerFragment() {
         }
 
         binding.ivSearch.setOnClickListener {
-            //startActivityForResult(Intent(requireContext(), AddMoneyActivity::class.java), AppRequestCode.ADD_MONEY)
+            binding.etSearch.hideKeyboard()
         }
+
+        binding.etSearch.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {}
+            override fun beforeTextChanged(s: CharSequence, start: Int,
+                                           count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence, start: Int,
+                                       before: Int, count: Int) {
+                if (s.isNotEmpty())
+                    filter(binding.etSearch.text.toString().toLowerCase())
+                else
+                    filter("")
+
+            }
+        })
+
+        binding.tvContinue.setOnClickListener {
+            var duties = ""
+            items.forEach {
+                if (it.isSelected) {
+                    duties += "${it.id},"
+                }
+            }
+
+            if (duties.isEmpty()) {
+                binding.tvContinue.showSnackBar(getString(R.string.please_select_all_that_applies))
+            } else {
+                startActivity(Intent(requireContext(), DrawerActivity::class.java)
+                        .putExtra(PAGE_TO_OPEN, DrawerActivity.REGISTER_SERVICE)
+                        .putExtra(RegisterServiceFragment.DUTIES, duties.removePrefix(",")))
+            }
+        }
+    }
+
+    private fun filter(text: String) {
+        tempItems.clear()
+        items.forEach {
+            if (it.option_name?.toLowerCase()?.contains(text) == true) {
+                tempItems.add(it)
+            }
+        }
+        adapter.notifyDataSetChanged()
+
+        binding.cvCategory.hideShowView(tempItems.isNotEmpty())
+        binding.tvNoData.hideShowView(tempItems.isEmpty())
     }
 
     private fun hitApi() {
         if (isConnectedToInternet(requireContext(), true)) {
+            /* val hashMap = HashMap<String, String>()
+             hashMap["category_id"] = CATEGORY_ID
+             viewModel.getFilters(hashMap)*/
+
             val hashMap = HashMap<String, String>()
-            hashMap["category_id"] = CATEGORY_ID
-            viewModel.getFilters(hashMap)
+            hashMap["filter_ids"] = "3"
+            viewModelAppVersion.duty(hashMap)
         }
     }
 
     private fun bindObservers() {
-        viewModel.getFilters.observe(requireActivity(), Observer {
+        viewModelAppVersion.preferences.observe(requireActivity(), Observer {
             it ?: return@Observer
             when (it.status) {
                 Status.SUCCESS -> {
                     binding.clLoader.gone()
                     binding.swipeRefresh.isRefreshing = false
 
-                    val tempList = it.data?.filters ?: emptyList()
+                    if (it.data?.preferences?.isNotEmpty() == true) {
+                        items.clear()
+                        items.addAll(it.data.preferences?.get(0)?.options ?: emptyList())
 
-                    items.clear()
-                    if (tempList.isNotEmpty())
-                        items.addAll(tempList[0].options ?: emptyList())
+                        tempItems.clear()
+                        tempItems.addAll(items)
+                    }
 
                     adapter.notifyDataSetChanged()
-                    binding.cvCategory.hideShowView(items.isNotEmpty())
-                    binding.tvNoData.hideShowView(items.isEmpty())
+
+                    binding.cvCategory.hideShowView(tempItems.isNotEmpty())
+                    binding.tvNoData.hideShowView(tempItems.isEmpty())
                 }
                 Status.ERROR -> {
                     adapter.setAllItemsLoaded(true)
                     binding.clLoader.gone()
                     binding.swipeRefresh.isRefreshing = false
-
                     ApisRespHandler.handleError(it.error, requireActivity(), prefsManager)
                 }
                 Status.LOADING -> {

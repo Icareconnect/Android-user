@@ -244,18 +244,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvHomeCare" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvHomeCare"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:itemCount="2"
-                    android:background="@drawable/drawable_stroke_grey"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvSelectHomeCare"
-                    tools:listitem="@layout/rv_item_prefrence_option" />
-
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/ilAddress"
@@ -264,7 +252,7 @@
                     android:layout_marginTop="@dimen/dp_32"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/rvHomeCare">
+                    app:layout_constraintTop_toBottomOf="@+id/tvSelectHomeCare">
 
                     <androidx.appcompat.widget.AppCompatEditText
                         android:id="@+id/etAddress"
