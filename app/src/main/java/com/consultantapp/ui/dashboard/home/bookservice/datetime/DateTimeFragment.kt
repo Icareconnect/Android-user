@@ -83,7 +83,7 @@ class DateTimeFragment : DaggerFragment(), OnTimeSelected {
         itemDays.clear()
         var calendar: Calendar
         var date: DatesAvailability
-        for (i in 1..60) {
+        for (i in 0..60) {
             calendar = Calendar.getInstance()
             calendar.add(Calendar.DAY_OF_MONTH, i)
 
@@ -103,16 +103,6 @@ class DateTimeFragment : DaggerFragment(), OnTimeSelected {
             binding.rvWeek.adapter = datesAdapter
         }
 
-        /* binding.rvWeek.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                 super.onScrolled(recyclerView, dx, dy)
-
-                 val layoutManager = binding.rvWeek.layoutManager as LinearLayoutManager
-                 val midItemPosition = layoutManager.findLastVisibleItemPosition() - 4
-
-                 binding.tvMonth.text = DateUtils.dateFormatFromMillis(DateFormat.MONTH_YEAR, itemDays[midItemPosition].date)
-             }
-         })*/
     }
 
     private fun listeners() {

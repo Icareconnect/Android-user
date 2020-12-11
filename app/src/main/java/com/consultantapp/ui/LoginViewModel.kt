@@ -18,6 +18,8 @@ class LoginViewModel @Inject constructor(private val webService: WebService) : V
 
     val login by lazy { SingleLiveEvent<Resource<UserData>>() }
 
+    val profile by lazy { SingleLiveEvent<Resource<UserData>>() }
+
     val updateNumber by lazy { SingleLiveEvent<Resource<UserData>>() }
 
     val register by lazy { SingleLiveEvent<Resource<UserData>>() }
@@ -54,6 +56,30 @@ class LoginViewModel @Inject constructor(private val webService: WebService) : V
 
                     override fun onFailure(call: Call<ApiResponse<UserData>>, throwable: Throwable) {
                         login.value = Resource.error(ApiUtils.failure(throwable))
+                    }
+
+                })
+    }
+
+    fun profile() {
+        profile.value = Resource.loading()
+
+        webService.profile()
+                .enqueue(object : Callback<ApiResponse<UserData>> {
+
+                    override fun onResponse(call: Call<ApiResponse<UserData>>,
+                                            response: Response<ApiResponse<UserData>>) {
+                        if (response.isSuccessful) {
+                            profile.value = Resource.success(response.body()?.data)
+                        } else {
+                            profile.value = Resource.error(
+                                    ApiUtils.getError(response.code(),
+                                            response.errorBody()?.string()))
+                        }
+                    }
+
+                    override fun onFailure(call: Call<ApiResponse<UserData>>, throwable: Throwable) {
+                        profile.value = Resource.error(ApiUtils.failure(throwable))
                     }
 
                 })

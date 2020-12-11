@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.consultantapp.R
+import com.consultantapp.data.models.responses.Filter
 import com.consultantapp.data.models.responses.UserData
 import com.consultantapp.data.network.ApisRespHandler
 import com.consultantapp.data.network.responseUtil.Status
@@ -21,6 +22,7 @@ import com.consultantapp.data.repos.UserRepository
 import com.consultantapp.databinding.FragmentProfileBinding
 import com.consultantapp.ui.LoginViewModel
 import com.consultantapp.ui.loginSignUp.SignUpActivity
+import com.consultantapp.ui.loginSignUp.masterprefrence.MasterPrefrenceFragment
 import com.consultantapp.utils.*
 import com.consultantapp.utils.PermissionUtils
 import com.consultantapp.utils.dialogs.ProgressDialog
@@ -63,6 +65,7 @@ class ProfileFragment : DaggerFragment() {
 
             initialise()
             setUserProfile()
+            hiApiUserProfile()
             listeners()
             bindObservers()
         }
@@ -74,26 +77,46 @@ class ProfileFragment : DaggerFragment() {
         progressDialog = ProgressDialog(requireActivity())
     }
 
+    private fun hiApiUserProfile() {
+        if (isConnectedToInternet(requireContext(), true)) {
+            viewModel.profile()
+        }
+    }
+
     private fun setUserProfile() {
         userData = userRepository.getUser()
 
         binding.tvName.text = userData?.name ?: ""
-        binding.tvAge.text = "${getString(R.string.age)} ${getAge(userData?.profile?.dob)}"
-        binding.tvBioV.text = userData?.profile?.bio ?: getString(R.string.na)
         binding.tvEmailV.text = userData?.email ?: getString(R.string.na)
         binding.tvPhoneV.text = "${userData?.country_code ?: getString(R.string.na)} ${userData?.phone ?: ""}"
-        binding.tvDOBV.text = userData?.profile?.dob ?: getString(R.string.na)
-
-        if (userData?.profile?.dob.isNullOrEmpty()){
-            binding.tvDOB.gone()
-            binding.tvDOBV.gone()
-        }else
-            binding.tvDOBV.text = DateUtils.dateFormatChange(DateFormat.DATE_FORMAT,
-                    DateFormat.MON_DAY_YEAR, userData?.profile?.dob ?: "")
-
         loadImage(binding.ivPic, userData?.profile_image, R.drawable.ic_profile_placeholder)
 
 
+        val workExperience = ArrayList<Filter>()
+        userData?.master_preferences?.forEach {
+            when (it.preference_type) {
+                PreferencesType.WORK_ENVIRONMENT ->
+                    workExperience.add(it)
+            }
+        }
+
+        if (workExperience.isNotEmpty()) {
+            var workText = ""
+            workExperience.forEach {
+                it.options?.forEach {
+                    if (it.isSelected) {
+                        workText += it.option_name + ", "
+                    }
+                }
+            }
+            binding.tvWorkV.text = workText.removeSuffix(", ")
+
+            binding.tvWork.hideShowView(workText.isNotEmpty())
+            binding.tvWorkV.hideShowView(workText.isNotEmpty())
+        } else {
+            binding.tvWork.gone()
+            binding.tvWorkV.gone()
+        }
     }
 
     private fun listeners() {
@@ -102,8 +125,16 @@ class ProfileFragment : DaggerFragment() {
         }
 
         binding.tvEdit.setOnClickListener {
-            startActivityForResult(Intent(requireActivity(), SignUpActivity::class.java)
-                    .putExtra(UPDATE_PROFILE, true), AppRequestCode.PROFILE_UPDATE)
+            /*startActivityForResult(Intent(requireActivity(), SignUpActivity::class.java)
+                    .putExtra(UPDATE_PROFILE, true), AppRequestCode.PROFILE_UPDATE)*/
+
+            val fragment = MasterPrefrenceFragment()
+            val bundle = Bundle()
+            bundle.putString(MasterPrefrenceFragment.MASTER_PREFRENCE_TYPE, PreferencesType.WORK_ENVIRONMENT)
+            fragment.arguments = bundle
+
+            replaceFragment(requireActivity().supportFragmentManager,
+                    fragment, R.id.container)
         }
 
         binding.ivPic.setOnClickListener {
@@ -165,8 +196,7 @@ class ProfileFragment : DaggerFragment() {
 
 
     private fun bindObservers() {
-
-        viewModel.updateProfile.observe(this, Observer {
+        viewModel.updateProfile.observe(requireActivity(), Observer {
             it ?: return@Observer
             when (it.status) {
                 Status.SUCCESS -> {
@@ -181,6 +211,26 @@ class ProfileFragment : DaggerFragment() {
                 }
                 Status.LOADING -> {
                     progressDialog.setLoading(true)
+                }
+            }
+        })
+
+        viewModel.profile.observe(requireActivity(), Observer {
+            it ?: return@Observer
+            when (it.status) {
+                Status.SUCCESS -> {
+                    progressDialog.setLoading(false)
+
+                    prefsManager.save(USER_DATA, it.data)
+
+                    setUserProfile()
+                }
+                Status.ERROR -> {
+                    progressDialog.setLoading(false)
+                    ApisRespHandler.handleError(it.error, requireActivity(), prefsManager)
+                }
+                Status.LOADING -> {
+                    progressDialog.setLoading(false)
                 }
             }
         })

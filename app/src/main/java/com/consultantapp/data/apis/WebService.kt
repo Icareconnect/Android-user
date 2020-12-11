@@ -66,6 +66,7 @@ interface WebService {
         private const val GET_FILTERS = "/api/get-filters"
         private const val GET_SLOTS = "/api/get-slots"
         private const val CALL_STATUS = "/api/call-status"
+        private const val PROFILE = "/api/profile"
         private const val PAGES = "/api/pages"
         private const val PACK_SUB = "/api/pack-sub"
         private const val PURCHASE_PACK = "/api/sub-pack"
@@ -210,6 +211,9 @@ interface WebService {
 
 
     /*GET*/
+
+    @GET(PROFILE)
+    fun profile(): Call<ApiResponse<UserData>>
 
     @GET(CLIENT_DETAILS)
     fun clientDetails(@QueryMap hashMap: Map<String, String>): Call<ApiResponse<AppVersion>>

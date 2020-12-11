@@ -89,21 +89,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/ivPic" />
 
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvAge"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_8"
-                    android:fontFamily="@font/campton_book"
-                    android:gravity="center_horizontal"
-                    android:text="@string/age"
-                    android:textColor="@color/textAge"
-                    android:textSize="@dimen/sp_14"
-                    app:layout_constraintEnd_toEndOf="@id/endGuideLine"
-                    app:layout_constraintStart_toStartOf="@id/startGuideLine"
-                    app:layout_constraintTop_toBottomOf="@+id/tvName" />
-
-
                 <View
                     android:id="@+id/view"
                     android:layout_width="0dp"
@@ -112,33 +97,7 @@
                     android:background="@color/lineColor"
                     app:layout_constraintEnd_toEndOf="@id/endGuideLine"
                     app:layout_constraintStart_toStartOf="@id/startGuideLine"
-                    app:layout_constraintTop_toBottomOf="@+id/tvAge" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvBio"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_32"
-                    android:fontFamily="@font/campton_semibold"
-                    android:text="@string/bio"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/sp_14"
-                    app:layout_constraintEnd_toEndOf="@id/endGuideLine"
-                    app:layout_constraintStart_toStartOf="@id/startGuideLine"
-                    app:layout_constraintTop_toBottomOf="@+id/view" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvBioV"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_8"
-                    android:fontFamily="@font/campton_book"
-                    android:text="@string/bio"
-                    android:textColor="@color/textColor"
-                    android:textSize="@dimen/sp_14"
-                    app:layout_constraintEnd_toEndOf="@id/endGuideLine"
-                    app:layout_constraintStart_toStartOf="@id/startGuideLine"
-                    app:layout_constraintTop_toBottomOf="@+id/tvBio" />
+                    app:layout_constraintTop_toBottomOf="@+id/ivPic" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvEmail"
@@ -151,7 +110,7 @@
                     android:textSize="@dimen/sp_14"
                     app:layout_constraintEnd_toEndOf="@id/endGuideLine"
                     app:layout_constraintStart_toStartOf="@id/startGuideLine"
-                    app:layout_constraintTop_toBottomOf="@+id/tvBioV" />
+                    app:layout_constraintTop_toBottomOf="@+id/view" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvEmailV"
@@ -192,13 +151,14 @@
                     app:layout_constraintStart_toStartOf="@id/startGuideLine"
                     app:layout_constraintTop_toBottomOf="@+id/tvPhone" />
 
+
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvDOB"
+                    android:id="@+id/tvWork"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_32"
                     android:fontFamily="@font/campton_semibold"
-                    android:text="@string/dob"
+                    android:text="@string/work_environment"
                     android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/sp_14"
                     app:layout_constraintEnd_toEndOf="@id/endGuideLine"
@@ -206,17 +166,18 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvPhoneV" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvDOBV"
+                    android:id="@+id/tvWorkV"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_8"
-                    android:fontFamily="@font/campton_book"
+                    android:fontFamily="@font/campton_medium"
                     android:text="@string/dob"
                     android:textColor="@color/textColor"
                     android:textSize="@dimen/sp_14"
                     app:layout_constraintEnd_toEndOf="@id/endGuideLine"
                     app:layout_constraintStart_toStartOf="@id/startGuideLine"
-                    app:layout_constraintTop_toBottomOf="@+id/tvDOB" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvWork" />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>

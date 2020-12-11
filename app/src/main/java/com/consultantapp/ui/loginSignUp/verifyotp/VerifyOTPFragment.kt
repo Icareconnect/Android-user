@@ -117,7 +117,7 @@ class   VerifyOTPFragment : DaggerFragment() {
     }
 
     private fun bindObservers() {
-        viewModel.login.observe(this, Observer {
+        viewModel.login.observe(requireActivity(), Observer {
             it ?: return@Observer
             when (it.status) {
                 Status.SUCCESS -> {
@@ -149,7 +149,7 @@ class   VerifyOTPFragment : DaggerFragment() {
             }
         })
 
-        viewModel.sendSMS.observe(this, Observer {
+        viewModel.sendSMS.observe(requireActivity(), Observer {
             it ?: return@Observer
             when (it.status) {
                 Status.SUCCESS -> {
@@ -169,7 +169,7 @@ class   VerifyOTPFragment : DaggerFragment() {
         })
 
 
-        viewModel.updateNumber.observe(this, Observer {
+        viewModel.updateNumber.observe(requireActivity(), Observer {
             it ?: return@Observer
             when (it.status) {
                 Status.SUCCESS -> {

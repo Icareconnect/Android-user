@@ -6,6 +6,9 @@
         android:id="@+id/clMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_8"
+        android:layout_marginTop="@dimen/dp_4"
+        android:layout_marginEnd="@dimen/dp_8"
         android:layout_marginBottom="@dimen/dp_4">
 
         <RadioButton

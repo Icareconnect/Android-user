@@ -182,7 +182,7 @@ class ConfirmBookingFragment : DaggerFragment() {
 
 
     private fun bindObservers() {
-        viewModel.createRequest.observe(this, Observer {
+        viewModel.createRequest.observe(requireActivity(), Observer {
             it ?: return@Observer
             when (it.status) {
                 Status.SUCCESS -> {
@@ -221,7 +221,7 @@ class ConfirmBookingFragment : DaggerFragment() {
             }
         })
 
-        viewModel.confirmRequest.observe(this, Observer {
+        viewModel.confirmRequest.observe(requireActivity(), Observer {
             it ?: return@Observer
             when (it.status) {
                 Status.SUCCESS -> {

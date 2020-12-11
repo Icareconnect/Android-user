@@ -402,5 +402,7 @@
     <string name="error_working_hour_message">Please define working hours</string>
     <string name="approval_status">Approval Status</string>
     <string name="feedback">Feedback</string>
+    <string name="save">Save</string>
+    <string name="check_all">Select All</string>
 
 </resources>

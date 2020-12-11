@@ -26,6 +26,7 @@ import com.consultantapp.ui.dashboard.doctor.DoctorActionActivity
 import com.consultantapp.ui.dashboard.doctor.schedule.ScheduleFragment.Companion.SERVICE_ID
 import com.consultantapp.ui.drawermenu.DrawerActivity
 import com.consultantapp.ui.drawermenu.DrawerActivity.Companion.WALLET
+import com.consultantapp.ui.drawermenu.addmoney.AddMoneyActivity
 import com.consultantapp.utils.*
 import com.consultantapp.utils.dialogs.ProgressDialog
 import dagger.android.support.DaggerAppCompatActivity
@@ -63,6 +64,8 @@ class DoctorDetailActivity : DaggerAppCompatActivity() {
     private var doctorData: UserData? = null
 
     private var serviceSelected: Service? = null
+
+    private var hashMap = HashMap<String, Any>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -176,29 +179,33 @@ class DoctorDetailActivity : DaggerAppCompatActivity() {
                 Status.SUCCESS -> {
                     progressDialog.setLoading(false)
 
+                    /*startActivityForResult(Intent(this, AddMoneyActivity::class.java)
+                            .putExtra(EXTRA_PRICE, it.data?.grand_total)
+                            .putExtra(EXTRA_REQUEST_ID, hashMap), AppRequestCode.ADD_MONEY)*/
+
                     /*If amount not sufficient then add money*/
-                    if (it.data?.amountNotSufficient == true) {
-                        AlertDialog.Builder(this)
-                                .setCancelable(false)
-                                .setTitle(getString(R.string.added_to_wallet))
-                                .setMessage(getString(R.string.money_insufficient))
-                                .setPositiveButton(getString(R.string.ok)) { dialog, which ->
+                     if (it.data?.amountNotSufficient == true) {
+                         AlertDialog.Builder(this)
+                                 .setCancelable(false)
+                                 .setTitle(getString(R.string.added_to_wallet))
+                                 .setMessage(getString(R.string.money_insufficient))
+                                 .setPositiveButton(getString(R.string.ok)) { dialog, which ->
 
-                                }
-                                .setNegativeButton(getString(R.string.add_money)) { dialog, which ->
-                                    startActivity(Intent(this, DrawerActivity::class.java)
-                                            .putExtra(PAGE_TO_OPEN, WALLET))
-                                }.show()
+                                 }
+                                 .setNegativeButton(getString(R.string.add_money)) { dialog, which ->
+                                     startActivity(Intent(this, DrawerActivity::class.java)
+                                             .putExtra(PAGE_TO_OPEN, WALLET))
+                                 }.show()
 
-                    } else {
-                        val intentBroadcast = Intent()
-                        intentBroadcast.action = PushType.NEW_REQUEST
-                        LocalBroadcastManager.getInstance(this).sendBroadcast(intentBroadcast)
+                     } else {
+                         val intentBroadcast = Intent()
+                         intentBroadcast.action = PushType.NEW_REQUEST
+                         LocalBroadcastManager.getInstance(this).sendBroadcast(intentBroadcast)
 
-                        longToast(getString(R.string.request_sent))
-                        setResult(Activity.RESULT_OK)
-                        finish()
-                    }
+                         longToast(getString(R.string.request_sent))
+                         setResult(Activity.RESULT_OK)
+                         finish()
+                     }
                 }
                 Status.ERROR -> {
                     progressDialog.setLoading(false)
@@ -233,10 +240,10 @@ class DoctorDetailActivity : DaggerAppCompatActivity() {
         binding.tvReviewsV.text = doctorData?.reviewCount ?: getString(R.string.na)
         binding.tvReviewCount.text = getUserRating(doctorData?.totalRating)
 
-        if(doctorData?.services?.isNotEmpty()==true){
-            val service=doctorData?.services?.get(0)
+        if (doctorData?.services?.isNotEmpty() == true) {
+            val service = doctorData?.services?.get(0)
             binding.tvRate.text = getString(R.string.price_s, getCurrency(service?.price),
-                getUnitPrice(service?.unit_price,this))
+                    getUnitPrice(service?.unit_price, this))
         }
 
 
@@ -325,7 +332,7 @@ class DoctorDetailActivity : DaggerAppCompatActivity() {
         }
 
         if (personalInterest.isNotEmpty()) {
-           var personalText = ""
+            var personalText = ""
             personalInterest.forEach {
                 it.options?.forEach {
                     if (it.isSelected) {
@@ -343,7 +350,7 @@ class DoctorDetailActivity : DaggerAppCompatActivity() {
         }
 
         if (workExperience.isNotEmpty()) {
-             var workText = ""
+            var workText = ""
             workExperience.forEach {
                 it.options?.forEach {
                     if (it.isSelected) {
@@ -381,13 +388,15 @@ class DoctorDetailActivity : DaggerAppCompatActivity() {
 
         binding.tvBookAppointment.setOnClickListener {
             if (isConnectedToInternet(this, true)) {
-                val hashMap = HashMap<String, Any>()
+                hashMap = HashMap()
 
                 hashMap["consultant_id"] = doctorId
                 hashMap["service_id"] = CATEGORY_SERVICE_ID
                 hashMap["schedule_type"] = RequestType.SCHEDULE
                 /*Mutiple date*/
                 hashMap["request_type"] = "multiple"
+
+                //hashMap["request_step"] = "confirm"
 
                 if (intent.hasExtra(EXTRA_REQUEST_ID)) {
                     val bookService = intent.getSerializableExtra(EXTRA_REQUEST_ID) as BookService
@@ -411,9 +420,7 @@ class DoctorDetailActivity : DaggerAppCompatActivity() {
                     hashMap["reason_for_service"] = bookService.reason ?: ""
                 }
 
-                 viewModel.createRequest(hashMap)
-
-                //startActivityForResult(Intent(this, AddMoneyActivity::class.java), AppRequestCode.ADD_MONEY)
+                viewModel.createRequest(hashMap)
             }
         }
     }

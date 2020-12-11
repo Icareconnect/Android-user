@@ -1,5 +1,6 @@
 package com.consultantapp.ui.dashboard.doctor.detail.prefrence
 
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -14,7 +15,10 @@ import com.consultantapp.data.network.LoadingStatus.LOADING
 import com.consultantapp.databinding.ItemPagingLoaderBinding
 import com.consultantapp.databinding.RvItemPrefrenceBinding
 import com.consultantapp.ui.dashboard.home.bookservice.registerservice.RegisterServiceFragment
+import com.consultantapp.ui.loginSignUp.masterprefrence.MasterPrefrenceFragment
+import com.consultantapp.utils.PreferencesType
 import com.consultantapp.utils.gone
+import com.consultantapp.utils.visible
 
 
 class PrefrenceAdapter(private val fragment: Fragment, private val items: ArrayList<Filter>) :
@@ -30,15 +34,13 @@ class PrefrenceAdapter(private val fragment: Fragment, private val items: ArrayL
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == ITEM) {
-            ViewHolder(
-                    DataBindingUtil.inflate(
+            ViewHolder(DataBindingUtil.inflate(
                             LayoutInflater.from(parent.context),
                             R.layout.rv_item_prefrence, parent, false
                     )
             )
         } else {
-            ViewHolderLoader(
-                    DataBindingUtil.inflate(
+            ViewHolderLoader(DataBindingUtil.inflate(
                             LayoutInflater.from(parent.context),
                             R.layout.item_paging_loader, parent, false
                     )
@@ -54,7 +56,19 @@ class PrefrenceAdapter(private val fragment: Fragment, private val items: ArrayL
             RecyclerView.ViewHolder(binding.root) {
 
         init {
-            if (fragment is RegisterServiceFragment) {
+            if (fragment is MasterPrefrenceFragment) {
+                when (fragment.prefrenceType) {
+                    PreferencesType.WORK_ENVIRONMENT -> {
+                        binding.tvName.gravity = Gravity.CENTER_HORIZONTAL
+
+                        val layoutManager = LinearLayoutManager(fragment.requireContext())
+                        binding.rvListing.layoutManager = layoutManager
+
+                        binding.cbCheckAll.visible()
+                    }
+                }
+            }
+            else if (fragment is RegisterServiceFragment) {
                 binding.tvName.gone()
 
                 val layoutManager = LinearLayoutManager(fragment.requireContext())
@@ -65,7 +79,14 @@ class PrefrenceAdapter(private val fragment: Fragment, private val items: ArrayL
                 if (fragment is PrefrenceFragment)
                     fragment.clickItem(items[adapterPosition])
             }
-
+            binding.cbCheckAll.setOnCheckedChangeListener { buttonView, isChecked ->
+                items[adapterPosition].options?.forEachIndexed { index, filterOption ->
+                    run {
+                        items[adapterPosition].options?.get(index)?.isSelected = isChecked
+                    }
+                }
+                notifyDataSetChanged()
+            }
         }
 
         fun bind(item: Filter) = with(binding) {

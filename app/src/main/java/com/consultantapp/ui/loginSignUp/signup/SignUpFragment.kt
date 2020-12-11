@@ -24,6 +24,8 @@ import com.consultantapp.databinding.FragmentSignupBinding
 import com.consultantapp.ui.LoginViewModel
 import com.consultantapp.ui.dashboard.MainActivity
 import com.consultantapp.ui.loginSignUp.login.LoginFragment
+import com.consultantapp.ui.loginSignUp.masterprefrence.MasterPrefrenceFragment
+import com.consultantapp.ui.loginSignUp.masterprefrence.MasterPrefrenceFragment.Companion.MASTER_PREFRENCE_TYPE
 import com.consultantapp.utils.*
 import com.consultantapp.utils.PermissionUtils
 import com.consultantapp.utils.dialogs.ProgressDialog
@@ -240,8 +242,16 @@ class SignUpFragment : DaggerFragment(), OnDateSelected {
 
                     prefsManager.save(USER_DATA, it.data)
 
-                    startActivity(Intent(requireContext(), MainActivity::class.java))
+                    /*startActivity(Intent(requireContext(), MainActivity::class.java))
                     requireActivity().finish()
+*/
+                    val fragment = MasterPrefrenceFragment()
+                    val bundle = Bundle()
+                    bundle.putString(MASTER_PREFRENCE_TYPE, PreferencesType.WORK_ENVIRONMENT)
+                    fragment.arguments = bundle
+
+                    replaceFragment(requireActivity().supportFragmentManager,
+                            fragment, R.id.container)
 
                 }
                 Status.ERROR -> {
@@ -262,11 +272,19 @@ class SignUpFragment : DaggerFragment(), OnDateSelected {
 
                     prefsManager.save(USER_DATA, it.data)
 
-                    requireActivity().setResult(Activity.RESULT_OK)
+//                    startActivity(Intent(requireContext(), MainActivity::class.java))
 
-                    if (!requireActivity().intent.hasExtra(UPDATE_PROFILE))
-                        startActivity(Intent(requireContext(), MainActivity::class.java))
-                    requireActivity().finish()
+                    if (requireActivity().intent.hasExtra(UPDATE_PROFILE))
+                        requireActivity().finish()
+                    else if (arguments?.containsKey(UPDATE_NUMBER)==true){
+                        val fragment = MasterPrefrenceFragment()
+                        val bundle = Bundle()
+                        bundle.putString(MASTER_PREFRENCE_TYPE, PreferencesType.WORK_ENVIRONMENT)
+                        fragment.arguments = bundle
+
+                        replaceFragment(requireActivity().supportFragmentManager,
+                                fragment, R.id.container)
+                    }
                 }
                 Status.ERROR -> {
                     progressDialog.setLoading(false)
@@ -306,7 +324,7 @@ class SignUpFragment : DaggerFragment(), OnDateSelected {
             if (requestCode == AppRequestCode.IMAGE_PICKER) {
                 val docPaths = ArrayList<Uri>()
                 docPaths.addAll(data?.getParcelableArrayListExtra(FilePickerConst.KEY_SELECTED_MEDIA)
-                                ?: emptyList())
+                        ?: emptyList())
 
                 fileToUpload = File(getPathUri(requireContext(), docPaths[0]))
                 Glide.with(requireContext()).load(fileToUpload).into(binding.ivPic)

@@ -15,7 +15,6 @@ import com.consultantapp.ui.dashboard.appointment.appointmentStatus.StatusUpdate
 import com.consultantapp.ui.dashboard.appointment.rating.AddRatingFragment
 import com.consultantapp.ui.dashboard.chat.ChatFragment
 import com.consultantapp.ui.dashboard.chat.chatdetail.ChatDetailActivity
-import com.consultantapp.ui.dashboard.covid.CovidFragment
 import com.consultantapp.ui.dashboard.doctor.DoctorActionActivity
 import com.consultantapp.ui.dashboard.doctor.confirm.ConfirmBookingFragment
 import com.consultantapp.ui.dashboard.doctor.detail.BottomRequestFragment
@@ -48,6 +47,7 @@ import com.consultantapp.ui.loginSignUp.forgotpassword.ForgotPasswordFragment
 import com.consultantapp.ui.loginSignUp.insurance.InsuranceFragment
 import com.consultantapp.ui.loginSignUp.login.LoginFragment
 import com.consultantapp.ui.loginSignUp.loginemail.LoginEmailFragment
+import com.consultantapp.ui.loginSignUp.masterprefrence.MasterPrefrenceFragment
 import com.consultantapp.ui.loginSignUp.signup.SignUpFragment
 import com.consultantapp.ui.loginSignUp.verifyotp.VerifyOTPFragment
 import com.consultantapp.ui.loginSignUp.welcome.WelcomeFragment
@@ -215,6 +215,6 @@ abstract class BindingsModule {
     abstract fun completedRequestFragment(): CompletedRequestFragment
 
     @ContributesAndroidInjector
-    abstract fun covidFragment(): CovidFragment
+    abstract fun masterPrefrenceFragment(): MasterPrefrenceFragment
 
 }

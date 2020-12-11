@@ -14,6 +14,7 @@ import com.consultantapp.data.network.ApisRespHandler
 import com.consultantapp.data.network.responseUtil.Status
 import com.consultantapp.data.repos.UserRepository
 import com.consultantapp.databinding.FragmentAddMoenyBinding
+import com.consultantapp.ui.dashboard.DoctorViewModel
 import com.consultantapp.ui.drawermenu.DrawerActivity
 import com.consultantapp.ui.drawermenu.addmoney.AddCardFragment.Companion.CARD_DETAILS
 import com.consultantapp.ui.drawermenu.wallet.WalletViewModel
@@ -43,6 +44,8 @@ class AddMoneyActivity : DaggerAppCompatActivity(), PaymentResultListener {
 
     private lateinit var viewModel: WalletViewModel
 
+    private lateinit var viewModelDoctor: DoctorViewModel
+
     private lateinit var adapter: CardsAdapter
 
     private var items = ArrayList<Wallet>()
@@ -62,8 +65,13 @@ class AddMoneyActivity : DaggerAppCompatActivity(), PaymentResultListener {
 
     private fun initialise() {
         viewModel = ViewModelProvider(this, viewModelFactory)[WalletViewModel::class.java]
+        viewModelDoctor = ViewModelProvider(this, viewModelFactory)[DoctorViewModel::class.java]
         progressDialog = ProgressDialog(this)
         binding.tvSymbol.text = getCurrencySymbol()
+
+        binding.etAmount.setText(intent.getStringExtra(EXTRA_PRICE))
+        binding.etAmount.isFocusable = false
+        binding.etAmount.isClickable = false
 
         when (paymentFrom) {
             PaymentFrom.STRIPE -> {
@@ -104,8 +112,7 @@ class AddMoneyActivity : DaggerAppCompatActivity(), PaymentResultListener {
         binding.tvAdd.setOnClickListener {
             disableButton(binding.tvAdd)
             if (binding.etAmount.text.toString().isEmpty() || binding.etAmount.text.toString()
-                            .toInt() == 0
-            ) {
+                            .toInt() == 0) {
                 binding.etAmount.showSnackBar(getString(R.string.enter_amount))
             } else if (paymentFrom == PaymentFrom.STRIPE && selectedCardId.isEmpty()) {
                 binding.etAmount.showSnackBar(getString(R.string.select_card))
@@ -113,11 +120,16 @@ class AddMoneyActivity : DaggerAppCompatActivity(), PaymentResultListener {
                 if (isConnectedToInternet(this, true)) {
                     when (paymentFrom) {
                         PaymentFrom.STRIPE -> {
-                            val hashMap = HashMap<String, Any>()
+                            if (intent.hasExtra(EXTRA_REQUEST_ID)) {
+                              /*  val hashMap=intent.getSerializableExtra(EXTRA_REQUEST_ID)
 
-                            hashMap["balance"] = binding.etAmount.text.toString()
-                            hashMap["card_id"] = selectedCardId
-                            viewModel.addMoney(hashMap)
+                                hashMap[""]*/
+                            } else {
+                                val hashMap = HashMap<String, Any>()
+                                hashMap["balance"] = binding.etAmount.text.toString()
+                                hashMap["card_id"] = selectedCardId
+                                viewModel.addMoney(hashMap)
+                            }
                         }
                         PaymentFrom.RAZOR_PAY -> {
                             val hashMap = HashMap<String, String>()

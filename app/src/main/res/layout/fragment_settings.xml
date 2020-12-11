@@ -90,7 +90,7 @@
 
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvEdit"
+                    android:id="@+id/tvAccount"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:background="?android:attr/selectableItemBackground"
@@ -102,7 +102,7 @@
                     android:fontFamily="@font/campton_medium"
                     android:paddingTop="@dimen/dp_16"
                     android:paddingBottom="@dimen/dp_16"
-                    android:text="@string/edit_profile"
+                    android:text="@string/profile"
                     android:textColor="@color/textColor"
                     android:textSize="@dimen/sp_16"
                     app:drawableTint="@color/colorPrimary"
@@ -130,7 +130,7 @@
                     app:drawableTint="@color/colorPrimary"
                     app:layout_constraintEnd_toEndOf="@id/endGuideLine"
                     app:layout_constraintStart_toStartOf="@id/startGuideLine"
-                    app:layout_constraintTop_toBottomOf="@+id/tvEdit" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvAccount" />
 
 
                 <androidx.appcompat.widget.AppCompatTextView

@@ -83,13 +83,13 @@ class SettingsFragment : DaggerFragment() {
     }
 
     private fun listeners() {
-        /*binding.ivPic.setOnClickListener {
+        binding.ivPic.setOnClickListener {
             goToProfile()
         }
 
         binding.tvName.setOnClickListener {
             goToProfile()
-        }*/
+        }
 
 
         binding.tvLogout.setOnClickListener {
@@ -100,9 +100,8 @@ class SettingsFragment : DaggerFragment() {
             startActivity(Intent(requireContext(), AddMoneyActivity::class.java))
         }
 
-        binding.tvEdit.setOnClickListener {
-            startActivityForResult(Intent(requireActivity(), SignUpActivity::class.java)
-                    .putExtra(UPDATE_PROFILE, true), AppRequestCode.PROFILE_UPDATE)
+        binding.tvAccount.setOnClickListener {
+            goToProfile()
         }
 
         binding.tvChangePassword.setOnClickListener {
@@ -114,6 +113,11 @@ class SettingsFragment : DaggerFragment() {
             startActivity(Intent(requireContext(), DrawerActivity::class.java)
                 .putExtra(PAGE_TO_OPEN, REQUEST))
         }
+    }
+
+    private fun goToProfile() {
+        startActivityForResult(Intent(requireContext(), DrawerActivity::class.java)
+                        .putExtra(PAGE_TO_OPEN, DrawerActivity.PROFILE), AppRequestCode.PROFILE_UPDATE)
     }
 
     private fun showLogoutDialog() {

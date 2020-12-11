@@ -8,10 +8,8 @@ import android.widget.NumberPicker
 import android.widget.TimePicker
 import java.util.*
 
-class CustomTimePickerDialog(
-    context: Context, private val mTimeSetListener: OnTimeSetListener?,
-    hourOfDay: Int, minute: Int, is24HourView: Boolean
-) :
+class CustomTimePickerDialog(context: Context, private val mTimeSetListener: OnTimeSetListener?,
+    hourOfDay: Int, minute: Int, is24HourView: Boolean) :
     TimePickerDialog(
         context, THEME_HOLO_LIGHT, mTimeSetListener, hourOfDay,
         minute / TIME_PICKER_INTERVAL, is24HourView

@@ -35,6 +35,7 @@ const val UPDATE_CHAT = "updateChat"
 const val EXTRA_REQUEST_ID = "EXTRA_REQUEST_ID"
 const val EXTRA_CALL_NAME = "extra call name"
 const val EXTRA_NAME = "extra name"
+const val EXTRA_PRICE = "extra price"
 const val EXTRA_TAB = "extra tab"
 
 
