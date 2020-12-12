@@ -117,12 +117,9 @@ class PrefrenceFragment : DaggerFragment() {
     }
 
     private fun hitApi() {
-
-        val hashMap = HashMap<String, String>()
         if (isConnectedToInternet(requireContext(), true)) {
-
+            val hashMap = HashMap<String, String>()
             hashMap["category_id"] = categoryData?.id ?: ""
-
             viewModel.getFilters(hashMap)
         }
     }

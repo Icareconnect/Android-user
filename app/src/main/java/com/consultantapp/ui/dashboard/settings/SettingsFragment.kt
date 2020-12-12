@@ -20,7 +20,6 @@ import com.consultantapp.ui.drawermenu.DrawerActivity
 import com.consultantapp.ui.drawermenu.DrawerActivity.Companion.CHANGE_PASSWORD
 import com.consultantapp.ui.drawermenu.DrawerActivity.Companion.REQUEST
 import com.consultantapp.ui.drawermenu.addmoney.AddMoneyActivity
-import com.consultantapp.ui.loginSignUp.SignUpActivity
 import com.consultantapp.utils.*
 import com.consultantapp.utils.dialogs.ProgressDialog
 import dagger.android.support.DaggerFragment

@@ -38,6 +38,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.consultantapp.BuildConfig
 import com.consultantapp.ConsultantUserApplication
 import com.consultantapp.R
+import com.consultantapp.appVersion
 import com.consultantapp.data.models.responses.UserData
 import com.consultantapp.data.network.Config
 import com.consultantapp.data.repos.UserRepository
@@ -537,7 +538,7 @@ fun shareDeepLink(
             titleM = activity.getString(R.string.app_name)
             descriptionM = activity.getString(R.string.invite_text)
             imageUrlM =
-                Uri.parse(getImageBaseUrl(true, userRepository.getAppSetting()?.applogo ?: ""))
+                Uri.parse(getImageBaseUrl(true, appVersion.applogo ?: ""))
         }
     }
 

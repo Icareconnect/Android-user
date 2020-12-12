@@ -49,6 +49,7 @@ class CommonDataModel {
     var requires_source_action: Boolean? = null
     var url: String? = null
     var transaction_id: String? = null
+    var isRequestCreated: Boolean? = null
 
 
     /*Pages*/
@@ -66,7 +67,7 @@ class CommonDataModel {
     var detail: Packages? = null
 
     /*Request*/
-    var request_detail: Request ?= null
+    var request_detail: Request? = null
 
     var preferences: List<Filter>? = null
 }

@@ -66,7 +66,6 @@
                     android:orientation="vertical"
                     app:layout_constraintGuide_end="@dimen/dp_16" />
 
-
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/ivPic"
                     android:layout_width="120dp"
@@ -99,6 +98,24 @@
                     app:layout_constraintTop_toTopOf="@+id/ivPic" />
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvApproved"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_16"
+                    android:ellipsize="end"
+                    app:textAllCaps="true"
+                    android:fontFamily="@font/campton_medium"
+                    android:maxLines="1"
+                    android:text="@string/approved"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/sp_14"
+                    app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+                    app:layout_constraintStart_toEndOf="@+id/ivPic"
+                    app:layout_constraintTop_toBottomOf="@+id/tvName" />
+
+
+
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvDesc"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/dp_32"
@@ -113,7 +130,7 @@
                     android:textSize="@dimen/sp_14"
                     android:visibility="gone"
                     app:layout_constraintStart_toEndOf="@+id/ivPic"
-                    app:layout_constraintTop_toBottomOf="@+id/tvName"
+                    app:layout_constraintTop_toBottomOf="@+id/tvApproved"
                     tools:text="@string/app_name" />
 
                 <androidx.appcompat.widget.AppCompatTextView

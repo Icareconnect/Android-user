@@ -13,6 +13,8 @@ class UserData : Serializable {
     var email: String? = null
     var email_verified_at: Any? = null
     var created_at: String? = null
+    var account_verified_at: String? = null
+    var account_rejected_at: String? = null
     var updated_at: String? = null
     var token: String? = null
     var provider_type: String? = null

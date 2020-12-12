@@ -26,7 +26,6 @@ import com.consultantapp.ui.dashboard.MainActivity
 import com.consultantapp.ui.dashboard.appointment.appointmentStatus.AppointmentStatusActivity
 import com.consultantapp.ui.dashboard.chat.chatdetail.ChatDetailActivity
 import com.consultantapp.ui.drawermenu.DrawerActivity
-import com.consultantapp.ui.drawermenu.DrawerActivity.Companion.WALLET
 import com.consultantapp.utils.*
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
@@ -170,7 +169,7 @@ class MessagingService : FirebaseMessagingService() {
 
                 intent = Intent(this, DrawerActivity::class.java)
                         .putExtra(PAGE_TO_OPEN, DrawerActivity.UPDATE_SERVICE)
-                        .putExtra(EXTRA_REQUEST_ID, pushData.request_id)    
+                        .putExtra(EXTRA_REQUEST_ID, pushData.request_id)
 
                 val intentBroadcast = Intent()
                 intentBroadcast.action = pushData.pushType
@@ -178,17 +177,22 @@ class MessagingService : FirebaseMessagingService() {
                 LocalBroadcastManager.getInstance(this).sendBroadcast(intentBroadcast)
             }
 
-            PushType.REQUEST_ACCEPTED, PushType.REQUEST_COMPLETED,
+            PushType.BOOKING_RESERVED, PushType.REQUEST_ACCEPTED, PushType.REQUEST_COMPLETED,
             PushType.CANCELED_REQUEST, PushType.CANCEL_SERVICE, PushType.RESCHEDULED_REQUEST -> {
                 homeIntent.putExtra(EXTRA_TAB, "1")
 
+                intent = Intent(this, DrawerActivity::class.java)
+                        .putExtra(PAGE_TO_OPEN, DrawerActivity.APPOINTMENT_DETAILS)
+                        .putExtra(EXTRA_REQUEST_ID, pushData.request_id)
+
                 val intentBroadcast = Intent()
                 intentBroadcast.action = pushData.pushType
                 intentBroadcast.putExtra(EXTRA_REQUEST_ID, pushData.request_id)
+                intentBroadcast.putExtra(EXTRA_TRANSACTION_ID, pushData.transaction_id)
 
                 LocalBroadcastManager.getInstance(this).sendBroadcast(intentBroadcast)
             }
-            PushType.COMPLETED-> {
+            PushType.COMPLETED -> {
                 intent = Intent(this, DrawerActivity::class.java)
                         .putExtra(PAGE_TO_OPEN, DrawerActivity.REQUEST_COMPLETE)
                         .putExtra(EXTRA_REQUEST_ID, pushData.request_id)
@@ -199,9 +203,9 @@ class MessagingService : FirebaseMessagingService() {
 
                 LocalBroadcastManager.getInstance(this).sendBroadcast(intentBroadcast)
             }
-            PushType.BOOKING_RESERVED, PushType.BALANCE_ADDED, PushType.BALANCE_FAILED -> {
-                intent = Intent(this, DrawerActivity::class.java)
-                        .putExtra(PAGE_TO_OPEN, WALLET)
+            PushType.BALANCE_ADDED, PushType.BALANCE_FAILED -> {
+               /* intent = Intent(this, DrawerActivity::class.java)
+                        .putExtra(PAGE_TO_OPEN, WALLET)*/
 
                 val intentBroadcast = Intent()
                 intentBroadcast.action = pushData.pushType

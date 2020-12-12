@@ -1,16 +1,23 @@
 package com.consultantapp.ui.drawermenu.addmoney
 
 import android.app.Activity
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.consultantapp.R
+import com.consultantapp.appVersion
 import com.consultantapp.data.models.responses.Wallet
 import com.consultantapp.data.network.ApisRespHandler
+import com.consultantapp.data.network.PushType
 import com.consultantapp.data.network.responseUtil.Status
 import com.consultantapp.data.repos.UserRepository
 import com.consultantapp.databinding.FragmentAddMoenyBinding
@@ -54,6 +61,12 @@ class AddMoneyActivity : DaggerAppCompatActivity(), PaymentResultListener {
 
     private var paymentFrom = PaymentFrom.STRIPE
 
+    private var isReceiverRegistered = false
+
+    private var transactionId = ""
+
+    private val mHandler = Handler()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,9 +82,15 @@ class AddMoneyActivity : DaggerAppCompatActivity(), PaymentResultListener {
         progressDialog = ProgressDialog(this)
         binding.tvSymbol.text = getCurrencySymbol()
 
-        binding.etAmount.setText(intent.getStringExtra(EXTRA_PRICE))
-        binding.etAmount.isFocusable = false
-        binding.etAmount.isClickable = false
+        if (intent.hasExtra(EXTRA_PRICE)) {
+            binding.tvTitle.visible()
+            binding.tvSymbol.visible()
+            binding.etAmount.visible()
+            binding.tvPay.visible()
+            binding.etAmount.setText(intent.getStringExtra(EXTRA_PRICE))
+            binding.etAmount.isFocusable = false
+            binding.etAmount.isClickable = false
+        }
 
         when (paymentFrom) {
             PaymentFrom.STRIPE -> {
@@ -109,8 +128,8 @@ class AddMoneyActivity : DaggerAppCompatActivity(), PaymentResultListener {
 
         }
 
-        binding.tvAdd.setOnClickListener {
-            disableButton(binding.tvAdd)
+        binding.tvPay.setOnClickListener {
+            disableButton(binding.tvPay)
             if (binding.etAmount.text.toString().isEmpty() || binding.etAmount.text.toString()
                             .toInt() == 0) {
                 binding.etAmount.showSnackBar(getString(R.string.enter_amount))
@@ -121,9 +140,10 @@ class AddMoneyActivity : DaggerAppCompatActivity(), PaymentResultListener {
                     when (paymentFrom) {
                         PaymentFrom.STRIPE -> {
                             if (intent.hasExtra(EXTRA_REQUEST_ID)) {
-                              /*  val hashMap=intent.getSerializableExtra(EXTRA_REQUEST_ID)
-
-                                hashMap[""]*/
+                                val hashMap = intent.getSerializableExtra(EXTRA_REQUEST_ID) as HashMap<String, Any>
+                                hashMap["request_step"] = "create"
+                                hashMap["card_id"] = selectedCardId
+                                viewModelDoctor.createRequest(hashMap)
                             } else {
                                 val hashMap = HashMap<String, Any>()
                                 hashMap["balance"] = binding.etAmount.text.toString()
@@ -245,6 +265,61 @@ class AddMoneyActivity : DaggerAppCompatActivity(), PaymentResultListener {
                 }
             }
         })
+
+        viewModelDoctor.createRequest.observe(this, Observer {
+            it ?: return@Observer
+            when (it.status) {
+                Status.SUCCESS -> {
+                    progressDialog.setLoading(false)
+
+                    transactionId = it.data?.transaction_id ?: ""
+                    binding.tvStatus.visible()
+
+                    keepCheckingRequestStatus()
+                }
+                Status.ERROR -> {
+                    progressDialog.setLoading(false)
+                    ApisRespHandler.handleError(it.error, this, prefsManager)
+                }
+                Status.LOADING -> {
+                    progressDialog.setLoading(true)
+                }
+            }
+        })
+
+        viewModelDoctor.requestCheck.observe(this, Observer {
+            it ?: return@Observer
+            when (it.status) {
+                Status.SUCCESS -> {
+                    progressDialog.setLoading(false)
+
+                    if (it.data?.isRequestCreated == true) {
+                        mHandler.removeCallbacksAndMessages(null)
+                        setResult(Activity.RESULT_OK)
+                        finish()
+                    } else
+                        keepCheckingRequestStatus()
+                }
+                Status.ERROR -> {
+                    binding.tvStatus.gone()
+                    progressDialog.setLoading(false)
+                    ApisRespHandler.handleError(it.error, this, prefsManager)
+                }
+                Status.LOADING -> {
+                }
+            }
+        })
+    }
+
+    private fun keepCheckingRequestStatus() {
+        mHandler.removeCallbacksAndMessages(null)
+        mHandler.postDelayed({
+            if (isConnectedToInternet(this, true)) {
+                val hashMap = HashMap<String, String>()
+                hashMap["transaction_id"] = transactionId
+                viewModelDoctor.requestCheck(hashMap)
+            }
+        }, 5000)
     }
 
     fun editCard(item: Wallet) {
@@ -302,7 +377,7 @@ class AddMoneyActivity : DaggerAppCompatActivity(), PaymentResultListener {
         * */
         val activity: Activity = this
         val co = Checkout()
-        co.setKeyID(userRepository.getAppSetting()?.razorKey ?: "rzp_test_NIJ8Fwm7fvVNDU")
+        co.setKeyID(appVersion.razorKey ?: "rzp_test_NIJ8Fwm7fvVNDU")
 
         try {
             val userData = userRepository.getUser()
@@ -347,6 +422,48 @@ class AddMoneyActivity : DaggerAppCompatActivity(), PaymentResultListener {
             finish()
         } catch (e: Exception) {
             Log.e(TAG, "Exception in onPaymentSuccess", e)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        registerReceiver()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        unregisterReceiver()
+    }
+
+    private fun registerReceiver() {
+        if (!isReceiverRegistered) {
+            val intentFilter = IntentFilter()
+            intentFilter.addAction(PushType.BOOKING_RESERVED)
+            LocalBroadcastManager.getInstance(this).registerReceiver(
+                    callCancelledReceiver, intentFilter
+            )
+            isReceiverRegistered = true
+        }
+    }
+
+    private fun unregisterReceiver() {
+        if (isReceiverRegistered) {
+            LocalBroadcastManager.getInstance(this).unregisterReceiver(callCancelledReceiver)
+            isReceiverRegistered = false
+        }
+    }
+
+    private val callCancelledReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            if (intent.getStringExtra(EXTRA_TRANSACTION_ID) == transactionId) {
+                when (intent.action) {
+                    PushType.BOOKING_RESERVED -> {
+                        mHandler.removeCallbacksAndMessages(null)
+                        setResult(Activity.RESULT_OK)
+                        finish()
+                    }
+                }
+            }
         }
     }
 }

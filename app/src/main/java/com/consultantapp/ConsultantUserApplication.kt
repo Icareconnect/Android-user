@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import androidx.lifecycle.*
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.consultantapp.data.models.responses.appdetails.AppVersion
 import com.consultantapp.data.network.PushType
 import com.consultantapp.data.repos.UserRepository
 import com.consultantapp.di.DaggerAppComponent
@@ -19,6 +20,8 @@ import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
 import javax.inject.Inject
 
+
+var appVersion = AppVersion()
 
 class ConsultantUserApplication : DaggerApplication(), LifecycleObserver {
 
@@ -47,11 +50,12 @@ class ConsultantUserApplication : DaggerApplication(), LifecycleObserver {
         Places.initialize(applicationContext, getString(R.string.google_places_api_key))
 
 
+        appVersion = userRepository.getAppSetting()
         setsApplication(this)
     }
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> =
-        DaggerAppComponent.builder().create(this)
+            DaggerAppComponent.builder().create(this)
 
     companion object {
 
@@ -101,14 +105,14 @@ class ConsultantUserApplication : DaggerApplication(), LifecycleObserver {
         override fun onReceive(context: Context, intent: Intent) {
             if (ChatDetailActivity.otherUserID == "-1" && intent.action == PushType.CHAT_STARTED) {
                 val intentActivity = Intent(this@ConsultantUserApplication, ChatDetailActivity::class.java)
-                    .putExtra(USER_ID, intent.getStringExtra(USER_ID))
-                    .putExtra(USER_NAME, intent.getStringExtra(USER_NAME))
-                    .putExtra(EXTRA_REQUEST_ID, intent.getStringExtra(EXTRA_REQUEST_ID))
-                    .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        .putExtra(USER_ID, intent.getStringExtra(USER_ID))
+                        .putExtra(USER_NAME, intent.getStringExtra(USER_NAME))
+                        .putExtra(EXTRA_REQUEST_ID, intent.getStringExtra(EXTRA_REQUEST_ID))
+                        .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
                 startActivity(intentActivity)
-            }else if (intent.action == PushType.COMPLETED) {
+            } else if (intent.action == PushType.COMPLETED) {
                 val intentActivity = Intent(this@ConsultantUserApplication, DrawerActivity::class.java)
                         .putExtra(PAGE_TO_OPEN, DrawerActivity.REQUEST_COMPLETE)
                         .putExtra(EXTRA_REQUEST_ID, intent.getStringExtra(EXTRA_REQUEST_ID))

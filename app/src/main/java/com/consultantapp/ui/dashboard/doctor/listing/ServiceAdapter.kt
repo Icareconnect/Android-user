@@ -60,7 +60,7 @@ class ServiceAdapter(private val activity: DoctorListActivity, private val items
 
             cbName.isChecked = item.isSelected
             if (item.isSelected) {
-                clService.setBackgroundResource(R.drawable.drawable_theme_rounded_fill)
+                clService.setBackgroundResource(R.drawable.drawable_theme_60)
             } else {
                 clService.setBackgroundResource(R.drawable.drawable_service_inactive)
             }

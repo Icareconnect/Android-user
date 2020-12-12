@@ -22,7 +22,6 @@ import com.consultantapp.data.network.responseUtil.Status
 import com.consultantapp.data.repos.UserRepository
 import com.consultantapp.databinding.FragmentSignupBinding
 import com.consultantapp.ui.LoginViewModel
-import com.consultantapp.ui.dashboard.MainActivity
 import com.consultantapp.ui.loginSignUp.login.LoginFragment
 import com.consultantapp.ui.loginSignUp.masterprefrence.MasterPrefrenceFragment
 import com.consultantapp.ui.loginSignUp.masterprefrence.MasterPrefrenceFragment.Companion.MASTER_PREFRENCE_TYPE

@@ -10,9 +10,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.consultantapp.R
+import com.consultantapp.appVersion
 import com.consultantapp.data.models.responses.CountryCity
 import com.consultantapp.data.models.responses.UserData
-import com.consultantapp.data.models.responses.appdetails.AppVersion
 import com.consultantapp.data.models.responses.appdetails.Insurance
 import com.consultantapp.data.network.ApisRespHandler
 import com.consultantapp.data.network.responseUtil.Status
@@ -53,8 +53,6 @@ class InsuranceFragment : DaggerFragment() {
     private lateinit var viewModelVersion: AppVersionViewModel
 
     private val items = ArrayList<Insurance>()
-
-    private var appDetail: AppVersion? = null
 
     private var userData: UserData? = null
 
@@ -107,14 +105,14 @@ class InsuranceFragment : DaggerFragment() {
         if (isConnectedToInternet(requireContext(), true)) {
             val hashMap = HashMap<String, String>()
             hashMap["type"] = CountryListType.STATE
-            hashMap["country_id"] = appDetail?.country_id ?: ""
+            hashMap["country_id"] = appVersion.country_id ?: ""
 
             viewModelVersion.countryCity(hashMap)
 
             if (!userData?.profile?.state_id.isNullOrEmpty()) {
                 val hashMap = HashMap<String, String>()
                 hashMap["type"] = CountryListType.CITY
-                hashMap["country_id"] = appDetail?.country_id ?: ""
+                hashMap["country_id"] = appVersion.country_id ?: ""
                 hashMap["state_id"] = userData?.profile?.state_id ?: ""
 
                 viewModelVersion.countryCity(hashMap)
@@ -124,10 +122,9 @@ class InsuranceFragment : DaggerFragment() {
 
     /*Get and update address insurance*/
     private fun setUpdateInsurance() {
-        appDetail = userRepository.getAppSetting()
         userData = userRepository.getUser()
 
-        if (appDetail?.clientFeaturesKeys?.isAddress == true) {
+        if (appVersion.clientFeaturesKeys?.isAddress == true) {
             setAdapters()
             binding.groupAddress.visible()
 
@@ -146,9 +143,9 @@ class InsuranceFragment : DaggerFragment() {
             binding.groupAddress.gone()
         }
 
-        items.addAll(appDetail?.insurances ?: emptyList())
+        items.addAll(appVersion.insurances ?: emptyList())
 
-        if (appDetail?.insurance == true) {
+        if (appVersion.insurance == true) {
             binding.groupInsurance.visible()
 
             /*Check Selected Insurance*/
@@ -207,7 +204,7 @@ class InsuranceFragment : DaggerFragment() {
                         if (isConnectedToInternet(requireContext(), true)) {
                             val hashMap = HashMap<String, String>()
                             hashMap["type"] = CountryListType.CITY
-                            hashMap["country_id"] = appDetail?.country_id ?: ""
+                            hashMap["country_id"] = appVersion.country_id ?: ""
                             hashMap["state_id"] = itemsState.get(position).id ?: ""
 
                             viewModelVersion.countryCity(hashMap)
@@ -267,27 +264,26 @@ class InsuranceFragment : DaggerFragment() {
                 idsInsurance += it.id + ","
         }
 
-        val appSetting = prefsManager.getObject(APP_DETAILS, AppVersion::class.java)
         when {
-            appSetting?.clientFeaturesKeys?.isAddress == true && binding.etAddress.text.toString().isEmpty() -> {
+            appVersion.clientFeaturesKeys.isAddress == true && binding.etAddress.text.toString().isEmpty() -> {
                 binding.etAddress.showSnackBar(getString(R.string.address))
             }
-            appSetting?.clientFeaturesKeys?.isAddress == true && binding.etState.text.toString().isEmpty() -> {
+            appVersion.clientFeaturesKeys.isAddress == true && binding.etState.text.toString().isEmpty() -> {
                 binding.etState.showSnackBar(getString(R.string.select_state))
             }
-            appSetting?.clientFeaturesKeys?.isAddress == true && binding.etCity.text.toString().isEmpty() -> {
+            appVersion.clientFeaturesKeys.isAddress == true && binding.etCity.text.toString().isEmpty() -> {
                 binding.etCity.showSnackBar(getString(R.string.select_city))
             }
-            appSetting?.clientFeaturesKeys?.isAddress == true && binding.etZipCode.text.toString().isEmpty() -> {
+            appVersion.clientFeaturesKeys.isAddress == true && binding.etZipCode.text.toString().isEmpty() -> {
                 binding.etZipCode.showSnackBar(getString(R.string.zip))
             }
-            appSetting?.insurance == true && (!binding.cbYes.isChecked && !binding.cbNo.isChecked) -> {
+            appVersion.insurance == true && (!binding.cbYes.isChecked && !binding.cbNo.isChecked) -> {
                 binding.etCity.showSnackBar(getString(R.string.do_you_have_insurance))
             }
-            appSetting?.insurance == true && (binding.cbYes.isChecked && idsInsurance.isEmpty()) -> {
+            appVersion.insurance == true && (binding.cbYes.isChecked && idsInsurance.isEmpty()) -> {
                 binding.etCity.showSnackBar(getString(R.string.select_insurance))
             }
-            appSetting?.insurance == true && (!binding.cbTerm1.isChecked || !binding.cbTerm3.isChecked
+            appVersion.insurance == true && (!binding.cbTerm1.isChecked || !binding.cbTerm3.isChecked
                     || !binding.cbTerm3.isChecked) -> {
                 binding.etCity.showSnackBar(getString(R.string.check_all_terms))
                 binding.nsvInsurance.fullScroll(View.FOCUS_DOWN)
@@ -316,7 +312,7 @@ class InsuranceFragment : DaggerFragment() {
 
                 /*Check if zip id is there in custom fields*/
 
-                userRepository.getAppSetting()?.custom_fields?.customer?.forEach {
+                appVersion.custom_fields?.customer?.forEach {
                     if (it.field_name == CustomFields.ZIP_CODE) {
                         val customer = ArrayList<Insurance>()
                         val item = it
@@ -336,7 +332,7 @@ class InsuranceFragment : DaggerFragment() {
 
 
     private fun bindObservers() {
-        viewModel.updateProfile.observe(this, Observer {
+        viewModel.updateProfile.observe(requireActivity(), Observer {
             it ?: return@Observer
             when (it.status) {
                 Status.SUCCESS -> {
@@ -362,7 +358,7 @@ class InsuranceFragment : DaggerFragment() {
             }
         })
 
-        viewModelVersion.countryCity.observe(this, Observer {
+        viewModelVersion.countryCity.observe(requireActivity(), Observer {
             it ?: return@Observer
             when (it.status) {
                 Status.SUCCESS -> {

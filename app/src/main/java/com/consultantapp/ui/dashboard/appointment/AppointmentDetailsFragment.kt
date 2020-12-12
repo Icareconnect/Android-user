@@ -131,6 +131,8 @@ class AppointmentDetailsFragment : DaggerFragment() {
                 R.drawable.ic_profile_placeholder)
 
         binding.tvServiceTypeV.text = request.extra_detail?.filter_name ?: ""
+        binding.tvServiceType.gone()
+        binding.tvServiceTypeV.gone()
 
         binding.tvDistanceV.text = request.extra_detail?.distance ?: ""
         binding.tvLocation.text = request.extra_detail?.service_address

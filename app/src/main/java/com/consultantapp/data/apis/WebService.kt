@@ -63,6 +63,7 @@ interface WebService {
         private const val CLASS_JOIN = "/api/class/join"
         private const val ORDER_CREATE = "/api/order/create"
         private const val SERVICES = "/api/services"
+        private const val REQUEST_CHECK = "/api/request-check"
         private const val GET_FILTERS = "/api/get-filters"
         private const val GET_SLOTS = "/api/get-slots"
         private const val CALL_STATUS = "/api/call-status"
@@ -278,6 +279,9 @@ interface WebService {
 
     @GET(SERVICES)
     fun services(@QueryMap hashMap: Map<String, String>): Call<ApiResponse<CommonDataModel>>
+
+    @GET(REQUEST_CHECK)
+    fun requestCheck(@QueryMap hashMap: Map<String, String>): Call<ApiResponse<CommonDataModel>>
 
     @GET(GET_SLOTS)
     fun getSlots(@QueryMap hashMap: Map<String, String>): Call<ApiResponse<CommonDataModel>>

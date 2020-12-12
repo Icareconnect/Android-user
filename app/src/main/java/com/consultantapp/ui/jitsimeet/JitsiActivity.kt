@@ -13,6 +13,7 @@ import android.view.WindowManager
 import androidx.core.app.ActivityCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.consultantapp.R
+import com.consultantapp.appVersion
 import com.consultantapp.data.models.responses.JitsiClass
 import com.consultantapp.data.network.Config
 import com.consultantapp.data.network.PushType
@@ -59,12 +60,11 @@ class JitsiActivity : DaggerAppCompatActivity(), JitsiMeetActivityInterface, Jit
         val roomName: String
         val subjectName: String
 
-        val appVersion=userRepository.getAppSetting()
         if (jitsiClass?.isClass == false) {
-            roomName = "Call_${appVersion?.jitsi_id}_${jitsiClass?.id}"
+            roomName = "Call_${appVersion.jitsi_id}_${jitsiClass?.id}"
             subjectName = "Call"
         } else {
-            roomName = "Class_${appVersion?.jitsi_id}_${jitsiClass?.id}"
+            roomName = "Class_${appVersion.jitsi_id}_${jitsiClass?.id}"
             subjectName = jitsiClass?.name ?:""
         }
         Log.d("Call Name", roomName)

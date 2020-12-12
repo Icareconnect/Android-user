@@ -14,17 +14,14 @@ import androidx.lifecycle.ViewModelProvider
 import com.consultantapp.R
 import com.consultantapp.data.models.requests.BookService
 import com.consultantapp.data.models.requests.SaveAddress
-import com.consultantapp.data.models.responses.Filter
 import com.consultantapp.data.models.responses.FilterOption
 import com.consultantapp.data.network.ApisRespHandler
 import com.consultantapp.data.network.responseUtil.Status
 import com.consultantapp.data.repos.UserRepository
 import com.consultantapp.databinding.FragmentRegisterServiceBinding
-import com.consultantapp.ui.AppVersionViewModel
-import com.consultantapp.ui.dashboard.doctor.detail.prefrence.PrefrenceAdapter
+import com.consultantapp.ui.classes.ClassesViewModel
 import com.consultantapp.ui.dashboard.home.bookservice.datetime.DateTimeFragment
 import com.consultantapp.ui.dashboard.home.bookservice.location.AddAddressActivity
-import com.consultantapp.ui.dashboard.subcategory.SubCategoryFragment
 import com.consultantapp.utils.*
 import com.consultantapp.utils.dialogs.ProgressDialog
 import dagger.android.support.DaggerFragment
@@ -42,6 +39,8 @@ class RegisterServiceFragment : DaggerFragment() {
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private lateinit var binding: FragmentRegisterServiceBinding
+
+    private lateinit var viewModel: ClassesViewModel
 
     private lateinit var progressDialog: ProgressDialog
 
@@ -66,11 +65,13 @@ class RegisterServiceFragment : DaggerFragment() {
             listeners()
             setAdapter()
             hitApi()
+            bindObservers()
         }
         return rootView
     }
 
     private fun initialise() {
+        viewModel = ViewModelProvider(this, viewModelFactory)[ClassesViewModel::class.java]
         progressDialog = ProgressDialog(requireActivity())
 
         binding.ilNotSelf.gone()
@@ -84,12 +85,15 @@ class RegisterServiceFragment : DaggerFragment() {
     }
 
     private fun hitApi() {
-
+        if (isConnectedToInternet(requireContext(), true)) {
+            val hashMap = HashMap<String, String>()
+            hashMap["duties"] = requireActivity().intent.getStringExtra(DUTIES) ?: ""
+            viewModel.getFilters(hashMap)
+        }
     }
 
     private fun setAdapter() {
         val listServiceFor = resources.getStringArray(R.array.service_for)
-
         itemsServiceFor.clear()
         listServiceFor.forEach {
             val item = FilterOption()
@@ -126,7 +130,6 @@ class RegisterServiceFragment : DaggerFragment() {
                 }
             }
 
-
             when {
                 binding.etName.text.toString().trim().isEmpty() -> {
                     binding.etName.showSnackBar(getString(R.string.enter_name))
@@ -158,6 +161,37 @@ class RegisterServiceFragment : DaggerFragment() {
                 }
             }
         }
+    }
+
+    private fun bindObservers() {
+        viewModel.getFilters.observe(requireActivity(), Observer {
+            it ?: return@Observer
+            when (it.status) {
+                Status.SUCCESS -> {
+                    progressDialog.setLoading(false)
+
+                    val tempList = it.data?.filters ?: emptyList()
+
+                    var roles = ""
+                    if (tempList.isNotEmpty()) {
+                        tempList[0].options?.forEach {
+                            roles += it.option_name + ", "
+                        }
+                    }
+                    binding.tvResultDutiesV.text = roles.removeSuffix(", ")
+
+                    binding.tvResultDuties.hideShowView(roles.isNotEmpty())
+                    binding.tvResultDutiesV.hideShowView(roles.isNotEmpty())
+                }
+                Status.ERROR -> {
+                    progressDialog.setLoading(false)
+                    ApisRespHandler.handleError(it.error, requireActivity(), prefsManager)
+                }
+                Status.LOADING -> {
+                    progressDialog.setLoading(true)
+                }
+            }
+        })
     }
 
 

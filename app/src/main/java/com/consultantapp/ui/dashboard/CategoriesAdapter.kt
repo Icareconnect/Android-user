@@ -11,7 +11,6 @@ import com.consultantapp.data.network.LoadingStatus.ITEM
 import com.consultantapp.data.network.LoadingStatus.LOADING
 import com.consultantapp.databinding.ItemPagingLoaderBinding
 import com.consultantapp.databinding.RvItemCategoryBinding
-import com.consultantapp.ui.dashboard.home.HomeFragment
 
 
 class CategoriesAdapter(private val fragment: Fragment, private val items: ArrayList<FilterOption>) :
@@ -44,8 +43,6 @@ class CategoriesAdapter(private val fragment: Fragment, private val items: Array
 
         init {
             binding.root.setOnClickListener {
-                if (fragment is HomeFragment)
-                    fragment.clickItem(items[adapterPosition])
             }
         }
 

@@ -22,7 +22,6 @@ import com.consultantapp.data.repos.UserRepository
 import com.consultantapp.databinding.FragmentProfileBinding
 import com.consultantapp.ui.LoginViewModel
 import com.consultantapp.ui.loginSignUp.SignUpActivity
-import com.consultantapp.ui.loginSignUp.masterprefrence.MasterPrefrenceFragment
 import com.consultantapp.utils.*
 import com.consultantapp.utils.PermissionUtils
 import com.consultantapp.utils.dialogs.ProgressDialog

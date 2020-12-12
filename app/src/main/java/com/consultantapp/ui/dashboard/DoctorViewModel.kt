@@ -26,6 +26,8 @@ class DoctorViewModel @Inject constructor(private val webService: WebService) : 
 
     val services by lazy { SingleLiveEvent<Resource<CommonDataModel>>() }
 
+    val requestCheck by lazy { SingleLiveEvent<Resource<CommonDataModel>>() }
+
     fun doctorList(hashMap: HashMap<String, String>) {
 
         doctorList.value = Resource.loading()
@@ -165,6 +167,30 @@ class DoctorViewModel @Inject constructor(private val webService: WebService) : 
 
                     override fun onFailure(call: Call<ApiResponse<CommonDataModel>>, throwable: Throwable) {
                         services.value = Resource.error(ApiUtils.failure(throwable))
+                    }
+
+                })
+    }
+
+    fun requestCheck(hashMap: HashMap<String, String>) {
+        requestCheck.value = Resource.loading()
+
+        webService.requestCheck(hashMap)
+                .enqueue(object : Callback<ApiResponse<CommonDataModel>> {
+
+                    override fun onResponse(call: Call<ApiResponse<CommonDataModel>>,
+                                            response: Response<ApiResponse<CommonDataModel>>) {
+                        if (response.isSuccessful) {
+                            requestCheck.value = Resource.success(response.body()?.data)
+                        } else {
+                            requestCheck.value = Resource.error(
+                                    ApiUtils.getError(response.code(),
+                                            response.errorBody()?.string()))
+                        }
+                    }
+
+                    override fun onFailure(call: Call<ApiResponse<CommonDataModel>>, throwable: Throwable) {
+                        requestCheck.value = Resource.error(ApiUtils.failure(throwable))
                     }
 
                 })

@@ -22,10 +22,8 @@ import com.consultantapp.databinding.FragmentHomeBinding
 import com.consultantapp.ui.AppVersionViewModel
 import com.consultantapp.ui.dashboard.doctor.detail.prefrence.PrefrenceItemAdapter
 import com.consultantapp.ui.dashboard.home.bookservice.registerservice.RegisterServiceFragment
-import com.consultantapp.ui.dashboard.subcategory.SubCategoryFragment.Companion.CATEGORY_PARENT_ID
 import com.consultantapp.ui.drawermenu.DrawerActivity
 import com.consultantapp.utils.*
-import com.google.android.gms.common.data.DataHolder
 import com.google.android.libraries.places.widget.Autocomplete
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
@@ -73,7 +71,6 @@ class HomeFragment : DaggerFragment() {
     private fun initialise() {
         viewModelAppVersion = ViewModelProvider(this, viewModelFactory)[AppVersionViewModel::class.java]
         binding.clLoader.setBackgroundResource(R.color.colorWhite)
-
     }
 
     private fun setAdapter() {
@@ -159,7 +156,7 @@ class HomeFragment : DaggerFragment() {
              viewModel.getFilters(hashMap)*/
 
             val hashMap = HashMap<String, String>()
-            hashMap["filter_ids"] = "3"
+//            hashMap["filter_ids"] = "3"
             viewModelAppVersion.duty(hashMap)
         }
     }
@@ -197,15 +194,6 @@ class HomeFragment : DaggerFragment() {
                 }
             }
         })
-    }
-
-
-    fun clickItem(item: FilterOption?) {
-        startActivity(Intent(requireContext(), DrawerActivity::class.java)
-                .putExtra(PAGE_TO_OPEN, DrawerActivity.REGISTER_SERVICE)
-                .putExtra(CATEGORY_PARENT_ID, item?.id))
-
-        //startActivityForResult(Intent(requireContext(), DoctorListActivity::class.java), AppRequestCode.APPOINTMENT_BOOKING)
     }
 
     override fun onResume() {

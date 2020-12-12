@@ -214,13 +214,14 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvHomeCare"
+                    android:id="@+id/tvResultDuties"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_32"
                     android:alpha="0.7"
+                    android:visibility="gone"
                     android:fontFamily="@font/campton_semibold"
-                    android:text="@string/type_of_service"
+                    android:text="@string/result_or_duties"
                     android:textColor="@color/colorBlack"
                     android:textSize="@dimen/sp_14"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -228,21 +229,21 @@
                     app:layout_constraintTop_toBottomOf="@+id/ilNameOther" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvSelectHomeCare"
+                    android:id="@+id/tvResultDutiesV"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_24"
+                    android:layout_marginTop="@dimen/dp_12"
                     android:background="@drawable/drawable_stroke_grey"
                     android:fontFamily="@font/campton_medium"
                     android:gravity="center_vertical"
-                    android:paddingStart="@dimen/dp_16"
-                    android:paddingEnd="@dimen/dp_16"
-                    android:hint="@string/select_service_requirement"
+                    android:padding="@dimen/dp_12"
+                    android:visibility="gone"
+                    android:hint="@string/result_or_duties"
                     android:textColor="@color/colorBlack"
                     android:textSize="@dimen/sp_14"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvHomeCare" />
+                    app:layout_constraintTop_toBottomOf="@id/tvResultDuties" />
 
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -252,7 +253,7 @@
                     android:layout_marginTop="@dimen/dp_32"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvSelectHomeCare">
+                    app:layout_constraintTop_toBottomOf="@+id/tvResultDutiesV">
 
                     <androidx.appcompat.widget.AppCompatEditText
                         android:id="@+id/etAddress"

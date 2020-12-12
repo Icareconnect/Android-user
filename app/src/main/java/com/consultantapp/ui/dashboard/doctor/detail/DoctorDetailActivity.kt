@@ -24,8 +24,6 @@ import com.consultantapp.databinding.ActivityDoctorDetailBinding
 import com.consultantapp.ui.dashboard.DoctorViewModel
 import com.consultantapp.ui.dashboard.doctor.DoctorActionActivity
 import com.consultantapp.ui.dashboard.doctor.schedule.ScheduleFragment.Companion.SERVICE_ID
-import com.consultantapp.ui.drawermenu.DrawerActivity
-import com.consultantapp.ui.drawermenu.DrawerActivity.Companion.WALLET
 import com.consultantapp.ui.drawermenu.addmoney.AddMoneyActivity
 import com.consultantapp.utils.*
 import com.consultantapp.utils.dialogs.ProgressDialog
@@ -179,33 +177,33 @@ class DoctorDetailActivity : DaggerAppCompatActivity() {
                 Status.SUCCESS -> {
                     progressDialog.setLoading(false)
 
-                    /*startActivityForResult(Intent(this, AddMoneyActivity::class.java)
+                    startActivityForResult(Intent(this, AddMoneyActivity::class.java)
                             .putExtra(EXTRA_PRICE, it.data?.grand_total)
-                            .putExtra(EXTRA_REQUEST_ID, hashMap), AppRequestCode.ADD_MONEY)*/
+                            .putExtra(EXTRA_REQUEST_ID, hashMap), AppRequestCode.ADD_MONEY)
 
                     /*If amount not sufficient then add money*/
-                     if (it.data?.amountNotSufficient == true) {
-                         AlertDialog.Builder(this)
-                                 .setCancelable(false)
-                                 .setTitle(getString(R.string.added_to_wallet))
-                                 .setMessage(getString(R.string.money_insufficient))
-                                 .setPositiveButton(getString(R.string.ok)) { dialog, which ->
+                    /*if (it.data?.amountNotSufficient == true) {
+                        AlertDialog.Builder(this)
+                                .setCancelable(false)
+                                .setTitle(getString(R.string.added_to_wallet))
+                                .setMessage(getString(R.string.money_insufficient))
+                                .setPositiveButton(getString(R.string.ok)) { dialog, which ->
 
-                                 }
-                                 .setNegativeButton(getString(R.string.add_money)) { dialog, which ->
-                                     startActivity(Intent(this, DrawerActivity::class.java)
-                                             .putExtra(PAGE_TO_OPEN, WALLET))
-                                 }.show()
+                                }
+                                .setNegativeButton(getString(R.string.add_money)) { dialog, which ->
+                                    startActivity(Intent(this, DrawerActivity::class.java)
+                                            .putExtra(PAGE_TO_OPEN, WALLET))
+                                }.show()
 
-                     } else {
-                         val intentBroadcast = Intent()
-                         intentBroadcast.action = PushType.NEW_REQUEST
-                         LocalBroadcastManager.getInstance(this).sendBroadcast(intentBroadcast)
+                    } else {
+                        val intentBroadcast = Intent()
+                        intentBroadcast.action = PushType.NEW_REQUEST
+                        LocalBroadcastManager.getInstance(this).sendBroadcast(intentBroadcast)
 
-                         longToast(getString(R.string.request_sent))
-                         setResult(Activity.RESULT_OK)
-                         finish()
-                     }
+                        longToast(getString(R.string.request_sent))
+                        setResult(Activity.RESULT_OK)
+                        finish()
+                    }*/
                 }
                 Status.ERROR -> {
                     progressDialog.setLoading(false)
@@ -223,6 +221,9 @@ class DoctorDetailActivity : DaggerAppCompatActivity() {
         binding.tvName.text = getDoctorName(doctorData)
         loadImage(binding.ivPic, doctorData?.profile_image,
                 R.drawable.image_placeholder)
+
+        binding.tvApproved.text="${getString(R.string.approved)} :" +
+                " ${DateUtils.dateTimeFormatFromUTC(DateFormat.MON_YEAR_FORMAT, doctorData?.account_verified_at)}"
         binding.tvAboutV.text = doctorData?.profile?.bio ?: getString(R.string.na)
         binding.tvDesc.text = doctorData?.categoryData?.name ?: getString(R.string.na)
 
@@ -396,7 +397,7 @@ class DoctorDetailActivity : DaggerAppCompatActivity() {
                 /*Mutiple date*/
                 hashMap["request_type"] = "multiple"
 
-                //hashMap["request_step"] = "confirm"
+                hashMap["request_step"] = "confirm"
 
                 if (intent.hasExtra(EXTRA_REQUEST_ID)) {
                     val bookService = intent.getSerializableExtra(EXTRA_REQUEST_ID) as BookService
@@ -456,5 +457,20 @@ class DoctorDetailActivity : DaggerAppCompatActivity() {
 
     companion object {
         const val DOCTOR_ID = "DOCTOR_ID"
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == AppRequestCode.ADD_MONEY) {
+                val intentBroadcast = Intent()
+                intentBroadcast.action = PushType.NEW_REQUEST
+                LocalBroadcastManager.getInstance(this).sendBroadcast(intentBroadcast)
+
+                longToast(getString(R.string.request_sent))
+                setResult(Activity.RESULT_OK)
+                finish()
+            }
+        }
     }
 }
