@@ -51,6 +51,9 @@ class DatesAdapter(private val fragment: Fragment, private val items: ArrayList<
 
             clDate.setOnClickListener {
                 items[adapterPosition].isSelected = !items[adapterPosition].isSelected
+
+                /*if (fragment is DateTimeFragment)
+                    fragment.onDateSelected(items[adapterPosition])*/
                 notifyDataSetChanged()
             }
         }

@@ -405,9 +405,9 @@
     <string name="feedback">Feedback</string>
     <string name="save">Save</string>
     <string name="check_all">Select All</string>
-    <string name="please_select_all_that_applies">Please select all that applies</string>
+    <string name="please_select_all_that_applies">Please Select Services You Require</string>
     <string name="completing_payment">Completing your payment. Please wait...</string>
-    <string name="result_or_duties">Result for your options</string>
+    <string name="result_or_duties">Nurse as per services selected</string>
 
 
 </resources>

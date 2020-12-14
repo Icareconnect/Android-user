@@ -122,6 +122,7 @@ class RegisterServiceFragment : DaggerFragment() {
         }
 
         binding.tvContinue.setOnClickListener {
+
             var servicePos = -1
             itemsServiceFor.forEachIndexed { index, filterOption ->
                 if (filterOption.isSelected) {

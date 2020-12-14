@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.consultantapp.R
 import com.consultantapp.data.models.requests.BookService
 import com.consultantapp.data.models.requests.DatesAvailability
@@ -102,6 +104,17 @@ class DateTimeFragment : DaggerFragment(), OnTimeSelected {
             datesAdapter = DatesAdapter(this, itemDays)
             binding.rvWeek.adapter = datesAdapter
         }
+
+         binding.rvWeek.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                 super.onScrolled(recyclerView, dx, dy)
+
+                 val layoutManager = binding.rvWeek.layoutManager as LinearLayoutManager
+                 val midItemPosition = layoutManager.findLastVisibleItemPosition() - 4
+
+                 binding.tvMonth.text = DateUtils.dateFormatFromMillis(DateFormat.MONTH_YEAR, itemDays[midItemPosition].date)
+             }
+         })
 
     }
 
