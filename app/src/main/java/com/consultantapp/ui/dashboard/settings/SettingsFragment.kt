@@ -20,6 +20,7 @@ import com.consultantapp.ui.drawermenu.DrawerActivity
 import com.consultantapp.ui.drawermenu.DrawerActivity.Companion.CHANGE_PASSWORD
 import com.consultantapp.ui.drawermenu.DrawerActivity.Companion.REQUEST
 import com.consultantapp.ui.drawermenu.addmoney.AddMoneyActivity
+import com.consultantapp.ui.webview.WebViewActivity
 import com.consultantapp.utils.*
 import com.consultantapp.utils.dialogs.ProgressDialog
 import dagger.android.support.DaggerFragment
@@ -111,6 +112,12 @@ class SettingsFragment : DaggerFragment() {
         binding.tvMyBookings.setOnClickListener {
             startActivity(Intent(requireContext(), DrawerActivity::class.java)
                 .putExtra(PAGE_TO_OPEN, REQUEST))
+        }
+
+        binding.tvContactUs.setOnClickListener {
+            startActivity(Intent(requireContext(), WebViewActivity::class.java)
+                    .putExtra(WebViewActivity.LINK_TITLE, getString(R.string.contact_us))
+                    .putExtra(WebViewActivity.LINK_URL, PageLink.CONTACT_US))
         }
     }
 

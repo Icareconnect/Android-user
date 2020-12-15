@@ -127,16 +127,33 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvPhone"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_32"
                     android:fontFamily="@font/campton_semibold"
                     android:text="@string/phone_number"
                     android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/sp_14"
-                    app:layout_constraintEnd_toEndOf="@id/endGuideLine"
                     app:layout_constraintStart_toStartOf="@id/startGuideLine"
                     app:layout_constraintTop_toBottomOf="@+id/tvEmailV" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvPhoneUpdate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:visibility="gone"
+                    android:padding="@dimen/dp_4"
+                    android:fontFamily="@font/campton_semibold"
+                    android:text="@string/update"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/sp_14"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvPhone"
+                    app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+                    app:layout_constraintTop_toTopOf="@+id/tvPhone" />
+
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvPhoneV"

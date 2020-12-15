@@ -63,6 +63,12 @@ class LoginFragment : DaggerFragment() {
 
             binding.tvLoginScreen.gone()
             binding.tvLoginTitle.gone()
+        }else if (arguments?.containsKey(UPDATE_NUMBER) == true) {
+            binding.tvTitle.text = getString(R.string.update)
+
+            binding.tvLoginScreen.gone()
+            binding.tvLoginTitle.gone()
+            binding.tvTerms.gone()
         }
     }
 
@@ -95,7 +101,7 @@ class LoginFragment : DaggerFragment() {
     }
 
     private fun bindObservers() {
-        viewModel.sendSMS.observe(this, Observer {
+        viewModel.sendSMS.observe(requireActivity(), Observer {
             it ?: return@Observer
             when (it.status) {
                 Status.SUCCESS -> {

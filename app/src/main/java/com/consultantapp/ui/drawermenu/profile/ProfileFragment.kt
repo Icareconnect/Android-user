@@ -136,6 +136,11 @@ class ProfileFragment : DaggerFragment() {
                     fragment, R.id.container)*/
         }
 
+        binding.tvPhoneUpdate.setOnClickListener {
+            startActivityForResult(Intent(requireActivity(), SignUpActivity::class.java)
+                    .putExtra(UPDATE_NUMBER, true), AppRequestCode.PROFILE_UPDATE)
+        }
+
         binding.ivPic.setOnClickListener {
             getStorageWithPermissionCheck()
         }

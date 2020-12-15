@@ -9,7 +9,6 @@
         <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
         <item name="android:windowAnimationStyle">@style/YourAnimation.Activity</item>
         <item name="android:windowDisablePreview">true</item>
-        <item name="android:windowIsTranslucent">true</item>
     </style>
 
     <style name="YourAnimation.Activity" parent="@android:style/Animation.Activity">
@@ -36,6 +35,12 @@
     <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">@dimen/sp_20</item>
         <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:fontFamily">@font/campton_medium</item>
+    </style>
+
+    <style name="Toolbar.Title" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">@dimen/sp_20</item>
+        <item name="android:textColor">@color/textColor</item>
         <item name="android:fontFamily">@font/campton_medium</item>
     </style>
 

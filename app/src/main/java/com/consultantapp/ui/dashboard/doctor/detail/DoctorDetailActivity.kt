@@ -222,7 +222,7 @@ class DoctorDetailActivity : DaggerAppCompatActivity() {
         loadImage(binding.ivPic, doctorData?.profile_image,
                 R.drawable.image_placeholder)
 
-        binding.tvApproved.text="${getString(R.string.approved)} :" +
+        binding.tvApproved.text = "${getString(R.string.approved)} :" +
                 " ${DateUtils.dateTimeFormatFromUTC(DateFormat.MON_YEAR_FORMAT, doctorData?.account_verified_at)}"
         binding.tvAboutV.text = doctorData?.profile?.bio ?: getString(R.string.na)
         binding.tvDesc.text = doctorData?.categoryData?.name ?: getString(R.string.na)
@@ -236,7 +236,11 @@ class DoctorDetailActivity : DaggerAppCompatActivity() {
                 ?: getString(R.string.na)
         binding.tvRate.text = getString(R.string.price_ss, getCurrency(doctorData?.price))
 
-        binding.tvPatientV.text = doctorData?.patientCount ?: getString(R.string.na)
+        if (doctorData?.patientCount.isNullOrEmpty() || doctorData?.patientCount == "0") {
+            binding.tvPatient.gone()
+            binding.tvPatientV.gone()
+        } else
+            binding.tvPatientV.text = doctorData?.patientCount ?: getString(R.string.na)
 
         binding.tvReviewsV.text = doctorData?.reviewCount ?: getString(R.string.na)
         binding.tvReviewCount.text = getUserRating(doctorData?.totalRating)

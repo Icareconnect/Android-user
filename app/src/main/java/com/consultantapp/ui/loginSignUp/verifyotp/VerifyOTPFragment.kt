@@ -1,5 +1,6 @@
 package com.consultantapp.ui.loginSignUp.verifyotp
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -178,8 +179,7 @@ class   VerifyOTPFragment : DaggerFragment() {
                     prefsManager.save(USER_DATA, it.data)
 
                     if (userRepository.isUserLoggedIn()) {
-
-                        startActivity(Intent(requireContext(), MainActivity::class.java))
+                        requireActivity().setResult(Activity.RESULT_OK)
                         requireActivity().finish()
                     }
 

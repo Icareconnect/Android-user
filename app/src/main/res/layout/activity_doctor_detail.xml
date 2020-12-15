@@ -103,7 +103,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp_16"
                     android:ellipsize="end"
-                    app:textAllCaps="true"
                     android:fontFamily="@font/campton_medium"
                     android:maxLines="1"
                     android:text="@string/approved"
@@ -111,8 +110,8 @@
                     android:textSize="@dimen/sp_14"
                     app:layout_constraintEnd_toEndOf="@id/endGuideLine"
                     app:layout_constraintStart_toEndOf="@+id/ivPic"
-                    app:layout_constraintTop_toBottomOf="@+id/tvName" />
-
+                    app:layout_constraintTop_toBottomOf="@+id/tvName"
+                    app:textAllCaps="true" />
 
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -277,6 +276,13 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvReviews"
                     tools:text="@string/reviews" />
 
+                <androidx.constraintlayout.widget.Barrier
+                    android:id="@+id/barrier"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:barrierDirection="bottom"
+                    app:constraint_referenced_ids="tvPatientV,tvExperienceV,tvReviewsV" />
+
 
                 <View
                     android:id="@+id/view1"
@@ -288,7 +294,7 @@
                     android:background="@color/lineColor"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvPatientV" />
+                    app:layout_constraintTop_toBottomOf="@+id/barrier" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvExpertise"

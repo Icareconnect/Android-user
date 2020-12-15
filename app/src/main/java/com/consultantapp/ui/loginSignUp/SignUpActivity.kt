@@ -6,14 +6,12 @@ import androidx.fragment.app.Fragment
 import com.consultantapp.R
 import com.consultantapp.data.repos.UserRepository
 import com.consultantapp.databinding.ActivityContainerBinding
+import com.consultantapp.ui.loginSignUp.SignUpActivity.Companion.EXTRA_LOGIN
 import com.consultantapp.ui.loginSignUp.login.LoginFragment
 import com.consultantapp.ui.loginSignUp.loginemail.LoginEmailFragment
 import com.consultantapp.ui.loginSignUp.signup.SignUpFragment
 import com.consultantapp.ui.loginSignUp.welcome.WelcomeFragment
-import com.consultantapp.utils.LocaleHelper
-import com.consultantapp.utils.PrefsManager
-import com.consultantapp.utils.UPDATE_PROFILE
-import com.consultantapp.utils.addFragment
+import com.consultantapp.utils.*
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
@@ -46,6 +44,10 @@ class SignUpActivity : DaggerAppCompatActivity() {
         when {
             intent.hasExtra(UPDATE_PROFILE) -> {
                 fragment = SignUpFragment()
+            }
+            intent.hasExtra(UPDATE_NUMBER) -> {
+                fragment = LoginFragment()
+                bundle.putBoolean(UPDATE_NUMBER, true)
             }
             intent.hasExtra(EXTRA_LOGIN) -> {
                 fragment = LoginFragment()

@@ -115,7 +115,6 @@ fun logoutUser(activity: Activity?, prefsManager: PrefsManager) {
     ActivityCompat.finishAffinity(activity)
     activity.startActivity(Intent(activity, SignUpActivity::class.java)
             .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP))
-
 }
 
 
