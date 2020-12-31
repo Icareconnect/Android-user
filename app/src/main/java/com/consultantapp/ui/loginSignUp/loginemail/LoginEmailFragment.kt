@@ -20,6 +20,7 @@ import com.consultantapp.ui.LoginViewModel
 import com.consultantapp.ui.dashboard.MainActivity
 import com.consultantapp.ui.loginSignUp.forgotpassword.ForgotPasswordFragment
 import com.consultantapp.ui.loginSignUp.login.LoginFragment
+import com.consultantapp.ui.loginSignUp.masterprefrence.MasterPrefrenceFragment
 import com.consultantapp.utils.*
 import com.consultantapp.utils.dialogs.ProgressDialog
 import dagger.android.support.DaggerFragment
@@ -50,13 +51,13 @@ class LoginEmailFragment : DaggerFragment() {
 
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         if (rootView == null) {
             binding =
-                DataBindingUtil.inflate(inflater, R.layout.fragment_login_email, container, false)
+                    DataBindingUtil.inflate(inflater, R.layout.fragment_login_email, container, false)
             rootView = binding.root
 
             initialise()
@@ -82,7 +83,7 @@ class LoginEmailFragment : DaggerFragment() {
         binding.tvLoginScreen.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
             replaceFragment(requireActivity().supportFragmentManager,
-                LoginFragment(), R.id.container)
+                    LoginFragment(), R.id.container)
         }
 
         binding.ivNext.setOnClickListener {
@@ -109,16 +110,14 @@ class LoginEmailFragment : DaggerFragment() {
         }
 
         binding.tvForgetPass.setOnClickListener {
-            replaceFragment(
-                requireActivity().supportFragmentManager,
-                ForgotPasswordFragment(), R.id.container
-            )
+            replaceFragment(requireActivity().supportFragmentManager,
+                    ForgotPasswordFragment(), R.id.container)
         }
     }
 
 
     private fun bindObservers() {
-        viewModel.login.observe(this, Observer {
+        viewModel.login.observe(requireActivity(), Observer {
             it ?: return@Observer
             when (it.status) {
                 Status.SUCCESS -> {
@@ -129,6 +128,14 @@ class LoginEmailFragment : DaggerFragment() {
 
                         startActivity(Intent(requireContext(), MainActivity::class.java))
                         requireActivity().finish()
+                    } else {
+                        val fragment = MasterPrefrenceFragment()
+                        val bundle = Bundle()
+                        bundle.putString(MasterPrefrenceFragment.MASTER_PREFRENCE_TYPE, PreferencesType.WORK_ENVIRONMENT)
+                        fragment.arguments = bundle
+
+                        replaceFragment(requireActivity().supportFragmentManager,
+                                fragment, R.id.container)
                     }
 
                 }

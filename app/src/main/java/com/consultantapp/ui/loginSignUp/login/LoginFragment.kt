@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.consultantapp.R
+import com.consultantapp.appClientDetails
 import com.consultantapp.data.network.ApisRespHandler
 import com.consultantapp.data.network.responseUtil.Status
 import com.consultantapp.databinding.FragmentLoginBinding
@@ -52,6 +53,7 @@ class LoginFragment : DaggerFragment() {
     }
 
     private fun initialise() {
+        binding.ccpCountryCode.setCountryForPhoneCode(appClientDetails.country_code ?: 91)
         viewModel = ViewModelProvider(this, viewModelFactory)[LoginViewModel::class.java]
         progressDialog = ProgressDialog(requireActivity())
 

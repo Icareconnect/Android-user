@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import com.consultantapp.R
 import com.consultantapp.data.repos.UserRepository
 import com.consultantapp.databinding.ActivityContainerBinding
-import com.consultantapp.ui.loginSignUp.SignUpActivity.Companion.EXTRA_LOGIN
 import com.consultantapp.ui.loginSignUp.login.LoginFragment
 import com.consultantapp.ui.loginSignUp.loginemail.LoginEmailFragment
 import com.consultantapp.ui.loginSignUp.signup.SignUpFragment

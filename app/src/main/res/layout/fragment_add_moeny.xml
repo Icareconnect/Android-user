@@ -41,26 +41,27 @@
 
 
             <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/etAmount"
+                android:id="@+id/etAmountBg"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_16"
                 android:layout_marginEnd="@dimen/dp_16"
-                android:clickable="false"
                 android:digits="0123456789"
-                android:focusable="false"
                 android:fontFamily="@font/campton_semibold"
                 android:imeOptions="actionDone"
                 android:inputType="number"
+                android:clickable="false"
+                android:focusable="false"
                 android:maxLength="5"
-                android:paddingStart="@dimen/dp_16"
+                android:textDirection="locale"
                 android:paddingEnd="@dimen/dp_16"
+                android:paddingStart="@dimen/dp_16"
                 android:textColor="@color/textColor"
-                android:textSize="@dimen/sp_24"
-                android:visibility="gone"
+                android:textSize="@dimen/sp_20"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvSymbol"
@@ -69,11 +70,31 @@
                 android:alpha="0.6"
                 android:fontFamily="@font/campton_semibold"
                 android:textColor="@color/colorBlack"
-                android:textSize="@dimen/sp_24"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@+id/etAmount"
-                app:layout_constraintStart_toStartOf="@+id/etAmount"
-                app:layout_constraintTop_toTopOf="@+id/etAmount" />
+                android:textSize="@dimen/sp_20"
+                app:layout_constraintBottom_toBottomOf="@+id/etAmountBg"
+                app:layout_constraintStart_toStartOf="@+id/etAmountBg"
+                app:layout_constraintTop_toTopOf="@+id/etAmountBg" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etAmount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dp_16"
+                android:digits="0123456789"
+                android:fontFamily="@font/campton_semibold"
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                android:clickable="false"
+                android:focusable="false"
+                android:maxLength="5"
+                android:textDirection="locale"
+                android:paddingEnd="@dimen/dp_16"
+                android:paddingStart="@dimen/dp_16"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/sp_20"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tvSymbol"
+                app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvPay"

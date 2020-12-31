@@ -53,30 +53,26 @@ object NetworkModule {
         return Interceptor { chain ->
             var request = chain.request()
 
-            val user = prefsManager.getObject(USER_DATA, UserData::class.java)
-
             /*Get App Id*/
             val app_id = if (prefsManager.getString(APP_UNIQUE_ID, "").isNotEmpty())
                 prefsManager.getString(APP_UNIQUE_ID, "")
             else
                 APP_UNIQUE_ID
 
-            val accessToken = user?.token
+            val requestBuilder = request.newBuilder()
+            requestBuilder.addHeader("Accept", "application/json")
+                .header("Connection", "close")
+                .addHeader("user-type", APP_TYPE)
+                .addHeader("language", prefsManager.getString(USER_LANGUAGE, "en"))
+                .addHeader("timezone", TimeZone.getDefault().id)
+                .addHeader("app-id", app_id)
+                .addHeader("devicetype", ANDROID)
 
-            request = if (accessToken?.isEmpty() == true) {
-                request.newBuilder().addHeader("Accept", "application/json").build()
-            } else {
-                val requestBuilder = request.newBuilder()
-                requestBuilder.addHeader("Accept", "application/json")
-                    .header("Connection", "close")
-                    .addHeader("authorization", "Bearer $accessToken")
-                    .addHeader("language", prefsManager.getString(USER_LANGUAGE, "en"))
-                    .addHeader("timezone", TimeZone.getDefault().id)
-                    .addHeader("app-id", app_id)
-                    .addHeader("devicetype", ANDROID)
+            val accessToken = prefsManager.getObject(USER_DATA, UserData::class.java)?.token
+            if (!accessToken.isNullOrEmpty())
+                requestBuilder.addHeader("authorization", "Bearer $accessToken")
 
-                requestBuilder.build()
-            }
+            request=requestBuilder.build()
 
             chain.proceed(request)
         }

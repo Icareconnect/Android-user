@@ -5,12 +5,17 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
+import android.location.Location
 import android.location.LocationManager
-import android.os.AsyncTask
 import android.os.Bundle
+import android.os.Looper
+import android.provider.Settings
 import android.view.MotionEvent
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.consultantapp.R
@@ -19,6 +24,7 @@ import com.consultantapp.data.repos.UserRepository
 import com.consultantapp.databinding.ActivityAddAddressBinding
 import com.consultantapp.utils.*
 import com.consultantapp.utils.PermissionUtils
+import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -48,15 +54,15 @@ class AddAddressActivity : DaggerAppCompatActivity(), GoogleMap.OnCameraChangeLi
 
     private var saveAddress = SaveAddress()
 
-    private var fromLat = 0.0
-    private var fromLng = 0.0
-    private var center: LatLng? = null
-
     private var mapFragment: SupportMapFragment? = null
+
     private var isPlacePicker = false
+
     private var mMap: GoogleMap? = null
-    private var placeLatLng: LatLng? = null
+
     private lateinit var geoCoder: Geocoder
+
+    lateinit var mFusedLocationClient: FusedLocationProviderClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,11 +74,12 @@ class AddAddressActivity : DaggerAppCompatActivity(), GoogleMap.OnCameraChangeLi
     }
 
     private fun initialise() {
-
-        geoCoder = Geocoder(this, Locale.getDefault())
         mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+        mapFragment?.getMapAsync(this)
         getLocationWithPermissionCheck()
 
+        geoCoder = Geocoder(this, Locale.getDefault())
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
     }
 
     private fun setEditAddress() {
@@ -168,13 +175,15 @@ class AddAddressActivity : DaggerAppCompatActivity(), GoogleMap.OnCameraChangeLi
 
 
     override fun onCameraChange(cameraPosition: CameraPosition) {
-        center = mMap?.cameraPosition?.target
         if (!isPlacePicker) {
-            placeLatLng = center
+            val latLng = mMap?.cameraPosition?.target
 
-            fromLat = placeLatLng?.latitude ?: 0.0
-            fromLng = placeLatLng?.longitude ?: 0.0
-            ChangeLocation().execute("")
+            saveAddress.location = ArrayList()
+            saveAddress.location?.add(latLng?.longitude ?: 0.0)
+            saveAddress.location?.add(latLng?.latitude ?: 0.0)
+            saveAddress.locationName = getAddress()
+
+            binding.etLocation.setText(saveAddress.locationName)
         }
         isPlacePicker = false
     }
@@ -186,11 +195,7 @@ class AddAddressActivity : DaggerAppCompatActivity(), GoogleMap.OnCameraChangeLi
 
         // mMap?.isMyLocationEnabled = true
         mMap?.uiSettings?.isMyLocationButtonEnabled = true
-        //GeneralFunctions.moveMapButton(mapFragment)
 
-        // Get user current location
-        val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        val statusOfGPS = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
 
         if (!saveAddress.location.isNullOrEmpty()) {
             binding.etLocation.setText(saveAddress.locationName)
@@ -200,135 +205,91 @@ class AddAddressActivity : DaggerAppCompatActivity(), GoogleMap.OnCameraChangeLi
             mMap?.animateCamera(CameraUpdateFactory.zoomTo(15f))
         }
 
+    }
 
-        val gps = GPSTracker(this)
-        // check if GPS location can get Location
-        if (gps.canGetLocation() && statusOfGPS) {
-            if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-                if (saveAddress.location.isNullOrEmpty()) {
-                    intent.removeExtra(EXTRA_ADDRESS)
-                    val current = LatLng(gps.getLatitude(), gps.getLongitude())
-                    placeLatLng = current
-                    mMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(current, 15f))
-                    CheckLocation().execute("")
-                }
+    @SuppressLint("MissingPermission")
+    private fun getLastLocation() {
+        if (checkPermissions()) {
+            if (isLocationEnabled()) {
+                requestNewLocationData()
+            } else {
+                Toast.makeText(this, R.string.we_will_need_your_location, Toast.LENGTH_LONG).show()
+                val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                startActivity(intent)
             }
         } else {
-            gps.showSettingsAlert(this)
-        }
-
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    private inner class ChangeLocation : AsyncTask<String, Void, String>() {
-        var name = ""
-
-        override fun doInBackground(vararg params: String): String? {
-
-            val addresses: List<Address>
-            try {
-                addresses = geoCoder.getFromLocation(fromLat, fromLng, 1) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-
-
-                if (addresses.isNotEmpty()) {
-                    name = when {
-                        addresses[0].getAddressLine(0) != null -> addresses[0].getAddressLine(0)
-                        addresses[0].featureName != null -> addresses[0].featureName
-                        addresses[0].locality != null -> addresses[0].locality
-                        else -> addresses[0].adminArea
-                    }
-                }
-
-            } catch (ignored: Exception) {
-            }
-            return null
-        }
-
-        override fun onPostExecute(result: String?) {
-            try {
-                super.onPostExecute(result)
-                runOnUiThread {
-                    if (intent.hasExtra(EXTRA_ADDRESS)) {
-                        intent.removeExtra(EXTRA_ADDRESS)
-                    } else {
-                        binding.etLocation.setText(name)
-
-                        saveAddress.locationName = binding.etLocation.text.toString()
-                        saveAddress.location = ArrayList()
-                        saveAddress.location?.add(fromLng)
-                        saveAddress.location?.add(fromLat)
-                    }
-                }
-
-            } catch (ignored: Exception) {
-            }
+            getLocationWithPermissionCheck()
         }
     }
 
-
-    @SuppressLint("StaticFieldLeak")
-    private inner class CheckLocation : AsyncTask<String, Void, String>() {
-        var name = ""
-
-        override fun doInBackground(vararg params: String): String? {
-
-            //Get user current location
-            val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-            val statusOfGPS = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-
-            val gps = GPSTracker(this@AddAddressActivity)
-            // check if GPS location can get Location
-            if (gps.canGetLocation() && statusOfGPS) {
-                if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-
-                    val addresses: List<Address>
-                    try {
-                        addresses = geoCoder.getFromLocation(gps.getLatitude(), gps.getLongitude(), 1) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+    private fun checkPermissions(): Boolean {
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+            ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            return true
+        }
+        return false
+    }
 
 
-                        if (addresses.isNotEmpty()) {
-                            name = when {
-                                addresses[0].getAddressLine(1) != null -> addresses[0].getAddressLine(1)
-                                addresses[0].featureName == null -> addresses[0].adminArea
-                                else -> String.format("%s, %s", addresses[0].featureName, addresses[0].locality)
-                            }
-                        }
+    @SuppressLint("MissingPermission")
+    private fun requestNewLocationData() {
+        runOnUiThread {
+            val mLocationRequest = LocationRequest()
+            mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+            mLocationRequest.interval = 0
+            mLocationRequest.fastestInterval = 0
+            mLocationRequest.numUpdates = 1
 
-                        runOnUiThread {
-                            binding.etLocation.setText(name)
-                            fromLat = gps.getLatitude()
-                            fromLng = gps.getLongitude()
+            mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+            mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback,
+                Looper.myLooper())
 
-                            saveAddress.locationName = binding.etLocation.text.toString()
-                            saveAddress.location = ArrayList()
-                            saveAddress.location?.add(fromLng)
-                            saveAddress.location?.add(fromLat)
-                        }
-                    } catch (ignored: Exception) {
-                    }
+        }
+    }
 
-                }
-            } else {
-                if (!statusOfGPS)
-                    gps.showSettingsAlert(this@AddAddressActivity)
+    private val mLocationCallback = object : LocationCallback() {
+        override fun onLocationResult(locationResult: LocationResult) {
+            val mLastLocation: Location = locationResult.lastLocation
+            val latLng = LatLng(mLastLocation.latitude, mLastLocation.longitude)
+
+            mMap?.moveCamera(CameraUpdateFactory.newLatLng(latLng))
+            mMap?.animateCamera(CameraUpdateFactory.zoomTo(14f))
+
+            saveAddress.location = ArrayList()
+            saveAddress.location?.add(latLng.longitude)
+            saveAddress.location?.add(latLng.latitude)
+            saveAddress.locationName = getAddress()
+
+            binding.etLocation.setText(saveAddress.locationName)
+            //placeLatLng = LatLng(30.7457, 76.7332)
+        }
+    }
+
+    private fun isLocationEnabled(): Boolean {
+        val locationManager: LocationManager =
+            getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
+            LocationManager.NETWORK_PROVIDER)
+    }
+
+
+    private fun getAddress(): String {
+        var locationName = ""
+        val addresses: List<Address> = geoCoder.getFromLocation(saveAddress.location?.get(1) ?: 0.0,
+            saveAddress.location?.get(0) ?: 0.0, 1) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+
+        if (addresses.isNotEmpty()) {
+            locationName = when {
+                addresses[0].getAddressLine(0) != null -> addresses[0].getAddressLine(0)
+                addresses[0].featureName != null -> addresses[0].featureName
+                addresses[0].locality != null -> addresses[0].locality
+                else -> addresses[0].adminArea
             }
-            return null
         }
 
-        override fun onPostExecute(result: String?) {
-            try {
-                super.onPostExecute(result)
-                runOnUiThread {
-                    binding.etLocation.setText(name)
-
-                    saveAddress.locationName = binding.etLocation.text.toString()
-                    saveAddress.location = ArrayList()
-                    saveAddress.location?.add(fromLng)
-                    saveAddress.location?.add(fromLat)
-                }
-            } catch (ignored: Exception) {
-            }
-        }
+        return locationName
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -338,7 +299,8 @@ class AddAddressActivity : DaggerAppCompatActivity(), GoogleMap.OnCameraChangeLi
 
     @NeedsPermission(Manifest.permission.ACCESS_FINE_LOCATION)
     fun getLocation() {
-        mapFragment?.getMapAsync(this)
+        if (saveAddress.location.isNullOrEmpty())
+            getLastLocation()
     }
 
     @OnShowRationale(Manifest.permission.ACCESS_FINE_LOCATION)

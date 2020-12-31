@@ -16,7 +16,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.consultantapp.R
-import com.consultantapp.appVersion
+import com.consultantapp.appClientDetails
 import com.consultantapp.data.network.PushType
 import com.consultantapp.data.repos.UserRepository
 import com.consultantapp.databinding.ActivityWebViewBinding
@@ -71,7 +71,7 @@ class WebViewActivity : DaggerAppCompatActivity() {
             transactionId = intent.getStringExtra(EXTRA_REQUEST_ID) ?: ""
             loadUrl = intent.getStringExtra(PAYMENT_URL) ?: ""
         } else {
-            loadUrl = "${appVersion.domain_url}/${intent.getStringExtra(LINK_URL)}"
+            loadUrl = "${appClientDetails.domain_url}/${intent.getStringExtra(LINK_URL)}"
         }
     }
 

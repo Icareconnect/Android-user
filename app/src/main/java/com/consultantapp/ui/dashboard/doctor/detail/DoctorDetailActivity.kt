@@ -236,6 +236,8 @@ class DoctorDetailActivity : DaggerAppCompatActivity() {
                 ?: getString(R.string.na)
         binding.tvRate.text = getString(R.string.price_ss, getCurrency(doctorData?.price))
 
+        binding.tvPatient.gone()
+        binding.tvPatientV.gone()
         if (doctorData?.patientCount.isNullOrEmpty() || doctorData?.patientCount == "0") {
             binding.tvPatient.gone()
             binding.tvPatientV.gone()

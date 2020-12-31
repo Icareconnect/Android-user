@@ -21,7 +21,7 @@ import dagger.android.DaggerApplication
 import javax.inject.Inject
 
 
-var appVersion = AppVersion()
+var appClientDetails = AppVersion()
 
 class ConsultantUserApplication : DaggerApplication(), LifecycleObserver {
 
@@ -50,7 +50,7 @@ class ConsultantUserApplication : DaggerApplication(), LifecycleObserver {
         Places.initialize(applicationContext, getString(R.string.google_places_api_key))
 
 
-        appVersion = userRepository.getAppSetting()
+        appClientDetails = userRepository.getAppSetting()
         setsApplication(this)
     }
 
@@ -58,8 +58,6 @@ class ConsultantUserApplication : DaggerApplication(), LifecycleObserver {
             DaggerAppComponent.builder().create(this)
 
     companion object {
-
-        var currencyCode = ""
 
         private var isApplication: Application? = null
 

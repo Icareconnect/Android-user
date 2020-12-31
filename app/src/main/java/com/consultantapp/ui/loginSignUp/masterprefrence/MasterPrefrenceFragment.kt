@@ -149,10 +149,10 @@ class MasterPrefrenceFragment : DaggerFragment() {
     private fun hitApi() {
         if (isConnectedToInternet(requireContext(), true)) {
             val hashMap = HashMap<String, String>()
-            if(prefrenceType==PreferencesType.PROVIDABLE_SERVICES){
+            if (prefrenceType == PreferencesType.PROVIDABLE_SERVICES) {
                 hashMap["filter_ids"] = requireActivity().intent.getStringExtra(FILTER_DATA)
                 viewModelAppVersion.duty(hashMap)
-            }else {
+            } else {
                 hashMap["type"] = PreferencesType.ALL
                 hashMap["preference_type"] = prefrenceType
                 viewModelAppVersion.preferences(hashMap)
@@ -171,7 +171,7 @@ class MasterPrefrenceFragment : DaggerFragment() {
 
 
                     val tempList = it.data?.preferences ?: emptyList()
-                        items.clear()
+                    items.clear()
 
                     items.addAll(tempList)
                     adapter.notifyDataSetChanged()
@@ -206,8 +206,13 @@ class MasterPrefrenceFragment : DaggerFragment() {
 
                     prefsManager.save(USER_DATA, it.data)
 
-                    startActivity(Intent(requireContext(), MainActivity::class.java))
-                    requireActivity().finish()
+                    if (arguments?.getBoolean(UPDATE_PROFILE, false) == true) {
+                        resultFragmentIntent(this, targetFragment ?: this,
+                                AppRequestCode.PROFILE_UPDATE, Intent())
+                    } else {
+                        startActivity(Intent(requireContext(), MainActivity::class.java))
+                        requireActivity().finish()
+                    }
 
                 }
                 Status.ERROR -> {

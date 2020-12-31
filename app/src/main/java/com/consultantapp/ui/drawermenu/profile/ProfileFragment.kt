@@ -22,6 +22,7 @@ import com.consultantapp.data.repos.UserRepository
 import com.consultantapp.databinding.FragmentProfileBinding
 import com.consultantapp.ui.LoginViewModel
 import com.consultantapp.ui.loginSignUp.SignUpActivity
+import com.consultantapp.ui.loginSignUp.masterprefrence.MasterPrefrenceFragment
 import com.consultantapp.utils.*
 import com.consultantapp.utils.PermissionUtils
 import com.consultantapp.utils.dialogs.ProgressDialog
@@ -139,6 +140,17 @@ class ProfileFragment : DaggerFragment() {
         binding.tvPhoneUpdate.setOnClickListener {
             startActivityForResult(Intent(requireActivity(), SignUpActivity::class.java)
                     .putExtra(UPDATE_NUMBER, true), AppRequestCode.PROFILE_UPDATE)
+        }
+
+        binding.tvWorkUpdate.setOnClickListener {
+
+            val fragment = MasterPrefrenceFragment()
+            val bundle = Bundle()
+            bundle.putString(MasterPrefrenceFragment.MASTER_PREFRENCE_TYPE, PreferencesType.WORK_ENVIRONMENT)
+            bundle.putBoolean(UPDATE_PROFILE,true)
+            fragment.arguments = bundle
+
+            replaceResultFragment(this, fragment, R.id.container,AppRequestCode.PROFILE_UPDATE)
         }
 
         binding.ivPic.setOnClickListener {

@@ -30,6 +30,8 @@ interface WebService {
         private const val PROFILE_UPDATE = "/api/profile-update"
         private const val LOGOUT = "/api/app_logout"
         private const val SEND_SMS = "/api/send-sms"
+        private const val SEND_EMAIL_OTP = "/api/send-email-otp"
+        private const val EMAIL_VERIFY = "/api/email-verify"
         private const val UPDATE_FCM_ID = "/api/update-fcm-id"
         private const val CREATE_REQUEST = "/api/create-request"
         private const val CONFIRM_REQUEST = "/api/confirm-request"
@@ -126,6 +128,15 @@ interface WebService {
     @FormUrlEncoded
     @POST(SEND_SMS)
     fun sendSMS(@FieldMap hashMap: HashMap<String, Any>): Call<ApiResponse<UserData>>
+
+    @FormUrlEncoded
+    @POST(SEND_EMAIL_OTP)
+    fun sendEmailOtp(@FieldMap hashMap: HashMap<String, Any>): Call<ApiResponse<UserData>>
+
+    @FormUrlEncoded
+    @POST(EMAIL_VERIFY)
+    fun emailVerify(@FieldMap hashMap: HashMap<String, Any>): Call<ApiResponse<UserData>>
+
 
     @POST(LOGOUT)
     fun logout(): Call<ApiResponse<UserData>>

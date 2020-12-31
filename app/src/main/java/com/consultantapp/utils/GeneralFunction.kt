@@ -36,9 +36,8 @@ import androidx.fragment.app.FragmentManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.consultantapp.BuildConfig
-import com.consultantapp.ConsultantUserApplication
 import com.consultantapp.R
-import com.consultantapp.appVersion
+import com.consultantapp.appClientDetails
 import com.consultantapp.data.models.responses.UserData
 import com.consultantapp.data.network.Config
 import com.consultantapp.data.repos.UserRepository
@@ -315,7 +314,7 @@ fun getCurrency(amount: String?): String {
 
     val format = NumberFormat.getCurrencyInstance()
     format.maximumFractionDigits = 2
-    format.currency = Currency.getInstance(ConsultantUserApplication.currencyCode)
+    format.currency = Currency.getInstance(appClientDetails.currency)
 
     return if (amount.isNullOrEmpty())
         format.format(0).replace("0.00", " NA")
@@ -326,7 +325,7 @@ fun getCurrency(amount: String?): String {
 
 fun getCurrencySymbol(): String {
     val format = NumberFormat.getCurrencyInstance()
-    format.currency = Currency.getInstance(ConsultantUserApplication.currencyCode)
+    format.currency = Currency.getInstance(appClientDetails.currency)
 
     return format.currency.symbol
 }
@@ -358,13 +357,21 @@ fun getUserRating(rating: String?): String {
 fun compressImage(activity: Activity?, actualImageFile: File?): File {
     Log.e("File Size", actualImageFile?.length().toString())
 
-    val resultFile: File? = if (actualImageFile?.length() ?: 0 < 300000)
-        actualImageFile
-    else {
-        Compressor(activity)
-            .setQuality(90)
-            .setCompressFormat(Bitmap.CompressFormat.JPEG)
-            .compressToFile(actualImageFile)
+    /*mb approximate*/
+    val resultFile: File? = when {
+        actualImageFile?.length() ?: 0 < (1*1024*1024) -> actualImageFile
+        actualImageFile?.length() ?: 0 < (3*1024*1024) -> {
+            Compressor(activity)
+                    .setQuality(70)
+                    .setCompressFormat(Bitmap.CompressFormat.JPEG)
+                    .compressToFile(actualImageFile)
+        }
+        else -> {
+            Compressor(activity)
+                    .setQuality(50)
+                    .setCompressFormat(Bitmap.CompressFormat.JPEG)
+                    .compressToFile(actualImageFile)
+        }
     }
 
     Log.e("File Size New", resultFile?.length().toString())
@@ -537,7 +544,7 @@ fun shareDeepLink(
             titleM = activity.getString(R.string.app_name)
             descriptionM = activity.getString(R.string.invite_text)
             imageUrlM =
-                Uri.parse(getImageBaseUrl(true, appVersion.applogo ?: ""))
+                Uri.parse(getImageBaseUrl(true, appClientDetails.applogo ?: ""))
         }
     }
 

@@ -34,6 +34,11 @@ class LoginViewModel @Inject constructor(private val webService: WebService) : V
 
     val sendSMS by lazy { SingleLiveEvent<Resource<UserData>>() }
 
+    val sendEmailOtp by lazy { SingleLiveEvent<Resource<UserData>>() }
+
+    val emailVerify by lazy { SingleLiveEvent<Resource<UserData>>() }
+
+
     val pagesLink by lazy { SingleLiveEvent<Resource<CommonDataModel>>() }
 
 
@@ -250,6 +255,54 @@ class LoginViewModel @Inject constructor(private val webService: WebService) : V
 
                     override fun onFailure(call: Call<ApiResponse<UserData>>, throwable: Throwable) {
                         sendSMS.value = Resource.error(ApiUtils.failure(throwable))
+                    }
+
+                })
+    }
+
+    fun sendEmailOtp(hashMap: HashMap<String, Any>) {
+        sendEmailOtp.value = Resource.loading()
+
+        webService.sendEmailOtp(hashMap)
+                .enqueue(object : Callback<ApiResponse<UserData>> {
+
+                    override fun onResponse(call: Call<ApiResponse<UserData>>,
+                                            response: Response<ApiResponse<UserData>>) {
+                        if (response.isSuccessful) {
+                            sendEmailOtp.value = Resource.success(response.body()?.data)
+                        } else {
+                            sendEmailOtp.value = Resource.error(
+                                    ApiUtils.getError(response.code(),
+                                            response.errorBody()?.string()))
+                        }
+                    }
+
+                    override fun onFailure(call: Call<ApiResponse<UserData>>, throwable: Throwable) {
+                        sendEmailOtp.value = Resource.error(ApiUtils.failure(throwable))
+                    }
+
+                })
+    }
+
+    fun emailVerify(hashMap: HashMap<String, Any>) {
+        emailVerify.value = Resource.loading()
+
+        webService.emailVerify(hashMap)
+                .enqueue(object : Callback<ApiResponse<UserData>> {
+
+                    override fun onResponse(call: Call<ApiResponse<UserData>>,
+                                            response: Response<ApiResponse<UserData>>) {
+                        if (response.isSuccessful) {
+                            emailVerify.value = Resource.success(response.body()?.data)
+                        } else {
+                            emailVerify.value = Resource.error(
+                                    ApiUtils.getError(response.code(),
+                                            response.errorBody()?.string()))
+                        }
+                    }
+
+                    override fun onFailure(call: Call<ApiResponse<UserData>>, throwable: Throwable) {
+                        emailVerify.value = Resource.error(ApiUtils.failure(throwable))
                     }
 
                 })

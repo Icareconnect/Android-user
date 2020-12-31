@@ -7,9 +7,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.TaskStackBuilder
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.consultantapp.ConsultantUserApplication
 import com.consultantapp.R
-import com.consultantapp.appVersion
+import com.consultantapp.appClientDetails
 import com.consultantapp.data.network.ApisRespHandler
 import com.consultantapp.data.network.responseUtil.Status
 import com.consultantapp.data.repos.UserRepository
@@ -75,8 +74,7 @@ class SplashActivity : DaggerAppCompatActivity() {
                     }
 
                     prefsManager.save(APP_DETAILS, appDetails)
-                    appVersion = userRepository.getAppSetting()
-                    ConsultantUserApplication.currencyCode = appDetails?.currency ?: ""
+                    appClientDetails = userRepository.getAppSetting()
 
                     /*Check App Version*/
                     val hashMap = HashMap<String, String>()

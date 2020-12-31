@@ -10,7 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.consultantapp.R
-import com.consultantapp.appVersion
+import com.consultantapp.appClientDetails
 import com.consultantapp.data.models.responses.CountryCity
 import com.consultantapp.data.models.responses.UserData
 import com.consultantapp.data.models.responses.appdetails.Insurance
@@ -105,14 +105,14 @@ class InsuranceFragment : DaggerFragment() {
         if (isConnectedToInternet(requireContext(), true)) {
             val hashMap = HashMap<String, String>()
             hashMap["type"] = CountryListType.STATE
-            hashMap["country_id"] = appVersion.country_id ?: ""
+            hashMap["country_id"] = appClientDetails.country_id ?: ""
 
             viewModelVersion.countryCity(hashMap)
 
             if (!userData?.profile?.state_id.isNullOrEmpty()) {
                 val hashMap = HashMap<String, String>()
                 hashMap["type"] = CountryListType.CITY
-                hashMap["country_id"] = appVersion.country_id ?: ""
+                hashMap["country_id"] = appClientDetails.country_id ?: ""
                 hashMap["state_id"] = userData?.profile?.state_id ?: ""
 
                 viewModelVersion.countryCity(hashMap)
@@ -124,7 +124,7 @@ class InsuranceFragment : DaggerFragment() {
     private fun setUpdateInsurance() {
         userData = userRepository.getUser()
 
-        if (appVersion.clientFeaturesKeys?.isAddress == true) {
+        if (appClientDetails.clientFeaturesKeys?.isAddress == true) {
             setAdapters()
             binding.groupAddress.visible()
 
@@ -143,9 +143,9 @@ class InsuranceFragment : DaggerFragment() {
             binding.groupAddress.gone()
         }
 
-        items.addAll(appVersion.insurances ?: emptyList())
+        items.addAll(appClientDetails.insurances ?: emptyList())
 
-        if (appVersion.insurance == true) {
+        if (appClientDetails.insurance == true) {
             binding.groupInsurance.visible()
 
             /*Check Selected Insurance*/
@@ -204,7 +204,7 @@ class InsuranceFragment : DaggerFragment() {
                         if (isConnectedToInternet(requireContext(), true)) {
                             val hashMap = HashMap<String, String>()
                             hashMap["type"] = CountryListType.CITY
-                            hashMap["country_id"] = appVersion.country_id ?: ""
+                            hashMap["country_id"] = appClientDetails.country_id ?: ""
                             hashMap["state_id"] = itemsState.get(position).id ?: ""
 
                             viewModelVersion.countryCity(hashMap)
@@ -265,25 +265,25 @@ class InsuranceFragment : DaggerFragment() {
         }
 
         when {
-            appVersion.clientFeaturesKeys.isAddress == true && binding.etAddress.text.toString().isEmpty() -> {
+            appClientDetails.clientFeaturesKeys.isAddress == true && binding.etAddress.text.toString().isEmpty() -> {
                 binding.etAddress.showSnackBar(getString(R.string.address))
             }
-            appVersion.clientFeaturesKeys.isAddress == true && binding.etState.text.toString().isEmpty() -> {
+            appClientDetails.clientFeaturesKeys.isAddress == true && binding.etState.text.toString().isEmpty() -> {
                 binding.etState.showSnackBar(getString(R.string.select_state))
             }
-            appVersion.clientFeaturesKeys.isAddress == true && binding.etCity.text.toString().isEmpty() -> {
+            appClientDetails.clientFeaturesKeys.isAddress == true && binding.etCity.text.toString().isEmpty() -> {
                 binding.etCity.showSnackBar(getString(R.string.select_city))
             }
-            appVersion.clientFeaturesKeys.isAddress == true && binding.etZipCode.text.toString().isEmpty() -> {
+            appClientDetails.clientFeaturesKeys.isAddress == true && binding.etZipCode.text.toString().isEmpty() -> {
                 binding.etZipCode.showSnackBar(getString(R.string.zip))
             }
-            appVersion.insurance == true && (!binding.cbYes.isChecked && !binding.cbNo.isChecked) -> {
+            appClientDetails.insurance == true && (!binding.cbYes.isChecked && !binding.cbNo.isChecked) -> {
                 binding.etCity.showSnackBar(getString(R.string.do_you_have_insurance))
             }
-            appVersion.insurance == true && (binding.cbYes.isChecked && idsInsurance.isEmpty()) -> {
+            appClientDetails.insurance == true && (binding.cbYes.isChecked && idsInsurance.isEmpty()) -> {
                 binding.etCity.showSnackBar(getString(R.string.select_insurance))
             }
-            appVersion.insurance == true && (!binding.cbTerm1.isChecked || !binding.cbTerm3.isChecked
+            appClientDetails.insurance == true && (!binding.cbTerm1.isChecked || !binding.cbTerm3.isChecked
                     || !binding.cbTerm3.isChecked) -> {
                 binding.etCity.showSnackBar(getString(R.string.check_all_terms))
                 binding.nsvInsurance.fullScroll(View.FOCUS_DOWN)
@@ -312,7 +312,7 @@ class InsuranceFragment : DaggerFragment() {
 
                 /*Check if zip id is there in custom fields*/
 
-                appVersion.custom_fields?.customer?.forEach {
+                appClientDetails.custom_fields?.customer?.forEach {
                     if (it.field_name == CustomFields.ZIP_CODE) {
                         val customer = ArrayList<Insurance>()
                         val item = it

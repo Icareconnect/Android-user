@@ -25,6 +25,7 @@ import com.consultantapp.ui.LoginViewModel
 import com.consultantapp.ui.loginSignUp.login.LoginFragment
 import com.consultantapp.ui.loginSignUp.masterprefrence.MasterPrefrenceFragment
 import com.consultantapp.ui.loginSignUp.masterprefrence.MasterPrefrenceFragment.Companion.MASTER_PREFRENCE_TYPE
+import com.consultantapp.ui.loginSignUp.verifyotp.VerifyOTPFragment
 import com.consultantapp.utils.*
 import com.consultantapp.utils.PermissionUtils
 import com.consultantapp.utils.dialogs.ProgressDialog
@@ -220,11 +221,15 @@ class SignUpFragment : DaggerFragment(), OnDateSelected {
                         viewModel.updateProfile(hashMap)
                     }
                     else -> {
-                        hashMap["email"] = getRequestBody(binding.etEmail.text.toString().trim())
+                       /* hashMap["email"] = getRequestBody(binding.etEmail.text.toString().trim())
                         hashMap["password"] =
                                 getRequestBody(binding.etPassword.text.toString().trim())
                         hashMap["user_type"] = getRequestBody(APP_TYPE)
-                        viewModel.register(hashMap)
+                        viewModel.register(hashMap)*/
+
+                        val hashMap = HashMap<String, Any>()
+                        hashMap["email"] = binding.etEmail.text.toString().trim()
+                        viewModel.sendEmailOtp(hashMap)
                     }
                 }
             }
@@ -233,20 +238,32 @@ class SignUpFragment : DaggerFragment(), OnDateSelected {
 
 
     private fun bindObservers() {
-        viewModel.register.observe(requireActivity(), Observer {
+        viewModel.sendEmailOtp.observe(requireActivity(), Observer {
             it ?: return@Observer
             when (it.status) {
                 Status.SUCCESS -> {
                     progressDialog.setLoading(false)
 
-                    prefsManager.save(USER_DATA, it.data)
+                    val hashMap = HashMap<String, RequestBody>()
+                    hashMap["name"] = getRequestBody(binding.etName.text.toString().trim())
+                    if (fileToUpload != null && fileToUpload?.exists() == true) {
+                        hashMap["type"] = getRequestBody("img")
 
-                    /*startActivity(Intent(requireContext(), MainActivity::class.java))
-                    requireActivity().finish()
-*/
-                    val fragment = MasterPrefrenceFragment()
+                        val body: RequestBody =
+                                RequestBody.create(MediaType.parse("image/jpeg"), fileToUpload)
+                        hashMap["profile_image\"; fileName=\"" + fileToUpload?.name] = body
+                    }
+
+                    hashMap["email"] = getRequestBody(binding.etEmail.text.toString().trim())
+                    hashMap["password"] =
+                            getRequestBody(binding.etPassword.text.toString().trim())
+                    hashMap["user_type"] = getRequestBody(APP_TYPE)
+
+
+                    val fragment = VerifyOTPFragment()
                     val bundle = Bundle()
-                    bundle.putString(MASTER_PREFRENCE_TYPE, PreferencesType.WORK_ENVIRONMENT)
+                    bundle.putString(VerifyOTPFragment.EXTRA_EMAIL, binding.etEmail.text.toString().trim())
+                    bundle.putSerializable(VerifyOTPFragment.EXTRA_EMAIL_DATA, hashMap)
                     fragment.arguments = bundle
 
                     replaceFragment(requireActivity().supportFragmentManager,

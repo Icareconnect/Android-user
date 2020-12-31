@@ -28,6 +28,7 @@ class AppVersion {
     var insurances: ArrayList<Insurance>? = null
     var custom_fields: CustomFields? = null
     var country_id: String? = null
+    var country_code: Int? = null
 
     var client_features: ArrayList<ClientFeatures>? = null
     var clientFeaturesKeys = ClientFeaturesKeys()

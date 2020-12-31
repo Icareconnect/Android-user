@@ -545,7 +545,7 @@
                     android:layout_height="60dp"
                     android:layout_marginTop="24dp"
                     android:gravity="center"
-                    android:text="@string/no_data_found"
+                    android:text="@string/no_reviews_yet"
                     android:textColor="@color/textColor"
                     android:textSize="@dimen/sp_14"
                     android:visibility="gone"

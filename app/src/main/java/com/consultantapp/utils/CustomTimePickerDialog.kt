@@ -6,7 +6,7 @@ import android.content.DialogInterface
 import android.view.View
 import android.widget.NumberPicker
 import android.widget.TimePicker
-import com.consultantapp.appVersion
+import com.consultantapp.appClientDetails
 import java.util.*
 
 class CustomTimePickerDialog(context: Context, private val mTimeSetListener: OnTimeSetListener?,
@@ -83,6 +83,6 @@ class CustomTimePickerDialog(context: Context, private val mTimeSetListener: OnT
 
     companion object {
 
-        private val TIME_PICKER_INTERVAL = appVersion.slot_duration?.toInt() ?: 30
+        private val TIME_PICKER_INTERVAL = appClientDetails.slot_duration?.toInt() ?: 30
     }
 }
