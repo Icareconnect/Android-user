@@ -313,11 +313,12 @@ class AppointmentStatusActivity : DaggerAppCompatActivity(), OnMapReadyCallback 
             when (it.status) {
                 Status.SUCCESS -> {
                     if (request?.status == CallAction.START) {
-                        binding.tvTime.text = getString(
-                                R.string.estimate_time_of_arrival_s,
-                                it.data?.routes?.get(0)?.legs?.get(0)?.duration?.text
-                        )
-                        drawDirectionToStop(it.data?.routes?.get(0)?.overview_polyline)
+                        try {
+                            binding.tvTime.text = getString(R.string.estimate_time_of_arrival_s,
+                                    it.data?.routes?.get(0)?.legs?.get(0)?.duration?.text)
+                            drawDirectionToStop(it.data?.routes?.get(0)?.overview_polyline)
+                        } catch (e: Exception) {
+                        }
                     }
 
                 }

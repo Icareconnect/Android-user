@@ -80,11 +80,29 @@
                     app:layout_constraintTop_toTopOf="@+id/ivPic" />
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvExperience"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_16"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/campton_book"
+                    android:maxLines="1"
+                    android:layout_marginTop="@dimen/dp_2"
+                    tools:text="@string/experience"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/sp_14"
+                    app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+                    app:layout_constraintStart_toEndOf="@+id/ivPic"
+                    app:layout_constraintTop_toBottomOf="@+id/tvName" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvRating"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp_16"
                     android:layout_marginTop="@dimen/dp_2"
+                    android:visibility="gone"
                     android:drawableStart="@drawable/ic_star"
                     android:drawablePadding="@dimen/dp_4"
                     android:ellipsize="end"
@@ -95,7 +113,7 @@
                     android:textSize="@dimen/sp_12"
                     app:layout_constraintEnd_toEndOf="@id/endGuideLine"
                     app:layout_constraintStart_toEndOf="@+id/ivPic"
-                    app:layout_constraintTop_toBottomOf="@+id/tvName" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvExperience" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvLocation"

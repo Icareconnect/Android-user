@@ -57,12 +57,13 @@ class LoginFragment : DaggerFragment() {
         viewModel = ViewModelProvider(this, viewModelFactory)[LoginViewModel::class.java]
         progressDialog = ProgressDialog(requireActivity())
 
-        binding.tvTerms.movementMethod = LinkMovementMethod.getInstance()
-        binding.tvTerms.setText(setAcceptTerms(requireActivity(), getString(R.string.you_agree_to_our_terms)), TextView.BufferType.SPANNABLE)
+        binding.cbTerms.movementMethod = LinkMovementMethod.getInstance()
+        binding.cbTerms.setText(setAcceptTerms(requireActivity()), TextView.BufferType.SPANNABLE)
 
         if (arguments?.containsKey(EXTRA_SIGNUP) == true) {
             binding.tvTitle.text = getString(R.string.sign_up_care_connect)
 
+            binding.cbTerms.visible()
             binding.tvLoginScreen.gone()
             binding.tvLoginTitle.gone()
         }else if (arguments?.containsKey(UPDATE_NUMBER) == true) {
@@ -70,7 +71,6 @@ class LoginFragment : DaggerFragment() {
 
             binding.tvLoginScreen.gone()
             binding.tvLoginTitle.gone()
-            binding.tvTerms.gone()
         }
     }
 
@@ -83,15 +83,21 @@ class LoginFragment : DaggerFragment() {
         }
 
         binding.ivNext.setOnClickListener {
-            if (binding.etMobileNumber.text.toString().isEmpty() || binding.etMobileNumber.text.toString().length < 6) {
-                binding.etMobileNumber.showSnackBar(getString(R.string.enter_phone_number))
-            } else if (isConnectedToInternet(requireContext(), true)) {
+            when {
+                binding.etMobileNumber.text.toString().isEmpty() || binding.etMobileNumber.text.toString().length < 6 -> {
+                    binding.etMobileNumber.showSnackBar(getString(R.string.enter_phone_number))
+                }
+                binding.cbTerms.visibility==View.VISIBLE && !binding.cbTerms.isChecked -> {
+                    binding.cbTerms.showSnackBar(getString(R.string.check_all_terms))
+                }
+                isConnectedToInternet(requireContext(), true) -> {
 
-                val hashMap = HashMap<String, Any>()
-                hashMap["country_code"] = binding.ccpCountryCode.selectedCountryCodeWithPlus
-                hashMap["phone"] = binding.etMobileNumber.text.toString()
+                    val hashMap = HashMap<String, Any>()
+                    hashMap["country_code"] = binding.ccpCountryCode.selectedCountryCodeWithPlus
+                    hashMap["phone"] = binding.etMobileNumber.text.toString()
 
-                viewModel.sendSms(hashMap)
+                    viewModel.sendSms(hashMap)
+                }
             }
         }
 

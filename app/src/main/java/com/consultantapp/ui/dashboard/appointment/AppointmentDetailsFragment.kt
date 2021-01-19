@@ -143,9 +143,10 @@ class AppointmentDetailsFragment : DaggerFragment() {
         binding.tvStatus.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
 
         /*Hide now*/
-        //binding.tvSpecialInstructionsV.text = request.extra_detail?.reason_for_service
-        binding.tvSpecialInstructions.gone()
-        binding.tvSpecialInstructionsV.gone()
+        val specialInstruction = request.extra_detail?.reason_for_service
+        binding.tvSpecialInstructionsV.text = specialInstruction
+        binding.tvSpecialInstructions.hideShowView(specialInstruction?.isNotEmpty() == true)
+        binding.tvSpecialInstructionsV.hideShowView(specialInstruction?.isNotEmpty() == true)
 
 
         var services = ""

@@ -20,19 +20,19 @@
             app:navigationIcon="@drawable/ic_back" />
 
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <TextView
             android:id="@+id/tvTitle"
-            android:layout_width="match_parent"
-            android:layout_height="?android:attr/actionBarSize"
-            android:elevation="@dimen/dp_4"
-            android:fontFamily="@font/campton_semibold"
-            android:gravity="center"
-            android:text="@string/sign_up"
-            android:textColor="@color/textColor"
-            android:textSize="@dimen/sp_20"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_24"
+            android:layout_marginTop="@dimen/dp_24"
+            android:layout_marginEnd="@dimen/dp_24"
+            android:text="@string/sign_up_care_connect"
+            android:textAppearance="@style/Toolbar.Title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -40,10 +40,11 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
+                android:paddingBottom="@dimen/dp_24"
                 android:layout_height="wrap_content">
 
                 <androidx.constraintlayout.widget.Guideline
@@ -59,6 +60,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     app:layout_constraintGuide_end="@dimen/dp_24" />
+
 
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/ivPic"
@@ -88,10 +90,10 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/campton_medium"
                         android:hint="@string/full_name"
-                        android:textAllCaps="true"
                         android:imeOptions="actionNext"
                         android:inputType="textCapWords"
                         android:maxLength="100"
+                        android:textAllCaps="true"
                         android:textColor="@color/textColor"
                         android:textSize="@dimen/sp_16" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -111,15 +113,71 @@
                         android:id="@+id/etDob"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:focusable="false"
                         android:fontFamily="@font/campton_medium"
                         android:hint="@string/date_of_birth"
-                        android:focusable="false"
                         android:imeOptions="actionNext"
                         android:inputType="text"
                         android:maxLength="50"
                         android:textColor="@color/textColor"
                         android:textSize="@dimen/sp_16" />
                 </com.google.android.material.textfield.TextInputLayout>
+
+                <com.hbb20.CountryCodePicker
+                    android:id="@+id/ccpCountryCode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_16"
+                    android:gravity="center|start"
+                    app:ccp_contentColor="@color/colorBlack"
+                    app:ccp_showArrow="false"
+                    app:ccp_showFlag="false"
+                    app:ccp_showNameCode="true"
+                    app:ccp_textSize="@dimen/sp_16"
+                    app:layout_constraintStart_toStartOf="@id/startGuideLine"
+                    app:layout_constraintTop_toBottomOf="@+id/ilDob" />
+
+
+                <View
+                    android:id="@+id/ivLine"
+                    android:layout_width="2dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="@dimen/dp_4"
+                    android:background="@color/lineColor"
+                    app:layout_constraintBottom_toBottomOf="@+id/ccpCountryCode"
+                    app:layout_constraintStart_toEndOf="@+id/ccpCountryCode"
+                    app:layout_constraintTop_toTopOf="@+id/ccpCountryCode" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etMobileNumber"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_4"
+                    android:layout_marginTop="@dimen/dp_16"
+                    android:background="@null"
+                    android:digits="0123456789"
+                    android:ellipsize="end"
+                    android:hint="@string/enter_phone_number"
+                    android:imeOptions="actionDone"
+                    android:inputType="number"
+                    android:maxLength="15"
+                    android:maxLines="1"
+                    android:padding="@dimen/dp_10"
+                    android:textAppearance="@style/Toolbar.Title"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+                    app:layout_constraintStart_toEndOf="@+id/ivLine"
+                    app:layout_constraintTop_toBottomOf="@+id/ilDob" />
+
+                <View
+                    android:id="@+id/ivLine1"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="@color/lineColor"
+                    app:layout_constraintEnd_toEndOf="@+id/etMobileNumber"
+                    app:layout_constraintStart_toStartOf="@+id/ccpCountryCode"
+                    app:layout_constraintTop_toBottomOf="@+id/etMobileNumber" />
+
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/ilEmail"
@@ -128,7 +186,7 @@
                     android:layout_marginTop="@dimen/dp_16"
                     app:layout_constraintEnd_toEndOf="@id/endGuideLine"
                     app:layout_constraintStart_toStartOf="@id/startGuideLine"
-                    app:layout_constraintTop_toBottomOf="@+id/ilDob">
+                    app:layout_constraintTop_toBottomOf="@+id/etMobileNumber">
 
                     <androidx.appcompat.widget.AppCompatEditText
                         android:id="@+id/etEmail"
@@ -136,10 +194,10 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/campton_medium"
                         android:hint="@string/email"
-                        android:textAllCaps="true"
                         android:imeOptions="actionNext"
                         android:inputType="textEmailAddress"
                         android:maxLength="100"
+                        android:textAllCaps="true"
                         android:textColor="@color/textColor"
                         android:textSize="@dimen/sp_16" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -160,10 +218,10 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/campton_medium"
                         android:hint="@string/password"
-                        android:textAllCaps="true"
                         android:imeOptions="actionNext"
                         android:inputType="textPassword"
                         android:maxLength="100"
+                        android:textAllCaps="true"
                         android:textColor="@color/textColor"
                         android:textSize="@dimen/sp_16" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -172,8 +230,8 @@
                     android:id="@+id/ilConfirmPassword"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
                     android:layout_marginTop="@dimen/dp_16"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="@id/endGuideLine"
                     app:layout_constraintStart_toStartOf="@id/startGuideLine"
                     app:layout_constraintTop_toBottomOf="@+id/ilPassword">
@@ -211,11 +269,29 @@
                         android:hint="@string/bio"
                         android:imeOptions="actionDone"
                         android:inputType="textCapSentences|textMultiLine"
-                        android:maxLines="4"
                         android:maxLength="1000"
+                        android:maxLines="4"
                         android:textColor="@color/textColor"
                         android:textSize="@dimen/sp_16" />
                 </com.google.android.material.textfield.TextInputLayout>
+
+
+                <CheckBox
+                    android:id="@+id/cbTerms"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_24"
+                    android:layout_marginEnd="@dimen/dp_4"
+                    android:layout_marginBottom="@dimen/dp_24"
+                    android:checked="false"
+                    android:fontFamily="@font/campton_medium"
+                    android:padding="@dimen/dp_8"
+                    android:text="@string/you_agree_to_our_terms"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/sp_14"
+                    app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+                    app:layout_constraintStart_toStartOf="@id/startGuideLine"
+                    app:layout_constraintTop_toBottomOf="@+id/ilBio" />
 
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -224,7 +300,7 @@
                     android:layout_height="@dimen/dp_64"
                     android:layout_marginTop="@dimen/dp_42"
                     app:layout_constraintEnd_toEndOf="@id/endGuideLine"
-                    app:layout_constraintTop_toBottomOf="@+id/ilBio"
+                    app:layout_constraintTop_toBottomOf="@+id/cbTerms"
                     app:srcCompat="@drawable/ic_fab_next" />
 
 
@@ -263,26 +339,6 @@
                     app:layout_constraintStart_toEndOf="@+id/tvAlreadyRegister"
                     app:layout_constraintTop_toTopOf="@+id/tvAlreadyRegister" />
 
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvTerms"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_64"
-                    android:layout_marginEnd="@dimen/dp_4"
-                    android:layout_marginBottom="@dimen/dp_24"
-                    android:background="?attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:fontFamily="@font/campton_medium"
-                    android:padding="@dimen/dp_4"
-                    android:text="@string/you_agree_to_our_terms"
-                    android:textColor="@color/textColor"
-                    android:textSize="@dimen/sp_16"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@id/endGuideLine"
-                    app:layout_constraintStart_toStartOf="@id/startGuideLine"
-                    app:layout_constraintTop_toBottomOf="@+id/ivNext" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>

@@ -20,8 +20,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.consultantapp.R
 import com.consultantapp.data.models.requests.SaveAddress
+import com.consultantapp.data.models.responses.FilterOption
 import com.consultantapp.data.repos.UserRepository
 import com.consultantapp.databinding.ActivityAddAddressBinding
+import com.consultantapp.ui.dashboard.home.bookservice.registerservice.CheckItemAdapter
 import com.consultantapp.utils.*
 import com.consultantapp.utils.PermissionUtils
 import com.google.android.gms.location.*
@@ -64,6 +66,10 @@ class AddAddressActivity : DaggerAppCompatActivity(), GoogleMap.OnCameraChangeLi
 
     lateinit var mFusedLocationClient: FusedLocationProviderClient
 
+    private lateinit var adapterRelation: CheckItemAdapter
+
+    private var itemsRelation = ArrayList<FilterOption>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_add_address)
@@ -71,6 +77,7 @@ class AddAddressActivity : DaggerAppCompatActivity(), GoogleMap.OnCameraChangeLi
         setEditAddress()
         initialise()
         setListeners()
+        setAdapter()
     }
 
     private fun initialise() {
@@ -92,7 +99,22 @@ class AddAddressActivity : DaggerAppCompatActivity(), GoogleMap.OnCameraChangeLi
     }
 
 
-    private fun setListeners() {
+    private fun setAdapter() {
+        val listHomeCare = resources.getStringArray(R.array.addressType)
+
+        itemsRelation.clear()
+        listHomeCare.forEach {
+            val item = FilterOption()
+            item.option_name = it
+            itemsRelation.add(item)
+        }
+
+        adapterRelation = CheckItemAdapter(null,false, false, itemsRelation)
+        binding.rvAddressType.adapter = adapterRelation
+
+    }
+
+        private fun setListeners() {
         binding.toolbar.setNavigationOnClickListener {
             onBackPressed()
         }
@@ -136,9 +158,6 @@ class AddAddressActivity : DaggerAppCompatActivity(), GoogleMap.OnCameraChangeLi
         when {
             binding.etLocation.text.toString().isEmpty() -> {
                 binding.etLocation.showSnackBar(getString(R.string.location))
-            }
-            binding.etHouseNo.text.toString().isEmpty() -> {
-                binding.etHouseNo.showSnackBar(getString(R.string.house_no))
             }
             else -> {
                 saveAddress.houseNumber = binding.etHouseNo.text?.trim().toString()

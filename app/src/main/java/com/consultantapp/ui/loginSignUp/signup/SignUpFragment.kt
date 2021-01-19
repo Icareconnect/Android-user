@@ -88,13 +88,8 @@ class SignUpFragment : DaggerFragment(), OnDateSelected {
         viewModel = ViewModelProvider(this, viewModelFactory)[LoginViewModel::class.java]
         progressDialog = ProgressDialog(requireActivity())
 
-        binding.tvTerms.movementMethod = LinkMovementMethod.getInstance()
-        binding.tvTerms.setText(
-                setAcceptTerms(
-                        requireActivity(),
-                        getString(R.string.you_agree_to_our_terms)
-                ), TextView.BufferType.SPANNABLE
-        )
+        binding.cbTerms.movementMethod = LinkMovementMethod.getInstance()
+        binding.cbTerms.setText(setAcceptTerms(requireActivity()), TextView.BufferType.SPANNABLE)
     }
 
     private fun setEditInformation() {
@@ -109,12 +104,9 @@ class SignUpFragment : DaggerFragment(), OnDateSelected {
             binding.etEmail.setText(userData?.email ?: "")
 
             if (!userData?.profile?.dob.isNullOrEmpty())
-                binding.etDob.setText(
-                        DateUtils.dateFormatChange(
-                                DateFormat.DATE_FORMAT,
-                                DateFormat.DATE_FORMAT_SLASH, userData?.profile?.dob ?: ""
-                        )
-                )
+                binding.etDob.setText(DateUtils.dateFormatChange(
+                        DateFormat.DATE_FORMAT,
+                        DateFormat.DATE_FORMAT_SLASH, userData?.profile?.dob ?: ""))
 
             loadImage(binding.ivPic, userData?.profile_image, R.drawable.ic_profile_placeholder)
 
@@ -122,7 +114,11 @@ class SignUpFragment : DaggerFragment(), OnDateSelected {
             binding.ilConfirmPassword.gone()
             binding.tvAlreadyRegister.gone()
             binding.tvLogin.gone()
-            binding.tvTerms.gone()
+            binding.cbTerms.gone()
+            binding.ccpCountryCode.gone()
+            binding.ivLine.gone()
+            binding.etMobileNumber.gone()
+            binding.ivLine1.gone()
 
             isUpdate = true
         } else if (arguments?.containsKey(UPDATE_NUMBER) == true) {
@@ -130,7 +126,12 @@ class SignUpFragment : DaggerFragment(), OnDateSelected {
             binding.ilConfirmPassword.gone()
             binding.tvAlreadyRegister.gone()
             binding.tvLogin.gone()
-            binding.tvTerms.gone()
+            binding.cbTerms.gone()
+
+            binding.ccpCountryCode.gone()
+            binding.ivLine.gone()
+            binding.etMobileNumber.gone()
+            binding.ivLine1.gone()
 
             isUpdate = true
         }
@@ -176,24 +177,33 @@ class SignUpFragment : DaggerFragment(), OnDateSelected {
             /*binding.etDob.text.toString().isEmpty() -> {
                 binding.etDob.showSnackBar(getString(R.string.select_dob))
             }*/
+            (binding.etMobileNumber.visibility == View.VISIBLE &&
+                    (binding.etMobileNumber.text.toString().isEmpty() || binding.etMobileNumber.text.toString().length < 6)) -> {
+                binding.etEmail.showSnackBar(getString(R.string.enter_phone_number))
+            }
             (!isUpdate && binding.etEmail.text.toString().trim().isEmpty()) -> {
                 binding.etEmail.showSnackBar(getString(R.string.enter_email))
             }
-            (binding.etEmail.text.toString().trim()
-                    .isNotEmpty() && !Patterns.EMAIL_ADDRESS.matcher(
-                    binding.etEmail.text.toString().trim()
-            )
-                    .matches()) -> {
+            (binding.etEmail.text.toString().trim().isNotEmpty() && !Patterns.EMAIL_ADDRESS.matcher(
+                    binding.etEmail.text.toString().trim()).matches()) -> {
                 binding.etEmail.showSnackBar(getString(R.string.enter_correct_email))
             }
             (!isUpdate && binding.etPassword.text.toString().trim().length < 8) -> {
                 binding.etPassword.showSnackBar(getString(R.string.enter_password))
             }
-
+            binding.cbTerms.visibility == View.VISIBLE && !binding.cbTerms.isChecked -> {
+                binding.cbTerms.showSnackBar(getString(R.string.check_all_terms))
+            }
             isConnectedToInternet(requireContext(), true) -> {
 
                 val hashMap = HashMap<String, RequestBody>()
                 hashMap["name"] = getRequestBody(binding.etName.text.toString().trim())
+
+                if (binding.etMobileNumber.text.toString().trim().isNotEmpty()) {
+                    hashMap["country_code"] = getRequestBody(binding.ccpCountryCode.selectedCountryCodeWithPlus)
+                    hashMap["phone"] = getRequestBody(binding.etMobileNumber.text.toString())
+                }
+
                 /* hashMap["dob"] = getRequestBody(
                      DateUtils.dateFormatChange(
                          DateFormat.DATE_FORMAT_SLASH,
@@ -221,11 +231,11 @@ class SignUpFragment : DaggerFragment(), OnDateSelected {
                         viewModel.updateProfile(hashMap)
                     }
                     else -> {
-                       /* hashMap["email"] = getRequestBody(binding.etEmail.text.toString().trim())
-                        hashMap["password"] =
-                                getRequestBody(binding.etPassword.text.toString().trim())
-                        hashMap["user_type"] = getRequestBody(APP_TYPE)
-                        viewModel.register(hashMap)*/
+                        /* hashMap["email"] = getRequestBody(binding.etEmail.text.toString().trim())
+                         hashMap["password"] =
+                                 getRequestBody(binding.etPassword.text.toString().trim())
+                         hashMap["user_type"] = getRequestBody(APP_TYPE)
+                         viewModel.register(hashMap)*/
 
                         val hashMap = HashMap<String, Any>()
                         hashMap["email"] = binding.etEmail.text.toString().trim()
@@ -292,7 +302,7 @@ class SignUpFragment : DaggerFragment(), OnDateSelected {
 
                     if (requireActivity().intent.hasExtra(UPDATE_PROFILE))
                         requireActivity().finish()
-                    else if (arguments?.containsKey(UPDATE_NUMBER)==true){
+                    else if (arguments?.containsKey(UPDATE_NUMBER) == true) {
                         val fragment = MasterPrefrenceFragment()
                         val bundle = Bundle()
                         bundle.putString(MASTER_PREFRENCE_TYPE, PreferencesType.WORK_ENVIRONMENT)

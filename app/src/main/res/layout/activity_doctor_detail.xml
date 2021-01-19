@@ -31,7 +31,6 @@
             android:clickable="true"
             android:focusable="true"
             android:src="@mipmap/ic_share"
-            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="@+id/ivBack"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/ivBack" />

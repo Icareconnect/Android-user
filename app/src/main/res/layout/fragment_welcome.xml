@@ -99,20 +99,6 @@
                     app:layout_constraintStart_toStartOf="@id/startGuideLine"
                     app:layout_constraintTop_toBottomOf="@+id/tvSignUpMobile" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvTerms"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_24"
-                    android:fontFamily="@font/campton_medium"
-                    android:gravity="center"
-                    android:text="@string/you_agree_to_our_terms"
-                    android:textColor="@color/textColor"
-                    android:textSize="@dimen/sp_12"
-                    app:layout_constraintEnd_toEndOf="@id/endGuideLine"
-                    app:layout_constraintStart_toStartOf="@id/startGuideLine"
-                    app:layout_constraintTop_toBottomOf="@id/tvSignUpEmail" />
-
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
 

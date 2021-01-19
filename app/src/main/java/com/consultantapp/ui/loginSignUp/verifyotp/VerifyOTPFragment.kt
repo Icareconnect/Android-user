@@ -240,6 +240,25 @@ class VerifyOTPFragment : DaggerFragment() {
             }
         })
 
+        viewModel.sendEmailOtp.observe(requireActivity(), Observer {
+            it ?: return@Observer
+            when (it.status) {
+                Status.SUCCESS -> {
+                    progressDialog.setLoading(false)
+
+                    requireContext().longToast(getString(R.string.code_sent_to, phoneNumber))
+
+                }
+                Status.ERROR -> {
+                    progressDialog.setLoading(false)
+                    ApisRespHandler.handleError(it.error, requireActivity(), prefsManager)
+                }
+                Status.LOADING -> {
+                    progressDialog.setLoading(true)
+                }
+            }
+        })
+
 
         viewModel.updateNumber.observe(requireActivity(), Observer {
             it ?: return@Observer

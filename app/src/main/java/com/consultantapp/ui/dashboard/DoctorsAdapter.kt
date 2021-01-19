@@ -52,6 +52,7 @@ class DoctorsAdapter(private val activity: DoctorListActivity, private val items
         val context = binding.root.context
 
         init {
+            binding.tvRating.gone()
             binding.clDoctor.setOnClickListener {
                 activity.clickItem(items[adapterPosition])
             }
@@ -73,6 +74,14 @@ class DoctorsAdapter(private val activity: DoctorListActivity, private val items
 
             binding.ivActiveStatus.hideShowView(doctor.doctor_data?.isAvailable == true)
 
+
+            doctor.doctor_data?.custom_fields?.forEach {
+                when (it.field_name) {
+                    CustomFields.WORK_EXPERIENCE -> {
+                        binding.tvExperience.text = context.getString(R.string.exp_s,it.field_value)
+                    }
+                }
+            }
         }
     }
 

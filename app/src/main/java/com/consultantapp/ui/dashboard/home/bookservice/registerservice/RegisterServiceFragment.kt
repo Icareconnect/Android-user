@@ -64,7 +64,6 @@ class RegisterServiceFragment : DaggerFragment() {
             initialise()
             listeners()
             setAdapter()
-            hitApi()
             bindObservers()
         }
         return rootView
@@ -78,7 +77,7 @@ class RegisterServiceFragment : DaggerFragment() {
         binding.ilNameOther.gone()
 
         binding.cbTerms.movementMethod = LinkMovementMethod.getInstance()
-        binding.cbTerms.setText(setAcceptTerms(requireActivity(), getString(R.string.you_agree_to_our_terms)), TextView.BufferType.SPANNABLE)
+        binding.cbTerms.setText(setAcceptTerms(requireActivity()), TextView.BufferType.SPANNABLE)
 
         binding.etName.setText(userRepository.getUser()?.name ?: "")
 

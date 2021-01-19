@@ -2,7 +2,9 @@ package com.consultantapp.ui.dashboard.home.bookservice.registerservice
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.consultantapp.R
 import com.consultantapp.data.models.responses.FilterOption
@@ -14,7 +16,7 @@ import com.consultantapp.utils.gone
 import com.consultantapp.utils.visible
 
 
-class CheckItemAdapter(private val fragment: RegisterServiceFragment,private val serviceFor: Boolean,
+class CheckItemAdapter(private val fragment: Fragment?, private val serviceFor: Boolean,
                        private val multiSelect: Boolean, private val items: ArrayList<FilterOption>) :
         RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -51,23 +53,40 @@ class CheckItemAdapter(private val fragment: RegisterServiceFragment,private val
     inner class ViewHolder(val binding: RvItemCheckBinding) :
             RecyclerView.ViewHolder(binding.root) {
 
+        val context=binding.root.context
+        init {
+
+        }
+
         fun bind(item: FilterOption) = with(binding) {
-            if (multiSelect) {
-                cbName.visible()
-                rbName.gone()
+            if (fragment is RegisterServiceFragment) {
+                if (multiSelect) {
+                    cbName.visible()
+                    rbName.gone()
+                } else {
+                    cbName.gone()
+                    rbName.visible()
+                }
             } else {
-                cbName.gone()
-                rbName.visible()
+                tvName.visible()
+                if (item.isSelected) {
+                    tvName.setBackgroundResource(R.drawable.drawable_theme_60)
+                    tvName.setTextColor(ContextCompat.getColor(context, R.color.colorWhite))
+                } else {
+                    tvName.setBackgroundResource(R.drawable.drawable_stroke_inactive)
+                    tvName.setTextColor(ContextCompat.getColor(context, R.color.colorBlack))
+                }
             }
 
             cbName.text = item.option_name
             rbName.text = item.option_name
+            tvName.text = item.option_name
 
             rbName.isChecked = item.isSelected
             cbName.isChecked = item.isSelected
 
             clMain.setOnClickListener {
-                val pos=adapterPosition
+                val pos = adapterPosition
                 if (multiSelect) {
                     items[pos].isSelected = !items[pos].isSelected
                     notifyDataSetChanged()
@@ -77,7 +96,8 @@ class CheckItemAdapter(private val fragment: RegisterServiceFragment,private val
                     }
                     notifyDataSetChanged()
                 }
-                fragment.onItemClick(serviceFor,pos)
+                if (fragment is RegisterServiceFragment)
+                    fragment.onItemClick(serviceFor, pos)
             }
         }
     }

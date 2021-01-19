@@ -173,7 +173,7 @@ class DateTimeFragment : DaggerFragment(), OnTimeSelected {
                     bookService.date = dateSelected.removeSuffix(", ")
                     bookService.startTime = binding.tvStartTimeV.text.toString()
                     bookService.endTime = binding.tvEndTimeV.text.toString()
-                    //bookService.reason = binding.etReason.text.toString()
+                    bookService.reason = binding.etReason.text.toString()
 
                     if (isConnectedToInternet(requireContext(), true)) {
 
@@ -251,7 +251,7 @@ class DateTimeFragment : DaggerFragment(), OnTimeSelected {
             if (itemDays[0].isSelected && time.first.isNotEmpty()) {
                 val sdf = SimpleDateFormat(DateFormat.TIME_FORMAT, Locale.ENGLISH)
                 val calendar = Calendar.getInstance(Locale.getDefault())
-                calendar.add(Calendar.HOUR, 1)
+                calendar.add(Calendar.HOUR, 2)
                 val newTime = sdf.parse(sdf.format(calendar.time))
 
                 val timeCompare = sdf.parse(time.first)

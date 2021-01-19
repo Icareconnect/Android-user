@@ -124,7 +124,7 @@ class DoctorDetailActivity : DaggerAppCompatActivity() {
             when (it.status) {
                 Status.SUCCESS -> {
                     binding.clLoader.gone()
-                    //binding.ivMark.visible()
+                    binding.ivMark.visible()
 
                     doctorData = it.data?.dcotor_detail
                     setDoctorData()
@@ -374,6 +374,22 @@ class DoctorDetailActivity : DaggerAppCompatActivity() {
             binding.tvWorkV.gone()
         }
 
+        binding.tvWork.gone()
+        binding.tvWorkV.gone()
+        binding.tvCovid.gone()
+        binding.tvCovidV.gone()
+        binding.tvWork.gone()
+        binding.tvWork.gone()
+        binding.tvApproved.gone()
+        binding.tvRating.gone()
+        binding.tvPatient.gone()
+        binding.tvPatientV.gone()
+        binding.tvExperience.gone()
+        binding.tvExperienceV.gone()
+        binding.tvReviews.gone()
+        binding.tvReviewsV.gone()
+        binding.tvServices.gone()
+        binding.tvServicesV.gone()
     }
 
 
@@ -389,7 +405,7 @@ class DoctorDetailActivity : DaggerAppCompatActivity() {
 
         binding.ivMark.setOnClickListener {
             if (isConnectedToInternet(this, true)) {
-                shareDeepLink(DeepLink.USER_PROFILE, this, doctorData, userRepository)
+                shareDeepLink(DeepLink.USER_PROFILE, this, doctorData)
             }
         }
 

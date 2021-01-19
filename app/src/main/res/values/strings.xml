@@ -3,7 +3,7 @@
 
     <!--Deep Link-->
     <string name="deep_link_url" translatable="false">intely.page.link</string>
-    <string name="deep_link_ios_bundle" translatable="false">com.codebrew.RoyoConsultant</string>
+    <string name="deep_link_ios_bundle" translatable="false">com.team.iCare</string>
 
     <!--Google-->
     <string name="google_places_api_key" translatable="false">AIzaSyBxwRzUvnbtTjNc8DURP4l4auJWsmrr7Bk</string>
@@ -41,7 +41,7 @@
     <string name="patients">Clients</string>
     <string name="experience">Experience</string>
     <string name="reviews">Reviews</string>
-    <string name="about">About</string>
+    <string name="about">Personal Profile</string>
     <string name="action_settings">Settings</string>
 
     <string name="home">Home</string>
@@ -202,7 +202,7 @@
     <string name="choose_date_amp_time">Choose date &amp; time</string>
     <string name="tomorrow">Tomorrow</string>
     <string name="clear_all">Clear All</string>
-    <string name="booking_details">Booking Details</string>
+    <string name="booking_details">Appointment Details</string>
     <string name="appointment_date_timings">Appointment date &amp; timings</string>
     <string name="confirm_booking">Confirm Booking</string>
     <string name="date_time">%s  · %s</string>
@@ -217,8 +217,8 @@
     <string name="consult">Consult</string>
     <string name="edit_slot">Edit Slot</string>
     <string name="signup_with_phone_number">Sign Up with Phone Number</string>
-    <string name="you_agree_to_our_terms">By Continuing, you agree to our</string>
-    <string name="terms">Terms of service</string>
+    <string name="you_agree_to_our_terms">I have read and agreed to iCareConnect\'s</string>
+    <string name="terms">Terms and Condition</string>
     <string name="and">and</string>
     <string name="privacy">Privacy Policy</string>
     <string name="already_have_an_account">Already have an account?</string>
@@ -278,7 +278,7 @@
     <string name="do_you_have_insurance">Do you have insurance</string>
     <string name="if_yes_what_insurance">If \'Yes\' what Insurance</string>
     <string name="select_insurance">Select Insurance</string>
-    <string name="check_all_terms">Please check all terms</string>
+    <string name="check_all_terms">Please agree to terms before continue</string>
     <string name="select_state">Select State</string>
     <string name="select_city">Select City</string>
     <string name="subscription">Subscription</string>
@@ -314,13 +314,13 @@
     <string name="registered_nurse">Registered Nurse</string>
     <string name="book_appointment">Book appointment</string>
     <string name="start_time">Start time</string>
-    <string name="error_for_today">For Today please select after 1 hour time.</string>
+    <string name="error_for_today">For Today please select after 2 hour time.</string>
     <string name="end_time">End time</string>
     <string name="to">To</string>
     <string name="from">From</string>
     <string name="greater_time">End time must be greater than start time</string>
     <string name="your_request_is_under_process">Your request is under process , please wait until a nurse is being assigned.</string>
-    <string name="reason_of_service">Reason of service...</string>
+    <string name="reason_of_service">Special Instructions</string>
 
 
     <!--Service for-->
@@ -406,9 +406,15 @@
     <string name="feedback">Feedback</string>
     <string name="save">Save</string>
     <string name="check_all">Select All</string>
-    <string name="please_select_all_that_applies">Pick a service. Please select all that applies</string>
-    <string name="completing_payment">Completing your payment. Please wait...</string>
+    <string name="please_select_all_that_applies">Please select all services you require.</string>
+    <string name="completing_payment">Completing your payment. Please wait…</string>
     <string name="result_or_duties">Nurse as per services selected</string>
+    <string name="exp_s">Exp : %s</string>
 
+    <array name="addressType">
+        <item>@string/home</item>
+        <item>@string/work</item>
+        <item>@string/other</item>
+    </array>
 
 </resources>

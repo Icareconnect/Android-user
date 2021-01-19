@@ -1,11 +1,9 @@
 package com.consultantapp.ui.loginSignUp.welcome
 
 import android.os.Bundle
-import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.consultantapp.R
@@ -14,7 +12,6 @@ import com.consultantapp.ui.loginSignUp.login.LoginFragment
 import com.consultantapp.ui.loginSignUp.signup.SignUpFragment
 import com.consultantapp.utils.PrefsManager
 import com.consultantapp.utils.replaceFragment
-import com.consultantapp.utils.setAcceptTerms
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
@@ -46,8 +43,7 @@ class WelcomeFragment : DaggerFragment() {
     }
 
     private fun initialise() {
-        binding.tvTerms.movementMethod = LinkMovementMethod.getInstance()
-        binding.tvTerms.setText(setAcceptTerms(requireActivity(),getString(R.string.you_agree_to_our_terms)), TextView.BufferType.SPANNABLE)
+
     }
 
     private fun listeners() {

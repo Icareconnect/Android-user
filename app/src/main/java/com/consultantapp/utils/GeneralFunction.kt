@@ -40,7 +40,6 @@ import com.consultantapp.R
 import com.consultantapp.appClientDetails
 import com.consultantapp.data.models.responses.UserData
 import com.consultantapp.data.network.Config
-import com.consultantapp.data.repos.UserRepository
 import com.consultantapp.ui.loginSignUp.SignUpActivity
 import com.consultantapp.ui.webview.WebViewActivity
 import com.consultantapp.utils.DateUtils.dateFormatChange
@@ -440,36 +439,15 @@ fun getPathUri(context: Context, uri: Uri): String? {
 }
 
 
-fun setAcceptTerms(activity: Activity,string: String): SpannableString {
-    val term = String.format(
-        "%s\n%s %s %s",
-        string,
-        activity.getString(R.string.terms),
-        activity.getString(R.string.and),
-        activity.getString(R.string.privacy)
-    )
+fun setAcceptTerms(activity: Activity): SpannableString {
+    val term = String.format("%s %s", activity.getString(R.string.you_agree_to_our_terms), activity.getString(R.string.terms))
 
     val string = SpannableString.valueOf(term)
-    string.setSpan(
-        ForegroundColorSpan(ContextCompat.getColor(activity, R.color.colorPrimary)),
-        term.indexOf(activity.getString(R.string.terms)),
-        term.indexOf(" " + activity.getString(R.string.and) + " "),
-        0
-    )
+    string.setSpan(ForegroundColorSpan(ContextCompat.getColor(activity, R.color.colorPrimary)),
+        term.indexOf(activity.getString(R.string.terms)), term.length, 0)
 
-    string.setSpan(
-        ForegroundColorSpan(ContextCompat.getColor(activity, R.color.colorPrimary)),
-        term.indexOf(activity.getString(R.string.privacy)), term.length, 0
-    )
-
-    string.setSpan(
-        Terms(), term.indexOf(activity.getString(R.string.terms)),
-        term.indexOf(" " + activity.getString(R.string.and) + " "), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-    )
-    string.setSpan(
-        Privacy(), term.indexOf(activity.getString(R.string.terms)),
-        term.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-    )
+    string.setSpan(Terms(), term.indexOf(activity.getString(R.string.terms)),
+            term.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
 
     return string
 }
@@ -497,13 +475,9 @@ class Terms : ClickableSpan() {
         //viewPage(PageLink.TERMS)
 
         tv.context.startActivity(
-            Intent(tv.context, WebViewActivity::class.java)
-                .putExtra(
-                    WebViewActivity.LINK_TITLE,
-                    tv.context.getString(R.string.terms_and_conditions)
-                )
-                .putExtra(WebViewActivity.LINK_URL, PageLink.TERMS_CONDITIONS)
-        )
+            Intent(tv.context, WebViewActivity::class.java).putExtra(WebViewActivity.LINK_TITLE,
+                    tv.context.getString(R.string.terms_and_conditions))
+                .putExtra(WebViewActivity.LINK_URL, PageLink.TERMS_CONDITIONS))
     }
 
     override fun updateDrawState(ds: TextPaint) {// override updateDrawState
@@ -517,12 +491,7 @@ fun getHtmlText(string: String): Spanned {
 
 
 /*Share*/
-fun shareDeepLink(
-    deepLink: String,
-    activity: Activity,
-    userData: UserData?,
-    userRepository: UserRepository
-) {
+fun shareDeepLink(deepLink: String, activity: Activity, userData: UserData?) {
     val progressDialog = ProgressDialog(activity)
     progressDialog.setLoading(true)
 

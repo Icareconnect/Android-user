@@ -119,6 +119,10 @@ class SettingsFragment : DaggerFragment() {
                     .putExtra(WebViewActivity.LINK_TITLE, getString(R.string.contact_us))
                     .putExtra(WebViewActivity.LINK_URL, PageLink.CONTACT_US))
         }
+
+        binding.tvInvite.setOnClickListener {
+            shareDeepLink(DeepLink.USER_PROFILE, requireActivity(), null)
+        }
     }
 
     private fun goToProfile() {

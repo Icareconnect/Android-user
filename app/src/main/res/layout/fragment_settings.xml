@@ -218,6 +218,26 @@
                     app:layout_constraintStart_toStartOf="@id/startGuideLine"
                     app:layout_constraintTop_toBottomOf="@+id/tvContactUs" />
 
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvInvite"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:drawableStart="@drawable/ic_invite"
+                    android:drawableEnd="@drawable/ic_next"
+                    android:drawablePadding="@dimen/dp_16"
+                    android:focusable="true"
+                    android:fontFamily="@font/campton_medium"
+                    android:paddingTop="@dimen/dp_16"
+                    android:paddingBottom="@dimen/dp_16"
+                    android:text="@string/invite_people"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+                    app:layout_constraintStart_toStartOf="@id/startGuideLine"
+                    app:layout_constraintTop_toBottomOf="@+id/tvSavedCards" />
+
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvLogout"
@@ -237,7 +257,7 @@
                     android:textSize="@dimen/sp_16"
                     app:layout_constraintEnd_toEndOf="@id/endGuideLine"
                     app:layout_constraintStart_toStartOf="@id/startGuideLine"
-                    app:layout_constraintTop_toBottomOf="@+id/tvSavedCards" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvInvite" />
 
                 <View
                     android:layout_width="@dimen/dp_36"
