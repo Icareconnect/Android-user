@@ -11,8 +11,8 @@ import com.consultantapp.data.network.LoadingStatus.LOADING
 import com.consultantapp.databinding.ItemChatListingBinding
 import com.consultantapp.databinding.ItemPagingLoaderBinding
 import com.consultantapp.utils.*
-import com.consultantapp.utils.ChatType.MESSAGE_TYPE_IMAGE
 import com.consultantapp.utils.DateFormat.DATE_TIME_FORMAT
+import com.consultantapp.utils.DocType.IMAGE
 
 class ChatAdapter(private val fragment: ChatFragment, private val items: ArrayList<ChatList>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -53,7 +53,7 @@ class ChatAdapter(private val fragment: ChatFragment, private val items: ArrayLi
         fun bind(item: ChatList) = with(binding) {
             //slideRecyclerItem(binding.root, binding.root.context)
 
-            if (item.last_message?.messageType == MESSAGE_TYPE_IMAGE) {
+            if (item.last_message?.messageType == IMAGE) {
                 tvTextMessage.gone()
                 ivCamera.visible()
                 tvPhoto.visible()

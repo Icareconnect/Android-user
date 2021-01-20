@@ -7,7 +7,6 @@ import com.consultantapp.data.network.responseUtil.ApiResponse
 import com.consultantapp.data.network.responseUtil.ApiUtils
 import com.consultantapp.data.network.responseUtil.Resource
 import com.consultantapp.di.SingleLiveEvent
-import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -18,10 +17,10 @@ class UploadFileViewModel @Inject constructor(private val webService: WebService
 
     val uploadFile by lazy { SingleLiveEvent<Resource<CommonDataModel>>() }
 
-    fun uploadFile(typeRequest: RequestBody, filePart: Array<MultipartBody.Part?>) {
+    fun uploadFile(hashMap: HashMap<String, RequestBody>) {
         uploadFile.value = Resource.loading()
 
-        webService.uploadFile(typeRequest,filePart)
+        webService.uploadFile(hashMap)
             .enqueue(object : Callback<ApiResponse<CommonDataModel>> {
 
                 override fun onResponse(call: Call<ApiResponse<CommonDataModel>>,

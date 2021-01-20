@@ -14,4 +14,6 @@ class BookService : Serializable {
     var service_type: String? = null
 
     var personName = ""
+    var phone_number : String? = null
+    var country_code: String? = null
 }

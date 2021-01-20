@@ -24,7 +24,6 @@ import com.consultantapp.utils.*
 import com.consultantapp.utils.dialogs.ProgressDialog
 import com.google.gson.Gson
 import dagger.android.support.DaggerFragment
-import okhttp3.RequestBody
 import javax.inject.Inject
 
 class MasterPrefrenceFragment : DaggerFragment() {
@@ -140,8 +139,8 @@ class MasterPrefrenceFragment : DaggerFragment() {
                 }
             }
 
-            val hashMap = HashMap<String, RequestBody>()
-            hashMap["master_preferences"] = getRequestBody(Gson().toJson(filterArray))
+            val hashMap = HashMap<String, Any>()
+            hashMap["master_preferences"] = Gson().toJson(filterArray)
             viewModel.updateProfile(hashMap)
         }
     }

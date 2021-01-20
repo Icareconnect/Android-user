@@ -6,7 +6,6 @@ import com.consultantapp.data.models.responses.UserData
 import com.consultantapp.data.models.responses.appdetails.AppVersion
 import com.consultantapp.data.models.responses.directions.Direction
 import com.consultantapp.data.network.responseUtil.ApiResponse
-import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.*
@@ -76,6 +75,9 @@ interface WebService {
         private const val PACK_DETAIL = "/api/pack-detail"
         private const val CONFIRM_AUTO_ALLOCATE = "/api/confirm-auto-allocate"
         private const val AUTO_ALLOCATE = "/api/auto-allocate"
+
+        private const val SAVE_ADDRESS = "/api/save-address"
+        private const val GET_ADDRESS = "/api/get-address"
         private const val DIRECTIONS="https://maps.googleapis.com/maps/api/directions/json"
 
         private const val WORKING_HOURS = "/api/workingHours"
@@ -104,9 +106,9 @@ interface WebService {
     @POST(RESEND_OTP)
     fun resendOtp(@FieldMap hashMap: HashMap<String, Any>): Call<ApiResponse<UserData>>
 
-    @Multipart
+    @FormUrlEncoded
     @POST(REGISTER)
-    fun register(@PartMap map: HashMap<String, RequestBody>): Call<ApiResponse<UserData>>
+    fun register(@FieldMap hashMap: HashMap<String, Any>): Call<ApiResponse<UserData>>
 
     @FormUrlEncoded
     @POST(FORGOT_PASSWORD)
@@ -117,9 +119,9 @@ interface WebService {
     fun changePassword(@FieldMap hashMap: HashMap<String, Any>): Call<ApiResponse<UserData>>
 
 
-    @Multipart
+    @FormUrlEncoded
     @POST(PROFILE_UPDATE)
-    fun updateProfile(@PartMap map: HashMap<String, RequestBody>): Call<ApiResponse<UserData>>
+    fun updateProfile(@FieldMap hashMap: HashMap<String, Any>): Call<ApiResponse<UserData>>
 
     @FormUrlEncoded
     @POST(COMPLETE_CHAT)
@@ -171,10 +173,7 @@ interface WebService {
 
     @Multipart
     @POST(UPLOAD_IMAGE)
-    fun uploadFile(
-            @Part("type") typeRequest: RequestBody,
-            @Part file: Array<MultipartBody.Part?>
-    ): Call<ApiResponse<CommonDataModel>>
+    fun uploadFile(@PartMap map: HashMap<String, RequestBody>): Call<ApiResponse<CommonDataModel>>
 
     @FormUrlEncoded
     @POST(ADD_REVIEW)
@@ -220,6 +219,11 @@ interface WebService {
     @FormUrlEncoded
     @POST(AUTO_ALLOCATE)
     fun autoAllocate(@FieldMap hashMap: HashMap<String, String>): Call<ApiResponse<CommonDataModel>>
+
+    @FormUrlEncoded
+    @POST(SAVE_ADDRESS)
+    fun saveAddress(@FieldMap hashMap: HashMap<String, Any>): Call<ApiResponse<CommonDataModel>>
+
 
 
     /*GET*/
@@ -305,6 +309,9 @@ interface WebService {
 
     @GET(PACK_SUB)
     fun packSub(@QueryMap hashMap: Map<String, String>): Call<ApiResponse<CommonDataModel>>
+
+    @GET(GET_ADDRESS)
+    fun getAddress(): Call<ApiResponse<CommonDataModel>>
 
     @GET(DIRECTIONS)
     fun directions(@QueryMap hashMap: Map<String, String>): Call<Direction>

@@ -86,6 +86,7 @@ class AddMoneyActivity : DaggerAppCompatActivity(), PaymentResultListener {
             binding.tvTitle.visible()
             binding.tvSymbol.visible()
             binding.etAmount.visible()
+            binding.etAmountBg.visible()
             binding.tvPay.visible()
             binding.etAmount.setText(intent.getStringExtra(EXTRA_PRICE))
             binding.etAmount.isFocusable = false
@@ -130,37 +131,40 @@ class AddMoneyActivity : DaggerAppCompatActivity(), PaymentResultListener {
 
         binding.tvPay.setOnClickListener {
             disableButton(binding.tvPay)
-            if (binding.etAmount.text.toString().isEmpty() || binding.etAmount.text.toString()
-                            .toInt() == 0) {
-                binding.etAmount.showSnackBar(getString(R.string.enter_amount))
-            } else if (paymentFrom == PaymentFrom.STRIPE && selectedCardId.isEmpty()) {
-                binding.etAmount.showSnackBar(getString(R.string.select_card))
-            } else {
-                if (isConnectedToInternet(this, true)) {
-                    when (paymentFrom) {
-                        PaymentFrom.STRIPE -> {
-                            if (intent.hasExtra(EXTRA_REQUEST_ID)) {
-                                val hashMap = intent.getSerializableExtra(EXTRA_REQUEST_ID) as HashMap<String, Any>
-                                hashMap["request_step"] = "create"
-                                hashMap["card_id"] = selectedCardId
-                                viewModelDoctor.createRequest(hashMap)
-                            } else {
-                                val hashMap = HashMap<String, Any>()
-                                hashMap["balance"] = binding.etAmount.text.toString()
-                                hashMap["card_id"] = selectedCardId
-                                viewModel.addMoney(hashMap)
+            when {
+                binding.etAmount.text.toString().isEmpty() -> {
+                    binding.etAmount.showSnackBar(getString(R.string.enter_amount))
+                }
+                paymentFrom == PaymentFrom.STRIPE && selectedCardId.isEmpty() -> {
+                    binding.etAmount.showSnackBar(getString(R.string.select_card))
+                }
+                else -> {
+                    if (isConnectedToInternet(this, true)) {
+                        when (paymentFrom) {
+                            PaymentFrom.STRIPE -> {
+                                if (intent.hasExtra(EXTRA_REQUEST_ID)) {
+                                    val hashMap = intent.getSerializableExtra(EXTRA_REQUEST_ID) as HashMap<String, Any>
+                                    hashMap["request_step"] = "create"
+                                    hashMap["card_id"] = selectedCardId
+                                    viewModelDoctor.createRequest(hashMap)
+                                } else {
+                                    val hashMap = HashMap<String, Any>()
+                                    hashMap["balance"] = binding.etAmount.text.toString()
+                                    hashMap["card_id"] = selectedCardId
+                                    viewModel.addMoney(hashMap)
+                                }
                             }
-                        }
-                        PaymentFrom.RAZOR_PAY -> {
-                            val hashMap = HashMap<String, String>()
+                            PaymentFrom.RAZOR_PAY -> {
+                                val hashMap = HashMap<String, String>()
 
-                            val amount = (binding.etAmount.text.toString().toInt()) * 100
-                            hashMap["balance"] = amount.toString()
-                            viewModel.razorPayCreateOrder(hashMap)
-                        }
+                                val amount = (binding.etAmount.text.toString().toInt()) * 100
+                                hashMap["balance"] = amount.toString()
+                                viewModel.razorPayCreateOrder(hashMap)
+                            }
 
-                        PaymentFrom.CCA_VENUE -> {
-                            //startActivity(Intent(this, InitialScreenActivity::class.java))
+                            PaymentFrom.CCA_VENUE -> {
+                                //startActivity(Intent(this, InitialScreenActivity::class.java))
+                            }
                         }
                     }
                 }

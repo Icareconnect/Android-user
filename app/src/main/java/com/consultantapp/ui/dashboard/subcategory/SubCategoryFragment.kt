@@ -142,7 +142,7 @@ class SubCategoryFragment : DaggerFragment() {
     }
 
     private fun bindObservers() {
-        viewModel.categories.observe(this, Observer {
+        viewModel.categories.observe(requireActivity(), Observer {
             it ?: return@Observer
             when (it.status) {
                 Status.SUCCESS -> {
@@ -182,7 +182,7 @@ class SubCategoryFragment : DaggerFragment() {
         })
 
 
-        viewModelBanner.coupons.observe(this, Observer {
+        viewModelBanner.coupons.observe(requireActivity(), Observer {
             it ?: return@Observer
             when (it.status) {
                 Status.SUCCESS -> {

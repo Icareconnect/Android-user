@@ -231,7 +231,7 @@ class MainActivity : DaggerAppCompatActivity() {
 
                 /*Save Address*/
                 val address = SaveAddress()
-                address.locationName = locationName
+                address.address_name = locationName
                 address.location = ArrayList()
                 address.location?.add(lng)
                 address.location?.add(lat)

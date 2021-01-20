@@ -117,7 +117,7 @@ class DoctorListActivity : DaggerAppCompatActivity() {
             binding.rvServices.gone()
             binding.ivFilter.gone()
 
-            title = getString(R.string.consult_a_doctor)
+            title = getString(R.string.available_nurse_near_you)
         }
 
         binding.tvTitle.text = title
@@ -228,7 +228,7 @@ class DoctorListActivity : DaggerAppCompatActivity() {
 
                 hashMap["lat"] = bookService.address?.location?.get(1).toString()
                 hashMap["long"] = bookService.address?.location?.get(0).toString()
-                hashMap["service_address"] = bookService.address?.locationName ?: ""
+                hashMap["service_address"] = bookService.address?.address_name ?: ""
             }
 
             if (searchText.isNotEmpty())

@@ -24,7 +24,6 @@ import com.consultantapp.utils.*
 import com.consultantapp.utils.dialogs.ProgressDialog
 import com.google.gson.Gson
 import dagger.android.support.DaggerFragment
-import okhttp3.RequestBody
 import javax.inject.Inject
 
 
@@ -291,23 +290,23 @@ class InsuranceFragment : DaggerFragment() {
             else -> {
 
                 val stateId = if (binding.spnState.selectedItemPosition == -1 ||
-                    binding.spnState.selectedItemPosition == 0) ""
+                        binding.spnState.selectedItemPosition == 0) ""
                 else itemsState[binding.spnState.selectedItemPosition].id
 
                 val cityId = if (binding.spnCity.selectedItemPosition == -1 ||
                         binding.spnCity.selectedItemPosition == 0) ""
                 else itemsCity[binding.spnCity.selectedItemPosition].id
 
-                val hashMap = HashMap<String, RequestBody>()
-                hashMap["name"] = getRequestBody(userRepository.getUser()?.name)
-                hashMap["address"] = getRequestBody(binding.etAddress.text.toString())
-                hashMap["state"] = getRequestBody( stateId)
-                hashMap["city"] = getRequestBody(cityId)
-                hashMap["insurance_enable"] = getRequestBody(if (binding.cbYes.isChecked) "1" else "0")
+                val hashMap = HashMap<String, Any>()
+                hashMap["name"] = userRepository.getUser()?.name ?: ""
+                hashMap["address"] = binding.etAddress.text.toString()
+                hashMap["state"] = stateId ?: ""
+                hashMap["city"] = cityId ?: ""
+                hashMap["insurance_enable"] = if (binding.cbYes.isChecked) "1" else "0"
 
                 /*Get selected insurance*/
                 if (binding.cbYes.isChecked) {
-                    hashMap["insurances"] = getRequestBody(idsInsurance.removeSuffix(",")                    )
+                    hashMap["insurances"] = idsInsurance.removeSuffix(",")
                 }
 
                 /*Check if zip id is there in custom fields*/
@@ -320,7 +319,7 @@ class InsuranceFragment : DaggerFragment() {
 
                         customer.add(item)
 
-                        hashMap["custom_fields"] = getRequestBody(Gson().toJson(customer))
+                        hashMap["custom_fields"] = Gson().toJson(customer)
                         return@forEach
                     }
                 }

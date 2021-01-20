@@ -1,5 +1,6 @@
 package com.consultantapp.data.models.responses
 
+import com.consultantapp.data.models.requests.SaveAddress
 import com.consultantapp.data.models.responses.chat.ChatList
 import com.consultantapp.data.models.responses.chat.ChatMessage
 
@@ -70,4 +71,6 @@ class CommonDataModel {
     var request_detail: Request? = null
 
     var preferences: List<Filter>? = null
+
+    var addresses: List<SaveAddress>? = null
 }

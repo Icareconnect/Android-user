@@ -40,10 +40,10 @@
                 android:ellipsize="end"
                 android:fontFamily="@font/campton_semibold"
                 android:maxLines="1"
-                android:text="@string/booking_details"
-                android:textColor="@color/colorWhite"
                 android:paddingStart="@dimen/dp_36"
                 android:paddingEnd="@dimen/dp_0"
+                android:text="@string/booking_details"
+                android:textColor="@color/colorWhite"
                 android:textSize="@dimen/sp_24"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -66,16 +66,16 @@
                 android:layout_marginTop="@dimen/dp_4"
                 android:layout_marginEnd="@dimen/dp_24"
                 android:alpha="0.7"
-                android:focusable="false"
                 android:clickable="false"
-                android:visibility="gone"
                 android:ellipsize="end"
+                android:focusable="false"
                 android:fontFamily="@font/campton_medium"
                 android:maxLines="1"
                 android:text="@string/become_a_member"
                 android:textColor="@color/colorWhite"
                 android:textColorHint="@color/colorWhite"
                 android:textSize="@dimen/sp_16"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvName" />
@@ -126,6 +126,8 @@
                         android:hint="@string/full_name"
                         android:imeOptions="actionNext"
                         android:inputType="textCapWords"
+                        android:clickable="false"
+                        android:focusable="false"
                         android:maxLength="100"
                         android:textAllCaps="true"
                         android:textColor="@color/colorBlack"
@@ -158,53 +160,37 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvRequestService"
                     app:spanCount="2"
-                    tools:itemCount="4"
+                    tools:itemCount="2"
                     tools:listitem="@layout/rv_item_check" />
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/ilNotSelf"
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvNotSelf"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_32"
-                    android:background="@drawable/drawable_stroke_grey"
+                    android:layout_marginTop="@dimen/dp_24"
+                    android:alpha="0.8"
+                    android:fontFamily="@font/campton_semibold"
+                    android:text="@string/if_service_is_not_self"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/sp_16"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/rvServiceFor">
-
-                    <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/etNotSelf"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@null"
-                        android:clickable="false"
-                        android:focusable="false"
-                        android:fontFamily="@font/campton_medium"
-                        android:hint="@string/if_service_is_not_self"
-                        android:imeOptions="actionNext"
-                        android:inputType="textCapWords"
-                        android:maxLength="100"
-                        android:paddingStart="@dimen/dp_16"
-                        android:paddingEnd="@dimen/dp_16"
-                        android:textAllCaps="true"
-                        android:textColor="@color/colorBlack"
-                        android:textSize="@dimen/sp_16" />
-                </com.google.android.material.textfield.TextInputLayout>
+                    app:layout_constraintTop_toBottomOf="@+id/rvServiceFor" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/ilNameOther"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_16"
+                    android:layout_marginTop="@dimen/dp_12"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ilNotSelf">
+                    app:layout_constraintTop_toBottomOf="@+id/tvNotSelf">
 
                     <androidx.appcompat.widget.AppCompatEditText
                         android:id="@+id/etNameOther"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/campton_medium"
-                        android:hint="@string/full_name"
                         android:imeOptions="actionNext"
                         android:inputType="textCapWords"
                         android:maxLength="100"
@@ -212,6 +198,69 @@
                         android:textColor="@color/colorBlack"
                         android:textSize="@dimen/sp_16" />
                 </com.google.android.material.textfield.TextInputLayout>
+
+                <com.hbb20.CountryCodePicker
+                    android:id="@+id/ccpCountryCode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_12"
+                    android:gravity="center|start"
+                    app:ccp_contentColor="@color/colorBlack"
+                    app:ccp_showArrow="false"
+                    app:ccp_showFlag="false"
+                    app:ccp_showNameCode="true"
+                    app:ccp_textSize="@dimen/sp_16"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ilNameOther" />
+
+
+                <View
+                    android:id="@+id/ivLine"
+                    android:layout_width="2dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="@dimen/dp_4"
+                    android:background="@color/lineColor"
+                    app:layout_constraintBottom_toBottomOf="@+id/ccpCountryCode"
+                    app:layout_constraintStart_toEndOf="@+id/ccpCountryCode"
+                    app:layout_constraintTop_toTopOf="@+id/ccpCountryCode" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etMobileNumber"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_4"
+                    android:layout_marginTop="@dimen/dp_12"
+                    android:background="@null"
+                    android:digits="0123456789"
+                    android:ellipsize="end"
+                    android:hint="@string/enter_phone_number"
+                    android:imeOptions="actionDone"
+                    android:inputType="number"
+                    android:maxLength="15"
+                    android:maxLines="1"
+                    android:padding="@dimen/dp_10"
+                    android:textAppearance="@style/Toolbar.Title"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/ivLine"
+                    app:layout_constraintTop_toBottomOf="@+id/ilNameOther" />
+
+                <View
+                    android:id="@+id/ivLine1"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="@color/lineColor"
+                    app:layout_constraintEnd_toEndOf="@+id/etMobileNumber"
+                    app:layout_constraintStart_toStartOf="@+id/ccpCountryCode"
+                    app:layout_constraintTop_toBottomOf="@+id/etMobileNumber" />
+
+                <androidx.constraintlayout.widget.Group
+                    android:id="@+id/groupPhone"
+                    android:layout_width="wrap_content"
+                    android:visibility="gone"
+                    android:layout_height="wrap_content"
+                    app:constraint_referenced_ids="ivLine,ivLine1,ccpCountryCode,etMobileNumber" />
+
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvResultDuties"
@@ -219,14 +268,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_32"
                     android:alpha="0.7"
-                    android:visibility="gone"
                     android:fontFamily="@font/campton_semibold"
                     android:text="@string/result_or_duties"
                     android:textColor="@color/colorBlack"
                     android:textSize="@dimen/sp_14"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ilNameOther" />
+                    app:layout_constraintTop_toBottomOf="@+id/etMobileNumber" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvResultDutiesV"
@@ -236,11 +285,11 @@
                     android:background="@drawable/drawable_stroke_grey"
                     android:fontFamily="@font/campton_medium"
                     android:gravity="center_vertical"
-                    android:padding="@dimen/dp_12"
-                    android:visibility="gone"
                     android:hint="@string/result_or_duties"
+                    android:padding="@dimen/dp_12"
                     android:textColor="@color/colorBlack"
                     android:textSize="@dimen/sp_14"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvResultDuties" />
@@ -259,14 +308,14 @@
                         android:id="@+id/etAddress"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:clickable="false"
+                        android:focusable="false"
                         android:fontFamily="@font/campton_medium"
                         android:hint="@string/service_address"
                         android:imeOptions="actionNext"
                         android:inputType="textCapWords|textImeMultiLine"
                         android:maxLength="100"
-                        android:clickable="false"
                         android:maxLines="5"
-                        android:focusable="false"
                         android:textAllCaps="true"
                         android:textColor="@color/colorBlack"
                         android:textSize="@dimen/sp_16" />
@@ -278,13 +327,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_32"
+                    android:checked="true"
                     android:fontFamily="@font/campton_medium"
                     android:padding="@dimen/dp_8"
-                    android:visibility="gone"
-                    android:checked="true"
                     android:text="@string/you_agree_to_our_terms"
                     android:textColor="@color/colorBlack"
                     android:textSize="@dimen/sp_14"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/ilAddress" />

@@ -21,4 +21,6 @@ class Extra_detail :Serializable{
     var filter_id: String? = null
     var filter_name: String? = null
     var distance: String? = null
+    var phone_number : String? = null
+    var country_code: String? = null
 }

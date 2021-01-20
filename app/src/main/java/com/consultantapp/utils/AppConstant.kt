@@ -109,9 +109,11 @@ object AppRequestCode {
     const val APPOINTMENT_DETAILS: Int = 112
 }
 
-object ChatType {
-    const val MESSAGE_TYPE_TEXT = "TEXT"
-    const val MESSAGE_TYPE_IMAGE = "IMAGE"
+object DocType {
+    const val TEXT = "TEXT"
+    const val IMAGE = "IMAGE"
+    const val PDF = "PDF"
+    const val AUDIO = "AUDIO"
     const val MESSAGE_TYPING = "TYPING"
 }
 

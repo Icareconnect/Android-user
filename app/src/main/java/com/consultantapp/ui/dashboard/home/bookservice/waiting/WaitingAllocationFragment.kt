@@ -79,7 +79,7 @@ class WaitingAllocationFragment : DaggerFragment() {
 
             hashMap["lat"] = bookService.address?.location?.get(1).toString()
             hashMap["long"] = bookService.address?.location?.get(0).toString()
-            hashMap["service_address"] = bookService.address?.locationName ?: ""
+            hashMap["service_address"] = bookService.address?.address_name ?: ""
 
             hashMap["first_name"] = bookService.personName
             hashMap["last_name"] = bookService.personName

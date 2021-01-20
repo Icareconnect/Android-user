@@ -82,6 +82,17 @@ class DoctorsAdapter(private val activity: DoctorListActivity, private val items
                     }
                 }
             }
+
+            var specialisation = ""
+            doctor.doctor_data?.filters?.forEach {
+                it.options?.forEach {
+                    if (it.isSelected) {
+                        specialisation += "${it.option_name}, "
+                    }
+                }
+            }
+            binding.tvCategory.text = specialisation.removeSuffix(", ")
+            binding.tvCategory.hideShowView(specialisation.isNotEmpty())
         }
     }
 

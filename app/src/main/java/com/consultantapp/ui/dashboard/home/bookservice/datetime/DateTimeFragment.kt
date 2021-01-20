@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.consultantapp.R
+import com.consultantapp.appClientDetails
 import com.consultantapp.data.models.requests.BookService
 import com.consultantapp.data.models.requests.DatesAvailability
 import com.consultantapp.data.network.ApisRespHandler
@@ -105,16 +106,16 @@ class DateTimeFragment : DaggerFragment(), OnTimeSelected {
             binding.rvWeek.adapter = datesAdapter
         }
 
-         binding.rvWeek.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                 super.onScrolled(recyclerView, dx, dy)
+        binding.rvWeek.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
 
-                 val layoutManager = binding.rvWeek.layoutManager as LinearLayoutManager
-                 val midItemPosition = layoutManager.findLastVisibleItemPosition() - 4
+                val layoutManager = binding.rvWeek.layoutManager as LinearLayoutManager
+                val midItemPosition = layoutManager.findLastVisibleItemPosition() - 4
 
-                 binding.tvMonth.text = DateUtils.dateFormatFromMillis(DateFormat.MONTH_YEAR, itemDays[midItemPosition].date)
-             }
-         })
+                binding.tvMonth.text = DateUtils.dateFormatFromMillis(DateFormat.MONTH_YEAR, itemDays[midItemPosition].date)
+            }
+        })
 
     }
 
@@ -141,12 +142,13 @@ class DateTimeFragment : DaggerFragment(), OnTimeSelected {
             if (itemDays[0].isSelected && binding.tvStartTimeV.text.isNotEmpty()) {
                 val sdf = SimpleDateFormat(DateFormat.TIME_FORMAT, Locale.ENGLISH)
                 val calendar = Calendar.getInstance(Locale.getDefault())
-                calendar.add(Calendar.HOUR, 1)
+                calendar.add(Calendar.HOUR, appClientDetails.booking_delay ?: 1)
                 val newTime = sdf.parse(sdf.format(calendar.time))
 
                 val timeCompare = sdf.parse(binding.tvStartTimeV.text.toString())
                 if (timeCompare.before(newTime)) {
-                    binding.tvStartTimeV.showSnackBar(getString(R.string.error_for_today))
+                    binding.tvStartTimeV.showSnackBar(getString(R.string.error_for_today, (appClientDetails.booking_delay
+                            ?: 1).toString()))
                     return@setOnClickListener
                 }
             }
@@ -251,12 +253,13 @@ class DateTimeFragment : DaggerFragment(), OnTimeSelected {
             if (itemDays[0].isSelected && time.first.isNotEmpty()) {
                 val sdf = SimpleDateFormat(DateFormat.TIME_FORMAT, Locale.ENGLISH)
                 val calendar = Calendar.getInstance(Locale.getDefault())
-                calendar.add(Calendar.HOUR, 2)
+                calendar.add(Calendar.HOUR, appClientDetails.booking_delay ?: 1)
                 val newTime = sdf.parse(sdf.format(calendar.time))
 
                 val timeCompare = sdf.parse(time.first)
                 if (timeCompare.before(newTime)) {
-                    binding.tvStartTimeV.showSnackBar(getString(R.string.error_for_today))
+                    binding.tvStartTimeV.showSnackBar(getString(R.string.error_for_today, (appClientDetails.booking_delay
+                            ?: 1).toString()))
                     return
                 }
             }

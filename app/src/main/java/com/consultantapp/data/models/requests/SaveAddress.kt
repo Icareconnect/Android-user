@@ -3,10 +3,12 @@ package com.consultantapp.data.models.requests
 import java.io.Serializable
 
 class SaveAddress : Serializable {
-    var locationName: String? = null
-    var houseNumber: String? = null
+    var address_name: String? = null
+    var house_no: String? = null
+    var save_as: String? = null
     var location: ArrayList<Double>? = null
-    var isDefault = false
     var _id: String? = null
     var addressId: String? = null
+    var lat: String? = null
+    var long: String? = null
 }

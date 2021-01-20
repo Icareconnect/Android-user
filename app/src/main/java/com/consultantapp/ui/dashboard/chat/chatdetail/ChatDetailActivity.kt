@@ -47,7 +47,6 @@ import droidninja.filepicker.FilePickerConst
 import io.socket.client.Ack
 import io.socket.emitter.Emitter
 import okhttp3.MediaType
-import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import org.json.JSONException
 import org.json.JSONObject
@@ -352,7 +351,7 @@ class ChatDetailActivity : DaggerAppCompatActivity(), AppSocket.OnMessageReceive
                 userID,
                 userRepository.getUser()?.name,
                 otherUserID,
-                ChatType.MESSAGE_TYPE_IMAGE,
+                DocType.IMAGE,
                 requestId,
                 Calendar.getInstance().timeInMillis
         )
@@ -386,7 +385,7 @@ class ChatDetailActivity : DaggerAppCompatActivity(), AppSocket.OnMessageReceive
                         userID,
                         userRepository.getUser()?.name,
                         otherUserID,
-                        ChatType.MESSAGE_TYPE_TEXT,
+                        DocType.TEXT,
                         requestId,
                         Calendar.getInstance().timeInMillis
                 )
@@ -641,18 +640,15 @@ class ChatDetailActivity : DaggerAppCompatActivity(), AppSocket.OnMessageReceive
         }
     }
 
-
     private fun uploadFileOnServer(fileToUpload: File?) {
-        val typeRequest = RequestBody.create(MediaType.parse("text/plain"), "img")
+        val hashMap = HashMap<String, RequestBody>()
+        hashMap["type"] = getRequestBody(DocType.IMAGE)
 
-        val filesPartArray = arrayOfNulls<MultipartBody.Part>(1)
-        var mimeType = "img"
+        val body: RequestBody =
+                RequestBody.create(MediaType.parse("text/plain"), fileToUpload)
+        hashMap["image\"; fileName=\"" + fileToUpload?.name] = body
 
-        val fileImage = RequestBody.create(MediaType.parse(mimeType), fileToUpload)
-        filesPartArray[0] =
-                MultipartBody.Part.createFormData("image", fileToUpload?.name, fileImage)
-
-        viewModelUpload.uploadFile(typeRequest, filesPartArray)
+        viewModelUpload.uploadFile(hashMap)
     }
 
 

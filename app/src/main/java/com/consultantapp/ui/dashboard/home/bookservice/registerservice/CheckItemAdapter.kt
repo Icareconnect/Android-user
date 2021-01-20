@@ -69,6 +69,8 @@ class CheckItemAdapter(private val fragment: Fragment?, private val serviceFor: 
                 }
             } else {
                 tvName.visible()
+                cbName.gone()
+                rbName.gone()
                 if (item.isSelected) {
                     tvName.setBackgroundResource(R.drawable.drawable_theme_60)
                     tvName.setTextColor(ContextCompat.getColor(context, R.color.colorWhite))

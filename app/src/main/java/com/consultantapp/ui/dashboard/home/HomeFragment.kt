@@ -215,7 +215,7 @@ class HomeFragment : DaggerFragment() {
                         Log.i("Place===", "Place: " + place.name + ", " + place.id)
 
                         val address = SaveAddress()
-                        address.locationName = getAddress(place)
+                        address.address_name = getAddress(place)
                         address.location = ArrayList()
                         address.location?.add(place.latLng?.longitude ?: 0.0)
                         address.location?.add(place.latLng?.latitude ?: 0.0)

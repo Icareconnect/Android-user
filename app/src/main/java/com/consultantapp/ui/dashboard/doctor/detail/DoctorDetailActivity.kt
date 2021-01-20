@@ -434,13 +434,15 @@ class DoctorDetailActivity : DaggerAppCompatActivity() {
 
                     hashMap["lat"] = bookService.address?.location?.get(1).toString()
                     hashMap["long"] = bookService.address?.location?.get(0).toString()
-                    hashMap["service_address"] = bookService.address?.locationName ?: ""
+                    hashMap["service_address"] = bookService.address?.address_name ?: ""
 
                     hashMap["first_name"] = bookService.personName
                     hashMap["last_name"] = bookService.personName
                     hashMap["service_for"] = bookService.service_for ?: ""
                     hashMap["home_care_req"] = bookService.service_type ?: ""
                     hashMap["reason_for_service"] = bookService.reason ?: ""
+                    hashMap["country_code"] = bookService.country_code ?: ""
+                    hashMap["phone_number"] = bookService.phone_number ?: ""
                 }
 
                 viewModel.createRequest(hashMap)

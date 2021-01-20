@@ -22,6 +22,7 @@ import com.consultantapp.databinding.FragmentRegisterServiceBinding
 import com.consultantapp.ui.classes.ClassesViewModel
 import com.consultantapp.ui.dashboard.home.bookservice.datetime.DateTimeFragment
 import com.consultantapp.ui.dashboard.home.bookservice.location.AddAddressActivity
+import com.consultantapp.ui.dashboard.home.bookservice.location.BottomAddressFragment
 import com.consultantapp.utils.*
 import com.consultantapp.utils.dialogs.ProgressDialog
 import dagger.android.support.DaggerFragment
@@ -73,7 +74,7 @@ class RegisterServiceFragment : DaggerFragment() {
         viewModel = ViewModelProvider(this, viewModelFactory)[ClassesViewModel::class.java]
         progressDialog = ProgressDialog(requireActivity())
 
-        binding.ilNotSelf.gone()
+        binding.tvNotSelf.gone()
         binding.ilNameOther.gone()
 
         binding.cbTerms.movementMethod = LinkMovementMethod.getInstance()
@@ -114,10 +115,13 @@ class RegisterServiceFragment : DaggerFragment() {
         }
 
         binding.etAddress.setOnClickListener {
-            val intent = Intent(requireContext(), AddAddressActivity::class.java)
-            if (bookService.address != null)
-                intent.putExtra(AddAddressActivity.EXTRA_ADDRESS, bookService.address)
-            startActivityForResult(intent, AppRequestCode.ASK_FOR_LOCATION)
+            val fragment = BottomAddressFragment(this)
+            fragment.show(requireActivity().supportFragmentManager, fragment.tag)
+
+            /*val intent = Intent(requireContext(), AddAddressActivity::class.java)
+                if (bookService.address != null)
+                    intent.putExtra(AddAddressActivity.EXTRA_ADDRESS, bookService.address)
+                startActivityForResult(intent, AppRequestCode.ASK_FOR_LOCATION)*/
         }
 
         binding.tvContinue.setOnClickListener {
@@ -140,6 +144,9 @@ class RegisterServiceFragment : DaggerFragment() {
                 servicePos != 0 && binding.etNameOther.text.toString().trim().isEmpty() -> {
                     binding.etName.showSnackBar(getString(R.string.enter_name_other))
                 }
+                servicePos != 0 && (binding.etMobileNumber.text.toString().isEmpty() || binding.etMobileNumber.text.toString().length < 6) -> {
+                    binding.etMobileNumber.showSnackBar(getString(R.string.enter_phone_number))
+                }
                 binding.etAddress.text.toString().trim().isEmpty() -> {
                     binding.etAddress.showSnackBar(getString(R.string.select_delivery_address))
                 }
@@ -148,10 +155,16 @@ class RegisterServiceFragment : DaggerFragment() {
                     bookService.service_for = itemsServiceFor[servicePos].option_name
                     bookService.service_type = requireActivity().intent.getStringExtra(DUTIES)
 
-                    if (servicePos == 0)
+                    if (servicePos == 0) {
                         bookService.personName = binding.etName.text.toString().trim()
-                    else
+                        val userData=userRepository.getUser()
+                        bookService.country_code = userData?.country_code
+                        bookService.phone_number = userData?.phone
+                    }else {
                         bookService.personName = binding.etNameOther.text.toString().trim()
+                        bookService.country_code = binding.ccpCountryCode.selectedCountryCodeWithPlus
+                        bookService.phone_number = binding.etMobileNumber.text.toString().trim()
+                    }
 
                     val fragment = DateTimeFragment()
                     val bundle = Bundle()
@@ -199,10 +212,13 @@ class RegisterServiceFragment : DaggerFragment() {
         if (serviceFor) {
             if (pos == 0) {
                 binding.ilNameOther.gone()
-                binding.ilNotSelf.gone()
+                binding.tvNotSelf.gone()
+                binding.groupPhone.gone()
             } else {
                 binding.ilNameOther.visible()
-                binding.ilNotSelf.visible()
+                binding.tvNotSelf.visible()
+                binding.groupPhone.visible()
+                binding.ilNameOther.hint = "${itemsServiceFor[pos].option_name}\'s ${getString(R.string.full_name)}"
             }
         } else {
             /* var selectedItem = 0
@@ -218,6 +234,17 @@ class RegisterServiceFragment : DaggerFragment() {
         }
     }
 
+    fun selectedAddress(item: SaveAddress) {
+        bookService.address = SaveAddress()
+        bookService.address = item
+
+        binding.etAddress.setText("${bookService.address?.address_name}")
+
+        bookService.address?.address_name = if (bookService.address?.house_no.isNullOrEmpty())
+            "${bookService.address?.save_as}\n${bookService.address?.address_name}"
+        else
+            "${bookService.address?.save_as} (${bookService.address?.house_no})\n${bookService.address?.address_name}"
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -225,7 +252,13 @@ class RegisterServiceFragment : DaggerFragment() {
             if (requestCode == AppRequestCode.ASK_FOR_LOCATION) {
                 bookService.address = SaveAddress()
                 bookService.address = data?.getSerializableExtra(AddAddressActivity.EXTRA_ADDRESS) as SaveAddress
-                binding.etAddress.setText("${bookService?.address?.locationName} (${bookService?.address?.houseNumber})")
+
+                binding.etAddress.setText("${bookService.address?.address_name}")
+
+                bookService.address?.address_name = if (bookService.address?.house_no.isNullOrEmpty())
+                    "${bookService.address?.save_as}\n${bookService.address?.address_name}"
+                else
+                    "${bookService.address?.save_as} (${bookService.address?.house_no})\n${bookService.address?.address_name}"
             }
         }
     }

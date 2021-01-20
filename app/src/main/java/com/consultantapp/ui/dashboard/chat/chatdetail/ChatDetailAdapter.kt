@@ -27,16 +27,16 @@ class ChatDetailAdapter(private var context: ChatDetailActivity,
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (data[position].messageType == ChatType.MESSAGE_TYPING) {
+        return if (data[position].messageType == DocType.MESSAGE_TYPING) {
             TYPING
         } else if (data[position].receiverId == context.userRepository.getUser()?.id) {
-            if (data[position].messageType == ChatType.MESSAGE_TYPE_TEXT) {
+            if (data[position].messageType == DocType.TEXT) {
                 TEXT_LEFT
             } else {
                 IMAGE_LEFT
             }
         } else {
-            if (data[position].messageType == ChatType.MESSAGE_TYPE_TEXT) {
+            if (data[position].messageType == DocType.TEXT) {
                 TEXT_RIGHT
             } else {
                 IMAGE_RIGHT

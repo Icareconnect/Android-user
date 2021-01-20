@@ -22,6 +22,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clDoctor"
                 android:layout_width="match_parent"
+                android:paddingBottom="@dimen/dp_8"
                 android:layout_height="wrap_content">
 
                 <androidx.constraintlayout.widget.Guideline
@@ -46,7 +47,6 @@
                     android:layout_marginBottom="@dimen/dp_16"
                     android:scaleType="centerCrop"
                     android:src="@drawable/image_placeholder"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="@id/startGuideLine"
                     app:layout_constraintTop_toTopOf="parent"
                     app:riv_border_color="@color/lineColor"
@@ -149,6 +149,22 @@
                     app:layout_constraintEnd_toEndOf="@id/endGuideLine"
                     app:layout_constraintStart_toEndOf="@+id/ivPic"
                     app:layout_constraintTop_toBottomOf="@+id/tvLocation" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvCategory"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_16"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/campton_book"
+                    android:maxLines="2"
+                    android:layout_marginTop="@dimen/dp_2"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/sp_14"
+                    app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+                    app:layout_constraintStart_toEndOf="@+id/ivPic"
+                    app:layout_constraintTop_toBottomOf="@+id/tvRate" />
 
 
 

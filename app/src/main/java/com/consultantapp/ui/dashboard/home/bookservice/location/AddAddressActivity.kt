@@ -17,15 +17,19 @@ import android.view.MotionEvent
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.consultantapp.R
 import com.consultantapp.data.models.requests.SaveAddress
 import com.consultantapp.data.models.responses.FilterOption
+import com.consultantapp.data.network.ApisRespHandler
+import com.consultantapp.data.network.responseUtil.Status
 import com.consultantapp.data.repos.UserRepository
 import com.consultantapp.databinding.ActivityAddAddressBinding
 import com.consultantapp.ui.dashboard.home.bookservice.registerservice.CheckItemAdapter
 import com.consultantapp.utils.*
 import com.consultantapp.utils.PermissionUtils
+import com.consultantapp.utils.dialogs.ProgressDialog
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -39,6 +43,7 @@ import permissions.dispatcher.*
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 @RuntimePermissions
 class AddAddressActivity : DaggerAppCompatActivity(), GoogleMap.OnCameraChangeListener, OnMapReadyCallback {
@@ -68,7 +73,14 @@ class AddAddressActivity : DaggerAppCompatActivity(), GoogleMap.OnCameraChangeLi
 
     private lateinit var adapterRelation: CheckItemAdapter
 
-    private var itemsRelation = ArrayList<FilterOption>()
+    private lateinit var viewModel: AddressViewModel
+
+    private lateinit var progressDialog: ProgressDialog
+
+    private var itemsSaveAs = ArrayList<FilterOption>()
+
+    private var saveAs = ""
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,6 +90,7 @@ class AddAddressActivity : DaggerAppCompatActivity(), GoogleMap.OnCameraChangeLi
         initialise()
         setListeners()
         setAdapter()
+        bindObservers()
     }
 
     private fun initialise() {
@@ -87,14 +100,17 @@ class AddAddressActivity : DaggerAppCompatActivity(), GoogleMap.OnCameraChangeLi
 
         geoCoder = Geocoder(this, Locale.getDefault())
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
+        progressDialog = ProgressDialog(this)
+        viewModel = ViewModelProvider(this, viewModelFactory)[AddressViewModel::class.java]
     }
 
     private fun setEditAddress() {
         if (intent.hasExtra(EXTRA_ADDRESS)) {
             saveAddress = intent.getSerializableExtra(EXTRA_ADDRESS) as SaveAddress
             saveAddress.addressId = saveAddress._id
-            binding.etLocation.setText(saveAddress.locationName)
-            binding.etHouseNo.setText(saveAddress.houseNumber)
+            binding.etLocation.setText(saveAddress.address_name)
+            binding.etHouseNo.setText(saveAddress.house_no)
         }
     }
 
@@ -102,19 +118,19 @@ class AddAddressActivity : DaggerAppCompatActivity(), GoogleMap.OnCameraChangeLi
     private fun setAdapter() {
         val listHomeCare = resources.getStringArray(R.array.addressType)
 
-        itemsRelation.clear()
+        itemsSaveAs.clear()
         listHomeCare.forEach {
             val item = FilterOption()
             item.option_name = it
-            itemsRelation.add(item)
+            itemsSaveAs.add(item)
         }
 
-        adapterRelation = CheckItemAdapter(null,false, false, itemsRelation)
+        adapterRelation = CheckItemAdapter(null, false, false, itemsSaveAs)
         binding.rvAddressType.adapter = adapterRelation
 
     }
 
-        private fun setListeners() {
+    private fun setListeners() {
         binding.toolbar.setNavigationOnClickListener {
             onBackPressed()
         }
@@ -155,21 +171,59 @@ class AddAddressActivity : DaggerAppCompatActivity(), GoogleMap.OnCameraChangeLi
 
     private fun checkValidations() {
         binding.btnSave.hideKeyboard()
+
+        saveAs = ""
+        itemsSaveAs.forEach {
+            if (it.isSelected) {
+                saveAs = it.option_name ?: ""
+                return@forEach
+            }
+        }
+
         when {
             binding.etLocation.text.toString().isEmpty() -> {
                 binding.etLocation.showSnackBar(getString(R.string.location))
             }
-            else -> {
-                saveAddress.houseNumber = binding.etHouseNo.text?.trim().toString()
-
-                val intent = Intent()
-                intent.putExtra(EXTRA_ADDRESS, saveAddress)
-                setResult(Activity.RESULT_OK, intent)
-                finish()
+            saveAs.isEmpty() -> {
+                binding.etLocation.showSnackBar(getString(R.string.select_save_as_option))
+            }
+            isConnectedToInternet(this, true) -> {
+                val hashMap = HashMap<String, Any>()
+                hashMap["address_name"] = saveAddress.address_name ?: ""
+                hashMap["save_as"] = saveAs
+                hashMap["lat"] = saveAddress.location?.get(1) ?: ""
+                hashMap["long"] = saveAddress.location?.get(0) ?: ""
+                hashMap["house_no"] = binding.etHouseNo.text?.trim().toString()
+                viewModel.saveAddress(hashMap)
             }
         }
     }
 
+    private fun bindObservers() {
+        viewModel.saveAddress.observe(this, Observer {
+            it ?: return@Observer
+            when (it.status) {
+                Status.SUCCESS -> {
+                    progressDialog.setLoading(false)
+
+                    saveAddress.house_no = binding.etHouseNo.text?.trim().toString()
+                    saveAddress.save_as = saveAs
+
+                    val intent = Intent()
+                    intent.putExtra(EXTRA_ADDRESS, saveAddress)
+                    setResult(Activity.RESULT_OK, intent)
+                    finish()
+                }
+                Status.ERROR -> {
+                    progressDialog.setLoading(false)
+                    ApisRespHandler.handleError(it.error, this, prefsManager)
+                }
+                Status.LOADING -> {
+                    progressDialog.setLoading(true)
+                }
+            }
+        })
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -178,7 +232,7 @@ class AddAddressActivity : DaggerAppCompatActivity(), GoogleMap.OnCameraChangeLi
                 val place = Autocomplete.getPlaceFromIntent(data!!)
                 binding.etLocation.setText(getAddress(place))
 
-                saveAddress.locationName = binding.etLocation.text.toString()
+                saveAddress.address_name = binding.etLocation.text.toString()
                 saveAddress.location = ArrayList()
                 saveAddress.location?.add(place.latLng?.longitude ?: 0.0)
                 saveAddress.location?.add(place.latLng?.latitude ?: 0.0)
@@ -200,9 +254,9 @@ class AddAddressActivity : DaggerAppCompatActivity(), GoogleMap.OnCameraChangeLi
             saveAddress.location = ArrayList()
             saveAddress.location?.add(latLng?.longitude ?: 0.0)
             saveAddress.location?.add(latLng?.latitude ?: 0.0)
-            saveAddress.locationName = getAddress()
+            saveAddress.address_name = getAddress()
 
-            binding.etLocation.setText(saveAddress.locationName)
+            binding.etLocation.setText(saveAddress.address_name)
         }
         isPlacePicker = false
     }
@@ -217,7 +271,7 @@ class AddAddressActivity : DaggerAppCompatActivity(), GoogleMap.OnCameraChangeLi
 
 
         if (!saveAddress.location.isNullOrEmpty()) {
-            binding.etLocation.setText(saveAddress.locationName)
+            binding.etLocation.setText(saveAddress.address_name)
             val current = LatLng(saveAddress.location?.get(1) ?: 0.0, saveAddress.location?.get(0)
                     ?: 0.0)
             mMap?.moveCamera(CameraUpdateFactory.newLatLng(current))
@@ -243,9 +297,9 @@ class AddAddressActivity : DaggerAppCompatActivity(), GoogleMap.OnCameraChangeLi
 
     private fun checkPermissions(): Boolean {
         if (ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
-            ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                        Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this,
+                        Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             return true
         }
         return false
@@ -263,7 +317,7 @@ class AddAddressActivity : DaggerAppCompatActivity(), GoogleMap.OnCameraChangeLi
 
             mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
             mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback,
-                Looper.myLooper())
+                    Looper.myLooper())
 
         }
     }
@@ -279,25 +333,26 @@ class AddAddressActivity : DaggerAppCompatActivity(), GoogleMap.OnCameraChangeLi
             saveAddress.location = ArrayList()
             saveAddress.location?.add(latLng.longitude)
             saveAddress.location?.add(latLng.latitude)
-            saveAddress.locationName = getAddress()
+            saveAddress.address_name = getAddress()
 
-            binding.etLocation.setText(saveAddress.locationName)
+            binding.etLocation.setText(saveAddress.address_name)
             //placeLatLng = LatLng(30.7457, 76.7332)
         }
     }
 
     private fun isLocationEnabled(): Boolean {
         val locationManager: LocationManager =
-            getSystemService(Context.LOCATION_SERVICE) as LocationManager
+                getSystemService(Context.LOCATION_SERVICE) as LocationManager
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
-            LocationManager.NETWORK_PROVIDER)
+                LocationManager.NETWORK_PROVIDER)
     }
 
 
     private fun getAddress(): String {
         var locationName = ""
         val addresses: List<Address> = geoCoder.getFromLocation(saveAddress.location?.get(1) ?: 0.0,
-            saveAddress.location?.get(0) ?: 0.0, 1) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+                saveAddress.location?.get(0)
+                        ?: 0.0, 1) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
 
         if (addresses.isNotEmpty()) {
             locationName = when {

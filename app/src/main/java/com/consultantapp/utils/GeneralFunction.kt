@@ -267,8 +267,8 @@ val requestOptions = RequestOptions()
         .dontAnimate()
         .dontTransform()
 fun loadImage(ivImage: ImageView, image: String?, placeholder: Int) {
-    val imageLink = "${Config.imageURL}${ImageFolder.UPLOADS}$image"
-    val imageThumbnail = "${Config.imageURL}${ImageFolder.THUMBS}$image"
+    val imageLink = getImageBaseUrl(ImageFolder.UPLOADS, image)
+    val imageThumbnail = getImageBaseUrl(ImageFolder.THUMBS, image)
 
     val glide = Glide.with(ivImage.context)
 
@@ -279,11 +279,8 @@ fun loadImage(ivImage: ImageView, image: String?, placeholder: Int) {
         .into(ivImage)
 }
 
-fun getImageBaseUrl(upload: Boolean, image: String): String {
-    return if (upload)
-        "${Config.imageURL}${ImageFolder.UPLOADS}$image"
-    else
-        "${Config.imageURL}${ImageFolder.THUMBS}$image"
+fun getImageBaseUrl(folderType: String, image: String?): String {
+    return "${Config.imageURL}$folderType$image"
 }
 
 fun pxFromDp(context: Context, dp: Float): Float {
@@ -505,7 +502,7 @@ fun shareDeepLink(deepLink: String, activity: Activity, userData: UserData?) {
 
             titleM = "${userData?.categoryData?.name} | ${userData?.name}"
             descriptionM = userData?.profile?.bio ?: ""
-            imageUrlM = Uri.parse(getImageBaseUrl(true, userData?.profile_image ?: ""))
+            imageUrlM = Uri.parse(getImageBaseUrl(ImageFolder.UPLOADS, userData?.profile_image ?: ""))
         }
         DeepLink.INVITE -> {
             longLink = "${Config.baseURL}${deepLink}"
@@ -513,7 +510,7 @@ fun shareDeepLink(deepLink: String, activity: Activity, userData: UserData?) {
             titleM = activity.getString(R.string.app_name)
             descriptionM = activity.getString(R.string.invite_text)
             imageUrlM =
-                Uri.parse(getImageBaseUrl(true, appClientDetails.applogo ?: ""))
+                Uri.parse(getImageBaseUrl(ImageFolder.UPLOADS, appClientDetails.applogo ?: ""))
         }
     }
 

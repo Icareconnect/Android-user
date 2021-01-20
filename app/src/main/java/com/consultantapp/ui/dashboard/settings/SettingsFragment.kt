@@ -84,7 +84,9 @@ class SettingsFragment : DaggerFragment() {
 
     private fun listeners() {
         binding.ivPic.setOnClickListener {
-            goToProfile()
+            val itemImages = java.util.ArrayList<String>()
+            itemImages.add(getImageBaseUrl(ImageFolder.UPLOADS,userRepository.getUser()?.profile_image))
+            viewImageFull(requireActivity(), itemImages, 0)
         }
 
         binding.tvName.setOnClickListener {

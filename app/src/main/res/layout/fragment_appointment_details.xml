@@ -219,7 +219,7 @@
                     android:drawablePadding="@dimen/dp_8"
                     android:ellipsize="end"
                     android:fontFamily="@font/campton_medium"
-                    android:maxLines="2"
+                    android:maxLines="3"
                     android:textColor="@color/colorBlack"
                     android:textSize="@dimen/sp_14"
                     app:layout_constraintEnd_toStartOf="@id/tvViewMap"

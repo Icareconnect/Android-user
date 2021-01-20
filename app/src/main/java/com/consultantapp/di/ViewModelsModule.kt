@@ -14,6 +14,7 @@ import com.consultantapp.ui.dashboard.chat.UploadFileViewModel
 import com.consultantapp.ui.dashboard.doctor.schedule.GetSlotsViewModel
 import com.consultantapp.ui.dashboard.home.BannerViewModel
 import com.consultantapp.ui.dashboard.home.bookservice.AllocateDoctorViewModel
+import com.consultantapp.ui.dashboard.home.bookservice.location.AddressViewModel
 import com.consultantapp.ui.drawermenu.wallet.WalletViewModel
 import dagger.Binds
 import dagger.Module
@@ -98,6 +99,11 @@ abstract class ViewModelsModule {
     @IntoMap
     @ViewModelKey(DirectionViewModel::class)
     abstract fun directionViewModel(viewModel: DirectionViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(AddressViewModel::class)
+    abstract fun addressViewModel(viewModel: AddressViewModel): ViewModel
 
 
 

@@ -229,6 +229,7 @@
     <string name="cancel_appointment">Cancel appointment</string>
     <string name="re_schedule">Re-Schedule</string>
     <string name="consult_a_doctor">Book a Nurse</string>
+    <string name="available_nurse_near_you">Available Healthcare professionals near you</string>
     <string name="use_code_s"><![CDATA[ Use Code: <b>%s</b> ]]></string>
     <string name="s_user_remaining"><![CDATA[ <b>%s</b> User Remaining ]]></string>
     <string name="code_text"><![CDATA[ <b>%s</b> Discount on booking a <b>%s</b> till <b>%s</b> ]]></string>
@@ -263,7 +264,8 @@
     <string name="no_history_desc">No appointments created yet, so we are unable to show your history.</string>
     <string name="no_vendor">No nurse yet!</string>
     <string name="no_vendor_desc">Currently no nurse available, so come back later.</string>
-
+    <string name="no_address">No Address!</string>
+    <string name="no_address_desc">Your address will appear here once you add</string>
 
     <!--Share text-->
     <string name="share">Share</string>
@@ -314,7 +316,7 @@
     <string name="registered_nurse">Registered Nurse</string>
     <string name="book_appointment">Book appointment</string>
     <string name="start_time">Start time</string>
-    <string name="error_for_today">For Today please select after 2 hour time.</string>
+    <string name="error_for_today">For Today please select after %s hour time.</string>
     <string name="end_time">End time</string>
     <string name="to">To</string>
     <string name="from">From</string>
@@ -411,10 +413,18 @@
     <string name="result_or_duties">Nurse as per services selected</string>
     <string name="exp_s">Exp : %s</string>
 
+    <string name="private_home">Private Home</string>
+    <string name="hospital">Hospital</string>
+    <string name="community_care_home">Community Care Home</string>
+    <string name="long_term_care_home">Long Term Care Home</string>
+    <string name="nursing_home">Nursing Home</string>
+    <string name="select_save_as_option">Select Save As option</string>
     <array name="addressType">
-        <item>@string/home</item>
-        <item>@string/work</item>
-        <item>@string/other</item>
+        <item>@string/private_home</item>
+        <item>@string/hospital</item>
+        <item>@string/community_care_home</item>
+        <item>@string/long_term_care_home</item>
+        <item>@string/nursing_home</item>
     </array>
 
 </resources>

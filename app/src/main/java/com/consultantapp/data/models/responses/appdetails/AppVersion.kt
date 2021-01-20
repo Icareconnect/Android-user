@@ -34,5 +34,6 @@ class AppVersion {
     var clientFeaturesKeys = ClientFeaturesKeys()
 
     var isApproved: Boolean? = null
+    var booking_delay:Int?=null
 
 }

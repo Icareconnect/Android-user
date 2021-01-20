@@ -23,7 +23,6 @@ import com.consultantapp.ui.loginSignUp.signup.SignUpFragment
 import com.consultantapp.utils.*
 import com.consultantapp.utils.dialogs.ProgressDialog
 import dagger.android.support.DaggerFragment
-import okhttp3.RequestBody
 import javax.inject.Inject
 
 class VerifyOTPFragment : DaggerFragment() {
@@ -147,7 +146,7 @@ class VerifyOTPFragment : DaggerFragment() {
                 Status.SUCCESS -> {
                     progressDialog.setLoading(false)
 
-                    viewModel.register(arguments?.getSerializable(EXTRA_EMAIL_DATA) as HashMap<String, RequestBody>)
+                    viewModel.register(arguments?.getSerializable(EXTRA_EMAIL_DATA) as HashMap<String, Any>)
 
                 }
                 Status.ERROR -> {

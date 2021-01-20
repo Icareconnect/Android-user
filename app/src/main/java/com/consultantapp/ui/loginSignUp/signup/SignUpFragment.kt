@@ -22,6 +22,7 @@ import com.consultantapp.data.network.responseUtil.Status
 import com.consultantapp.data.repos.UserRepository
 import com.consultantapp.databinding.FragmentSignupBinding
 import com.consultantapp.ui.LoginViewModel
+import com.consultantapp.ui.dashboard.chat.UploadFileViewModel
 import com.consultantapp.ui.loginSignUp.login.LoginFragment
 import com.consultantapp.ui.loginSignUp.masterprefrence.MasterPrefrenceFragment
 import com.consultantapp.ui.loginSignUp.masterprefrence.MasterPrefrenceFragment.Companion.MASTER_PREFRENCE_TYPE
@@ -29,6 +30,7 @@ import com.consultantapp.ui.loginSignUp.verifyotp.VerifyOTPFragment
 import com.consultantapp.utils.*
 import com.consultantapp.utils.PermissionUtils
 import com.consultantapp.utils.dialogs.ProgressDialog
+import com.consultantapp.utils.dialogs.ProgressDialogImage
 import dagger.android.support.DaggerFragment
 import droidninja.filepicker.FilePickerBuilder
 import droidninja.filepicker.FilePickerConst
@@ -59,11 +61,17 @@ class SignUpFragment : DaggerFragment(), OnDateSelected {
 
     private lateinit var progressDialog: ProgressDialog
 
+    private lateinit var progressDialogImage: ProgressDialogImage
+
     private lateinit var viewModel: LoginViewModel
+
+    private lateinit var viewModelUpload: UploadFileViewModel
 
     private var isUpdate = false
 
     private var fileToUpload: File? = null
+
+    private var hashMap = HashMap<String, Any>()
 
 
     override fun onCreateView(
@@ -86,7 +94,9 @@ class SignUpFragment : DaggerFragment(), OnDateSelected {
 
     private fun initialise() {
         viewModel = ViewModelProvider(this, viewModelFactory)[LoginViewModel::class.java]
+        viewModelUpload = ViewModelProvider(this, viewModelFactory)[UploadFileViewModel::class.java]
         progressDialog = ProgressDialog(requireActivity())
+        progressDialogImage = ProgressDialogImage(requireActivity())
 
         binding.cbTerms.movementMethod = LinkMovementMethod.getInstance()
         binding.cbTerms.setText(setAcceptTerms(requireActivity()), TextView.BufferType.SPANNABLE)
@@ -195,53 +205,54 @@ class SignUpFragment : DaggerFragment(), OnDateSelected {
                 binding.cbTerms.showSnackBar(getString(R.string.check_all_terms))
             }
             isConnectedToInternet(requireContext(), true) -> {
-
-                val hashMap = HashMap<String, RequestBody>()
-                hashMap["name"] = getRequestBody(binding.etName.text.toString().trim())
-
-                if (binding.etMobileNumber.text.toString().trim().isNotEmpty()) {
-                    hashMap["country_code"] = getRequestBody(binding.ccpCountryCode.selectedCountryCodeWithPlus)
-                    hashMap["phone"] = getRequestBody(binding.etMobileNumber.text.toString())
-                }
-
-                /* hashMap["dob"] = getRequestBody(
-                     DateUtils.dateFormatChange(
-                         DateFormat.DATE_FORMAT_SLASH,
-                         DateFormat.DATE_FORMAT, binding.etDob.text.toString()
-                     )
-                 )
- */
                 if (fileToUpload != null && fileToUpload?.exists() == true) {
-                    hashMap["type"] = getRequestBody("img")
-
-                    val body: RequestBody =
-                            RequestBody.create(MediaType.parse("image/jpeg"), fileToUpload)
-                    hashMap["profile_image\"; fileName=\"" + fileToUpload?.name] = body
+                    uploadFileOnServer(fileToUpload)
+                } else {
+                    hitApi(null)
                 }
+            }
+        }
+    }
 
+    private fun uploadFileOnServer(fileToUpload: File?) {
+        val hashMap = HashMap<String, RequestBody>()
 
-                /*Update profile or register*/
-                when {
-                    arguments?.containsKey(UPDATE_NUMBER) == true -> {
-                        hashMap["email"] = getRequestBody(binding.etEmail.text.toString().trim())
-                        viewModel.updateProfile(hashMap)
-                    }
-                    arguments?.containsKey(UPDATE_PROFILE) == true -> {
-                        getRequestBody(binding.etEmail.text.toString().trim())
-                        viewModel.updateProfile(hashMap)
-                    }
-                    else -> {
-                        /* hashMap["email"] = getRequestBody(binding.etEmail.text.toString().trim())
-                         hashMap["password"] =
-                                 getRequestBody(binding.etPassword.text.toString().trim())
-                         hashMap["user_type"] = getRequestBody(APP_TYPE)
-                         viewModel.register(hashMap)*/
+        hashMap["type"] = getRequestBody(DocType.IMAGE)
 
-                        val hashMap = HashMap<String, Any>()
-                        hashMap["email"] = binding.etEmail.text.toString().trim()
-                        viewModel.sendEmailOtp(hashMap)
-                    }
-                }
+        val body: RequestBody =
+                RequestBody.create(MediaType.parse("text/plain"), fileToUpload)
+        hashMap["image\"; fileName=\"" + fileToUpload?.name] = body
+
+        viewModelUpload.uploadFile(hashMap)
+
+    }
+
+    private fun hitApi(image: String?) {
+        hashMap = HashMap()
+        hashMap["name"] = binding.etName.text.toString().trim()
+        if (binding.etMobileNumber.text.toString().trim().isNotEmpty()) {
+            hashMap["country_code"] = binding.ccpCountryCode.selectedCountryCodeWithPlus
+            hashMap["phone"] = binding.etMobileNumber.text.toString()
+        }
+
+        if (image != null)
+            hashMap["profile_image"] = image
+
+        if (binding.etEmail.text.toString().trim().isNotEmpty())
+            hashMap["email"] = binding.etEmail.text.toString().trim()
+
+        /*Update profile or register*/
+        when {
+            arguments?.containsKey(UPDATE_NUMBER) == true -> {
+                viewModel.updateProfile(hashMap)
+            }
+            arguments?.containsKey(UPDATE_PROFILE) == true -> {
+                viewModel.updateProfile(hashMap)
+            }
+            else -> {
+                val hashMapOtp = HashMap<String, Any>()
+                hashMapOtp["email"] = binding.etEmail.text.toString().trim()
+                viewModel.sendEmailOtp(hashMapOtp)
             }
         }
     }
@@ -254,21 +265,8 @@ class SignUpFragment : DaggerFragment(), OnDateSelected {
                 Status.SUCCESS -> {
                     progressDialog.setLoading(false)
 
-                    val hashMap = HashMap<String, RequestBody>()
-                    hashMap["name"] = getRequestBody(binding.etName.text.toString().trim())
-                    if (fileToUpload != null && fileToUpload?.exists() == true) {
-                        hashMap["type"] = getRequestBody("img")
-
-                        val body: RequestBody =
-                                RequestBody.create(MediaType.parse("image/jpeg"), fileToUpload)
-                        hashMap["profile_image\"; fileName=\"" + fileToUpload?.name] = body
-                    }
-
-                    hashMap["email"] = getRequestBody(binding.etEmail.text.toString().trim())
-                    hashMap["password"] =
-                            getRequestBody(binding.etPassword.text.toString().trim())
-                    hashMap["user_type"] = getRequestBody(APP_TYPE)
-
+                    hashMap["password"] = binding.etPassword.text.toString().trim()
+                    hashMap["user_type"] = APP_TYPE
 
                     val fragment = VerifyOTPFragment()
                     val bundle = Bundle()
@@ -286,6 +284,25 @@ class SignUpFragment : DaggerFragment(), OnDateSelected {
                 }
                 Status.LOADING -> {
                     progressDialog.setLoading(true)
+                }
+            }
+        })
+
+        viewModelUpload.uploadFile.observe(requireActivity(), Observer {
+            it ?: return@Observer
+            when (it.status) {
+                Status.SUCCESS -> {
+                    progressDialogImage.setLoading(false)
+
+                    hitApi(it.data?.image_name ?: "")
+                }
+                Status.ERROR -> {
+                    progressDialogImage.setLoading(false)
+                    ApisRespHandler.handleError(it.error, requireActivity(), prefsManager)
+                }
+                Status.LOADING -> {
+                    progressDialogImage.setLoading(true)
+
                 }
             }
         })

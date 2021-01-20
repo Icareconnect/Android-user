@@ -122,6 +122,8 @@ class AppointmentStatusActivity : DaggerAppCompatActivity(), OnMapReadyCallback 
         loadImage(binding.ivPic, request?.to_user?.profile_image,
                 R.drawable.ic_profile_placeholder)
 
+        binding.ivCall.hideShowView(!request?.to_user?.phone.isNullOrEmpty())
+
         when (request?.status) {
             CallAction.START -> {
                 if (request?.last_location != null) {
@@ -150,8 +152,6 @@ class AppointmentStatusActivity : DaggerAppCompatActivity(), OnMapReadyCallback 
             CallAction.REACHED -> {
                 binding.tvTime.gone()
 
-                binding.ivCall.hideShowView(!request?.to_user?.phone.isNullOrEmpty())
-
                 binding.tvStatusV.text = getString(R.string.reached_destination)
 
                 polyline?.remove()
@@ -161,7 +161,6 @@ class AppointmentStatusActivity : DaggerAppCompatActivity(), OnMapReadyCallback 
             }
             CallAction.START_SERVICE -> {
                 binding.tvTime.gone()
-                binding.ivCall.hideShowView(!request?.to_user?.phone.isNullOrEmpty())
                 binding.tvStatusV.text = getString(R.string.started)
 
                 polyline?.remove()
