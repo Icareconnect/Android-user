@@ -310,7 +310,7 @@
     <string name="thank_you_for_your_interest">Thank you for your interest in iCareConnect, one of our care coordinators will connect with you shortly.</string>
     <string name="add_address">Add address</string>
     <string name="house_no">ADDRESS(HOUSE NO, BUILDING, STREET AREA)</string>
-    <string name="select_delivery_address">Select Delivery Address</string>
+    <string name="select_delivery_address">Select Service Address</string>
     <string name="change">Change</string>
     <string name="current_location">Current location</string>
     <string name="registered_nurse">Registered Nurse</string>
@@ -327,7 +327,7 @@
 
     <!--Service for-->
     <string name="requesting_service_for">Requesting service for ?</string>
-    <string name="if_service_is_not_self">If service is not self...</string>
+    <string name="if_service_is_not_self">If service is not for self…</string>
     <string name="self">Self</string>
     <string name="father">Father</string>
     <string name="mother">Mother</string>
@@ -387,7 +387,7 @@
     <string name="expertise">Expertise</string>
     <string name="covid_19">Covid 19</string>
     <string name="personal_interests">Personal Interests</string>
-    <string name="work_environment">Work Environment</string>
+    <string name="work_environment">Service Location/Conditions</string>
     <string name="providable_services">Providable Services</string>
     <string name="agree">I Agree</string>
     <string name="approve">Approve</string>
