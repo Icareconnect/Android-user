@@ -224,6 +224,8 @@
     <string name="already_have_an_account">Already have an account?</string>
     <string name="apply">Apply</string>
     <string name="minute">Minute</string>
+    <string name="min">Min</string>
+    <string name="hr">Hr</string>
     <string name="input_amount">Input amount</string>
     <string name="pay">Pay</string>
     <string name="cancel_appointment">Cancel appointment</string>

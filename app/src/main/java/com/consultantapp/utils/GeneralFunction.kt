@@ -111,8 +111,10 @@ fun logoutUser(activity: Activity?, prefsManager: PrefsManager) {
 
     activity.setResult(Activity.RESULT_CANCELED)
     ActivityCompat.finishAffinity(activity)
-    activity.startActivity(Intent(activity, SignUpActivity::class.java)
-            .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP))
+    activity.startActivity(
+        Intent(activity, SignUpActivity::class.java)
+            .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+    )
 }
 
 
@@ -264,8 +266,9 @@ fun getAge(date: String?): String {
 }
 
 val requestOptions = RequestOptions()
-        .dontAnimate()
-        .dontTransform()
+    .dontAnimate()
+    .dontTransform()
+
 fun loadImage(ivImage: ImageView, image: String?, placeholder: Int) {
     val imageLink = getImageBaseUrl(ImageFolder.UPLOADS, image)
     val imageThumbnail = getImageBaseUrl(ImageFolder.THUMBS, image)
@@ -327,10 +330,11 @@ fun getCurrencySymbol(): String {
 }
 
 fun getUnitPrice(unit: Int?, context: Context): String {
-    return if (unit == null)
-        "NA"
-    else
-        "${(unit / 60)} ${context.getString(R.string.minute)}"
+    return when {
+        unit == null -> "NA"
+        unit >= 3600 -> "${(unit / 3600)} ${context.getString(R.string.hr)}"
+        else -> "${(unit / 60)} ${context.getString(R.string.min)}"
+    }
 }
 
 @SuppressLint("ClickableViewAccessibility")
@@ -355,18 +359,18 @@ fun compressImage(activity: Activity?, actualImageFile: File?): File {
 
     /*mb approximate*/
     val resultFile: File? = when {
-        actualImageFile?.length() ?: 0 < (1*1024*1024) -> actualImageFile
-        actualImageFile?.length() ?: 0 < (3*1024*1024) -> {
+        actualImageFile?.length() ?: 0 < (1 * 1024 * 1024) -> actualImageFile
+        actualImageFile?.length() ?: 0 < (3 * 1024 * 1024) -> {
             Compressor(activity)
-                    .setQuality(70)
-                    .setCompressFormat(Bitmap.CompressFormat.JPEG)
-                    .compressToFile(actualImageFile)
+                .setQuality(70)
+                .setCompressFormat(Bitmap.CompressFormat.JPEG)
+                .compressToFile(actualImageFile)
         }
         else -> {
             Compressor(activity)
-                    .setQuality(50)
-                    .setCompressFormat(Bitmap.CompressFormat.JPEG)
-                    .compressToFile(actualImageFile)
+                .setQuality(50)
+                .setCompressFormat(Bitmap.CompressFormat.JPEG)
+                .compressToFile(actualImageFile)
         }
     }
 
@@ -437,14 +441,22 @@ fun getPathUri(context: Context, uri: Uri): String? {
 
 
 fun setAcceptTerms(activity: Activity): SpannableString {
-    val term = String.format("%s %s", activity.getString(R.string.you_agree_to_our_terms), activity.getString(R.string.terms))
+    val term = String.format(
+        "%s %s",
+        activity.getString(R.string.you_agree_to_our_terms),
+        activity.getString(R.string.terms)
+    )
 
     val string = SpannableString.valueOf(term)
-    string.setSpan(ForegroundColorSpan(ContextCompat.getColor(activity, R.color.colorPrimary)),
-        term.indexOf(activity.getString(R.string.terms)), term.length, 0)
+    string.setSpan(
+        ForegroundColorSpan(ContextCompat.getColor(activity, R.color.colorPrimary)),
+        term.indexOf(activity.getString(R.string.terms)), term.length, 0
+    )
 
-    string.setSpan(Terms(), term.indexOf(activity.getString(R.string.terms)),
-            term.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+    string.setSpan(
+        Terms(), term.indexOf(activity.getString(R.string.terms)),
+        term.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+    )
 
     return string
 }
@@ -472,9 +484,12 @@ class Terms : ClickableSpan() {
         //viewPage(PageLink.TERMS)
 
         tv.context.startActivity(
-            Intent(tv.context, WebViewActivity::class.java).putExtra(WebViewActivity.LINK_TITLE,
-                    tv.context.getString(R.string.terms_and_conditions))
-                .putExtra(WebViewActivity.LINK_URL, PageLink.TERMS_CONDITIONS))
+            Intent(tv.context, WebViewActivity::class.java).putExtra(
+                WebViewActivity.LINK_TITLE,
+                tv.context.getString(R.string.terms_and_conditions)
+            )
+                .putExtra(WebViewActivity.LINK_URL, PageLink.TERMS_CONDITIONS)
+        )
     }
 
     override fun updateDrawState(ds: TextPaint) {// override updateDrawState
@@ -502,7 +517,8 @@ fun shareDeepLink(deepLink: String, activity: Activity, userData: UserData?) {
 
             titleM = "${userData?.categoryData?.name} | ${userData?.name}"
             descriptionM = userData?.profile?.bio ?: ""
-            imageUrlM = Uri.parse(getImageBaseUrl(ImageFolder.UPLOADS, userData?.profile_image ?: ""))
+            imageUrlM =
+                Uri.parse(getImageBaseUrl(ImageFolder.UPLOADS, userData?.profile_image ?: ""))
         }
         DeepLink.INVITE -> {
             longLink = "${Config.baseURL}${deepLink}"
@@ -581,12 +597,18 @@ fun mapIntent(activity: Activity, name: String, lat: Double, lng: Double) {
     }
 }
 
-fun getDatesComma(date: String?) :String{
-    var newList=""
-    if(!date.isNullOrEmpty()) {
+fun getDatesComma(date: String?): String {
+    var newList = ""
+    if (!date.isNullOrEmpty()) {
         val list = date.split(",")
         list.forEach {
-            newList += "${dateFormatChange(DateFormat.DATE_FORMAT, DateFormat.MON_YEAR_FORMAT, it)} | "
+            newList += "${
+                dateFormatChange(
+                    DateFormat.DATE_FORMAT,
+                    DateFormat.MON_YEAR_FORMAT,
+                    it
+                )
+            } | "
         }
     }
     return newList.removeSuffix(" | ")
