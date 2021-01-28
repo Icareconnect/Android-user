@@ -327,6 +327,7 @@ class AddAddressActivity : DaggerAppCompatActivity(), GoogleMap.OnCameraChangeLi
             val mLastLocation: Location = locationResult.lastLocation
             val latLng = LatLng(mLastLocation.latitude, mLastLocation.longitude)
 
+            longToast("mLocationCallback"+mLastLocation.latitude)
             mMap?.moveCamera(CameraUpdateFactory.newLatLng(latLng))
             mMap?.animateCamera(CameraUpdateFactory.zoomTo(14f))
 

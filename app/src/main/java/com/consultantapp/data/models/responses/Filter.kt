@@ -8,6 +8,7 @@ class Filter :Serializable{
     var filter_name: String? = null
     var preference_name: String? = null
     var is_multi: String? = null
+    var is_required: String? = null
     var options: List<FilterOption>? = null
 
     var preference_type: String? = null

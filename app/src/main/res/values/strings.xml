@@ -2,7 +2,7 @@
     <string name="app_name">iCareConnect</string>
 
     <!--Deep Link-->
-    <string name="deep_link_url" translatable="false">intely.page.link</string>
+    <string name="deep_link_url" translatable="false">icareconnect.page.link</string>
     <string name="deep_link_ios_bundle" translatable="false">com.team.iCare</string>
 
     <!--Google-->
@@ -48,7 +48,7 @@
     <string name="history">History</string>
     <string name="notification">Notification</string>
     <string name="logout">Logout</string>
-    <string name="terms_and_conditions">Terms and conditions</string>
+    <string name="terms_and_conditions">Terms of service</string>
     <string name="contact_us">Contact Us</string>
     <string name="invite_people">Invite People</string>
     <string name="version">Version %s</string>
@@ -212,14 +212,14 @@
     <string name="sub_total">Sub-Total</string>
     <string name="total">Total</string>
     <string name="promo_applied">Promo Applied</string>
-    <string name="you_agree_to_the_terms_conditions">By Booking this appointment, you agree to\nthe terms &amp; conditions</string>
+    <string name="you_agree_to_the_terms_conditions">By Booking this appointment, you agree to\nthe terms of service</string>
     <string name="schedule_a_meeting">Schedule a meeting</string>
     <string name="consult">Consult</string>
     <string name="edit_slot">Edit Slot</string>
     <string name="signup_with_phone_number">Sign Up with Phone Number</string>
     <string name="you_agree_to_our_terms">I have read and agreed to iCareConnect\'s</string>
-    <string name="terms">Terms and Condition</string>
-    <string name="and">and</string>
+    <string name="terms">Terms of service</string>
+    <string name="and">&amp;</string>
     <string name="privacy">Privacy Policy</string>
     <string name="already_have_an_account">Already have an account?</string>
     <string name="apply">Apply</string>
@@ -265,14 +265,14 @@
     <string name="no_history">No appointments history!</string>
     <string name="no_history_desc">No appointments created yet, so we are unable to show your history.</string>
     <string name="no_vendor">No nurse yet!</string>
-    <string name="no_vendor_desc">Currently no nurse available, so come back later.</string>
+    <string name="no_vendor_desc">There are currently no service provider at this time.  Please come back again.</string>
     <string name="no_address">No Address!</string>
     <string name="no_address_desc">Your address will appear here once you add</string>
 
     <!--Share text-->
     <string name="share">Share</string>
     <string name="post_sharing">Checkout this post</string>
-    <string name="invite_text">Hey, Here is app for Online Consultancy Platform for Nurse. You should try it.</string>
+    <string name="invite_text">Hey Here is an online platform that matches fully vetted healthcare professionals with Health care facilities, Long term care homes and private homes.</string>
     <string name="payment">Payment</string>
     <string name="start_your_journey">Start Your\nJourney now</string>
     <string name="address">Address</string>
@@ -282,7 +282,7 @@
     <string name="do_you_have_insurance">Do you have insurance</string>
     <string name="if_yes_what_insurance">If \'Yes\' what Insurance</string>
     <string name="select_insurance">Select Insurance</string>
-    <string name="check_all_terms">Please agree to terms before continue</string>
+    <string name="check_all_terms">Please agree Terms of service to continue</string>
     <string name="select_state">Select State</string>
     <string name="select_city">Select City</string>
     <string name="subscription">Subscription</string>

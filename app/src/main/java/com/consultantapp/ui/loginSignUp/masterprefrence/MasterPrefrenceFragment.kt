@@ -131,11 +131,11 @@ class MasterPrefrenceFragment : DaggerFragment() {
                     }
                 }
 
-                if (selectedOption) {
-                    filterArray.add(setFilter)
-                } else {
+                if (filter.is_required ?:"1" == "1" && !selectedOption) {
                     binding.toolbar.showSnackBar(filter.preference_name ?: "")
                     return@setOnClickListener
+                } else {
+                    filterArray.add(setFilter)
                 }
             }
 

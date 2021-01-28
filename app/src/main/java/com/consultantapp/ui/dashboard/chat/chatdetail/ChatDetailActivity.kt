@@ -146,11 +146,11 @@ class ChatDetailActivity : DaggerAppCompatActivity(), AppSocket.OnMessageReceive
         registerReceiver(broadcastReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
         appSocket.connect()
 
-        otherUserID = intent.getStringExtra(USER_ID) ?:""
-        requestId = intent.getStringExtra(EXTRA_REQUEST_ID)?:""
+        otherUserID = intent.getStringExtra(USER_ID) ?: ""
+        requestId = intent.getStringExtra(EXTRA_REQUEST_ID) ?: ""
 
         userID = userRepository.getUser()?.id ?: ""
-        userName = intent.getStringExtra(USER_NAME)?:""
+        userName = intent.getStringExtra(USER_NAME) ?: ""
         binding.tvUserName.text = userName
     }
 
@@ -171,6 +171,7 @@ class ChatDetailActivity : DaggerAppCompatActivity(), AppSocket.OnMessageReceive
         appSocket.off(BROADCAST, listenerStatus)
         appSocket.removeOnMessageReceiver(this)
         unregisterReceiver(broadcastReceiver)
+        unregisterReceiver()
     }
 
     override fun onBackPressed() {
@@ -240,7 +241,8 @@ class ChatDetailActivity : DaggerAppCompatActivity(), AppSocket.OnMessageReceive
                         binding.clLoader.visible()
                         if (items.isNotEmpty()) {
                             binding.clLoader.setBackgroundColor(
-                                    ContextCompat.getColor(this, android.R.color.transparent))
+                                ContextCompat.getColor(this, android.R.color.transparent)
+                            )
                         }
                     } else
                         binding.pbLoaderBottom.visible()
@@ -346,14 +348,14 @@ class ChatDetailActivity : DaggerAppCompatActivity(), AppSocket.OnMessageReceive
     private fun sendImage(image: String) {
 
         val msg = MessageSend(
-                image,
-                "",
-                userID,
-                userRepository.getUser()?.name,
-                otherUserID,
-                DocType.IMAGE,
-                requestId,
-                Calendar.getInstance().timeInMillis
+            image,
+            "",
+            userID,
+            userRepository.getUser()?.name,
+            otherUserID,
+            DocType.IMAGE,
+            requestId,
+            Calendar.getInstance().timeInMillis
         )
         sendMessage(msg)
     }
@@ -380,14 +382,14 @@ class ChatDetailActivity : DaggerAppCompatActivity(), AppSocket.OnMessageReceive
             if (isConnectedToInternet(this, false)) {
 
                 val msg = MessageSend(
-                        String(),
-                        binding.etMessage.text.trim().toString(),
-                        userID,
-                        userRepository.getUser()?.name,
-                        otherUserID,
-                        DocType.TEXT,
-                        requestId,
-                        Calendar.getInstance().timeInMillis
+                    String(),
+                    binding.etMessage.text.trim().toString(),
+                    userID,
+                    userRepository.getUser()?.name,
+                    otherUserID,
+                    DocType.TEXT,
+                    requestId,
+                    Calendar.getInstance().timeInMillis
                 )
 
                 sendMessage(msg)
@@ -510,7 +512,7 @@ class ChatDetailActivity : DaggerAppCompatActivity(), AppSocket.OnMessageReceive
         runOnUiThread {
             items.forEachIndexed { index, chatMessage ->
                 if (items[index].status != AppSocket.MessageStatus.SEEN &&
-                        items[index].status != AppSocket.MessageStatus.DELIVERED
+                    items[index].status != AppSocket.MessageStatus.DELIVERED
                 ) {
                     items[index].status = AppSocket.MessageStatus.SEEN
 
@@ -536,11 +538,11 @@ class ChatDetailActivity : DaggerAppCompatActivity(), AppSocket.OnMessageReceive
             /*Add Message to list*/
             binding.etMessage.setText("")
             val message = ChatMessage(
-                    messageSend.imageUrl, "", messageSend.message,
-                    messageSend.sentAt, messageSend.messageType,
-                    AppSocket.MessageStatus.NOT_SENT, true,
-                    messageSend.senderId, messageSend.senderName,
-                    messageSend.receiverId, "", 0
+                messageSend.imageUrl, "", messageSend.message,
+                messageSend.sentAt, messageSend.messageType,
+                AppSocket.MessageStatus.NOT_SENT, true,
+                messageSend.senderId, messageSend.senderName,
+                messageSend.receiverId, "", 0
             )
 
             items.add(0, message)
@@ -611,18 +613,18 @@ class ChatDetailActivity : DaggerAppCompatActivity(), AppSocket.OnMessageReceive
 
     private fun selectImages() {
         FilePickerBuilder.instance
-                .setMaxCount(1)
-                .setActivityTheme(R.style.AppTheme)
-                .setActivityTitle(getString(R.string.select_image))
-                .enableVideoPicker(false)
-                .enableCameraSupport(true)
-                .showGifs(false)
-                .showFolderView(true)
-                .enableSelectAll(false)
-                .enableImagePicker(true)
-                .setCameraPlaceholder(R.drawable.ic_camera)
-                .withOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
-                .pickPhoto(this, AppRequestCode.IMAGE_PICKER)
+            .setMaxCount(1)
+            .setActivityTheme(R.style.AppTheme)
+            .setActivityTitle(getString(R.string.select_image))
+            .enableVideoPicker(false)
+            .enableCameraSupport(true)
+            .showGifs(false)
+            .showFolderView(true)
+            .enableSelectAll(false)
+            .enableImagePicker(true)
+            .setCameraPlaceholder(R.drawable.ic_camera)
+            .withOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+            .pickPhoto(this, AppRequestCode.IMAGE_PICKER)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -631,9 +633,12 @@ class ChatDetailActivity : DaggerAppCompatActivity(), AppSocket.OnMessageReceive
 
             if (requestCode == AppRequestCode.IMAGE_PICKER) {
                 val docPaths = ArrayList<Uri>()
-                docPaths.addAll(data?.getParcelableArrayListExtra(FilePickerConst.KEY_SELECTED_MEDIA) ?: emptyList())
+                docPaths.addAll(
+                    data?.getParcelableArrayListExtra(FilePickerConst.KEY_SELECTED_MEDIA)
+                        ?: emptyList()
+                )
 
-                val fileToUpload = File(getPathUri(this,docPaths[0]))
+                val fileToUpload = File(getPathUri(this, docPaths[0]))
 
                 uploadFileOnServer(compressImage(this, fileToUpload))
             }
@@ -645,7 +650,7 @@ class ChatDetailActivity : DaggerAppCompatActivity(), AppSocket.OnMessageReceive
         hashMap["type"] = getRequestBody(DocType.IMAGE)
 
         val body: RequestBody =
-                RequestBody.create(MediaType.parse("text/plain"), fileToUpload)
+            RequestBody.create(MediaType.parse("text/plain"), fileToUpload)
         hashMap["image\"; fileName=\"" + fileToUpload?.name] = body
 
         viewModelUpload.uploadFile(hashMap)
@@ -653,9 +658,9 @@ class ChatDetailActivity : DaggerAppCompatActivity(), AppSocket.OnMessageReceive
 
 
     override fun onRequestPermissionsResult(
-            requestCode: Int,
-            permissions: Array<out String>,
-            grantResults: IntArray
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         onRequestPermissionsResult(requestCode, grantResults)
@@ -674,28 +679,28 @@ class ChatDetailActivity : DaggerAppCompatActivity(), AppSocket.OnMessageReceive
     @OnNeverAskAgain(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
     fun onNeverAskAgainRationale() {
         PermissionUtils.showAppSettingsDialog(
-                this, R.string.media_permission
+            this, R.string.media_permission
         )
     }
 
     @OnPermissionDenied(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
     fun showDeniedForStorage() {
         PermissionUtils.showAppSettingsDialog(
-                this, R.string.media_permission
+            this, R.string.media_permission
         )
     }
 
     private fun showCompleteRequestDialog() {
         AlertDialogUtil.instance.createOkCancelDialog(this, R.string.end_chat,
-                R.string.end_chat_desc, R.string.end_chat, R.string.cancel, false,
-                object : AlertDialogUtil.OnOkCancelDialogListener {
-                    override fun onOkButtonClicked() {
-                        hitApiAcceptRequest()
-                    }
+            R.string.end_chat_desc, R.string.end_chat, R.string.cancel, false,
+            object : AlertDialogUtil.OnOkCancelDialogListener {
+                override fun onOkButtonClicked() {
+                    hitApiAcceptRequest()
+                }
 
-                    override fun onCancelButtonClicked() {
-                    }
-                }).show()
+                override fun onCancelButtonClicked() {
+                }
+            }).show()
     }
 
     private fun hitApiAcceptRequest() {
@@ -711,7 +716,6 @@ class ChatDetailActivity : DaggerAppCompatActivity(), AppSocket.OnMessageReceive
     override fun onPause() {
         super.onPause()
         isActive = false
-        unregisterReceiver()
     }
 
     override fun onResume() {
@@ -739,10 +743,12 @@ class ChatDetailActivity : DaggerAppCompatActivity(), AppSocket.OnMessageReceive
 
     private val refreshRequests = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            if (intent.action == PushType.REQUEST_COMPLETED ) {
-                if (intent.getStringExtra(EXTRA_REQUEST_ID) == requestId) {
-                    showTimer(false, null)
-                    longToast(getString(R.string.request_completed))
+            when (intent.action) {
+                PushType.REQUEST_COMPLETED, PushType.COMPLETED -> {
+                    if (intent.getStringExtra(EXTRA_REQUEST_ID) == requestId) {
+                        showTimer(false, null)
+                        longToast(getString(R.string.request_completed))
+                    }
                 }
             }
         }

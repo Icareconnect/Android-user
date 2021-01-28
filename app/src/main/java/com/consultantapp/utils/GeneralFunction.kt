@@ -441,20 +441,31 @@ fun getPathUri(context: Context, uri: Uri): String? {
 
 
 fun setAcceptTerms(activity: Activity): SpannableString {
-    val term = String.format(
-        "%s %s",
+    val term = String.format("%s %s %s %s",
         activity.getString(R.string.you_agree_to_our_terms),
-        activity.getString(R.string.terms)
-    )
+        activity.getString(R.string.terms),
+        activity.getString(R.string.and),
+        activity.getString(R.string.privacy))
 
     val string = SpannableString.valueOf(term)
     string.setSpan(
         ForegroundColorSpan(ContextCompat.getColor(activity, R.color.colorPrimary)),
-        term.indexOf(activity.getString(R.string.terms)), term.length, 0
+        term.indexOf(activity.getString(R.string.terms)),
+        term.indexOf(" " + activity.getString(R.string.and) + " "), 0
+    )
+
+    string.setSpan(
+        ForegroundColorSpan(ContextCompat.getColor(activity, R.color.colorPrimary)),
+        term.indexOf(activity.getString(R.string.privacy)), term.length, 0
     )
 
     string.setSpan(
         Terms(), term.indexOf(activity.getString(R.string.terms)),
+        term.indexOf(" " + activity.getString(R.string.and) + " "), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+    )
+
+    string.setSpan(
+        Privacy(), term.indexOf(activity.getString(R.string.terms)),
         term.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
     )
 

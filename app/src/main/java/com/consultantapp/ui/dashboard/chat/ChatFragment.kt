@@ -331,8 +331,8 @@ class ChatFragment : DaggerFragment() {
     }
 
 
-    override fun onPause() {
-        super.onPause()
+    override fun onDestroy() {
+        super.onDestroy()
         unregisterReceiver()
     }
 
@@ -356,8 +356,10 @@ class ChatFragment : DaggerFragment() {
 
     private val refreshRequests = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            if (intent.action == PushType.REQUEST_COMPLETED || intent.action == PushType.CHAT_STARTED) {
-                getListing(true)
+            when (intent.action) {
+                PushType.REQUEST_COMPLETED, PushType.COMPLETED, PushType.CHAT_STARTED -> {
+                    getListing(true)
+                }
             }
         }
     }
