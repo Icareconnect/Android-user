@@ -143,6 +143,7 @@
                     android:drawableEnd="@drawable/ic_next"
                     android:drawablePadding="@dimen/dp_16"
                     android:focusable="true"
+                    android:visibility="gone"
                     android:fontFamily="@font/campton_medium"
                     android:paddingTop="@dimen/dp_16"
                     android:paddingBottom="@dimen/dp_16"
