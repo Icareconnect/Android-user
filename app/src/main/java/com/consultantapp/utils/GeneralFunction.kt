@@ -315,24 +315,28 @@ fun getCurrency(amount: String?): String {
     format.maximumFractionDigits = 2
     format.currency = Currency.getInstance(appClientDetails.currency)
 
-    return if (amount.isNullOrEmpty())
+    val formatFinal=if (amount.isNullOrEmpty())
         format.format(0).replace("0.00", " NA")
     else {
         format.format(amount.toDouble()).replace(".00", "")
     }
+
+    return formatFinal.replace("CA","")
 }
 
 fun getCurrencySymbol(): String {
     val format = NumberFormat.getCurrencyInstance()
     format.currency = Currency.getInstance(appClientDetails.currency)
 
-    return format.currency.symbol
+    return format.currency.symbol.replace("CA","")
 }
 
 fun getUnitPrice(unit: Int?, context: Context): String {
     return when {
         unit == null -> "NA"
-        unit >= 3600 -> "${(unit / 3600)} ${context.getString(R.string.hr)}"
+        unit >= 3600 ->
+            if (unit / 3600 == 1) context.getString(R.string.hr)
+            else "${(unit / 3600)} ${context.getString(R.string.hr)}"
         else -> "${(unit / 60)} ${context.getString(R.string.min)}"
     }
 }
@@ -441,11 +445,13 @@ fun getPathUri(context: Context, uri: Uri): String? {
 
 
 fun setAcceptTerms(activity: Activity): SpannableString {
-    val term = String.format("%s %s %s %s",
+    val term = String.format(
+        "%s %s %s %s",
         activity.getString(R.string.you_agree_to_our_terms),
         activity.getString(R.string.terms),
         activity.getString(R.string.and),
-        activity.getString(R.string.privacy))
+        activity.getString(R.string.privacy)
+    )
 
     val string = SpannableString.valueOf(term)
     string.setSpan(

@@ -272,7 +272,7 @@
     <!--Share text-->
     <string name="share">Share</string>
     <string name="post_sharing">Checkout this post</string>
-    <string name="invite_text">Hey Here is an online platform that matches fully vetted healthcare professionals with Health care facilities, Long term care homes and private homes.</string>
+    <string name="invite_text">Hey Here is an online platform that matches fully vetted professionals with Health care facilities, Long term care homes and private homes.</string>
     <string name="payment">Payment Information</string>
     <string name="start_your_journey">Start Your\nJourney now</string>
     <string name="address">Address</string>
@@ -329,7 +329,7 @@
 
     <!--Service for-->
     <string name="requesting_service_for">Requesting service for ?</string>
-    <string name="if_service_is_not_self">If service is not for self…</string>
+    <string name="if_service_is_not_self">If service is not for self</string>
     <string name="self">Self</string>
     <string name="father">Father</string>
     <string name="mother">Mother</string>

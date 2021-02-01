@@ -1,4 +1,4 @@
-package com.consultantvendor.ui.loginSignUp.changepassword
+package com.consultantapp.ui.loginSignUp.changepassword
 
 import android.os.Bundle
 import android.view.LayoutInflater
