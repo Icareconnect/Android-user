@@ -319,6 +319,7 @@
     <string name="book_appointment">Book appointment</string>
     <string name="start_time">Start time</string>
     <string name="error_for_today">For Today please select after %s hour time.</string>
+    <string name="error_for_booking_4_hours">Booking Should be at least for 4 hours</string>
     <string name="end_time">End time</string>
     <string name="to">To</string>
     <string name="from">From</string>
@@ -405,6 +406,8 @@
     <string name="distance">Distance :</string>
     <string name="map_not_found">Google map application not found</string>
     <string name="working_hour_message">Working hour Message</string>
+    <string name="hours_worked">Hours worked</string>
+    <string name="error_working_hour">Please provide working hours</string>
     <string name="error_working_hour_message">Please define working hours</string>
     <string name="approval_status">Approval Status</string>
     <string name="feedback">Feedback</string>

@@ -153,10 +153,14 @@ class DateTimeFragment : DaggerFragment(), OnTimeSelected {
                 }
             }
 
+            var noOfDaysSelected = 0
             itemDays.forEach {
-                if (it.isSelected)
+                if (it.isSelected) {
                     dateSelected += "${DateUtils.dateFormatFromMillis(DateFormat.DATE_FORMAT, it.date ?: 0L)}, "
+                    noOfDaysSelected++
+                }
             }
+
 
             when {
                 dateSelected.isNullOrEmpty() -> {
@@ -172,45 +176,27 @@ class DateTimeFragment : DaggerFragment(), OnTimeSelected {
                      binding.etReason.showSnackBar(getString(R.string.reason_of_service))
                  }*/
                 else -> {
+                    val sdf = SimpleDateFormat(DateFormat.TIME_FORMAT, Locale.ENGLISH)
+                    val startTime = sdf.parse(binding.tvStartTimeV.text.toString().trim())
+                    val endTime = sdf.parse(binding.tvEndTimeV.text.toString().trim())
+
+                    val difference = ((endTime.time - startTime.time) / (60 * 60 * 1000) * noOfDaysSelected)
+
+                    if (difference < 4) {
+                        binding.tvStartTimeV.showSnackBar(getString(R.string.error_for_booking_4_hours))
+                        return@setOnClickListener
+                    }
+
+
                     bookService.date = dateSelected.removeSuffix(", ")
                     bookService.startTime = binding.tvStartTimeV.text.toString()
                     bookService.endTime = binding.tvEndTimeV.text.toString()
                     bookService.reason = binding.etReason.text.toString()
 
                     if (isConnectedToInternet(requireContext(), true)) {
-
                         startActivityForResult(Intent(requireContext(), DoctorListActivity::class.java)
                                 .putExtra(EXTRA_REQUEST_ID, bookService), AppRequestCode.APPOINTMENT_BOOKING)
 
-                        /*val fragment = WaitingAllocationFragment()
-                        val bundle = Bundle()
-                        bundle.putSerializable(EXTRA_REQUEST_ID, bookService)
-                        fragment.arguments = bundle
-                        replaceFragment(requireActivity().supportFragmentManager, fragment, R.id.container)*/
-
-                        /*val hashMap = HashMap<String, String>()
-                        hashMap["category_id"] = "1"
-                        hashMap["filter_id"] = bookService.filter_id ?: ""
-                        hashMap["date"] = DateUtils.dateFormatFromMillis(DateFormat.DATE_FORMAT, bookService.date)
-                        hashMap["end_date"] = DateUtils.dateFormatFromMillis(DateFormat.DATE_FORMAT, bookService.date)
-                        hashMap["time"] = DateUtils.dateFormatChange(DateFormat.TIME_FORMAT,
-                                DateFormat.TIME_FORMAT_24, bookService.startTime ?: "")
-                        hashMap["end_time"] = DateUtils.dateFormatChange(DateFormat.TIME_FORMAT,
-                                DateFormat.TIME_FORMAT_24, bookService.endTime ?: "")
-                        hashMap["reason_for_service"] = bookService.reason ?: ""
-
-                        hashMap["schedule_type"] = RequestType.SCHEDULE
-
-                        hashMap["lat"] = bookService.address?.location?.get(1).toString()
-                        hashMap["long"] = bookService.address?.location?.get(0).toString()
-                        hashMap["service_address"] = bookService.address?.locationName ?: ""
-
-                        hashMap["first_name"] = bookService.personName
-                        hashMap["last_name"] = bookService.personName
-                        hashMap["service_for"] = bookService.service_for ?: ""
-                        hashMap["home_care_req"] = bookService.home_care_req ?: ""
-
-                        viewModel.confirmAutoAllocate(hashMap)*/
                     }
 
                 }

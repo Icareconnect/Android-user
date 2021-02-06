@@ -132,6 +132,9 @@ class CompletedRequestFragment : DaggerFragment() {
 
     private fun approveHour(status: String) {
         when {
+            (status == DECLINED && binding.etHour.text.toString().isEmpty()) -> {
+                binding.etHour.showSnackBar(getString(R.string.error_working_hour))
+            }
             binding.etReasonHour.text.toString().isEmpty() -> {
                 binding.etReasonHour.showSnackBar(getString(R.string.error_working_hour_message))
             }
@@ -140,6 +143,8 @@ class CompletedRequestFragment : DaggerFragment() {
                 hashMap["request_id"] = requireActivity().intent.getStringExtra(EXTRA_REQUEST_ID)
                         ?: ""
                 hashMap["status"] = status
+                if (binding.etHour.text.toString().isNotEmpty())
+                    hashMap["valid_hours"] = binding.etHour.text.toString().trim()
                 hashMap["comment"] = binding.etReasonHour.text.toString().trim()
 
                 viewModel.approveWorkingHour(hashMap)
@@ -157,6 +162,8 @@ class CompletedRequestFragment : DaggerFragment() {
 
     private fun setData() {
         userData = request.to_user ?: UserData()
+
+        binding.etHour.setText((request.total_hours?.toInt() ?:"").toString())
     }
 
     private fun bindObservers() {

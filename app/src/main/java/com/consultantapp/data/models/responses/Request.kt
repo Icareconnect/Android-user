@@ -23,6 +23,7 @@ class Request :Serializable{
     var user_comment: String? = null
     var canReschedule = false
     var canCancel = false
+    var total_hours :Double ?=null
 
     var extra_detail: Extra_detail? = null
     var last_location:Last_location?=null
