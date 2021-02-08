@@ -317,6 +317,7 @@ class SignUpFragment : DaggerFragment(), OnDateSelected {
 
 //                    startActivity(Intent(requireContext(), MainActivity::class.java))
 
+                    requireActivity().setResult(Activity.RESULT_OK)
                     if (requireActivity().intent.hasExtra(UPDATE_PROFILE))
                         requireActivity().finish()
                     else if (arguments?.containsKey(UPDATE_NUMBER) == true) {

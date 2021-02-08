@@ -50,9 +50,9 @@ class SavedAddressAdapter(private val fragment: Fragment, private val items: Arr
 
         fun bind(item: SaveAddress) = with(binding) {
             tvName.text = if (item.house_no.isNullOrEmpty())
-                item.save_as
+                item.save_as_preference?.option_name
             else
-                "${item.save_as} (${item.house_no})"
+                "${item.save_as_preference?.option_name} (${item.house_no})"
 
             tvLocationName.text = item.address_name
         }

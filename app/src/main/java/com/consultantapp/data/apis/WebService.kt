@@ -1,5 +1,6 @@
 package com.consultantapp.data.apis
 
+import com.consultantapp.data.models.requests.SaveAddress
 import com.consultantapp.data.models.responses.ClassData
 import com.consultantapp.data.models.responses.CommonDataModel
 import com.consultantapp.data.models.responses.UserData
@@ -220,9 +221,8 @@ interface WebService {
     @POST(AUTO_ALLOCATE)
     fun autoAllocate(@FieldMap hashMap: HashMap<String, String>): Call<ApiResponse<CommonDataModel>>
 
-    @FormUrlEncoded
     @POST(SAVE_ADDRESS)
-    fun saveAddress(@FieldMap hashMap: HashMap<String, Any>): Call<ApiResponse<CommonDataModel>>
+    fun saveAddress(@Body saveAddress: SaveAddress): Call<ApiResponse<CommonDataModel>>
 
 
 

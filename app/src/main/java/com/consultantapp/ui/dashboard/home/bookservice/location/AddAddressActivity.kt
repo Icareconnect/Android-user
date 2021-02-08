@@ -38,6 +38,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.libraries.places.widget.Autocomplete
+import com.google.gson.Gson
 import dagger.android.support.DaggerAppCompatActivity
 import permissions.dispatcher.*
 import java.util.*
@@ -79,7 +80,7 @@ class AddAddressActivity : DaggerAppCompatActivity(), GoogleMap.OnCameraChangeLi
 
     private var itemsSaveAs = ArrayList<FilterOption>()
 
-    private var saveAs = ""
+    private var saveAs: FilterOption? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -108,7 +109,7 @@ class AddAddressActivity : DaggerAppCompatActivity(), GoogleMap.OnCameraChangeLi
     private fun setEditAddress() {
         if (intent.hasExtra(EXTRA_ADDRESS)) {
             saveAddress = intent.getSerializableExtra(EXTRA_ADDRESS) as SaveAddress
-            saveAddress.addressId = saveAddress._id
+            saveAddress.addressId = saveAddress.id
             binding.etLocation.setText(saveAddress.address_name)
             binding.etHouseNo.setText(saveAddress.house_no)
         }
@@ -119,10 +120,13 @@ class AddAddressActivity : DaggerAppCompatActivity(), GoogleMap.OnCameraChangeLi
         val listHomeCare = resources.getStringArray(R.array.addressType)
 
         itemsSaveAs.clear()
-        listHomeCare.forEach {
-            val item = FilterOption()
-            item.option_name = it
-            itemsSaveAs.add(item)
+
+        val optionsWorkLocation = userRepository.getUser()?.master_preferences?.get(0)?.options
+        //itemsSaveAs.addAll(optionsWorkLocation ?: emptyList())
+
+        optionsWorkLocation?.forEach {
+            it.isSelected = false
+            itemsSaveAs.add(it)
         }
 
         adapterRelation = CheckItemAdapter(null, false, false, itemsSaveAs)
@@ -172,10 +176,10 @@ class AddAddressActivity : DaggerAppCompatActivity(), GoogleMap.OnCameraChangeLi
     private fun checkValidations() {
         binding.btnSave.hideKeyboard()
 
-        saveAs = ""
+        saveAs = null
         itemsSaveAs.forEach {
             if (it.isSelected) {
-                saveAs = it.option_name ?: ""
+                saveAs = it
                 return@forEach
             }
         }
@@ -184,17 +188,24 @@ class AddAddressActivity : DaggerAppCompatActivity(), GoogleMap.OnCameraChangeLi
             binding.etLocation.text.toString().isEmpty() -> {
                 binding.etLocation.showSnackBar(getString(R.string.location))
             }
-            saveAs.isEmpty() -> {
+            saveAs == null -> {
                 binding.etLocation.showSnackBar(getString(R.string.select_save_as_option))
             }
             isConnectedToInternet(this, true) -> {
-                val hashMap = HashMap<String, Any>()
-                hashMap["address_name"] = saveAddress.address_name ?: ""
-                hashMap["save_as"] = saveAs
-                hashMap["lat"] = saveAddress.location?.get(1) ?: ""
-                hashMap["long"] = saveAddress.location?.get(0) ?: ""
-                hashMap["house_no"] = binding.etHouseNo.text?.trim().toString()
-                viewModel.saveAddress(hashMap)
+                /*      val hashMap = HashMap<String, Any>()
+                      hashMap["address_name"] = saveAddress.address_name ?: ""
+                      hashMap["save_as"] = saveAs?.option_name ?: ""
+                      hashMap["save_as_preference"] = Gson().toJson(saveAs ?: FilterOption())
+                      hashMap["lat"] = saveAddress.location?.get(1) ?: ""
+                      hashMap["long"] = saveAddress.location?.get(0) ?: ""
+                      hashMap["house_no"] = binding.etHouseNo.text?.trim().toString()*/
+
+                saveAddress.house_no = binding.etHouseNo.text?.trim().toString()
+                saveAddress.lat = (saveAddress.location?.get(1) ?: "").toString()
+                saveAddress.long = (saveAddress.location?.get(0) ?: "").toString()
+                saveAddress.save_as = saveAs?.option_name
+                saveAddress.save_as_preference = saveAs
+                viewModel.saveAddress(saveAddress)
             }
         }
     }
@@ -207,7 +218,7 @@ class AddAddressActivity : DaggerAppCompatActivity(), GoogleMap.OnCameraChangeLi
                     progressDialog.setLoading(false)
 
                     saveAddress.house_no = binding.etHouseNo.text?.trim().toString()
-                    saveAddress.save_as = saveAs
+                    saveAddress.save_as_preference = saveAs
 
                     val intent = Intent()
                     intent.putExtra(EXTRA_ADDRESS, saveAddress)
@@ -327,7 +338,6 @@ class AddAddressActivity : DaggerAppCompatActivity(), GoogleMap.OnCameraChangeLi
             val mLastLocation: Location = locationResult.lastLocation
             val latLng = LatLng(mLastLocation.latitude, mLastLocation.longitude)
 
-            longToast("mLocationCallback"+mLastLocation.latitude)
             mMap?.moveCamera(CameraUpdateFactory.newLatLng(latLng))
             mMap?.animateCamera(CameraUpdateFactory.zoomTo(14f))
 

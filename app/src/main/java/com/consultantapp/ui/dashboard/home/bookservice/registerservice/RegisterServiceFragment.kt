@@ -241,9 +241,9 @@ class RegisterServiceFragment : DaggerFragment() {
         binding.etAddress.setText("${bookService.address?.address_name}")
 
         bookService.address?.address_name = if (bookService.address?.house_no.isNullOrEmpty())
-            "${bookService.address?.save_as}\n${bookService.address?.address_name}"
+            "${bookService.address?.save_as_preference?.option_name}\n${bookService.address?.address_name}"
         else
-            "${bookService.address?.save_as} (${bookService.address?.house_no})\n${bookService.address?.address_name}"
+            "${bookService.address?.save_as_preference?.option_name} (${bookService.address?.house_no})\n${bookService.address?.address_name}"
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -256,9 +256,9 @@ class RegisterServiceFragment : DaggerFragment() {
                 binding.etAddress.setText("${bookService.address?.address_name}")
 
                 bookService.address?.address_name = if (bookService.address?.house_no.isNullOrEmpty())
-                    "${bookService.address?.save_as}\n${bookService.address?.address_name}"
+                    "${bookService.address?.save_as_preference?.option_name}\n${bookService.address?.address_name}"
                 else
-                    "${bookService.address?.save_as} (${bookService.address?.house_no})\n${bookService.address?.address_name}"
+                    "${bookService.address?.save_as_preference?.option_name} (${bookService.address?.house_no})\n${bookService.address?.address_name}"
             }
         }
     }

@@ -2,6 +2,7 @@ package com.consultantapp.ui.dashboard.home.bookservice.location
 
 import androidx.lifecycle.ViewModel
 import com.consultantapp.data.apis.WebService
+import com.consultantapp.data.models.requests.SaveAddress
 import com.consultantapp.data.models.responses.CommonDataModel
 import com.consultantapp.data.network.responseUtil.ApiResponse
 import com.consultantapp.data.network.responseUtil.ApiUtils
@@ -19,10 +20,10 @@ class AddressViewModel @Inject constructor(private val webService: WebService) :
     val getAddress by lazy { SingleLiveEvent<Resource<CommonDataModel>>() }
 
 
-    fun saveAddress(hashMap: HashMap<String,Any>) {
+    fun saveAddress(saveAddressModel: SaveAddress) {
         saveAddress.value = Resource.loading()
 
-        webService.saveAddress(hashMap).enqueue(object : Callback<ApiResponse<CommonDataModel>> {
+        webService.saveAddress(saveAddressModel).enqueue(object : Callback<ApiResponse<CommonDataModel>> {
 
             override fun onResponse(call: Call<ApiResponse<CommonDataModel>>,
                                     response: Response<ApiResponse<CommonDataModel>>) {

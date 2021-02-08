@@ -17,6 +17,20 @@
             app:navigationIcon="@drawable/ic_back" />
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvHeader"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize"
+            android:elevation="@dimen/dp_4"
+            android:fontFamily="@font/campton_semibold"
+            android:gravity="center"
+            android:text="@string/profile"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvEdit"
             android:layout_width="wrap_content"
             android:layout_height="?android:attr/actionBarSize"

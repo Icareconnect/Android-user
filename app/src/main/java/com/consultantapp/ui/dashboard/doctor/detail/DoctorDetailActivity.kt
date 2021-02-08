@@ -435,6 +435,7 @@ class DoctorDetailActivity : DaggerAppCompatActivity() {
                     hashMap["lat"] = bookService.address?.location?.get(1).toString()
                     hashMap["long"] = bookService.address?.location?.get(0).toString()
                     hashMap["service_address"] = bookService.address?.address_name ?: ""
+                    hashMap["address_id"] = bookService.address?.id ?:""
 
                     hashMap["first_name"] = bookService.personName
                     hashMap["last_name"] = bookService.personName

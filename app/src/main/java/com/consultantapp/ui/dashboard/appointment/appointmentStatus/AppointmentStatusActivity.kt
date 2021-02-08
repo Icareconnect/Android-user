@@ -317,6 +317,8 @@ class AppointmentStatusActivity : DaggerAppCompatActivity(), OnMapReadyCallback 
                                     it.data?.routes?.get(0)?.legs?.get(0)?.duration?.text)
                             drawDirectionToStop(it.data?.routes?.get(0)?.overview_polyline)
                         } catch (e: Exception) {
+                            binding.tvTime.text = getString(R.string.estimate_time_of_arrival_s,
+                                    getString(R.string.na))
                         }
                     }
 

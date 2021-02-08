@@ -89,6 +89,7 @@ class AppointmentAdapter(private val fragment: AppointmentFragment, private val 
 
             tvCancel.hideShowView(request.canCancel)
             tvRate.gone()
+            binding.tvApprove.gone()
 
             tvStatus.setTextColor(ContextCompat.getColor(context, R.color.colorPrimary))
 
