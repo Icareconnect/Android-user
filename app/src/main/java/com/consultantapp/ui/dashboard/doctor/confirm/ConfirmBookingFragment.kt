@@ -77,7 +77,7 @@ class ConfirmBookingFragment : DaggerFragment() {
         viewModel = ViewModelProvider(this, viewModelFactory)[DoctorViewModel::class.java]
         progressDialog = ProgressDialog(requireActivity())
 
-        binding.clLoader.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorWhite))
+        binding.clLoader.setBackgroundResource(R.color.colorWhite)
         doctorData = requireActivity().intent.getSerializableExtra(USER_DATA) as UserData
         scheduleType = requireActivity().intent.getStringExtra(PAGE_TO_OPEN) ?: ""
 
@@ -227,7 +227,7 @@ class ConfirmBookingFragment : DaggerFragment() {
                 Status.SUCCESS -> {
                     binding.clLoader.gone()
                     binding.tvConfirm.visible()
-                    binding.clLoader.setBackgroundColor(0)
+                    binding.clLoader.setBackgroundResource(0)
 
                     val data = it.data
 
