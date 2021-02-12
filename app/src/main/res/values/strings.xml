@@ -122,6 +122,7 @@
     <string name="inprogess">In progress</string>
     <string name="no_show">No show</string>
     <string name="canceled">Cancelled</string>
+    <string name="declined">Declined</string>
     <string name="canceled_service">Cancelled Service</string>
     <string name="card_ending_with">%s Card ending with %s</string>
     <string name="na">NA</string>

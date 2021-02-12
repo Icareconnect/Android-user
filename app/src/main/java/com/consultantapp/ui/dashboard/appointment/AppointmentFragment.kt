@@ -23,6 +23,7 @@ import com.consultantapp.data.network.ApisRespHandler
 import com.consultantapp.data.network.PER_PAGE_LOAD
 import com.consultantapp.data.network.PushType
 import com.consultantapp.data.network.responseUtil.Status
+import com.consultantapp.data.repos.UserRepository
 import com.consultantapp.databinding.ActivityListingToolbarBinding
 import com.consultantapp.ui.dashboard.appointment.appointmentStatus.AppointmentStatusActivity
 import com.consultantapp.ui.dashboard.doctor.DoctorActionActivity
@@ -38,6 +39,9 @@ class AppointmentFragment : DaggerFragment() {
 
     @Inject
     lateinit var prefsManager: PrefsManager
+
+    @Inject
+    lateinit var userRepository: UserRepository
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory

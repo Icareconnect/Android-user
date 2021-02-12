@@ -106,7 +106,7 @@ class DoctorListActivity : DaggerAppCompatActivity() {
         viewModelBanner = ViewModelProvider(this, viewModelFactory)[BannerViewModel::class.java]
         progressDialog = ProgressDialog(this)
 
-        var title = ""
+        var title: String
         if (intent.hasExtra(CATEGORY_PARENT_ID)) {
             categoryData = intent.getSerializableExtra(CATEGORY_PARENT_ID) as Categories
             title = categoryData?.name ?: ""

@@ -14,6 +14,7 @@ import com.consultantapp.R
 import com.consultantapp.data.models.responses.Request
 import com.consultantapp.data.network.ApisRespHandler
 import com.consultantapp.data.network.responseUtil.Status
+import com.consultantapp.data.repos.UserRepository
 import com.consultantapp.databinding.FragmentAppointmentDetailsBinding
 import com.consultantapp.ui.dashboard.appointment.appointmentStatus.AppointmentStatusActivity
 import com.consultantapp.ui.drawermenu.DrawerActivity
@@ -27,6 +28,9 @@ class AppointmentDetailsFragment : DaggerFragment() {
 
     @Inject
     lateinit var prefsManager: PrefsManager
+
+    @Inject
+    lateinit var userRepository: UserRepository
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -228,6 +232,10 @@ class AppointmentDetailsFragment : DaggerFragment() {
                 binding.tvStatus.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorNoShow))
             }
             CallAction.CANCELED -> {
+                binding.tvStatus.text = if (request.canceled_by?.id == userRepository.getUser()?.id)
+                    getString(R.string.canceled)
+                else getString(R.string.declined)
+
                 binding.tvStatus.text = getString(R.string.canceled)
                 binding.tvStatus.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorNoShow))
                 binding.tvCancel.gone()

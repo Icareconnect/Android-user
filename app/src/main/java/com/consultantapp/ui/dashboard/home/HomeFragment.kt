@@ -131,7 +131,7 @@ class HomeFragment : DaggerFragment() {
             } else {
                 startActivity(Intent(requireContext(), DrawerActivity::class.java)
                         .putExtra(PAGE_TO_OPEN, DrawerActivity.REGISTER_SERVICE)
-                        .putExtra(RegisterServiceFragment.DUTIES, duties.removePrefix(",")))
+                        .putExtra(RegisterServiceFragment.DUTIES, duties.removeSuffix(",")))
             }
         }
     }

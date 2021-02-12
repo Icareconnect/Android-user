@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.consultantapp.R
 import com.consultantapp.data.models.responses.Request
+import com.consultantapp.data.models.responses.UserData
 import com.consultantapp.data.network.LoadingStatus.ITEM
 import com.consultantapp.data.network.LoadingStatus.LOADING
 import com.consultantapp.databinding.ItemPagingLoaderBinding
@@ -52,7 +53,11 @@ class AppointmentAdapter(private val fragment: AppointmentFragment, private val 
     inner class ViewHolder(val binding: RvItemAppointmentBinding) :
             RecyclerView.ViewHolder(binding.root) {
 
+        var userData: UserData? = null
+
         init {
+            userData = fragment.userRepository.getUser()
+
             binding.tvCancel.setOnClickListener {
                 fragment.cancelAppointment(items[adapterPosition])
             }
@@ -158,7 +163,10 @@ class AppointmentAdapter(private val fragment: AppointmentFragment, private val 
                     tvStatus.setTextColor(ContextCompat.getColor(context, R.color.colorNoShow))
                 }
                 CallAction.CANCELED -> {
-                    tvStatus.text = context.getString(R.string.canceled)
+                    tvStatus.text = if (request.canceled_by?.id == userData?.id)
+                        context.getString(R.string.canceled)
+                    else context.getString(R.string.declined)
+
                     tvStatus.setTextColor(ContextCompat.getColor(context, R.color.colorNoShow))
                     tvCancel.gone()
                 }
