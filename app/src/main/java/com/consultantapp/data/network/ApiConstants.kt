@@ -54,4 +54,6 @@ object PushType {
     const val START_SERVICE = "START_SERVICE"
     const val CANCEL_SERVICE = "CANCEL_SERVICE"
     const val COMPLETED = "COMPLETED"
+
+    const val REQUEST = "request"
 }

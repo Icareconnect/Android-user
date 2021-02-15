@@ -11,12 +11,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.consultantapp.R
+import com.consultantapp.data.models.requests.BookService
 import com.consultantapp.data.models.responses.Request
 import com.consultantapp.data.network.ApisRespHandler
 import com.consultantapp.data.network.responseUtil.Status
 import com.consultantapp.data.repos.UserRepository
 import com.consultantapp.databinding.FragmentAppointmentDetailsBinding
 import com.consultantapp.ui.dashboard.appointment.appointmentStatus.AppointmentStatusActivity
+import com.consultantapp.ui.dashboard.home.bookservice.datetime.DateTimeFragment
 import com.consultantapp.ui.drawermenu.DrawerActivity
 import com.consultantapp.utils.*
 import com.consultantapp.utils.dialogs.ProgressDialog
@@ -175,6 +177,9 @@ class AppointmentDetailsFragment : DaggerFragment() {
                 binding.tvRate.visible()
                 binding.tvApprove.visible()
 
+                binding.tvTrack.text = getString(R.string.book_again)
+                binding.tvTrack.visible()
+
                 if (request.rating == null) {
                     binding.tvRate.visible()
                 } else {
@@ -255,16 +260,17 @@ class AppointmentDetailsFragment : DaggerFragment() {
 //        item.status = CallAction.REACHED
         when (request.status) {
             CallAction.START, CallAction.REACHED ->
-                startActivityForResult(
-                        Intent(requireActivity(), AppointmentStatusActivity::class.java)
-                                .putExtra(EXTRA_REQUEST_ID, request.id), AppRequestCode.APPOINTMENT_DETAILS
-                )
+                startActivityForResult(Intent(requireActivity(), AppointmentStatusActivity::class.java)
+                        .putExtra(EXTRA_REQUEST_ID, request.id), AppRequestCode.APPOINTMENT_DETAILS)
             CallAction.START_SERVICE ->
-                startActivityForResult(
-                        Intent(requireContext(), DrawerActivity::class.java)
-                                .putExtra(PAGE_TO_OPEN, DrawerActivity.UPDATE_SERVICE)
-                                .putExtra(EXTRA_REQUEST_ID, request.id), AppRequestCode.APPOINTMENT_DETAILS
-                )
+                startActivityForResult(Intent(requireContext(), DrawerActivity::class.java)
+                        .putExtra(PAGE_TO_OPEN, DrawerActivity.UPDATE_SERVICE)
+                        .putExtra(EXTRA_REQUEST_ID, request.id), AppRequestCode.APPOINTMENT_DETAILS)
+            CallAction.COMPLETED -> {
+                startActivityForResult(Intent(requireContext(), DrawerActivity::class.java)
+                        .putExtra(PAGE_TO_OPEN, DrawerActivity.BOOK_AGAIN)
+                        .putExtra(EXTRA_REQUEST_ID, BookService()), AppRequestCode.APPOINTMENT_DETAILS)
+            }
         }
     }
 

@@ -119,6 +119,15 @@ class DrawerActivity : DaggerAppCompatActivity() {
             APPOINTMENT_DETAILS ->
                 addFragment(supportFragmentManager,
                         AppointmentDetailsFragment(), R.id.container)
+            BOOK_AGAIN -> {
+                val fragment = DateTimeFragment()
+                val bundle = Bundle()
+                bundle.putSerializable(EXTRA_REQUEST_ID, intent.getSerializableExtra(EXTRA_REQUEST_ID))
+                fragment.arguments = bundle
+
+                addFragment(supportFragmentManager,
+                        fragment, R.id.container)
+            }
         }
     }
 
@@ -143,6 +152,7 @@ class DrawerActivity : DaggerAppCompatActivity() {
         const val DATE_TIME = "DATE_TIME"
         const val UPDATE_SERVICE = "UPDATE_SERVICE"
         const val APPOINTMENT_DETAILS="APPOINTMENT_DETAILS"
+        const val BOOK_AGAIN = "BOOK_AGAIN"
     }
 
     override fun onBackPressed() {

@@ -180,30 +180,6 @@ class DoctorDetailActivity : DaggerAppCompatActivity() {
                     startActivityForResult(Intent(this, AddMoneyActivity::class.java)
                             .putExtra(EXTRA_PRICE, it.data?.grand_total)
                             .putExtra(EXTRA_REQUEST_ID, hashMap), AppRequestCode.ADD_MONEY)
-
-                    /*If amount not sufficient then add money*/
-                    /*if (it.data?.amountNotSufficient == true) {
-                        AlertDialog.Builder(this)
-                                .setCancelable(false)
-                                .setTitle(getString(R.string.added_to_wallet))
-                                .setMessage(getString(R.string.money_insufficient))
-                                .setPositiveButton(getString(R.string.ok)) { dialog, which ->
-
-                                }
-                                .setNegativeButton(getString(R.string.add_money)) { dialog, which ->
-                                    startActivity(Intent(this, DrawerActivity::class.java)
-                                            .putExtra(PAGE_TO_OPEN, WALLET))
-                                }.show()
-
-                    } else {
-                        val intentBroadcast = Intent()
-                        intentBroadcast.action = PushType.NEW_REQUEST
-                        LocalBroadcastManager.getInstance(this).sendBroadcast(intentBroadcast)
-
-                        longToast(getString(R.string.request_sent))
-                        setResult(Activity.RESULT_OK)
-                        finish()
-                    }*/
                 }
                 Status.ERROR -> {
                     progressDialog.setLoading(false)

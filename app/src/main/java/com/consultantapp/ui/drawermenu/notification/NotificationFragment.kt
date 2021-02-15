@@ -75,7 +75,7 @@ class NotificationFragment : DaggerFragment() {
     }
 
     private fun setAdapter() {
-        adapter = NotificationAdapter(items)
+        adapter = NotificationAdapter(this,items)
         binding.rvListing.adapter = adapter
 
         binding.rvListing.itemAnimator = null

@@ -19,9 +19,10 @@ import com.consultantapp.data.network.ApisRespHandler
 import com.consultantapp.data.network.responseUtil.Status
 import com.consultantapp.data.repos.UserRepository
 import com.consultantapp.databinding.FragmentDateTimeBinding
+import com.consultantapp.ui.dashboard.DoctorViewModel
 import com.consultantapp.ui.dashboard.doctor.listing.DoctorListActivity
-import com.consultantapp.ui.dashboard.home.bookservice.AllocateDoctorViewModel
-import com.consultantapp.ui.dashboard.home.bookservice.waiting.WaitingAllocationFragment
+import com.consultantapp.ui.drawermenu.DrawerActivity
+import com.consultantapp.ui.drawermenu.addmoney.AddMoneyActivity
 import com.consultantapp.utils.*
 import com.consultantapp.utils.dialogs.ProgressDialog
 import dagger.android.support.DaggerFragment
@@ -47,13 +48,15 @@ class DateTimeFragment : DaggerFragment(), OnTimeSelected {
 
     private lateinit var progressDialog: ProgressDialog
 
-    private lateinit var viewModel: AllocateDoctorViewModel
+    private lateinit var viewModel: DoctorViewModel
 
     private var itemDays = ArrayList<DatesAvailability>()
 
     private lateinit var datesAdapter: DatesAdapter
 
     private var bookService = BookService()
+
+    private var hashMap = HashMap<String, Any>()
 
 
     override fun onCreateView(
@@ -73,7 +76,7 @@ class DateTimeFragment : DaggerFragment(), OnTimeSelected {
     }
 
     private fun initialise() {
-        viewModel = ViewModelProvider(this, viewModelFactory)[AllocateDoctorViewModel::class.java]
+        viewModel = ViewModelProvider(this, viewModelFactory)[DoctorViewModel::class.java]
         progressDialog = ProgressDialog(requireActivity())
 
         editTextScroll(binding.etReason)
@@ -187,16 +190,18 @@ class DateTimeFragment : DaggerFragment(), OnTimeSelected {
                         return@setOnClickListener
                     }
 
-
                     bookService.date = dateSelected.removeSuffix(", ")
                     bookService.startTime = binding.tvStartTimeV.text.toString()
                     bookService.endTime = binding.tvEndTimeV.text.toString()
                     bookService.reason = binding.etReason.text.toString()
 
                     if (isConnectedToInternet(requireContext(), true)) {
-                        startActivityForResult(Intent(requireContext(), DoctorListActivity::class.java)
-                                .putExtra(EXTRA_REQUEST_ID, bookService), AppRequestCode.APPOINTMENT_BOOKING)
-
+                        if (requireActivity().intent.getStringExtra(PAGE_TO_OPEN) == DrawerActivity.BOOK_AGAIN) {
+                            /*hashMap = HashMap()
+                            viewModel.createRequest(hashMap)*/
+                        } else
+                            startActivityForResult(Intent(requireContext(), DoctorListActivity::class.java)
+                                    .putExtra(EXTRA_REQUEST_ID, bookService), AppRequestCode.APPOINTMENT_BOOKING)
                     }
 
                 }
@@ -206,21 +211,15 @@ class DateTimeFragment : DaggerFragment(), OnTimeSelected {
     }
 
     private fun bindObservers() {
-        viewModel.confirmAutoAllocate.observe(requireActivity(), Observer {
+        viewModel.createRequest.observe(requireActivity(), Observer {
             it ?: return@Observer
             when (it.status) {
                 Status.SUCCESS -> {
                     progressDialog.setLoading(false)
 
-                    requireActivity().supportFragmentManager.popBackStack()
-                    requireActivity().supportFragmentManager.popBackStack()
-
-                    val fragment = WaitingAllocationFragment()
-                    val bundle = Bundle()
-                    bundle.putSerializable(EXTRA_REQUEST_ID, bookService)
-                    fragment.arguments = bundle
-                    replaceFragment(requireActivity().supportFragmentManager, fragment, R.id.container)
-
+                    startActivityForResult(Intent(requireContext(), AddMoneyActivity::class.java)
+                            .putExtra(EXTRA_PRICE, it.data?.grand_total)
+                            .putExtra(EXTRA_REQUEST_ID, hashMap), AppRequestCode.ADD_MONEY)
                 }
                 Status.ERROR -> {
                     progressDialog.setLoading(false)
