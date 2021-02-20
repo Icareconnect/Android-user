@@ -40,6 +40,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.libraries.places.widget.Autocomplete
 import dagger.android.support.DaggerAppCompatActivity
 import permissions.dispatcher.*
+import java.io.File
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
@@ -115,14 +116,17 @@ class AddAddressActivity : DaggerAppCompatActivity(), GoogleMap.OnCameraChangeLi
 
 
     private fun setAdapter() {
-        val listHomeCare = resources.getStringArray(R.array.addressType)
-
         itemsSaveAs.clear()
 
-        val optionsWorkLocation = userRepository.getUser()?.master_preferences?.get(0)?.options
+        val optionsWorkLocation = ArrayList<FilterOption>()
+        userRepository.getUser()?.master_preferences?.forEach {
+            if (it.preference_type == PreferencesType.WORK_ENVIRONMENT && optionsWorkLocation.isEmpty()) {
+                optionsWorkLocation.addAll(it.options ?: emptyList())
+            }
+        }
         //itemsSaveAs.addAll(optionsWorkLocation ?: emptyList())
 
-        optionsWorkLocation?.forEach {
+        optionsWorkLocation.forEach {
             it.isSelected = false
             itemsSaveAs.add(it)
         }
@@ -275,7 +279,12 @@ class AddAddressActivity : DaggerAppCompatActivity(), GoogleMap.OnCameraChangeLi
         mMap?.isTrafficEnabled = false
         mMap?.setOnCameraChangeListener(this)
 
-        // mMap?.isMyLocationEnabled = true
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            getLocationWithPermissionCheck()
+            return
+        }
+        mMap?.isMyLocationEnabled = true
         mMap?.uiSettings?.isMyLocationButtonEnabled = true
 
 

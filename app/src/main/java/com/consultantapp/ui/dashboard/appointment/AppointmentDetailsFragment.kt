@@ -240,7 +240,6 @@ class AppointmentDetailsFragment : DaggerFragment() {
                     getString(R.string.canceled)
                 else getString(R.string.declined)
 
-                binding.tvStatus.text = getString(R.string.canceled)
                 binding.tvStatus.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorNoShow))
                 binding.tvCancel.gone()
             }
