@@ -82,8 +82,11 @@ class ProfileFragment : DaggerFragment() {
 
 
         val workExperience = ArrayList<Filter>()
+        val covid = ArrayList<Filter>()
         userData?.master_preferences?.forEach {
             when (it.preference_type) {
+                PreferencesType.COVID ->
+                    covid.add(it)
                 PreferencesType.WORK_ENVIRONMENT ->
                     workExperience.add(it)
             }
@@ -99,12 +102,26 @@ class ProfileFragment : DaggerFragment() {
                 }
             }
             binding.tvWorkV.text = workText.removeSuffix(", ")
-
-            binding.tvWork.hideShowView(workText.isNotEmpty())
             binding.tvWorkV.hideShowView(workText.isNotEmpty())
         } else {
-            binding.tvWork.gone()
             binding.tvWorkV.gone()
+        }
+
+        if (covid.isNotEmpty()) {
+            var covidText = ""
+            covid.forEach {
+                covidText += it.preference_name + "\n"
+
+                it.options?.forEach {
+                    if (it.isSelected) {
+                        covidText += it.option_name + "\n\n"
+                    }
+                }
+            }
+            binding.tvCovidV.text = covidText
+            binding.tvCovidV.hideShowView(covidText.isNotEmpty())
+        } else {
+            binding.tvCovidV.gone()
         }
     }
 
@@ -128,15 +145,26 @@ class ProfileFragment : DaggerFragment() {
             val fragment = MasterPrefrenceFragment()
             val bundle = Bundle()
             bundle.putString(MasterPrefrenceFragment.MASTER_PREFRENCE_TYPE, PreferencesType.WORK_ENVIRONMENT)
-            bundle.putBoolean(UPDATE_PROFILE,true)
+            bundle.putBoolean(UPDATE_PROFILE, true)
             fragment.arguments = bundle
 
-            replaceResultFragment(this, fragment, R.id.container,AppRequestCode.PROFILE_UPDATE)
+            replaceResultFragment(this, fragment, R.id.container, AppRequestCode.PROFILE_UPDATE)
+        }
+
+        binding.tvCovidUpdate.setOnClickListener {
+
+            val fragment = MasterPrefrenceFragment()
+            val bundle = Bundle()
+            bundle.putString(MasterPrefrenceFragment.MASTER_PREFRENCE_TYPE, PreferencesType.COVID)
+            bundle.putBoolean(UPDATE_PROFILE, true)
+            fragment.arguments = bundle
+
+            replaceResultFragment(this, fragment, R.id.container, AppRequestCode.PROFILE_UPDATE)
         }
 
         binding.ivPic.setOnClickListener {
-            val itemImages = java.util.ArrayList<String>()
-            itemImages.add(getImageBaseUrl(ImageFolder.UPLOADS,userRepository.getUser()?.profile_image))
+            val itemImages = ArrayList<String>()
+            itemImages.add(getImageBaseUrl(ImageFolder.UPLOADS, userRepository.getUser()?.profile_image))
             viewImageFull(requireActivity(), itemImages, 0)
         }
     }

@@ -18,7 +18,6 @@ import com.consultantapp.data.network.responseUtil.Status
 import com.consultantapp.data.repos.UserRepository
 import com.consultantapp.databinding.FragmentAppointmentDetailsBinding
 import com.consultantapp.ui.dashboard.appointment.appointmentStatus.AppointmentStatusActivity
-import com.consultantapp.ui.dashboard.home.bookservice.datetime.DateTimeFragment
 import com.consultantapp.ui.drawermenu.DrawerActivity
 import com.consultantapp.utils.*
 import com.consultantapp.utils.dialogs.ProgressDialog
@@ -177,8 +176,8 @@ class AppointmentDetailsFragment : DaggerFragment() {
                 binding.tvRate.visible()
                 binding.tvApprove.visible()
 
-                binding.tvTrack.text = getString(R.string.book_again)
-                binding.tvTrack.visible()
+                /*binding.tvTrack.text = getString(R.string.book_again)
+                binding.tvTrack.visible()*/
 
                 if (request.rating == null) {
                     binding.tvRate.visible()

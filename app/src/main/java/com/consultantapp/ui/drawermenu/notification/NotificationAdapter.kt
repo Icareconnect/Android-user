@@ -9,7 +9,6 @@ import com.consultantapp.R
 import com.consultantapp.data.models.responses.Notification
 import com.consultantapp.data.network.LoadingStatus.ITEM
 import com.consultantapp.data.network.LoadingStatus.LOADING
-import com.consultantapp.data.network.PushType
 import com.consultantapp.databinding.ItemPagingLoaderBinding
 import com.consultantapp.databinding.RvItemNotificationBinding
 import com.consultantapp.ui.drawermenu.DrawerActivity
@@ -56,10 +55,13 @@ class NotificationAdapter(private val fragment: NotificationFragment, private va
         init {
             binding.root.setOnClickListener {
                 when (items[adapterPosition].module) {
-                    PushType.REQUEST ->
+                    NotificationType.REQUEST ->
                         fragment.startActivityForResult(Intent(fragment.requireContext(), DrawerActivity::class.java)
                                 .putExtra(PAGE_TO_OPEN, DrawerActivity.APPOINTMENT_DETAILS)
-                                .putExtra(EXTRA_REQUEST_ID, items[adapterPosition].id), AppRequestCode.APPOINTMENT_DETAILS)
+                                .putExtra(EXTRA_REQUEST_ID, items[adapterPosition].module_id), AppRequestCode.APPOINTMENT_DETAILS)
+                    NotificationType.PAYMENT ->
+                        fragment.startActivity(Intent(fragment.requireContext(), DrawerActivity::class.java)
+                                .putExtra(PAGE_TO_OPEN, DrawerActivity.WALLET))
                 }
             }
         }

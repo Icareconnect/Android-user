@@ -44,6 +44,7 @@ import com.consultantapp.ui.drawermenu.profile.ProfileFragment
 import com.consultantapp.ui.drawermenu.wallet.WalletFragment
 import com.consultantapp.ui.jitsimeet.JitsiActivity
 import com.consultantapp.ui.loginSignUp.SignUpActivity
+import com.consultantapp.ui.loginSignUp.changepassword.ChangePasswordFragment
 import com.consultantapp.ui.loginSignUp.forgotpassword.ForgotPasswordFragment
 import com.consultantapp.ui.loginSignUp.insurance.InsuranceFragment
 import com.consultantapp.ui.loginSignUp.login.LoginFragment
@@ -53,7 +54,6 @@ import com.consultantapp.ui.loginSignUp.signup.SignUpFragment
 import com.consultantapp.ui.loginSignUp.verifyotp.VerifyOTPFragment
 import com.consultantapp.ui.loginSignUp.welcome.WelcomeFragment
 import com.consultantapp.ui.webview.WebViewActivity
-import com.consultantapp.ui.loginSignUp.changepassword.ChangePasswordFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

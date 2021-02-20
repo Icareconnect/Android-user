@@ -23,8 +23,8 @@ import com.consultantapp.ui.drawermenu.history.HistoryFragment
 import com.consultantapp.ui.drawermenu.notification.NotificationFragment
 import com.consultantapp.ui.drawermenu.profile.ProfileFragment
 import com.consultantapp.ui.drawermenu.wallet.WalletFragment
-import com.consultantapp.utils.*
 import com.consultantapp.ui.loginSignUp.changepassword.ChangePasswordFragment
+import com.consultantapp.utils.*
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 

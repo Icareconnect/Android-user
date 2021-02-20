@@ -105,7 +105,6 @@
                     android:text="@string/profile"
                     android:textColor="@color/textColor"
                     android:textSize="@dimen/sp_16"
-                    app:drawableTint="@color/colorPrimary"
                     app:layout_constraintEnd_toEndOf="@id/endGuideLine"
                     app:layout_constraintStart_toStartOf="@id/startGuideLine"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -117,7 +116,7 @@
                     android:layout_height="wrap_content"
                     android:background="?android:attr/selectableItemBackground"
                     android:clickable="true"
-                    android:drawableStart="@drawable/lock"
+                    android:drawableStart="@drawable/ic_lock_selected"
                     android:drawableEnd="@drawable/ic_next"
                     android:drawablePadding="@dimen/dp_16"
                     android:focusable="true"
@@ -127,7 +126,6 @@
                     android:text="@string/change_password"
                     android:textColor="@color/textColor"
                     android:textSize="@dimen/sp_16"
-                    app:drawableTint="@color/colorPrimary"
                     app:layout_constraintEnd_toEndOf="@id/endGuideLine"
                     app:layout_constraintStart_toStartOf="@id/startGuideLine"
                     app:layout_constraintTop_toBottomOf="@+id/tvAccount" />
@@ -171,7 +169,6 @@
                     android:text="@string/my_bookings"
                     android:textColor="@color/textColor"
                     android:textSize="@dimen/sp_16"
-                    app:drawableTint="@color/colorPrimary"
                     app:layout_constraintEnd_toEndOf="@id/endGuideLine"
                     app:layout_constraintStart_toStartOf="@id/startGuideLine"
                     app:layout_constraintTop_toBottomOf="@+id/tvMyPets" />
@@ -192,7 +189,6 @@
                     android:text="@string/contact_us"
                     android:textColor="@color/textColor"
                     android:textSize="@dimen/sp_16"
-                    app:drawableTint="@color/colorPrimary"
                     app:layout_constraintEnd_toEndOf="@id/endGuideLine"
                     app:layout_constraintStart_toStartOf="@id/startGuideLine"
                     app:layout_constraintTop_toBottomOf="@+id/tvMyBookings" />
@@ -214,7 +210,6 @@
                     android:text="@string/saved_cards"
                     android:textColor="@color/textColor"
                     android:textSize="@dimen/sp_16"
-                    app:drawableTint="@color/colorPrimary"
                     app:layout_constraintEnd_toEndOf="@id/endGuideLine"
                     app:layout_constraintStart_toStartOf="@id/startGuideLine"
                     app:layout_constraintTop_toBottomOf="@+id/tvContactUs" />

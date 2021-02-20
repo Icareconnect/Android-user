@@ -25,18 +25,8 @@ var appClientDetails = AppVersion()
 
 class ConsultantUserApplication : DaggerApplication(), LifecycleObserver {
 
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-
     @Inject
     lateinit var userRepository: UserRepository
-
-    @Inject
-    lateinit var prefsManager: PrefsManager
-
-    @Inject
-    lateinit var appSocket: AppSocket
 
     private var isReceiverRegistered = false
 

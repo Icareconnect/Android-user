@@ -209,8 +209,20 @@ class MasterPrefrenceFragment : DaggerFragment() {
                         resultFragmentIntent(this, targetFragment ?: this,
                                 AppRequestCode.PROFILE_UPDATE, Intent())
                     } else {
-                        startActivity(Intent(requireContext(), MainActivity::class.java))
-                        requireActivity().finish()
+                        when (prefrenceType) {
+                            PreferencesType.WORK_ENVIRONMENT -> {
+                                val fragment = MasterPrefrenceFragment()
+                                val bundle = Bundle()
+                                bundle.putString(MASTER_PREFRENCE_TYPE, PreferencesType.COVID)
+                                fragment.arguments = bundle
+                                replaceFragment(requireActivity().supportFragmentManager,
+                                        fragment, R.id.container)
+                            }
+                            else -> {
+                                startActivity(Intent(requireContext(), MainActivity::class.java))
+                                requireActivity().finish()
+                            }
+                        }
                     }
 
                 }

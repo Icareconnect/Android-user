@@ -65,7 +65,7 @@ class NotificationFragment : DaggerFragment() {
     private fun initialise() {
         binding.tvTitle.gone()
         binding.toolbar.navigationIcon = null
-        binding.toolbar.title=getString(R.string.notification)
+        binding.toolbar.title = getString(R.string.notification)
 
         viewModel = ViewModelProvider(this, viewModelFactory)[AppointmentViewModel::class.java]
 
@@ -75,7 +75,7 @@ class NotificationFragment : DaggerFragment() {
     }
 
     private fun setAdapter() {
-        adapter = NotificationAdapter(this,items)
+        adapter = NotificationAdapter(this, items)
         binding.rvListing.adapter = adapter
 
         binding.rvListing.itemAnimator = null
@@ -124,7 +124,7 @@ class NotificationFragment : DaggerFragment() {
     }
 
     private fun bindObservers() {
-        viewModel.notifications.observe(this, Observer {
+        viewModel.notifications.observe(requireActivity(), Observer {
             it ?: return@Observer
             when (it.status) {
                 Status.SUCCESS -> {
@@ -168,4 +168,9 @@ class NotificationFragment : DaggerFragment() {
         })
 
     }
+}
+
+object NotificationType {
+    const val REQUEST = "request"
+    const val PAYMENT="payment"
 }
